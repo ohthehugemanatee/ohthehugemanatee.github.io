@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ruby | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Another Cryptic Ruby Message]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message/"/>
+    <updated>2014-01-10T21:20:55+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message</id>
+    <content type="html"><![CDATA[<p>Ruby on Rails drives me nuts, and today I found another example of why: the cryptic error messages. After a server update, my chiliproject/redmine site refused to start. The error message was</p>
+
+<blockquote><p>&ldquo;Object is not missing constant Issue!&rdquo;</p></blockquote>
+
+<p>What does that even mean? It took me a little while to understand that <em>Issue</em> in this context is the Redmine object &ldquo;Issue&rdquo;. But still, &ldquo;Object is not missing constant X&rdquo; isn&rsquo;t much help. I tried &ldquo;bundle install&rdquo; to make sure all my gems were in place, and there was no problem there.</p>
+
+<p>In the end, on a hunch &ndash; gah I <em>hate</em> fixing things based on hunches &ndash; I tried uninstalling the mysql gem. That was the only subsystem which was updated which I could imagine interfering with Redmine. I tried to reinstall it the normal way: <em>gem install mysql</em>, which seemed to go without a hitch. But then Redmine insisted that I was missing some gems.</p>
+
+<p>So I tried to use <em>bundle install</em> to make sure I didn&rsquo;t lose anything else,  and it just hung at *Fetching source index for <a href="http://rubygems.org/*.">http://rubygems.org/*.</a> I don&rsquo;t know why. I have no problem reaching that URL from the server, and it doesn&rsquo;t give me any more information.</p>
+
+<p>Finally I tried skipping the bundle installer, and just specifying the same old version of mysql to reinstall with <em>gem install &mdash;version &lsquo;= 2.8.1&rsquo; mysql</em>. It worked, and I have my PM system back. Huzzah.</p>
+
+<p>One of these days I&rsquo;m just gonna build a feature-for-feature Redmine clone in Drupal, just out of frustration.</p>
+]]></content>
+  </entry>
+  
+</feed>

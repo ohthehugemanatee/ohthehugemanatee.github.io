@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Create a Custom Panels Pane - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Lots of sites are now built with the &ldquo;Panels everywhere&rdquo; method, using Panels and Panelizer to configure modular layouts in the Drupal &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Create a Custom Panels Pane</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-03T13:09:11+01:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Lots of sites are now built with the &ldquo;Panels everywhere&rdquo; method, using <a href="https://www.drupal.org/project/panels">Panels</a> and <a href="https://www.drupal.org/project/panelizer">Panelizer</a> to configure modular layouts in the Drupal GUI. These modules come with lots of great default Panes, and create even more defaults based on your existing Blocks and Views. But there&rsquo;s always a case for a custom Pane.</p>
+
+<p>As usual, I&rsquo;ll assume that you have an empty custom module called <em>mymodule</em>, with only a <em>.info</em> and a <em>.module</em> file to its name.</p>
+
+<h2>1) Tell CTools that you have custom code here</h2>
+
+<p>Ctools, like Views, needs a hook to declare the fact that you have custom code. To do this we&rsquo;ll use <em><a href="http://drupalcontrib.org/api/drupal/contributions!ctools!ctools.api.php/function/hook_ctools_plugin_directory/7">hook_ctools_plugin_directory</a></em>. This hook is invoked for all Ctools plugin types, and includes the module name as a variable. This way you can avoid eating up memory for anything except the targeted module. You also have to declare where your custom code will live. So here&rsquo;s the complete content of <em>mymodule.module</em>:</p>
+
+<figure class='code'><figcaption><span>mymodule.module</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Implements hook_ctools_plugin_directory().</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_ctools_plugin_directory</span><span class="p">(</span><span class="nv">$owner</span><span class="p">,</span> <span class="nv">$plugin_type</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$owner</span> <span class="o">==</span> <span class="s1">&#39;ctools&#39;</span> <span class="o">&amp;&amp;</span> <span class="nv">$plugin_type</span> <span class="o">==</span> <span class="s1">&#39;content_types&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s1">&#39;plugins/content_types&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: <strong>Do not confuse Ctools &ldquo;Content Types&rdquo; with the &ldquo;Content Type&rdquo; entity used elsewhere in Drupal.</strong> This is just confusing naming, but they&rsquo;re totally different things. Actually the most common usage for a Ctools Content Type is a pane, just like what we&rsquo;re doing now. There are other plugin types, but none that interest us in this post.</p>
+
+<h2>2) Add your custom pane</h2>
+
+<p>Oh, did you think this would be more difficult? Now that we&rsquo;ve told Ctools to look for Content Type plugins in our module&rsquo;s <em>plugins/content_types</em> subdirectory, we just add a <em>.inc</em> file for each &ldquo;Content Type&rdquo; (aka Pane) that we want to add. Let&rsquo;s do a simple one, which returns the root term of a given taxonomy term. All the following code will go in <em>plugins/content_types/taxonomy_root_term.inc</em> (a name I chose arbitrarily).</p>
+
+<p>Right at the top of the file, we provide a <em>$plugin</em> array which defines the basic information about our <del>Pane</del> Ctools Content Type. This doesn&rsquo;t go into a function or anything, it just sits at the top of the <em>.inc</em> file:</p>
+
+<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$plugin</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>  <span class="s1">&#39;single&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Taxonomy root term&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="s1">&#39;description&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;a Display of data from the root term of the given TID&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="s1">&#39;category&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Custom Panes&#39;</span><span class="p">),</span>
+</span><span class='line'>  <span class="s1">&#39;edit form&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_taxonomy_root_term&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;render callback&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_taxonomy_root_term_render&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;admin info&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_taxonomy_root_term_info&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s1">&#39;defaults&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(),</span>
+</span><span class='line'>  <span class="s1">&#39;all contexts&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, this array defines a category, title, and description for the Panels admin interface. It also declares the names of the callbacks which provide the pane&rsquo;s edit form, rendered form, and admin info. &ldquo;Single&rdquo; means that this type has no sub-types. This is the case in every single custom pane I&rsquo;ve ever seen, so it&rsquo;s probably the case for yours as well.</p>
+
+<p>Now we write the callbacks we named in that array. We&rsquo;ll start with the edit form.</p>
+
+<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Edit form.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'> <span class="nv">$conf</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'> <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>   <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
+</span><span class='line'>   <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Term ID&#39;</span><span class="p">),</span>
+</span><span class='line'>   <span class="s1">&#39;#description&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The term, from which the root term will be displayed&#39;</span><span class="p">),</span>
+</span><span class='line'>   <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">],</span>
+</span><span class='line'> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">$entity_info</span> <span class="o">=</span> <span class="nx">entity_get_info</span><span class="p">(</span><span class="s1">&#39;taxonomy_term&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$entity_info</span><span class="p">[</span><span class="s1">&#39;view modes&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$entity_info</span><span class="p">[</span><span class="s1">&#39;view modes&#39;</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$mode</span> <span class="o">=&gt;</span> <span class="nv">$settings</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nv">$options</span><span class="p">[</span><span class="nv">$mode</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$settings</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">];</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'> <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>   <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+</span><span class='line'>   <span class="s1">&#39;#options&#39;</span> <span class="o">=&gt;</span> <span class="nv">$options</span><span class="p">,</span>
+</span><span class='line'>   <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;View mode&#39;</span><span class="p">),</span>
+</span><span class='line'>   <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">],</span>
+</span><span class='line'> <span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'> <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a fairly standard Drupal form. It also goes through typical form validation and submission functions, so you can provide a pretty complete experience for the administrator. In our case, we just want to get the term ID of the term whose root parent should be displayed. We let the administrator enter the term ID, and the view mode which should be used to display it. We won&rsquo;t worry about form validation in our example. Let&rsquo;s move on to the Submit function:</p>
+
+<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Edit form submit function.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term_submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">][</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="s1">&#39;term&#39;</span><span class="p">];</span>
+</span><span class='line'>  <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">][</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="s1">&#39;view_mode&#39;</span><span class="p">];</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Again, pretty simple stuff. We just make sure that the <em>$form_state[&lsquo;conf&rsquo;]</em> has the values entered. Now, the next callback we defined in <em>$plugin</em> is for rendering the pane:</p>
+
+<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Render the panel.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term_render</span><span class="p">(</span><span class="nv">$subtype</span><span class="p">,</span> <span class="nv">$conf</span><span class="p">,</span> <span class="nv">$args</span><span class="p">,</span> <span class="nv">$contexts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$context</span><span class="o">-&gt;</span><span class="na">empty</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="c1">// Get full term object for the root term.</span>
+</span><span class='line'>  <span class="nv">$term</span> <span class="o">=</span> <span class="nx">ctools_context_keyword_substitute</span><span class="p">(</span><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">],</span> <span class="k">array</span><span class="p">(),</span> <span class="nv">$contexts</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$parent_array</span> <span class="o">=</span> <span class="nx">taxonomy_get_parents_all</span><span class="p">(</span><span class="nv">$term</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$root</span> <span class="o">=</span> <span class="nb">end</span><span class="p">(</span><span class="nv">$parent_array</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Render as a block.</span>
+</span><span class='line'>  <span class="nv">$block</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">();</span>
+</span><span class='line'>  <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">module</span> <span class="o">=</span> <span class="s1">&#39;entity&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">delta</span> <span class="o">=</span> <span class="s1">&#39;taxonomy_term-&#39;</span> <span class="o">.</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nv">$entity</span> <span class="o">=</span> <span class="nx">entity_load_single</span><span class="p">(</span><span class="s1">&#39;taxonomy_term&#39;</span><span class="p">,</span> <span class="nv">$root</span><span class="o">-&gt;</span><span class="na">tid</span><span class="p">);</span>
+</span><span class='line'>  <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">content</span> <span class="o">=</span> <span class="nx">entity_view</span><span class="p">(</span><span class="s1">&#39;taxonomy_term&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="nv">$root</span><span class="p">),</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nv">$block</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First we make sure there is information &ndash; ie the taxonomy term ID we need &ndash; in the pane&rsquo;s context. Then we get the root term object and render it in the requested display mode. The only requirement for the return here is that it be a <a href="https://drupal.org/node/930760">Drupal render array</a>. So depending on your use case, you can return an image, a field&hellip; whatever you like. In most cases a block is a convenient wrapper for whatever you have to return, which is what I did here.</p>
+
+<p>This is as far as you have to go. The admin info callback isn&rsquo;t actually required, just don&rsquo;t include it in the <em>$plugin</em> array and you&rsquo;ll be fine. But if you want to make your life easier as a site admin, it&rsquo;s definitely a nice to have.</p>
+
+<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Admin info.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term_info</span><span class="p">(</span><span class="nv">$subtype</span><span class="p">,</span> <span class="nv">$conf</span><span class="p">,</span> <span class="nv">$contexts</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$conf</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$content</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;&lt;b&gt;Term ID:&lt;/b&gt; &#39;</span> <span class="o">.</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$content</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;&lt;b&gt;View mode:&lt;/b&gt; &#39;</span> <span class="o">.</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$block</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">title</span> <span class="o">=</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;override_title&#39;</span><span class="p">]</span> <span class="o">?</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;override_title_text&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">content</span> <span class="o">=</span> <span class="nv">$content</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$block</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This just provides the administrative summary which you can see in the Panels UI. Again, Panels will be happy with any render array return you throw at it, so I use a block.</p>
+
+<h2>This is why we have nice things</h2>
+
+<p>Anyone who&rsquo;s worked with me knows that I&rsquo;m not a huge fan of the panels everywhere approach. But I use it often, simply because it makes custom layouts and totally custom page pieces so easy to do. Duplicating even this very simple functionality in a block is actually harder than this. You&rsquo;re still using about 3 functions, but you&rsquo;d have to determine in advance where that TID will come from. It would certainly come out less flexible, and actually probably harder to maintain. With Ctools all your related code sits in one place, and your module structure actually helps you see what&rsquo;s going on where.</p>
+
+<p>If you learn how to do elements like this, you&rsquo;ll find Panels creeping into more and more of your builds. And rightfully so.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-03T13:09:11+01:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/howto/'>howto</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/" title="Previous Post: 44,497 people are wrong: how to NEVER need Views PHP.">&laquo; 44,497 people are wrong: how to NEVER need Views PHP.</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/07/how-to-remove-a-drupal-install-profile/" title="Next Post: How to remove a Drupal install profile">How to remove a Drupal install profile &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

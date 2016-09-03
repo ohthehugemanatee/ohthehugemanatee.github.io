@@ -1,0 +1,422 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Remove a Drupal Install Profile - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Install profiles are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Remove a Drupal Install Profile</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T13:23:45+01:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://drupal.org/project/install_profile_api">Install profiles</a> are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for setting up a site really quickly. What you did after the site was installed was your own business! But in Drupal 7 profiles are much more integrated with core. The assumption is that when you use an install profile, you want to rely on the profile&rsquo;s maintainer for all your updates. This is not always the case.</p>
+
+<p>Very often your site will diverge from the install profile as it takes on a life of its own, and it will be useful to convert it to &ldquo;vanilla&rdquo; Drupal. Today I&rsquo;ll use a relatively simple example of a musician site which is moving away from the <a href="https://drupal.org/project/pushtape">Pushtape</a> distribution. Later I&rsquo;ll return to this subject with the much more in-depth example of moving a community site away from <a href="https://drupal.org/project/commons">Drupal Commons</a>.</p>
+
+<h2>Move things around</h2>
+
+<p>Install profiles have all their files stored in the site root&rsquo;s <em>profiles/</em> directory. The first step is going to be moving everything out of there. In the case of pushtape, we have libraries, modules, and a theme stored in there. We&rsquo;re going to move them to a more normal location.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">#</span> mkdir sites/all/libraries
+</span><span class='line'><span class="gp">#</span> mv profiles/pushtape/libraries/* sites/all/libraries
+</span><span class='line'>
+</span><span class='line'><span class="gp">#</span> mkdir sites/all/modules/custom
+</span><span class='line'><span class="gp">#</span> mv profiles/pushtape/modules/pushtape_* sites/all/modules/custom
+</span><span class='line'><span class="gp">#</span> mv profiles/pushtape/modules/* sites/all/modules
+</span><span class='line'>
+</span><span class='line'><span class="gp">#</span> mkdir sites/all/themes
+</span><span class='line'><span class="gp">#</span> mv profiles/pushtape/themes/* sites/all/themes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next we need to see if there are any variables set in the install profile which really depend on the profile directory. If there are, we&rsquo;ll have to set them again with the new path.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">#</span> <span class="nb">cd </span>profiles/pushtape
+</span><span class='line'><span class="gp">#</span> grep <span class="s1">&#39;profiles/pushtape&#39;</span> * -R
+</span><span class='line'><span class="go">pushtape.install:  variable_set(&#39;sm2_path&#39;, &#39;profiles/pushtape/libraries/soundmanager2&#39;);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, we see one variable_set which tells the system where to find the soundmanager2 library. We can update that easily enough with drush:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">#</span> drush vset sm2_path <span class="s1">&#39;sites/all/libraries/soundmanager2&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we have to update Drupal&rsquo;s setting for which install profile was used to create the site.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">#</span> drush vset install_profile standard
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In some cases this will be enough to work. Personally I like to keep my modules folder more organized, so I go the extra mile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">#</span> <span class="nb">cd </span>sites/all/modules
+</span><span class='line'><span class="gp">#</span> mkdir contrib
+</span><span class='line'><span class="gp">#</span> mv !<span class="o">(</span>custom|contrib<span class="o">)</span> contrib
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also separated out the custom code from the features. You can figure out which custom modules implement features with <em>find . |grep features</em>, and move them into a separate directory manually.</p>
+
+<h2>Clearing caches</h2>
+
+<p>Once you&rsquo;re done moving things around, CLEAR CACHES. Drupal keeps an index of module, library, and theme directories, and you just broke it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">drush cc all</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The only problem is, in many cases you will have moved a module that is required for drupal bootstrap. So you&rsquo;ll have to get the handy drush tool <a href="https://drupal.org/project/registry_rebuild">Registry Rebuild</a>, and run that before your cache clear:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="gp">#</span> drush dl registry_rebuild
+</span><span class='line'><span class="gp">#</span> drush rr
+</span><span class='line'><span class="gp">#</span> drush cc all
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Extra Cleanup</h2>
+
+<p>As commenter @ericaitala notes, you may need some followup cleanup to really get all traces out. The easiest way to do this is from the SQL command line, which you can access via drush:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='console'><span class='line'><span class="go">drush sqlq &quot;DELETE FROM `system` WHERE filename LIKE &#39;profiles/profilename/profilename.profile&quot;</span>
+</span><span class='line'><span class="go">drush sqlq &quot;UPDATE `system` SET status=1 WHERE filename LIKE &#39;profiles/standard/standard.profile&#39;&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Technically these should both be covered by the registry_rebuild operation, but we&rsquo;re doing it by hand because it seems to be missed in some operations. The first command removes the entry for the profile from Drupal&rsquo;s system table &ndash; it removes any knowledge Drupal has that there was an install profile there. The second tells Drupal that the &ldquo;standard&rdquo; install profile is active, and should be checked for updates.</p>
+
+<p>That&rsquo;s it &ndash; your site is now officially a vanilla Drupal install. Test by removing the profiles/pushtape directory, clearing caches, and browsing around your site.</p>
+
+<p><em>NOTE: With a more complex install profile I expect to encounter more difficulty. Stay tuned for the post on extricating yourself from Commons later this year!</em></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T13:23:45+01:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>Drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/howto/'>howto</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/01/03/how-to-create-a-custom-panels-pane/" title="Previous Post: How to create a custom Panels Pane">&laquo; How to create a custom Panels Pane</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/10/drush-self-aliases/" title="Next Post: Drush self aliases">Drush self aliases &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

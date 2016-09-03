@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Drupal Quick Learning Guides: Custom Modules - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Ah, it&#8217;s nice to be done with the basic structure stuff. At this point, I&#8217;m going to assume that you know the basics of how to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-custom.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Drupal Quick Learning Guides: Custom Modules</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-04-23T16:17:00+02:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Ah, it&#8217;s nice to be done with the basic structure stuff. At this point, I&#8217;m going to assume that you know the basics of how to administer a Drupal site. You understand the <a href="http://swearingatcomputers.blogspot.com/2012/04/drupal-quick-learning-guides-drupal.html">file structure</a>, you know where to go to download <a href="http://drupal.org/project/themes">themes</a> and <a href="http://drupal.org/project/modules">modules</a>, and you know how to make sites out of the big pieces you can find that way. Awesome. This is where it gets fun.  I&#8217;m going to assume some basic knowledge of PHP, but there&#8217;s nothing here that you can&#8217;t pick up with some quick glances over at <a href="http://w3schools.com/php/">w3schools</a>, and maybe some experimentation on your own.<br /><br />I mentioned in the file structure post that the whole point of Drupal is that Everything Is Override-able. If you want to customize the site beyond what you get out of the box with some contributed modules, you&#8217;re going to want to do it in your own module. That&#8217;s right - it&#8217;s incredibly easy to write your own Drupal module to insert whatever code you want into your particular Drupal site. In fact, it&#8217;s the recommended way to customize your site, because it means that your code won&#8217;t get mixed up with anything in Drupal&#8217;s &#8220;core&#8221;. If you update Drupal, you don&#8217;t have to worry about refactoring your patches or anything like that, you&#8217;ve got one place to look for your custom behavior. More importantly, if someone else comes along to take care of the site after you&#8217;re off the project, there&#8217;s only one place for them to look for customizations.<br /><br /> A module at its most basic consists of a directory under sites/whatever/modules , a self-named .info file giving basic information about the module, and a self-named .module file with your code in it. In this quick learning guide, we&#8217;ll build a &#8220;Hello World&#8221; module that prints some text on every page load. This is a quick guide - I&#8217;ll get more into how to leverage Drupal in your code in later posts.<br /><br /> So let&#8217;s create your custom module. Consider your module&#8217;s name - Drupal has a single namespace for all modules and features, and it&#8217;s easy to get confused with the theme namespace as well, so it&#8217;s best to pick a name that is definitely not going to be used by any modules, features, or themes. Most big shops will have a custom module for most any site they build, and they just name it &#8220;Sitename Custom&#8221; or something similar. We&#8217;re going to make a module called &#8220;Swearing Custom&#8221;, to follow that convention.<br /><br /> First create the module directory. I like to keep my custom modules all under sites/all/modules/custom . Drupal will search subdirectories, so take advantage of that fact to keep your codebase tidy! We&#8217;ll create the directory sites/all/modules/swearing_custom . Note the underscore instead of a space.<br /><br /> Then create the module&#8217;s .info file. This file informs Drupal about your module&#8217;s name, description, requirements, and other fundamentals. I like to think of it as anything that will go on the site&#8217;s Modules listing. This file has to be named after the module, just like the directory was. Here&#8217;s my swearing_custom.info file:<br /><br /> <code>name = Swearing at Computers Custom Module description = Custom tweaks and functionality for Swearing at Computers project = "swearing_custom" version = "7.x-1.x-dev" core = "7.x" package = "custom" dependencies[] = token </code><br /><br /> Most of those variables can be omitted, to be honest. All Drupal REALLY needs is name, description, project, and core. Notice how I defined a dependency, just for fun. I also like to put my custom code into a module group called &#8220;custom&#8221;, so my modules list stays nice and tidy.  The norm is to add to the dependencies array with one dependency per line, for readability. You can similarly have a files[] array to add your own files to the module. By default this contains just the .info and  .module files, which is all we&#8217;re using so I&#8217;m not adding a files[] line at all.<br /><br /> Now we&#8217;ll create the module file itself. This is just a php file, with an opening  tag. The trouble is, how do you get your code to run? You can write all the functions you want, but how should Drupal know to call your code?<br /><br /> Aha, now we get to the interesting bit. Drupal modules are built around a system of &#8220;hooks&#8221;. Each module defines a set of hooks, places for you to insert your custom code. And this isn&#8217;t an edge case - it&#8217;s totally core to how Drupal works. Big modules will have tens of hooks at your disposal&#8230; but we&#8217;ll cover those a bit later. For now, we&#8217;re just going to use one simple hook to get our &#8220;Hello world&#8221; code displayed: <a href="http://api.drupal.org/api/drupal/modules%21system%21system.api.php/function/hook_init/7">hook_init()</a>.<br /><br /> All hooks are named hook_something. It&#8217;s how you know it&#8217;s a hook. All the core hooks, and many of the contributed hooks, are documented on Drupal&#8217;s excellent <a href="http://api.drupal.org/">API resource site</a>. When you&#8217;re writing your custom module, you just declare a function named after the hook, replacing the word &#8220;hook&#8221; with your module&#8217;s name. Drupal will find that function and run it for you. Simple as that.<br /><br /> Hook_init() is called early in the page build process, on every page of your site. This is a very powerful hook, usually used to define variables that you&#8217;ll use later on. But we&#8217;re just going to use it to print a message to the screen. To start with, my swearing_custom.module file looks like this:<br /><br /> <code>/**   * Implementation of hook_init().  */ swearing_custom_init() {   print "Hello world!"; } </code><br /><br />Pretty simple, right? That comment at the top is the standard format for Drupal. It&#8217;s so that you can easily find where you used particular hooks (or where other contrib modules used them!), and it&#8217;s used for a lot of Drupal&#8217;s automated help and API resources. It&#8217;s also nice and tidy, so it&#8217;s a good habit to get into.<br /><br /> Then you see that I just declared a function named after the hook, added my code, and got out of there. At this point, if I enable this custom module I&#8217;ll see &#8220;Hello world&#8221; in unformatted text at the top of every page. Simple, but ugly.<br /><br /> Enter another great feature of Drupal: a million and one helper functions. These are also well documented at <a href="http://api.drupal.org/">api.drupal.org</a>, and they&#8217;re the functions that everyone - even Drupal&#8217;s core itself - uses to get things done in a standardized way. For example, I hate the way that text appears. So let&#8217;s update the module to use Drupal&#8217;s own messaging system. This means using <a href="http://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/drupal_set_message/7">drupal_set_message()</a>. Have a look at the API page to see the arguments for this function, but 90% of your use cases will be following this example. Here&#8217;s a new version of swearing_custom.module:<br /><br /> <code>/**   * Implementation of hook_init().  */ swearing_custom_init() {   print "Hello world!";   drupal_set_message('Hello world!', 'status'); } </code><br /><br />That second argument tells Drupal the severity of the message: &#8216;status&#8217;, &#8216;warning&#8217;, or &#8216;error&#8217;. Status is actually the default, so I&#8217;ll cut it out of the next iteration of this code. The module now prints your message in a fancy, Drupal formatted way. It looks just like all the other Drupal modules, because that&#8217;s how all of Drupal displays messages. <br /><br /> I&#8217;m going to add one more layer of complexity here, with the <a href="http://api.drupal.org/api/drupal/includes%21bootstrap.inc/function/t/7">t()</a> function. You&#8217;ll see t() everywhere: it&#8217;s the way you declare text strings to Drupal as user-facing text. It makes the text available for translation, and makes it easy to sanitize any variables or user-entered text. An example t() string would be:<br /><br /> <code>t('Welcome to %sitename', array('%sitename' =&gt; 'Swearing at Computers'); </code><br /><br /> You just include replacement patterns in the text itself, and then declare them in an array. The replacement strings get sanitized, so that&#8217;s the right place to include user-entered text, URLs, or just variable output in general. So here is a final version of our custom module, using drupal_set_message() the way it was intended.<br /><br /> <code>/**   * Implementation of hook_init().  */ swearing_custom_init() {   print "Hello world!";   drupal_set_message(t('Hello world! This is %name!', array(%name =&gt; 'Swearing at Computers'))); } </code><br /><br /> That&#8217;s it for this quick guide. The basics of writing a module. The hardest part here is figuring out which hooks to use. Google is your friend: try searching for things like &#8220;drupal views hooks&#8221; to see how to tweak Views at various stages, or &#8220;drupal form hooks&#8221; to see how forms work in Drupal. Or don&#8217;t - I&#8217;ll be covering some of those hooks in the next posts.
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-06-08T16:15:31+02:00" class="updated">Updated Jun 8<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/basics/'>basics</a>, <a class='category' href='/blog/categories/custom-modules/'>custom modules</a>, <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupal-quick-guides/'>drupal-quick-guides</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-custom.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-custom.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/04/drupal-quick-learning-guides-drupal.html" title="Previous Post: Drupal quick learning guides: Drupal structure">&laquo; Drupal quick learning guides: Drupal structure</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/06/drupal-developers-toolkit-handy-tools.html" title="Next Post: Drupal developers' toolkit: handy tools and functions to make your life easier">Drupal developers' toolkit: handy tools and functions to make your life easier &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-custom.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-custom.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

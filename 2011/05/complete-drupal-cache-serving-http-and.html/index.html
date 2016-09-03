@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Complete Drupal Cache - Serving HTTP and HTTPS Content With Varnish - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Varnish is a fantastic caching proxy, commonly used for CMSes. It&#8217;s not uncommon to see benchmarks boasting 300-500 page loads per second - I &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2011/05/complete-drupal-cache-serving-http-and.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Complete Drupal Cache - Serving HTTP and HTTPS Content With Varnish</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-22T21:07:00+02:00" pubdate data-updated="true">May 22<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Varnish is a fantastic caching proxy, commonly used for CMSes.  It&#8217;s not uncommon to see benchmarks boasting 300-500 page loads per second - I&#8217;ve seen benches up to 5000 hits per second.  That&#8217;s faster than serving flat HTML from Apache; we&#8217;re talking about a serious benefit to your server load here.<br /><br />Part of Varnish&#8217;s tremendous speed comes from how lean it is.  At only 58,000 lines of code, it&#8217;s very lightweight.  Unfortunately, this necessitates a no-frills approach.  And SSL is a frill.  <br /><br />I think it&#8217;s very well put by Poul Henning-Kamp (lead developer on the Varnish project) in this <a href="http://www.varnish-cache.org/lists/pipermail/varnish-misc/2010-April/004044.html">mailing list post</a>:<br /><br /><blockquote>I have two main reservations about SSL in Varnish:<br /><br />1. OpenSSL is almost 350.000 lines of code, Varnish is only 58.000,<br />   Adding such a massive amount of code to Varnish footprint, should<br />   result in a very tangible benefit.<br /><br />   Compared to running a SSL proxy in front of Varnish, I can see<br />   very, very little benefit from integration.  Yeah, one process<br />   less and only one set of config parameters.<br /><br />   But that all sounds like &#8220;second systems syndrome&#8221; thinking to me,<br />   it does not really sound lige a genuine &#8220;The world would become<br />   a better place&#8221; feature request.<br /><br />   But I do see some some serious drawbacks:  The necessary changes<br />   to Varnish internal logic will almost certainly hurt varnish <br />   performance for the plain HTTP case.  We need to add an inordinate<br />   about of overhead code, to configure and deal with the key/cert<br />   bits.<br /><br />2. I have looked at the OpenSSL source code, I think it is a catastrophe<br />   waiting to happen.  In fact, the only thing that prevents attackers<br />   from exploiting problems more actively, is that the source code is<br />   fundamentally unreadable and impenetrable.<br /><br />Unless those two issues can be addressed, I don&#8217;t see SSL in Varnish<br />any time soon.</blockquote><br />Ouch.  But that doesn&#8217;t help those of us who want Varnish&#8217;s speed with SSL&#8217;s security.  Really the only solution is to set up an SSL proxy in front of Varnish.  There are <em>lots</em> of ways to do this.  I will show you what I think is the easiest option: Pound and Varnish.<br /><br /><h2>1) Set up Varnish</h2><br />I assume that you&#8217;ve already got a running Apache installation going.  So now we have to put Varnish in front of it.  The first step is to get Apache off of port 80 - that&#8217;s where Varnish is going to live.  In order to do this, we have to find the &#8220;Listen&#8221; line in Apache&#8217;s configuration. On a standard install, it reads something like:<br /><br /><blockquote><code>Listen 0.0.0.0:80</code></blockquote><br />You want to change that to another port.  8080 is a popular one, but it can really be anything above 1024.  In Debian systems you can find this line in /etc/apache2/ports.conf .  In CentOS it&#8217;s in /etc/httpd/conf/httpd.conf .  If you&#8217;re not sure where it is, try grepping for the standard help text around it:  <code>grep "Change this to Listen on specific IP addresses" /etc/apache2/* -r</code>.  You also want to make sure it only serves pages to localhost, so outsiders can&#8217;t attack your Apache directly.  Modify the line to look like this:<br /><br /><blockquote><code>Listen 127.0.0.1:8080</code></blockquote><br />Now let&#8217;s install and configure varnish. On Debian/Ubuntu you can install it from apt repositories: <code>apt-get install varnish</code>.  On CentOS, you first have to add the right repository for yum.  You can install the &#8220;Extra Packages for Enterprise Linux&#8221; (EPEL) repo via RPM - get your version-and-architecture-appropriate link from the <a href="http://fedoraproject.org/wiki/EPEL">EPEL site</a>.  I used:<br /><br /><blockquote><code>sudo rpm -Uvh http://fr2.rpmfind.net/linux/epel/5/x86_64/epel-release-5-4.noarch.rpm<br />sudo yum install varnish</code></blockquote><br />Varnish is configured in two places.  General command line options that are passed directly to the daemon are set in /etc/sysconfig/varnish , and specific behaviors for the proxy are configured in a .vcl file stored in /etc/varnish.<br /><br />Varnish is extremely configurable and tune-able, but this guide will focus on the basics you need for Drupal 7 (Drupal 6 only works if you use Pressflow rather than vanilla Drupal, but that&#8217;s well documented elsewhere).  First, edit the daemon options at /etc/sysconfig/varnish .  The default file gives you four alternative configurations to choose from - we want configuration 2, the first one that uses a .vcl . Uncomment the DAEMON_OPTS lines there, and change the &#8220;listen&#8221; port to 80, and name your own .vcl file.  Here&#8217;s my mostly default daemon_opts . <br /><br /><blockquote><code>DAEMON_OPTS="-a :80 \<br />             -T localhost:6082 \<br />             -f /etc/varnish/swearingatcomputers.com.vcl \<br />             -u varnish -g varnish \<br />             -s file,/var/lib/varnish/varnish_storage.bin,1G"<br /></code></blockquote><br />Save the file.  Now we&#8217;ll set up the .vcl file to configure the proxy itself.  This is my .vcl , you can pretty safely just dump it into the .vcl you named in the DAEMON_OPTS above:<br /><br /><blockquote><code><br />backend default {<br />  .host = "127.0.0.1";<br />  .port = "8080";<br />}<br /><br />sub vcl_recv {<br />#  // Remove has_js and Google Analytics __* cookies.<br />  set req.http.Cookie = regsuball(req.http.Cookie, "(^|;\s*)(__[a-z]+|has_js)=[^;]*", "");<br />#  // Remove a ";" prefix, if present.<br />  set req.http.Cookie = regsub(req.http.Cookie, "^;\s*", "");<br />#  // Remove empty cookies.<br />  if (req.http.Cookie ~ "^\s*$") {<br />    unset req.http.Cookie;<br />  }<br /><br />#  // fix compression per http://www.varnish-cache.org/trac/wiki/FAQ/Compression<br />  if (req.http.Accept-Encoding) {<br />    if (req.url ~ "\.(jpg|png|gif|gz|tgz|bz2|tbz|mp3|ogg)$") {<br />        # No point in compressing these<br />        remove req.http.Accept-Encoding;<br />    } elsif (req.http.Accept-Encoding ~ "gzip") {<br />        set req.http.Accept-Encoding = "gzip";<br />    } elsif (req.http.Accept-Encoding ~ "deflate" && req.http.user-agent !~ "MSIE") {<br />        set req.http.Accept-Encoding = "deflate";<br />    } else {<br />        # unkown algorithm<br />        remove req.http.Accept-Encoding;<br />    }<br />  }<br /><br />}<br /><br />sub vcl_hash {<br />  if (req.http.Cookie) {<br />    set req.hash += req.http.Cookie;<br />  }<br />}<br /></code></blockquote><br />The bulk of this file is occupied with making sure that cookies aren&#8217;t cached, and solving a problem with compression.   The only part that you should be concerned with editing is the bit at the top, <code>backend default {</code>. This is where you tell Varnish about all the back ends for which it should cache.  Varnish is a great load balancer, so if you have 5 systems on the back end which are all serving content, you can list them here.  Each one would get it&#8217;s own &#8220;Backend&#8221; declaration.  If you want to load balance, see a different guide.  We&#8217;re just interested in the caching for now.  So set the .host and .port variables to match your setup - very likely you want to keep them the same.<br /><br />Now test the whole thing by restarting apache and starting varnish.<br /><br /><blockquote><code>sudo service httpd restart<br />sudo service varnish restart</code></blockquote><br />If you don&#8217;t see any errors, you&#8217;re good to go!  If you just get a generic [FAILED] for Varnish, without any error messages, there&#8217;s probably a syntax problem with your VCL.  <br /><br /><h2>2) Set up your SSL certs for Pound</h2><br />Create your server&#8217;s private key and certificate request.  I get confused easily between the different certs, so I name them in an idiot proof way that you might want to copy:<br /><br /><blockquote><code>openssl req -new -newkey rsa:2048 -nodes -keyout swearingatcomputers.com.private.key -out swearingatcomputers.com.certreq.pem</code></blockquote><br />Traditionally, your private key should go in /etc/ssl/private on Debian/Ubuntu , or /etc/pki/tls/private on CentOS.  It really doesn&#8217;t matter, but this gives you a nice central place to store your certs. <br /><br />Now use that certificate request to get a signed cert.  I get mine on the cheap from Godaddy ($50/yr is hard to beat!), but if you just want to test, you can make a locally-signed cert like this:<br /><br /><blockquote><code>openssl x509 -req -days 365 -in swearingatcomputers.com.certreq.pem -signkey swearingatcomputers.com.private.key -out swearingatcomputers.com.selfsigned.crt</code></blockquote><br />The signed cert typically goes in /etc/ssl/certs .<br /><br />For a normal SSL setup, this is all you need.  But Pound likes both the certificates in a single file, so we&#8217;re going to have to make a special combined version for pound.  <br /><br /><blockquote><code><br />openssl x509 -in /etc/ssl/certs/swearingatcomputers.com.crt -out /etc/ssl/private/swearingatcomputers.com.combined.pem<br />openssl rsa -in /etc/ssl/private/swearingatcomputers.com.private.key >> /etc/ssl/private/swearingatcomputers.com.combined.pem<br /></code></blockquote><br />Now we&#8217;re ready to set up Pound.<br /><br /><h2>3) Set up the Pound SSL proxy</h2><br />This part surprised me with how easy it is.  Pound is a great system that is very simple to configure!  Install it using apt-get or yum: <code>yum install pound</code>, then configure it at /etc/pound.cfg .<br /><br />First comment out or delete the <code>ListenHTTP</code> section.  We don&#8217;t want Pound to listen on port 80 at all.<br /><br />Then we&#8217;ll set up the <code>ListenHTTPS</code> section.  Apart from telling it to listen on all devices&#8217; port 443 and giving it the cert, we&#8217;re going to make sure it sets a special header to notify Drupal that it&#8217;s been forwarded from an HTTPS proxy.  We&#8217;re also going to make sure that GET and PUT operations are supported.  Then at the end, we will tell it where to find the back end (Varnish, in our case) - port 80.  Here&#8217;s my pound config:<br /><br /><blockquote><code><br />User "pound"<br />Group "pound"<br />Control "/var/lib/pound/pound.cfg"<br /><br />#ListenHTTP<br />#    Address 0.0.0.0<br />#    Port 80<br />#End<br /><br />ListenHTTPS<br />    Address 0.0.0.0<br />    Port    443<br />    Cert    "/etc/ssl/certs/swearingatcomputers.com.crt.pem"<br /><br />    # set X-Forwarded-Proto so D7 knows we're behind an HTTPS proxy.<br />    HeadRemove "X-Forwarded-Proto"<br />    AddHeader "X-Forwarded-Proto:https"<br /><br />    #Allow PUT and DELETE too<br />    xHTTP       0<br />End<br /><br />Service<br />    BackEnd<br />        Address 127.0.0.1<br />        Port    80<br />    End<br />End<br /></code></blockquote><br />Save the config file, and start pound with <code>service pound start</code>.  There you go, you&#8217;ve got an HTTPS forwarder.  <br /><br /><h2>4) Make Drupal HTTPS aware</h2><br />One big problem with the setup so far, is that Drupal doesn&#8217;t know that it&#8217;s serving HTTPS content.  Remember, as far as Apache is concerned, it&#8217;s just HTTP served in the clear to Varnish.  Even Varnish doesn&#8217;t really know about the HTTPS on the front end.  We&#8217;re going to follow this X-Forwarded-Proto:https header back through the stack to make sure that every level interprets it properly.<br /><br />First we deal with Varnish.  Let&#8217;s make sure that the X-forwarded-proto header is delivered to Apache intact.  Find the <code>sub vcl_hash</code> section of your .vcl file, <code>/etc/varnish/swearingatcomputers.com.vcf</code>, and add these lines:<br /><br /><blockquote><code><br />if (req.http.x-forwarded-proto) {<br />set req.hash += req.http.x-forwarded-proto;<br />}<br /></code></blockquote><br />If you&#8217;re using my template above, the whole section will look like this:<br /><br /><blockquote><code><br />sub vcl_hash {<br />  if (req.http.Cookie) {<br />    set req.hash += req.http.Cookie;<br />  }<br />  if (req.http.x-forwarded-proto) {<br />        set req.hash += req.http.x-forwarded-proto;<br />  }<br />}<br /></code></blockquote><br />You&#8217;ll have to restart Varnish after making this change.<br /><br />Now let&#8217;s make sure that Drupal knows to look for this header.  D7 has some variables for this in it&#8217;s settings.php , just waiting to be uncommented.  You can walk through the explanations in the file itself and uncomment the relevant lines, or just add this at the end:<br /><br /><blockquote><code> <br /># Settings for Varnish - tell Drupal that it's behind a reverse proxy<br /><br />$conf['reverse_proxy'] = TRUE;<br />$conf['reverse_proxy_addresses'] = array('127.0.0.1');<br /><br />$conf['page_cache_invoke_hooks'] = FALSE;<br /><br /># Settings for HTTPS cache - tell Drupal that forwarded https is the real thing<br />if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&<br />  $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {<br />  $_SERVER['HTTPS'] = 'on';<br />}<br /></code></blockquote><br /><h2>5) Test and brag</h2><br />That&#8217;s it - you should have your proxy configured!  You can do a simple test to make sure it&#8217;s working by watching varnishlog for cache hits. Simply <code>varnishlog |grep hit</code> in your terminal, and try refreshing the frontpage of your site.  You should see a few lines of hits pop up in the log.  (If not, you might want to try grepping for &#8220;pass&#8221; or &#8220;miss&#8221; to help work out what&#8217;s happening)  <br /><br />Now let&#8217;s see how this caching holds up under load.  After all, that&#8217;s the whole point, right?  I like a simple ab test<br /><br /><blockquote>ab -c 40 -n 5000 -q http://swearingatcomputers.com/</code></blockquote><br />This will simulate 5000 hits on the frontpage, at a rate of 40 per second.  Look for &#8220;Requests per second&#8221;, that&#8217;s my favorite statistic here. On my &#8220;playing around&#8221; Amazon Micro instance, I pull about 650 hits per second.  In theory, this smallest of VPS servers could handle over 2 million hits per hour!  <br /><br />I love Varnish.
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-22T21:07:41+02:00" class="updated">Updated May 22<span>nd</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/caching/'>caching</a>, <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/varnish/'>varnish</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2011/05/complete-drupal-cache-serving-http-and.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2011/05/complete-drupal-cache-serving-http-and.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/05/what-sony-hacks-tell-us-about-their.html" title="Previous Post: What the Sony hacks tell us about their Sysadmins and management">&laquo; What the Sony hacks tell us about their Sysadmins and management</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/05/ouch-sony.html" title="Next Post: Sony hacked AGAIN - time to turn out the lights?">Sony hacked AGAIN - time to turn out the lights? &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2011/05/complete-drupal-cache-serving-http-and.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2011/05/complete-drupal-cache-serving-http-and.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

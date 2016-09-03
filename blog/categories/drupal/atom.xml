@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Drupal | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/drupal/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How Drupal Should Handle Client-side Framework Obsolescence]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/"/>
+    <updated>2015-12-08T12:06:02+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence</id>
+    <content type="html"><![CDATA[<p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he&rsquo;s still mulling it over. I couldn&rsquo;t resist adding to the storm.</p>
+
+<p>I completely agree that Drupal would benefit from figuring out a standardized approach to decoupled front ends. I think Dries is spot-on in supporting a &ldquo;progressive decoupling&rdquo; model as a great best-of-both-worlds response that can happen within 8.x. I would frame the problem a little differently, though.</p>
+
+<p>The thing is, we already HAVE embraced a framework and shipped with it in core: backboneJS. And we&rsquo;re dealing with the development cycle delta already: backbone is now quite outdated; in order to keep up we have to consider ditching it in favor of options like react and angular.  <strong>I don&rsquo;t think this is a &ldquo;how do we architect a new part of Drupal&rdquo; problem, so much as a &ldquo;we already have this issue and we know it will recur&rdquo; problem</strong>. Rather than trying to decide upon a single framework that will remain relevant for the entire lifecycle of Drupal 8, the goal should be to provide a structure that makes it easy to respond once angular/react/whatever are out-of-date, too.</p>
+
+<p>I advocate taking exactly the PHPTemplate route we took in 4.6 (was it? 4.5?): <strong>ship one engine with core, but make it replaceable</strong>. There are a few reasons behind this. First, I think Dries' rejection of this approach misses some key elements: the landscape of PHP based template engines in 2005 is very different than that of front end frameworks in 2015, and the task of replacing a Drupal 4.6 templating engine is very different from that of replacing a Drupal 8 front end framework. Second, I think we&rsquo;ve stumbled upon a reasonably successful model for adapting to development cycle deltas in how we&rsquo;ve worked with JQuery in Drupal 7. Finally, I believe that making our front end framework replaceable fits with Drupal&rsquo;s overall architectural philosophy, and will help D8 stay relevant for longer.</p>
+
+<p>Dries is right to point out that when we did this with PHPTemplate, effectively nobody took advantage of the ability to replace it. But think back to the development landscape of PHP based templating engines in 2005, and compare it to JS frameworks in 2015: the pace of development was was much slower, every PHP project rolled their own system, libraries to extend capabilities were effectively nonexistent, the total number of developers was lower, and the amount of innovation between alternatives was lower. The arguments that make AngularJS compelling, for example (tens of thousands of developers, hundreds of tutorials, thousands of ngextensions, etc), bear little resemblance to the arguments for &ndash; what even <em>were</em> the alternatives to PHPTemplate in 2005?</p>
+
+<p>Further, the task of replacing PHPTemplate in Drupal 4.6 is not analogous to the task of replacing a JS framework in D8. We only use backbone to handle interactions and &ldquo;big pipe&rdquo; style includes (rather than page rendering out of whole cloth). Dries proposes continuing this approach (and I agree). The task of replacing Backbone with Angular or React would be a big one, but nowhere near as big as building an entire templating engine from scratch for Drupal 4.6. It&rsquo;s still hard work of course, but you&rsquo;re not rebuilding a third of the platform, or architecting your own library with a unique approach.</p>
+
+<p>We made PHPTemplate replaceable as a hedge against Adrian Rossouw getting hit by a bus, and because if Adrian wanted to roll his own engine, surely other developers would, too. It turns out that wasn&rsquo;t necessary; no other templating system gained enough traction to make a dent in the default. That was an effect of the development landscape and the size of the task. This is just not the case with front end frameworks.</p>
+
+<p>In 2005, we were confident that if PHPTemplate was a great choice in 2005, it would probably still be a great choice in 2006, and with care it could remain a reasonable choice for 5 years or more. Replacability was for allowing alternatives. In the case of externally developed front end frameworks in 2015, we can say with certainty that a great choice this year will be an old choice in 2 years, a bad choice in 3, and a liability in 5. That&rsquo;s a different problem space.</p>
+
+<p><strong>I think we have a better analogy with JQuery than with PHPTemplate</strong>. That was also an external library with a development pace delta problem. Within 3 years of including JQuery in Drupal 6 core, the JQuery Update module climbed into the list of most-used modules. For Drupal 7 we architected to make this a little easier, anticipating that it would be necessary. That&rsquo;s worked out well for us. Fortunately there aren&rsquo;t a lot of mutually exclusive alternatives to JQuery, so all we&rsquo;ve needed is updates. Still, I think there are good lessons here for introducing a standard front end framework in Drupal 8: people will need updates faster than core can provide them, and the contrib space is a reasonable place to get them &ndash; even (especially?) when the updates are so common they become de facto parts of core.</p>
+
+<p>Finally, a key philosophy for Drupal 8 is that builders can replace or override entire subsystems. Making the front-end framework similarly replaceable fits right in line with this architecture. If I want to replace Backbone with React, I should be able to do that relatively easily. In a dream world we could abstract out the whole thing, and make core front end framework agnostic. THAT would be a monumental task, indeed!</p>
+
+<p>I advise changing the implementation and documentation of backbone in Drupal 8.x to be (more easily) replaceable or augmentable in contrib. I&rsquo;m convinced that we would see an AngularJS contrib module within a year, and probably a ReactJS one as well. The power law predicts that the community will standardize around one framework at a time, which means that we really only have to be concerned about transition periods. Even then, front end frameworks don&rsquo;t have to be exclusive. Site builders could include the ReactJS library as a dependency of module X, the AngularJS library as a dependency of module Y, and backbone from core. The people developing sites where an extra 36kB (the size of AngularJS 1.4.8) of page size matters are also the ones best positioned to fully replace one library with another.</p>
+
+<p><strong>TL;DR: Contrib is a great place to handle the ever-changing, rapid landscape of front end frameworks. All Drupal core has to do is make it easy.</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
+    <updated>2015-10-08T11:16:02+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
+    <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
+
+
+<script async src="http://ohthehugemanatee.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
+
+<h2>Are we there yet?</h2>
+
+<p>Despite all the rejoicing on social media, this isn&rsquo;t the final release for Drupal 8 &ndash; it&rsquo;s only the first Release Candidate. This means that we have (officially!) 0 &ldquo;critical&rdquo; bugs left to fix in Drupal 8. That means exactly what it sounds like: there are no critical, world-ending bugs left&hellip; <em>that we know of</em>. Just like any software product, we&rsquo;ll continue to discover critical issues through its entire life cycle. We&rsquo;re still finding occasional critical issues in Drupal 7 almost five years since its first release candidate; that&rsquo;s just a part of supporting a piece of software over the long term. The RC phase means that while Drupal 8 is stable enough to use, we&rsquo;re still discovering critical bugs a little too frequently to recommend it for everyone, in every use case.</p>
+
+<p>&ldquo;A little too frequently&rdquo; means that the rate of critical bugs incoming is still too high to be able to promise the fast respond-and-fix turnaround that we want. Every two weeks we&rsquo;ll create a new Release Candidate version that fixes whatever new criticals have been discovered. Once the core team is confident that they can squash bugs in a timely enough manner, they&rsquo;ll (finally) release Drupal version 8.0.0.</p>
+
+<h2>But when will it REALLY be released?</h2>
+
+<p>&ldquo;When it&rsquo;s ready&rdquo; still applies! But we are very, very close now. To give you a point of reference, Drupal 7 went through four Release Candidates before release (two months). That codebase was a lot more fragile than this one, so it&rsquo;s reasonable to hope that we&rsquo;ll have a very Drupally Christmas season this year. Personally I&rsquo;m betting on January.</p>
+
+<p><img src="https://www.drupal.org/files/christmas-ad.png"></p>
+
+<h2>Can I use it yet?</h2>
+
+<p><span style="font-size: 1.5em"><em>Yes!</em></span> <span style='font-size:0.5em'>Some terms and conditions apply.</span></p>
+
+<p>Just because there are no criticals left, doesn&rsquo;t mean that D8 is completely bug-free! We have <a href="https://www.drupal.org/project/issues/search/drupal?assigned=&amp;submitted=&amp;project_issue_followers=&amp;status[]=1&amp;status[]=13&amp;status[]=8&amp;status[]=14&amp;status[]=4&amp;priorities[]=300&amp;categories[]=1&amp;version[]=8.0.x-dev&amp;issue_tags_op=%3D&amp;issue_tags=">a big pile of known &ldquo;major&rdquo; issues</a> that have been deferred until after 8.0.0, which should impact your decision. You can see at that link that some of them are already ready to be committed. The catch is that during the RC phase, we aren&rsquo;t allowed to commit these fixes. <a href="https://www.drupal.org/core/d8-allowed-changes#rc">We&rsquo;re basically only allowed to work on criticals and documentation</a>. So there are still some serious issues that might be a problem in some use cases.</p>
+
+<p>The biggest issue (that I know of) is <a href="https://www.drupal.org/node/2542868">a potential incompatibility between Drupal 8&rsquo;s new &ldquo;cache tags&rdquo; header and some hosting providers</a>. The problem is that Drupal includes some important caching information on the &ldquo;back of the envelope&rdquo; of its response to a page request, and it&rsquo;s possible to run out of envelope! If the cache tags header gets too long for the web host to handle, it can behave unpredictably. You might get white screens of death, or it might just shorten the cache tags header, removing important information. There&rsquo;s a solution in the works to allow a maximum length setting, but it won&rsquo;t make it in until 8.0.1 (two weeks after 8.0.0). In the meantime you should avoid D8 if you have any very complex pages with many elements. The examples in that ticket are good ones: a news site with very complex layouts, or a single page site with a lot of &ldquo;stuff&rdquo; crammed onto the one, front page.</p>
+
+<p>The other &ldquo;gotcha&rdquo; to bear in mind is that it will take some time for Drupal&rsquo;s contributed modules ecosystem to catch up with the new version. According to <a href="http://www.bluespark.com/status-top-100-contributed-modules-drupal-8">Bluespark&rsquo;s status of the top 100 modules for D8</a> page, so far only 9 of the top 100 D7 modules have a D8 release marked &ldquo;stable.&rdquo; 19 of those top 100 modules are included in D8 core however, so our total count is up to 28. This is enough to give a good foundation for relatively simple sites, especially if you have some PHP skills under your belt. But I wouldn&rsquo;t go building a complex Intranet on it just yet!</p>
+
+<h2>Wait, so it&rsquo;s still busted?</h2>
+
+<p>No! Drupal 8 is a solid platform for most use cases &ndash; that&rsquo;s the point of the RC release! It&rsquo;s time to go ahead and use it for site builds. Just take it easy and use it for simple sites, first. Give the rest of the community a chance to release stable modules, and hold off on that Facebook-buster behemoth website you&rsquo;ve got planned until a few months after launch.</p>
+
+<h2>What happens after 8.0.0?</h2>
+
+<p>After 8.0.0 is released, we will make an enormous, fundamental shift in how Drupal is developed. We will start using <a href="http://semver.org">semantic versioning</a> with a regular release schedule. Every two weeks we&rsquo;ll release a new &ldquo;patch level' release: 8.0.1, 8.0.2, and so on. Patch level releases will be bug fixes only, and will be backwards-compatible &ndash; that means they won&rsquo;t break anything on your site. Approximately every 6 months, we&rsquo;ll release a new "minor level&rdquo; release: 8.1.0, 8.2.0, etc. Minor releases are allowed to contain new features, but they are still guaranteed to be backwards-compatible. So even these releases won&rsquo;t break anything on your site. We&rsquo;re still <a href="">figuring out</a> the exact process for minor releases, but they will include similar phases to what we&rsquo;ve seen with D8 core: a beta phase, and release candidates until we&rsquo;re sure there are no more criticals.</p>
+
+<p>What about API changes, and features that would break existing sites? We won&rsquo;t even start developing on those until well into the D8 life cycle. Those changes will belong in the 9.x branch, and will be kept completely separate from anything that could touch your site.</p>
+
+<p>The key take-away here is that D8 updates should never break your site. They may add features, but they will not interfere with whatever you&rsquo;ve already built. We&rsquo;ll continue a regular pace of improving the product in a predictable, scheduled, and backwards-compatible way.</p>
+
+<h2>Where are the best Drupal 8 release parties?</h2>
+
+<p>The Drupal Association is coordinating promotion for official Drupal 8 launch parties. If you want to host one, just <a href="https://assoc.drupal.org/drupal-8-launch-party">fill out their form</a> and they&rsquo;ll help you promote it! So far no one has built a site mapping the parties, but keep an eye out in the #drupal hashtag on twitter!</p>
+
+<h2>Who do I congratulate? Who do I thank?</h2>
+
+<p>Drupal 8 RC 1 is the combined effort of more than 3200 contributors. That is an incredible number. By comparison, Apache, the world&rsquo;s most popular open source webserver, has 118 contributors. MySQL, the database platform which runs an enormous portion of the Internet, has 1320 contributors. So you can basically walk up to anyone at a Drupalcon and thank him or her!</p>
+
+<p>Most of the contributors to Drupal 8 leaned on the support, training, and hand-holding of mentors at Drupal events all over the world. I know I needed a mentor for my first core contributions, and I got to turn around and mentor other people myself. The mentors are the support network that made this level of mass contribution possible.</p>
+
+<p>But the level of effort is definitely not evenly distributed. Most contributors have made fewer than 20 registered contributions. <a href="https://drupal.org/u/dawehner">But</a> <a href="https://drupal.org/u/tim.plunkett">some</a> <a href="https://drupal.org/u/berdir">people</a> <a href="https://drupal.org/u/alexpott">have</a> <a href="https://drupal.org/u/wim-leers">really</a> <a href="https://drupal.org/u/sun">gone</a> <a href="https://drupal.org/u/damiankloip">above</a> <a href="https://drupal.org/u/xjm">and</a> <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">beyond</a> <a href="https://drupal.org/u/larowlan">what</a> <a href="https://drupal.org/u/chx">anyone</a> <a href="https://drupal.org/u/andypost">would</a> <a href="https://drupal.org/u/ameteescu">expect</a>. <a href="https://drupal.org/u/jhodgdon">It&rsquo;s</a> <a href="https://drupal.org/u/yched">no</a> <a href="https://drupal.org/u/joelpittet">exaggeration</a> <a href="https://drupal.org/u/effulgentsia">to</a> <a href="https://drupal.org/u/yesct">say</a> <a href="https://drupal.org/u/swentel">that</a> <a href="https://drupal.org/u/cottser">these</a> <a href="https://drupal.org/u/nod_">people</a> <a href="https://drupal.org/u/vijaycs85">have</a> <a href="https://drupal.org/u/pwolanin">shaped</a> <a href="https://drupal.org/u/aspilicious">the</a> <a href="https://drupal.org/u/tstoeckler">future</a> <a href="https://drupal.org/u/xano">of</a> <a href="https://drupal.org/u/plach">the</a> <a href="https://drupal.org/u/lewisnyman">Internet</a>.</p>
+
+<p>It is easy to concentrate on the number of contributions as the only metric of involvement in the release of D8. But some of the biggest influences on Drupal 8 have been community leaders, whose effort is not counted in commits under their own names. The initiative leads who architected and directed all this contribution: <a href="https://drupal.org/u/heyrocker">heyrocker</a>, <a href="https://drupal.org/u/Senpai">Senpai</a>, <a href="https://drupal.org/u/jlambert">jlambert</a>, <a href="https://drupal.org/u/Crell">Crell</a>, <a href="https://drupal.org/u/dmitrig01">dmitrig01</a>, <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">Gábor Hojtsy</a>, <a href="https://drupal.org/u/jose-reyero">Jose Reyero</a>, <a href="https://drupal.org/u/mitchell">mitchell</a>, <a href="https://drupal.org/u/jenlampton">jenlampton</a>, <a href="https://drupal.org/u/bleen18">bleen18</a>, <a href="https://drupal.org/u/jackalope">jackalope</a>, <a href="https://drupal.org/u/ericduran">ericduran</a>, <a href="https://drupal.org/u/jhood">jhood</a>, <a href="https://drupal.org/u/jacine">jacine</a>, <a href="https://drupal.org/u/shyamala">shyamala</a>, <a href="https://drupal.org/u/rupl">rupl</a>, <a href="https://drupal.org/u/johnalbin">JohnAlbin</a>, <a href="https://drupal.org/u/twom">twom</a>, and <a href="https://drupal.org/u/sofiya">sofiya</a>. Without them, we would have had nothing to commit!</p>
+
+<p>Listing all of those names brings to mind the platform that they all use to contribute and coordinate: <a href="https://drupal.org">drupal.org</a>, maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. It also brings to mind the events, like Drupalcon, Drupalcamps, Dev Days, which everyone attends to collaborate, teach, and learn; also maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. Not to mention the Drupal 8 Accelerate program, which raised $250,000 towards developer grants; also created and maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. The people at the Association have worked tirelessly to support this release.</p>
+
+<p>All of this developer time is extremely valuable, and not all of it came out of the developers' own free time. Huge swaths of Drupal 8 development have been sponsored by the companies that participate in the community. We&rsquo;ve only been tracking their contributions for a short time, but the information we have is powerful. This release would not have happened without the developer time donated by companies like <a href="https://acquia.com">Acquia</a>, <a href="http://www.md-systems.ch">MD Systems</a>, <a href="http://www.chapterthree.com">Chapter Three</a>, <a href="http://tag1consulting.com">Tag1</a>, and <a href="http://druid.fi">Druid</a>. A quick glance at <a href="https://www.drupal.org/drupal-services">Drupal.org&rsquo;s Drupal Services page</a> shows us that contribution is a normal part of the culture for the biggest Drupal companies. These were the top 5, but almost every major Drupal shop has contributed in some measure. Thank you to these companies for believing in our product and supporting it so generously.</p>
+
+<p>Finally, the people who bear the greatest personal responsibility are definitely the core maintainers. These people don&rsquo;t just deserve your thanks; they deserve lifetime supplies of free beer sent to their homes. I can&rsquo;t offer that on a blog; all I can say is THANK YOU.</p>
+
+<p><a href="https://drupal.org/u/effulgentsia">Alex Bronstein</a></p>
+
+<p><a href="https://drupal.org/u/dries">Dries Buytaert</a></p>
+
+<p><a href="https://drupal.org/u/webchick">Angie &ldquo;webchick&rdquo; Byron</a></p>
+
+<p><a href="https://drupal.org/u/catch">Nat Catchpole</a></p>
+
+<p><a href="https://drupal.org/u/xjm">Jess Myrbo</a></p>
+
+<p><a href="https://drupal.org/u/alexpott">Alex Pott</a></p>
+
+<p>To everyone who contributed, but especially the people I&rsquo;ve listed here: You&rsquo;ve made a new generation of Internet innovation possible. Thank you.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How the World Sees Drupal - the Dutch PHP Conference 2015]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015/"/>
+    <updated>2015-06-27T12:04:52+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015</id>
+    <content type="html"><![CDATA[<p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
+
+<p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: &ldquo;I don&rsquo;t know PHP. I&rsquo;m a Drupal developer.&rdquo; On the other side, our platform&rsquo;s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code. The more Drupal built up its' separate API and library of unique concepts like hooks and theme functions, the further we separated from everyone else in our programming language. This movement wasn&rsquo;t unique to Drupal; as a group PHP developers were building on many, very different frameworks. The PHP World conference was a segregated affair; projects like Zend, PHPBB, and Wordpress kept to themselves.</p>
+
+<p>This changed in 2010. Facebook had invested tremendous resources into their own brand of PHP, &ldquo;HipHop&rdquo;, and in many ways sparked a wave of renewed interest in the language. The PHP community spawned the Framework Interoperability Group (FIG), an initiative dedicated to standardized practices in PHP that could bring the various frameworks together. Drupal 8 was designed to align with the FIG goals, using current practices and components like Composer, PSR-4 namespacing, and dependency injection. Large parts of Drupal&rsquo;s core functionality are provided by Symfony components; the system is now a recognizable contemporary PHP project. In the FIG era, PHP developers are rediscovering the enterprise class CMS in their midst.</p>
+
+<p>I was surprised to learn about Drupal&rsquo;s poor reputation among the more hardcore PHP developers. Many of them had had a bad experience with Drupal 5 or 6, and never looked back. Some had tried Drupal 7, and were bewildered by the slew of Drupal-specific concepts and structures they needed to learn for even the simplest modifications. Many people I spoke with thought of Drupal as a pile of procedural code, packed with confusing work-arounds and anachronisms that made it not worth adopting. Few had heard of Drupal 8&rsquo;s move to contemporary, object-oriented coding practices. Many were dismissive of even the concept of an application framework like ours.</p>
+
+<p>At the same time, the developers at this conference were just as fun and happy to help each other as at the best Drupal events. I learned a tremendous amount about working with Drupal&rsquo;s new object-oriented tool kit, and grew a lot as a programmer. Once I explained the differences with Drupal 8, most people were curious to see just how it worked. And just like at my favorite Drupal events, even the most well-known developers were interested to help. I complained about my frustrations with the PHPUnit testing suite, and was introduced to the original author and maintainer. I had a question about the relative performance of PHP 5.6, 7, and HHVM, and got to talk about it with the release manager for the whole PHP project. This kind of openness and interest in collaboration convinced me more than anything else, that Drupal should integrate more with the mainstream PHP.</p>
+
+<p>Drupal 8 RC1 is just around the corner, and Drupal developers all over the world are learning the new programming concepts that have reshaped our product. It is time for us to break out of our insular community, and learn from the rest of the PHP world. They&rsquo;re friendly, they have a lot to teach us &ndash; and they can help take Drupal as a project to the next level.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
+    <updated>2014-11-03T17:30:32+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
+    <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
+
+
+
+
+<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project &ndash; particularly the large and complex ones like Drupal! In this case it was the result of a choice in the database abstraction layer to use emulated prepared statements. There&rsquo;s a great dissection of the whole vulnerability at <a href="http://blog.ircmaxell.com/2014/10/a-lesson-in-security.html">ircmaxell</a>, but the point here is that it was an intentional decision. We were aware of a theoretical security risk, just as we are in making lots of decisions. But theoretical risks don&rsquo;t mean much compared with real, measurable losses from the available alternatives. As I said before, this can happen to any software project, and Drupal is a relatively responsible, well written one. What&rsquo;s interesting now, is the response.</p>
+
+
+
+
+<p>First of all, I am amazed to read responses from many Drupal users who are panicked at having to run a diff of their sites, because they don&rsquo;t have appropriate tools in place. If you are developing without a VCS and automated backups, you are doing more harm than good. Just stop. Take a week to learn the basic requirements of a development environment, and start employing them. End of story.</p>
+
+
+
+
+<p>I&rsquo;m not concerned for those people &ndash; their sites were disasters waiting for an excuse anyway. What&rsquo;s frightening about this particular situation is that even if you are working with backups and a VCS, even if you patch critical security vulnerabilities on an aggressive schedule, it still wasn&rsquo;t good enough.</p>
+
+
+
+
+<p>All of my Drupal 7 sites are affected by this PSA. I work for a large, well-respected agency, with access to leading-edge workflows and tools. We follow best practices. All of my sites are secured well beyond PCI requirements. But PCI requirements say that critical security patches have to be applied within 30 days of release. Our best practices include patch review from the tech lead, and validating patches on test environments before pushing them live. With only 7 hours between patch release and exploits in the wild, there isn&rsquo;t time for any of that.</p>
+
+
+
+
+<p>I&rsquo;ve heard people complain that it&rsquo;s too difficult to update Drupal. &ldquo;drush up &mdash;security-only&rdquo; seems pretty simple to me, or at least simple enough that
+ further simplification won&rsquo;t address the real problem. That&rsquo;s because the real problem isn&rsquo;t that it&rsquo;s difficult to apply updates &ndash; it&rsquo;s that a human be
+ing has to initiate them. I live in the Central European timezone, GMT+6. The patch was released at 10PM for me, and bots were exploiting it by 5AM the following morning. I went to work that day and initiated the patching process, so that my patches could be &ldquo;responsibly&rdquo; deployed to live with 24-48 hours of client validation time on my dev and staging environments. Despite being relatively on top of patches and responding relatively quickly, the fact that I&rsquo;m human, and my clients are human, meant we never stood a chance of patching this issue fast enough. Even if we skipped validation, and even if the update process was just one button (rather than two commands), we would still have failed to update in time. I find myself reminded of the Battlestar Galactica pilot, where the Cylon robots are chasing the humans. After each hyperspace jump, the humans have 33 minutes to complete the calculations for another jump before the machines catch up with them. After 130 hours and 237 jumps, it becomes apparent that the humans&#8217; need for sleep is a critical vulnerability.</p>
+
+
+
+
+<p>The only solution is automated patching. It&rsquo;s hard to figure out a workflow that allows it; indeed you&rsquo;re forced into post-hoc testing, which means engineering an easy rollback solution. The truth is that 99% of security patches will not affect any of the functionality you&rsquo;ve customized or upon which you rely, so hopefully this will be an edge case. But it&rsquo;s a problem that actually has to be addressed. Here&rsquo;s how I&rsquo;m adapting my own projects over the coming weeks:</p>
+
+
+
+
+<p>Every wednesday, every hour, my Jenkins instance runs a script which checks modules and core for each project for security updates. When an update is available, it automatically creates a branch off of Stable (my staging branch), applies the updates, and pushes the result up to the server. My git scripts already create a new subdirectory environment for every pushed branch. Once the environment is ready, Jenkins runs all available behat tests against the new branch. If all tests pass, the branch is automatically merged back into Master, Stage, and Live, and pushed. This push operation triggers a normal Jenkins deployment, which takes a backup anyway. An email is generated to the project administrator advising them which security updates were automatically applied, and linking to the relevant changefiles.</p>
+
+
+
+
+<p>I&rsquo;m excited about implementing this new layer of automation, because it builds on the best practice workflows I already like (test driven development, git flow VCS organization, automated deployment and backups&hellip;) to produce a tangible time savings and security improvement for my sites. At the same time, I can&rsquo;t say that this is something I recommend for EVERYONE, precisely because it requires such a high level of environment maintenance. When you&rsquo;re a one-person development shop, it&rsquo;s hard to afford the time to set up the perfect development environment. It&rsquo;s hard to convince those bottom-of-the-food-chain clients to pay for things like automated testing and deployment. And certainly once you have those things set up, you don&rsquo;t get paid for maintaining them!</p>
+
+
+
+
+<p>I&rsquo;m going to be keeping my eyes open for better solutions that can be applied by the &ldquo;developer on the street.&rdquo; Something relatively easy, but which allows the same kind of automated, fast response time for security patches. I&rsquo;m interested in any ideas you want to post in the comments!</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[D8 Core Sprint in DC]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc/"/>
+    <updated>2014-07-01T16:27:17+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc</id>
+    <content type="html"><![CDATA[<p>A quick note to all the Drupalists in the DC general area &ndash; Forum One is trying to put together a D8 core sprint in their DC office space. They&rsquo;re coordinating with the DC Meetup group to try and spread the word to as many community members as possible!</p>
+
+<p>If you haven&rsquo;t been to a code sprint before, it&rsquo;s basically a coding party. Developers get together and help each other contribute better and faster by reviewing code on the spot, mentoring each other, and generally working in small ad-hoc groups. It&rsquo;s a lot of fun, and gives a big boost to development of the next generation of Drupal.</p>
+
+<p>Forum One will provide the locale in downtown DC complete with pizza, beer, and soda. We also have a few of our core mentors on hand to help you get started if this is your first time contributing to core. Because of the building security, if you want to attend you <a href="http://www.eventbrite.com/e/drupal-8-code-sprint-with-forum-one-tickets-11921354091">have to register first</a>! I won&rsquo;t be able to attend, but my colleagues <a href="https://twitter.com/johnbburg">John Brandenburg</a> and <a href="https://twitter.com/kalpanagoel">Kalpana Goel</a> will be there mentoring. Go sign up now!</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Announcing the Resource Conflict Drupal Module - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="I recently took over an aging Drupal module, Resource Conflict. It had a D6 version with a lot of outstanding bugs in the queue&#8230; I started by &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2012/06/announcing-resource-conflict-drupal.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Announcing the Resource Conflict Drupal Module</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-06-13T22:35:00+02:00" pubdate data-updated="true">Jun 13<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I recently took over an aging Drupal module, <a href="http://drupal.org/project/resource_conflict">Resource Conflict</a>. It had a D6 version with a lot of outstanding bugs in the queue&#8230; I started by simply <a href="http://drupal.org/node/976522">rewriting it for D7 and my specific use case</a>, but ended up in a discussion with the module&#8217;s old maintainer about a total rewrite for&nbsp;<a href="http://drupal.org/project/entity">Entities</a>&nbsp;and&nbsp;<a href="http://drupal.org/project/rules">Rules</a>. So <a href="http://drupal.org/node/1575800">that&#8217;s what I did</a>, and I just released the <a href="http://ftp.drupal.org/files/projects/resource_conflict-7.x-3.x-dev.tar.gz">7.x-3.x-dev</a> version.<br /><br /><a href="http://drupal.org/project/resource_conflict">Resource Conflict</a> USED to be a module that detected booking conflicts in resources, and threw a form error. Resources were node reference field entries, and it supported date and event modules for the date/time. Resource Conflict version 3 is built on Entities and Rules,&nbsp;so the behavior is now totally customizable. This lets it support a wide variety of use cases.<br /><br /><b>How to use it</b><br />Out of the box, the module lets you enable Content Types for resource conflict checking, and you select which date field to use for each enabled content type. You do all this on the Content Type&#8217;s edit page.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://1.bp.blogspot.com/-4twPmZsdmzM/T9kP9pKUeqI/AAAAAAAAABU/WplXGL8Ocfo/s1600/Screen+shot+2012-06-14+at+12.10.43+AM.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="380" src="http://1.bp.blogspot.com/-4twPmZsdmzM/T9kP9pKUeqI/AAAAAAAAABU/WplXGL8Ocfo/s640/Screen+shot+2012-06-14+at+12.10.43+AM.png" width="640" /></a></div><br /><br /><br />The module comes with a sample Rule for you, which throws a form error any time you try to save a Resource Conflict enabled node with a date that overlaps another Resource Conflict enabled node.<br /><br /><div class="separator" style="clear: both; text-align: center;"><a href="http://4.bp.blogspot.com/-4NAMGMI4658/T9kQ20ThSRI/AAAAAAAAABc/LOy6nHdUDy8/s1600/Screen+shot+2012-06-14+at+12.14.34+AM.png" imageanchor="1" style="clear: left; float: left; margin-bottom: 1em; margin-right: 1em;"><img border="0" height="364" src="http://4.bp.blogspot.com/-4NAMGMI4658/T9kQ20ThSRI/AAAAAAAAABc/LOy6nHdUDy8/s640/Screen+shot+2012-06-14+at+12.14.34+AM.png" width="640" /></a></div><br />But this is not a very realistic use case. More likely you will want to edit the rule to add some more conditions - for example, maybe a resource conflict on your site means overlapping taxonomy terms. Or entity references. Or titles. Or anything at all!<br /><br />To give an example of how complex this can go - on a site I recently launched, I have two kinds of resource conflict events. &#8220;Hard&#8221; conflicts are when two bookings at the same time reference the same user or taxonomy term. &nbsp;Hard conflicts throw a form error and prevent saving the node.&nbsp;This is just like the above case, and it&#8217;s a really simple modification on the default Rule. &nbsp;&#8220;Soft&#8221; conflicts are when you try to book a taxonomy term that is a parent or child of a term in an existing booking, or a user who is tagged with a term or child of a term that is already booked. For example, maybe I try to book the taxonomy term &#8220;Maintenance&#8221;, but the sub-term &#8220;Plumbers&#8221; is already booked at the same time. Or maybe I try to book John Doe, who is tagged as a &#8220;Plumber&#8221;, but Maintenance is already booked at that time. &nbsp;Soft conflicts can be booked, but they create a node to record the conflict.<br /><br />Other people have asked about using the module to integrate with Organic Groups, or to control bookings of finite resources - you could easily use Rules to build those functionalities. Best of all, it&#8217;s all exposed and easy for you to maintain.<br /><br />Here&#8217;s a run down of the Rules components included with <a href="http://drupal.org/project/resource_conflict">Resource Conflict 7</a>:<br /><ul><li><b>EVENT: A Resource Conflict Node Form is Validated</b>: This rule fires during node form validation on Resource Conflict enabled content types. You should use this event if you want to set form errors, or if you want to interact with Rules_forms module. It provides both a node object of the node being created/edited and a form object for use with rules_forms. This is the event trigger for the default Rule.</li><li><b>CONDITION: Contains a Resource Conflict:</b> Evaluate a node object for conflicts. Returns TRUE if there are conflicts for the node.</li><li><b>ACTION: Load a List of Conflicting Nodes</b>: Creates a list of nodes that conflict with the given node.</li><li><b>ACTION: Set a Form Validation Error</b>: Stores a form validation error to be fired the next time a validation hook is called on a conflict-enabled node. This is intended for use with the &#8220;A Resource Conflict Node Form is Validated&#8221; Event.</li></ul><div><br /></div><div><b>Future plans</b></div><div><b><br /></b></div><div>I&#8217;m pretty happy with this initial dev release; it solves a lot of problems quite elegantly. But there are a few remaining. Here are the items I&#8217;m planning on knocking out first.</div><div><ul><li><b>Drupal 6 backport:</b>&nbsp;I&#8217;ll release a 6.x-3.x branch which uses Rules for reactions. The biggest issue here is that <a href="http://drupal.org/project/rules_forms">rules_forms module</a> doesn&#8217;t exist for D6, which makes it impossible to throw a form validation error from within Rules. I may have to write a custom Rules action to do this.</li><li><b>Full Entities integration:</b>&nbsp;I&#8217;d like to generalize the module out to support ALL fieldable entities.&nbsp;</li><li><b>Better Integration with rules_forms</b>: rules_forms is pretty cool, and even cooler is the new version they&#8217;re working on, that doesn&#8217;t rely on the &#8220;form&#8221; Rules object. I&#8217;m looking forward to this, because it means we&#8217;ll be able to do cooler things with resource_conflict.</li></ul><div><br /></div></div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-06-13T22:35:01+02:00" class="updated">Updated Jun 13<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2012/06/announcing-resource-conflict-drupal.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2012/06/announcing-resource-conflict-drupal.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2012/06/drupal-developers-toolkit-handy-tools.html" title="Previous Post: Drupal developers' toolkit: handy tools and functions to make your life easier">&laquo; Drupal developers' toolkit: handy tools and functions to make your life easier</a>
+      
+      
+        <a class="basic-alignment right" href="/2013/03/how-to-uninstall-dolly-drive.html" title="Next Post: How to uninstall Dolly Drive">How to uninstall Dolly Drive &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2012/06/announcing-resource-conflict-drupal.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2012/06/announcing-resource-conflict-drupal.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

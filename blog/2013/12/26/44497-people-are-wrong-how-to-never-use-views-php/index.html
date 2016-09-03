@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>44,497 People Are Wrong: How to NEVER Need Views PHP. - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="You&rsquo;re building a View, but you can&rsquo;t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">44,497 People Are Wrong: How to NEVER Need Views PHP.</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-26T12:01:44+01:00" pubdate data-updated="true">Dec 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>You&rsquo;re building a View, but you can&rsquo;t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data in a custom table that you want to include in the View. So you look for a contributed module, and <a href="https://www.drupal.org/project/views_php">Views PHP</a> looks like the answer to your problem! Until you read the module page, where it says:</p>
+
+<blockquote><p>&ldquo;&hellip;it is highly advisable to use regular handlers and plugins when available (or even to create one yourself). Take note that filtering and sorting a view using PHP always has a considerable perfomance impact.&rdquo;</p></blockquote>
+
+<p>As of this writing, <em>44,497</em> site maintainers have read that warning and chosen to ignore it. <strong>They&rsquo;ve chosen to put their PHP into a non-revisioned, difficult-to-access place, and to enable PHP input in a module that was never designed for security. They&rsquo;ve left their site at risk of a very difficult to diagnose and even harder to fix WSOD</strong>.</p>
+
+<p>I&rsquo;m going to go out on a limb here, and suggest that in many of these cases, the decision was made because someone had the impression that writing a Views handler or Plugin was difficult. I&rsquo;m here to tell you that&rsquo;s not so: it&rsquo;s actually quite easy.</p>
+
+<h2>What we&rsquo;re doing </h2>
+
+<p>We&rsquo;re going to tell Views about the structure of the data we want to display, filter, or sort &ndash; even if there&rsquo;s not actually a new data source involved, that&rsquo;s how you do it &ndash; and then we&rsquo;ll write the function that actually does the filter/sort/etc by improving an existing field display/filter/sort that Views already includes.</p>
+
+<p>This process will work for:</p>
+
+<ul>
+<li>Defining a new data source for Views, ie something your module keeps in the DB.</li>
+<li>Creating multiple field displays/filters/sorts for an existing field.</li>
+<li>Creating a completely computed field display/filter/sort, with nothing in the DB.</li>
+</ul>
+
+
+<p>I know that in 99% of use cases for Views PHP, you don&rsquo;t need to define a new data source, table, adn fields. Trust me that this is the easiest way to learn it, though. I promise we&rsquo;ll get to your use case before the end of the post.</p>
+
+<h1>How to</h1>
+
+<p>I&rsquo;ll assume you have a custom module built, with a .info and .module file, but nothing in there yet. We&rsquo;ll call our module &ldquo;mymodule&rdquo; for the example.</p>
+
+<h2>1) Tell Views about your module</h2>
+
+<p>We implement <em><a href="https://api.drupal.org/api/views/views.api.php/function/hook_views_api/7">hook_views_api</a></em> to let Views know that our module provides some code for Views, and what version of the Views API we&rsquo;re using.</p>
+
+<figure class='code'><figcaption><span>mymodule.module</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Implements hook_views_api().</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_views_api</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;api&#39;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;path&#39;</span> <span class="o">=&gt;</span> <span class="nx">drupal_get_path</span><span class="p">(</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="s1">&#39;mymodule&#39;</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/views&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Couldn&rsquo;t be simpler. We declare that we&rsquo;re using Views API 3, and that our Views code will all live in the <em>/views</em> subdirectory of our module.</p>
+
+<h2>2) Tell Views about your custom code</h2>
+
+<p>Now that Views knows to look in our <em>/views</em> directory, we should populate it. Views will look for a file called <em>modulename.views.inc</em> in that directory, so this is where we will put our Views hooks. There are lots of Views interventions you can do in this file, but we&rsquo;re only interested in one: <em><a href="https://api.drupal.org/api/views/views.api.php/function/hook_views_data/7">hook_views_data</a></em>.</p>
+
+<p>This hook lets you define new data sources to Views, and for each one show how to render a field, how to Filter results, and how to Sort results based on your new data source. I promised you three use cases up there though, and here&rsquo;s the trick: you don&rsquo;t have to have an actual data source. You can define a filter for a database field that&rsquo;s already described elsewhere.</p>
+
+<p>First let&rsquo;s look at a real field definiton though, because it&rsquo;s simpler. Here&rsquo;s how we would define a real DB table as a data source. The table looks like this:</p>
+
+<table style="border-collapse:collapse;">
+<tr><th>naid</th><th>name</th></tr>
+<tr><td>1</td><td>Frank Sinatra</td></tr> 
+<tr><td>2</td><td>Dean Martin</td></tr>
+<tr><td>3</td><td>Sammy Davis, Jr.</td></tr> 
+<tr><td>4</td><td>Peter Lawford</td></tr>
+<tr><td>5</td><td>Joey Bishop</td></tr>
+</table>
+
+
+<p>So here&rsquo;s our implementation of <em>hook_views_data</em>:</p>
+
+<figure class='code'><figcaption><span>views/mymodule.views.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Implements hook_views_data().</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_views_data</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// Build an array named after each DB table you&#39;re describing. In our case,</span>
+</span><span class='line'>  <span class="c1">// just mymodule_table.</span>
+</span><span class='line'>  <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;mymodule_table&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="c1">// First give some general information about the table as a data source.</span>
+</span><span class='line'>    <span class="s1">&#39;table&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="c1">// The grouping for this field/filter/sort in the Views UI.</span>
+</span><span class='line'>      <span class="s1">&#39;group&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Example Views Stuff&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;base&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;naid&#39;</span><span class="p">,</span> <span class="c1">// This is the identifier field for the view.</span>
+</span><span class='line'>        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Example Views API Data&#39;</span><span class="p">),</span>
+</span><span class='line'>        <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Names provided by the Mymodule module.&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>    <span class="p">),</span>
+</span><span class='line'>    <span class="c1">// Now we describe each field that Views needs to know about, starting </span>
+</span><span class='line'>    <span class="c1">// with the identifier field.</span>
+</span><span class='line'>    <span class="s1">&#39;naid&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name ID&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The unique Name ID.&quot;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_field_numeric&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;sort&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_sort&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;filter&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_filter_numeric&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>    <span class="p">),</span>
+</span><span class='line'>    <span class="c1">// Now the name field.</span>
+</span><span class='line'>    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The Name.&quot;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_field&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;sort&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_sort&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;filter&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_filter_string&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>    <span class="p">),</span>
+</span><span class='line'>  <span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nv">$data</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a pretty simple example, and I think the array structure speaks for itself. First you provide some general information about the table, then you create a sub-array for each field on the table. Each field&rsquo;s array should be named after the field, and provide at least title. Of course it wouldn&rsquo;t be useful if you didn&rsquo;t describe the handlers for any field/sort/filter operations you want to expose. For each one of these you just provide the name of the handler. In this example I used all built-in filters that come with Views, but it&rsquo;s easy enough to provide a custom handler.</p>
+
+<p>Many added behaviors in Views start with <em>hook_views_data</em>; this only covers the basics. You can also open fields up as arguments or relationships, or even add built-in relationships. For example, if our table also contained an NID field, we could define a relationship so that node fields are always available when listing names, and vice versa. This stuff is all surprisingly easy to do, it&rsquo;s just not the focus of this post.</p>
+
+<h2>3) Write your custom handler</h2>
+
+<p>Let&rsquo;s say we want to provide our own field handler for the name field. Maybe we want it to automatically separate first names. This is easy, too! You simply decide on a name for your new handler &ndash; by convention it should begin with <em>modulename_handler_type_</em>, so we&rsquo;ll use <em>mymodule_handler_field_firstname</em>. Here&rsquo;s the relevant part of that <em>$data</em> array from before:</p>
+
+<figure class='code'><figcaption><span>/views/mymodule.views.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">...</span>
+</span><span class='line'>    <span class="c1">// Now the name field.</span>
+</span><span class='line'>    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The Name.&quot;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_firstname&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'><span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Not exactly rocket science, is it?</p>
+
+<p>Now we create a file named after the handler, also in the <em>/views</em> subdirectory. Though you could write your own handler class from scratch, you&rsquo;ll almost never have to. It&rsquo;s much easier to just extend an existing class.</p>
+
+<figure class='code'><figcaption><span>/views/mymodule_handler_field_firstname.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * @file</span>
+</span><span class='line'><span class="sd"> * Definition of mymodule_handler_field_firstname.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Provide the first name only from the name field.</span>
+</span><span class='line'><span class="sd"> *</span>
+</span><span class='line'><span class="sd"> * @ingroup views_filter_handlers</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">mymodule_handler_field_firstname</span> <span class="k">extends</span> <span class="nx">views_handler_field</span> <span class="p">{</span>
+</span><span class='line'>  <span class="sd">/**</span>
+</span><span class='line'><span class="sd">  * Render the name field.</span>
+</span><span class='line'><span class="sd">  */</span>
+</span><span class='line'>  <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">(</span><span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get_value</span><span class="p">(</span><span class="nv">$values</span><span class="p">);</span>
+</span><span class='line'>    <span class="nv">$return</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">return</span> <span class="s1">&#39;First name: &#39;</span> <span class="o">.</span> <span class="nv">$return</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You see the pattern we&rsquo;re following: just name a handler, then extend an existing Views handler class to do what you want. You can override options forms, the admin summary&hellip; really any aspect of the way Views handles this data. And the pattern is the same for fields, sorts, filters, and arguments.</p>
+
+<p>Once you&rsquo;ve created your handler&rsquo;s <em>.inc</em> file, you have to make sure your module loads it. So edit your module&rsquo;s <em>.info</em> file thusly:</p>
+
+<figure class='code'><figcaption><span>/mymodule.info</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">name</span> <span class="o">=</span> <span class="s">My Module</span>
+</span><span class='line'><span class="na">description</span> <span class="o">=</span> <span class="s">Demo module from ohthehugemanatee.org</span>
+</span><span class='line'><span class="na">core</span> <span class="o">=</span> <span class="s">7.x</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">files[]</span> <span class="o">=</span> <span class="s">views/mymodule_handler_field_firstname.inc</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>4) Multiple filters for one field</h2>
+
+<p>We all understand how this works for data that you&rsquo;re declaring for the first time in Views. But what if you want to provide multiple handlers for a single field? Maybe there are several different ways to filter or sort it. For most use cases, you should just follow the pattern above, and simply override the Views options form in your handler class. But occasionally you really do need multiple handlers.</p>
+
+<p>So let&rsquo;s add a second and third field handler for our <em>name</em> field:</p>
+
+<figure class='code'><figcaption><span>/views/mymodule.views.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">...</span>
+</span><span class='line'>    <span class="c1">// Now the name field. This is the first, and &#39;real&#39; definition for this field.</span>
+</span><span class='line'>    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The Name.&quot;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_firstname&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>    <span class="p">),</span>
+</span><span class='line'>    <span class="s1">&#39;name_last&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Last name&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The Last name, extracted from the Name field&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;real field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_lastname&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'>    <span class="p">),</span>
+</span><span class='line'>    <span class="s1">&#39;name_backwards&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Evil Genius Name&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The name, reversed so it sounds like the name of an evil genius.&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;real field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_evil&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
+</span><span class='line'>        <span class="p">),</span>
+</span><span class='line'>      <span class="p">),</span>
+</span><span class='line'><span class="o">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Can you spot the difference? All you have to do is add a variable for <em>real field</em>, which tells Views the field name to use for the source value, and that&rsquo;s it. Everything else is totally identical to a normal field. By custom we prefix the &ldquo;virtual&rdquo; field&rsquo;s name with the name of the real field, but that&rsquo;s as complicated as it gets.</p>
+
+<h1>Conclusion</h1>
+
+<p>If there&rsquo;s one thing I want you to take away from this blog post, it&rsquo;s that <strong>the Views API is actually really easy</strong>. And if you can&rsquo;t find something online, take a moment to actually look at the <a href="https://api.drupal.org/api/views/views.api.php/">API documentation included with the module</a>. It&rsquo;s <em>very</em> thorough, and easy to read. If you feel like you understand how this works, but the doco doesn&rsquo;t quite cover what you&rsquo;re trying to do, look for examples in the Views module itself! There are 169 handlers for every concievable kind of case, just within Views. Find something reasonable and build off of that!</p>
+
+<p>With this in mind, it&rsquo;s only 24 lines of simple code to provide your own handler for an existing field. After that 24 lines, you&rsquo;re doing the same things you were planning to do in views_php&hellip; but now you&rsquo;re doing them in a real coding environment, with a revisioning system, and where it&rsquo;s easy to track down and fix errors that could otherwise crash your site. 24 lines of array definition can save you a world of hurt. I hope to see those views_php installation numbers dropping soon.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-26T12:01:44+01:00" pubdate data-updated="true">Dec 26<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/howto/'>howto</a>, <a class='category' href='/blog/categories/views/'>views</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/" title="Previous Post: SSH lifehacks to make your SSH life easy">&laquo; SSH lifehacks to make your SSH life easy</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/01/03/how-to-create-a-custom-panels-pane/" title="Next Post: How to create a custom Panels Pane">How to create a custom Panels Pane &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

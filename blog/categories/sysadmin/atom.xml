@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Sysadmin | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/sysadmin/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Drush Self Aliases]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
+    <updated>2014-01-10T09:22:01+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
+    <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
+
+<p>And I&rsquo;ve also ignored the warning message every time before, but today I thought I&rsquo;d check it out:</p>
+
+<blockquote><p>WARNING:  Using temporary files to store and transfer sql-dump.  It is recommended that you specify &mdash;source-dump and &mdash;target-dump options on the command line, or set &lsquo;%dump&rsquo; or &lsquo;%dump-dir&rsquo; in the path-aliases section of your site alias records. This facilitates fast file transfer via rsync.</p></blockquote>
+
+<p>There are actually two possible solutions to this warning (that I can think of), and they illustrate some of the useful &ldquo;power user&rdquo; features of Drush that any frequent user should be aware of.</p>
+
+<p>The warning is there because drush would <em>prefer</em> to rsync the DB dump from site1 to site2, rather than a one time copy. Rsync has lots of speed improvements, not the least being diff transfer. When transferring an updated copy of a file which already exists at the destination, rsync will only send over the changes rather than the whole file. This is pretty useful if you&rsquo;re dealing with a large, text based file like an SQL dump &ndash; especially one that you&rsquo;ll be transferring often. In order to use this efficient processing though, Drush needs to know a safe path where it can store the DB dump in each location.</p>
+
+<p>First we&rsquo;ll add the <em>%dump-dir%</em> attribute to our alias for clientsite:</p>
+
+<p>``` php ~/.drush/clientsite.aliases.drush.php
+&lt;?php
+// Site clientsite, environment live
+$aliases[&lsquo;live&rsquo;] = array(
+  &lsquo;parent&rsquo; => &lsquo;@parent&rsquo;,
+  &lsquo;site&rsquo; => &lsquo;clientsite&rsquo;,
+  &lsquo;env&rsquo; => &lsquo;live&rsquo;,
+  &lsquo;root&rsquo; => &lsquo;/var/www/example.com/public_html&rsquo;,
+  &lsquo;remote-host&rsquo; => &lsquo;example.com&rsquo;,
+  &lsquo;remote-user&rsquo; => &lsquo;cvertesi&rsquo;,
+  &lsquo;path-aliases&rsquo; => array(</p>
+
+<pre><code>'%dump-dir' =&gt; '/home/cvertesi/.drush/db_dumps',
+</code></pre>
+
+<p>  ),
+);
+```</p>
+
+<p>Notice that <em>%dump-dir</em> actually goes in a special sub-array for <em>path-aliases</em>. This is very likely the only time you&rsquo;ll need to use that section, since most everything else in there is auto-detected. This is the directory on the remote side where drush will store the dump.</p>
+
+<p>Our options come in with the <em>@self</em> alias. In a local dev environment, the most common way to handle this is in your <em>drushrc.php</em> file:</p>
+
+<p><code>php ~/.drush/drushrc.php
+$options['dump-dir'] = '~/.drush/db_dumps';
+</code></p>
+
+<p>But this won&rsquo;t work for all cases. You can also take advantage of Drush&rsquo;s alias handling by creating a site alias with the settings you want, and letting Drush merge those settings into <em>@self</em>. When Drush builds its' cache of path aliases, it uses the site path as the cache key (for local sites only). That means that if you have a local alias with the same path as whatever <em>@self</em> happens to resolve to, your alias options will make it into the definition for <em>@self</em>. So here&rsquo;s the alternate solution:</p>
+
+<p>``` php ~/.drush/clientsite.aliases.drush.php
+$aliases[&lsquo;localdev&rsquo;] = array(
+  &lsquo;root&rsquo; => &lsquo;/Users/cvertesi/Sites/clientsite&rsquo;,
+  &lsquo;uri&rsquo; => &lsquo;default&rsquo;,
+  &lsquo;path-aliases&rsquo; => array(</p>
+
+<pre><code>'%dump-dir' =&gt; '/home/cvertesi/.drush/db_dumps',
+</code></pre>
+
+<p>  ),
+);
+```</p>
+
+<p>There&rsquo;s just one, obscure caveat with the latter method: somewhere in the alias merging process, BASH aliases are lost. That means that &lsquo;~&rsquo; stops resolving to your home directory, and you have to write it out (as I did above).</p>
+
+<p>Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Lifehacks to Make Your SSH Life Easy]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/"/>
+    <updated>2013-12-20T16:29:27+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy</id>
+    <content type="html"><![CDATA[<p>If you use SSH every day, or even every other day, this post is for you. We&rsquo;re going to walk through some of the more convenient options available to you in your global SSH configuration to make your life easier and faster.</p>
+
+<p>First of all, you should know that SSH has a great configuration file, typically located in your home directory at <em>.ssh/config</em>. Everything we&rsquo;re talking about today belongs there. There&rsquo;s tons of stuff you can do with it, and I&rsquo;m only going to scratch the surface.</p>
+
+<h2>Re-Using Existing Connections</h2>
+
+<p>Every time you SSH into a server, it opens a new connection and authenticates all over again, right? That&rsquo;s slow, and it&rsquo;s a PITA if you have to type a password for your private key or just to access the server. You&rsquo;re already connected once, so why not reuse the same connection? Just add these lines to your <em>.ssh/config</em>:</p>
+
+<p>```</p>
+
+<h1>Re-use existing connections instead of opening new ones</h1>
+
+<p>ControlMaster auto
+ControlPath /tmp/ssh_mux<em>%h</em>%p<em>%r</em>%l
+```</p>
+
+<p>This tells SSH to use a socket file for each connection, and to name the file in a way that&rsquo;s unique for each combination of host, port, remote username, and local hostname. That is to say, if you&rsquo;re connecting to the same host/port with the same username and from the same local hostname, it will automatically re-use the existing connection.</p>
+
+<p><strong>Result: Multiple SSH connections are WAY faster.</strong></p>
+
+<h2>Host shortcuts and definitions</h2>
+
+<p>You can easily define commonly used connections with shortcuts. So instead of typing <code>ssh -i ~/.ssh/ohthehugemanatee.pem -P 2222 ohthehugemanatee@live.ohthehugemanatee.org</code>, you can just type <code>ssh live</code>.</p>
+
+<p>``` bash
+Host live
+  Hostname live.ohthehugemanatee.org
+  Port 2222
+  User ohthehugemanatee
+  IdentityFile ~/.ssh/ohthehugemanatee.pem</p>
+
+<p>```</p>
+
+<h2>SSH Agent Forwarding &ndash; One key to rule them all</h2>
+
+<p>Normally when you want to access a resource from multiple machines, you have to generate a public/private keypair on each machine. A great example is a git repo: if I want to access the same git repository on my localhost, the staging server, and the live server, I will have to generate three keypairs and grant access to all three. Talk about a pain in the ass!</p>
+
+<p>Fortunately there&rsquo;s a much easier way to do this, which is available in almost all distributed versions of openssh: SSH agent forwarding. With agent forwarding enabled, your private key from one machine becomes available for each subsequent machine you connect to. In other words, if you have one private key on your localhost, and SSH into another server, your local private key will be available if you want to SSH (or use git) from that server. Automatically. And only while you&rsquo;re connected, so it&rsquo;s safe.</p>
+
+<p><code>
+ForwardAgent yes
+</code></p>
+
+<p>Just drop that in your Host definition (per above), and if the remote host supports it it will work automatically. It is not recommended to set this option globally, because your private key is actually very sensitive stuff, and you don&rsquo;t want to accidentally forward your key to an untrusted server. But feel free to enable it on every host where it&rsquo;s convenient!</p>
+
+<h2>Bonus material</h2>
+
+<p>Technically these items aren&rsquo;t about <em>.ssh/config</em>, but they&rsquo;re still so convenient I had to share them.</p>
+
+<p>Note that the same improvements to your SSH will also apply to your use of SCP and other SSH tools. So that brutally long and painful rsync-over-ssh command that you&rsquo;ve had to type a thousand times, can now just use &ldquo;live&rdquo; as a shortcut. Git, too. It&rsquo;s a great relief to be able to type <code>scp ~/Sites/index.php live:~</code>. It&rsquo;s just so much more readable!</p>
+
+<p>But if you want to get <strong>even lazier</strong>, you&rsquo;re going to love the next tip. Why ssh in at all, when you can just mount the remote directory somewhere convenient on your local system? Let&rsquo;s use that Host alias above, and mount the remote web root (<em>/var/www/html</em>) at <em>~/live-environment</em>. It&rsquo;s much more convenient there, after all.</p>
+
+<p><code>sshfs live:/var/www/html ~/live</code></p>
+
+<p>Note that this no longer works in OSX without installing <a href="http://osxfuse.github.io/">OSX Fuse</a>. Still, the 5 minute download and install process is totally worth it for this easy SSH lifehack.</p>
+
+<p>Or is that not lazy enough for you? &ldquo;Do I really have to mount the whole directory?&rdquo; I hear you cry! &ldquo;I wanna just edit one file&hellip;&rdquo; Well have I got the tip for you! For the ultimately lazy, <a href="http://www.vim.org/">vim</a> supports editing files directly over SSH. Try it out:</p>
+
+<p><code>vim scp://live/var/www/html/index.php</code></p>
+
+<p>Think about it: before you read this post, that would have taken you several long-winded commands to type. Your arthritic fingers can thank me later.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSL Certificates Demystified]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified/"/>
+    <updated>2013-06-20T00:00:00+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified</id>
+    <content type="html"><![CDATA[<p>It seems like any time anyone has to configure a server for SSL/TLS, they treat it like some kind of voodoo magic. And I guess it can seem that way: if you get your certificates in the right formats from your certificate authority, you basically just drop them into Apache/NGINX/whatever and let it go.&nbsp;</p>
+
+
+<p>But what happens if those files&nbsp;<strong>aren't</strong> in the right format by default? And what if you actually want to understand what's going on with your server?</p>
+
+
+<p>The truth is, encryption is not terribly difficult to understand. It's a little tricky to explain, and the maths in the nitty gritty of it can get really intense, but a high level understanding is important for anyone who works with SSL.&nbsp;</p>
+
+
+<div>The basis for SSL is <a href="https://en.wikipedia.org/wiki/Public_key_cryptography">public-key</a> (asymmetrical) cryptography. The idea is that you create a pair of files that have matching abilities:</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>*<strong> the "public" file can&nbsp;encrypt&nbsp;content</strong> so that the matching "private" file must be used to decrypt it. It can also <strong>verify the signature</strong> of the "private" file.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>* <strong>the "private" file can&nbsp;decrypt&nbsp;content</strong> that was encrypted by the matching "public" file. It can also <strong>leave a unique digital signature</strong> which can be verified by the matching "public" file.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>If you've ever used the <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy">PGP encryption</a> system, that's basically how it works. You publish your public key in a publicly available directory, and keep your private key to yourself. That way, anyone can use your public key to encrypt content for you, and only you can decrypt it.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>In the context of web communications, this model is taken to the next level. We use the encryption aspect of it, but we also use those digital signatures. Here's the process.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>1) You create this "key pair" for yourself, and hide the private key away somewhere. Optionally the private key can be password-protected.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>2) You create a Certificate Request file (.CSR, usually). A Certificate Request is just a copy of your Public Key, with some identifying information about your organization. The most important piece of this information is the domain name this Request is for. You submit your CSR file to a Certificate Authority (abbreviated as "CA) company like <a href="https://www.rapidssl.com/">RapidSSL</a>, or any number of other Certificate Authorities out there.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>3) The CA verifies that you really own the domain name specified in the CSR. How they verify that is up to the CA. Maybe they email the owner of the domain, maybe they ask you to modify a DNS record, maybe they just take you on your word (hopefully not!). Whatever they do, when the CA is satisfied that you really do own that domain name, they send you back your Certificate Request file. This version of the file is signed by the CA's own private key, and that difference makes it the actual "SSL certificate" file. If you've been keeping score at home, the SSL certificate is simply your public key with your organizational information attached, and your CA's signature.&nbsp;</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>Great, now people can send you encrypted messages, right? Well, sorta. How do people know they can trust the CA? Maybe that CA is just some yahoo who lives up the hall, or your great aunt Edna. How can I trust Edna to vouch for you?&nbsp;</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>4) The solution is a "chain of authority" file. This is just your CA's public key (which the browser needs to check that signature on your SSL certificate, remember?). What makes this public key special is that it's ALSO signed by whoever granted your CA permission to be a CA, and by whoever granted THAT person the permission to be a CA, all the way back to one of the "root" certificate authorities, whose public keys are bundled with every browser. (there are about 30 of them). So the chain file from aunt Edna might contain signatures from her daughter Annie, Annie's company AnnieCA, and GeoTrust, who granted AnnieCA the authority to give out certificates. GeoTrust is a root CA, so your browser already knows they're trusted. &nbsp;</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>So when a web browser connects to your server, your server sends out its SSL certificate file (ie the server's public key with Edna's "Seal of Authenticity" on it). The browser can then encrypt communications to send to your server, and your server can decrypt them with its private key. The browser can also check on Edna's Seal of Authenticity, because there's a chain of other CAs who have signed Edna's certificate, right back to one of the CAs that the browser already trusts.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>With a one-way secure channel open, and with confidence that your server really does own that public key, the browser sends its own public key to the server. This is really as far as you need to understand in order to set up your own webserver. Once the server and browser have exchanged public keys, the rest is automatic. For the sake of completion in this blog post, you should know that they don't continue using this asymmetric encryption for long. This secure channel is only used to set up a symmetric encryption method - that is, an encryption method where both sides have identical keys for encryption and decryption. &nbsp;The actual content is sent over this symmetrically encrypted connection, because symmetrical encryption is lighter on the CPU and the data overhead, and is actually harder to break.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>All we sysadmins really care about is the handshake, because that's where all those confusing key files go. So, TL;DR time. Here's what you need:</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>1) Your server's private key file. Note that this can be encrypted with a password, but most web hosts would rather you not. If there's a password, someone has to enter it every time they restart the server!</div>
+
+
+<div>2) The SSL Certificate, signed by your Certificate Authority.</div>
+
+
+<div>3) Your Certificate Authority's chain of intermediate certificates.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>Most (Drupal-centric) web hosts will want all of these in PEM format. PEM is a text format, which means you can just copy and paste the key around. If your certificates are in another format, it's pretty easy to convert them to PEM with the openssl command, like this:</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag"> openssl &lt;old-cert-format&gt; -in old-cert-file -out new-cert-file.pem </pre>
+</div>
+
+
+<div>There are also a handful of options that can come in handy in specifying the output, but they really go beyond the scope of this blog post. The resource I always use is the <a href="https://twiki.cern.ch/twiki/bin/view/LinuxSupport/OpenSSLCheatsheet">CERN openSSL conversions cheat sheet</a>.&nbsp;</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Set Up Apache Solr Multicore for Drupal]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/"/>
+    <updated>2013-04-18T00:00:00+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal</id>
+    <content type="html"><![CDATA[<p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal's <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It's easy enough to set up a single site installation of solr on your own, but if you're serious about building Drupal sites with solr you will be building more than one site. Solr includes a "<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>" mode, which lets you serve multiple search cores to separate sites from a single installation. Each core looks, feels, and acts like a totally separate Solr install, so you can develop as many solr sites as you like. Each core has its own configuration, data directory... the works. One core can support extensive custom geo data, and another can be completely location blind. The best part: with Solr multicore, adding a new search core to your existing stack is a trivial 5 minute installation.</p>
+
+
+<p>But getting a working, sane, and easy to manage solr multicore installation is not quite as trivial as a single site. I get asked for instructions on this all the time, so here they are for posterity. These instructions assume you're running on a supported version of <a href="http://www.ubuntu.com/" target="_blank">Ubuntu Linux</a>, but very few steps are distribution-specific. I've noted them inline, so you can work out just what you need to do for your unique environment.</p>
+
+
+<h3>1) Understand what you're doing</h3>
+
+
+<p>I know you aren't going to read this whole post before getting started, so instead step 1 is to understand the beast.</p>
+
+
+<p>Drupal's <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> module allows you to plug in different search engines to act as the back end. We're going to use the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module, so that Drupal passes search indexing and queries to Apache Solr for processing. Installing and configuring this on the Drupal side is beyond the scope of this post, but it's not radically different from any other contrib module. The radically different part is in setting up Solr, and making sure it knows how to understand the information coming from Drupal.&nbsp;</p>
+
+
+<p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is a search engine built in Java. Basically you run a java program, feed it a bunch of data, and it stores it in a searchable index. Then you send it search queries, and it gives you a sorted list of results. In order to do this, it needs to understand the structure of the data in the search index, and a handful of similar details. We're lucky in that Drupal's search_api_solr comes with exactly the configuration files we need to make Solr understand the indexing and search request data that comes from Drupal. We'll be able to just copy the configuration files right out of the search_api_solr.</p>
+
+
+<p>In order to run solr in a secure environment, and in order to feed it information that's coming in over HTTP, you need a Java Servlet engine. This is basically a web server that is specifically built to pass requests on to Java applications like Solr. You can think of it as a wrapper for Solr. There are a few competing open source servlet engines, but we're going to use <a href="https://tomcat.apache.org/" target="_blank">Tomcat</a> in this tutorial. Tomcat is popular, powerful, and easy to install on most modern Linux distributions.&nbsp;</p>
+
+
+<h3>2) Install Apache Tomcat</h3>
+
+
+<p>On Ubuntu and Debian systems, this should be as easy as&nbsp;</p>
+
+
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo apt-get install tomcat6 tomcat6-admin tomcat6-common tomcat6-user</pre>
+
+
+<div>Bam, you have tomcat installed, as well as everything you need for tomcat to control access to administrative and user functions. The default location for tomcat6 is <span style="font-family: 'courier new', courier, monospace;">/usr/share/tomcat6</span> , and configuration is stored in <span style="font-family: 'courier new', courier, monospace;">/etc/tomcat6</span> .</div>
+
+
+<p>By default Tomcat's user database is a simple xml file. We're going to edit it so that we have an administrative user that can tweak behaviors from Tomcat's web interface.</p>
+
+
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/tomcat6/tomcat-users.xml"><span style="font-family: Arial, Verdana, sans-serif;">&lt;role rolename="admin"/&gt;
+&lt;role rolename="manager"/&gt;
+&lt;user username="tomcat" password="mypasswordhere" roles="admin,manager"/&gt;
+&lt;/tomcat-users&gt;
+</span></pre>
+
+
+<div><span style="background-color: rgb(250, 250, 250); line-height: 18px; white-space: pre;">Make sure that you define both the admin and manager roles as above, and that you have one user that gets both roles. Save the file, and restart the tomcat6 service.</span></div>
+
+
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo service tomcat6 restart</pre>
+
+
+<p><span style="color: rgb(51, 51, 51); font-family: arial, 'lucida grandriale', 'lucida sans unicode', tahoma, sans-serif; line-height: 18px;">Now Tomcat is up and running, and you can administer it. By default the administrative interface runs on port 8080. This is actually quite handy to keep around, so I recommend blocking external access to 8080 at the firewall level, and accessing it locally when you need to make configuration changes or tests. Test it out now at http://localhost:8080/ . By default you should see a page that shows links to the administration sections, and some other generic information about your Tomcat instance.</span></p>
+
+
+<h3>2) Install Apache Solr</h3>
+
+
+<div><em>Note: as of this writing, search_api_solr is not yet compatible with the latest major version of Solr (4.1). You can track progress on this issue at <a href="http://drupal.org/node/1676224" target="_blank">http://drupal.org/node/1676224</a> . In the meantime, we're proceeding with a current version of 3.6. These instructions should work for the latest 3.6.x you can find on the Solr website.</em></div>
+
+
+<div>&nbsp;</div>
+
+
+<div><br>Now we're going to download the Solr Java application, and copy the compiled version of it into tomcat's jailed "webapps" directory, where it's safe to run. We're also going to create a convenience simlink there so we can keep the version information in the filename, and we don't have to update any config files when we want to update Solr versions. Finally, we're going to simlink solr's configuration directory to&nbsp;<span style="font-family: 'courier new', courier, monospace;">/etc/solr</span> , so you don't have to memorize the location.</div>
+
+
+<div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">cd /tmp
+wget http://apache.rediris.es/lucene/solr/3.6.2/apache-solr-1.4.1.zip
+unzip apache-solr-3.6.3.zip</pre>
+</div>
+
+
+<div><div><p>Now we create a directory for Solr to keep its compiled Java applications in, right in tomcat's homedir because that will be easy to find later. We copy the compiled .war file for solr into that new directory, and simlink it to an easier to remember name that we can use in configuration files.</p>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo mkdir /usr/share/tomcat6/webapps
+sudo cp /tmp/apache-solr-3.6.3/dist/apache-solr-3.6.3.war /usr/share/tomcat6/webapps
+sudo ln -s /usr/share/tomcat6/webapps/apache-solr-3.6.3.war /usr/share/tomcat6/webapps/solr.war</pre>
+</div><div>Now technically we have the solr application installed... but Solr needs for its own home directory as well. This is where you will keep solr-specific configuration files, and eventually the files related to your search cores themselves. We'll base our solr directory off of the example multicore setup that is distributed with solr itself. This directory needs to be writable by solr so it can keep search index information in it, so we have to make sure it's owned by tomcat6 (the user who will be running solr). Finally, we'll simlink solr's home directory to /etc/solr&nbsp;so it's more memorable.</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo cp -a /tmp/apache-solr-3.6.3/example/multicore /usr/share/tomcat6/solr
+sudo chown -R tomcat6 /usr/share/tomcat6/solr
+sudo ln -s /usr/share/tomcat6/solr /etc/solr</pre>
+</div><div>Solr is now ready to go. Let's tell tomcat6's servlet container component, Catalina, about solr and what access it needs to run. We describe a new "Context" to Catalina, which is based on the solr.war simlink we just created. We tell it where to find the environment solr.war calls "solr/home", which is the solr homedir we just set up.&nbsp;</div></div>
+
+
+<div><div>
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/tomcat6/Catalina/localhost/solr.xml">&lt;Context docBase="/usr/share/tomcat6/webapps/solr.war" debug="0" privileged="true" allowLinking="true" crossContext="true"&gt;
+&nbsp; &lt;Environment name="solr/home" type="java.lang.String" value="/usr/share/tomcat6/solr" override="true" /&gt;
+&lt;/Context&gt;</pre>
+<div>Restart tomcat6 with <span style="font-family: 'courier new', courier, monospace;">sudo service tomcat6 restart</span>, so it reads the new configuration. Now we have a multi-core solr environment set up to run on Tomcat6. Congratulations! The hard part is over. Test to make sure solr is loading properly by visiting your Tomcat admin page at <span style="font-family: 'courier new', courier, monospace;">http://localhost:8080/manager/html</span> . You should see new links there for solr, with two example cores already built in.</div></div><h3>3) Configure Solr Multicore for Convenience</h3><div>Let's have a look at the solr configuration you just created. In your <span style="font-family:courier new,courier,monospace;">/etc/solr</span> directory, you actually only need one file: <span style="font-family:courier new,courier,monospace;">solr.xml</span> . This configuration file tells solr everything it needs to know about how it is set up. In fact, the only part you have to care about is at the end, where it lists <span style="font-family:courier new,courier,monospace;">&lt;core&gt;</span> declarations.&nbsp;</div><div>
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="vi /etc/solr/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
+&nbsp; &lt;core name="core0" instanceDir="core0" /&gt;
+&nbsp; &lt;core name="core1" instanceDir="core1" /&gt;
+&lt;/cores&gt;</pre>
+</div><div>Each new core gets a name and a directory path (relative to solr's home,<span style="font-family:courier new,courier,monospace;"> /etc/solr</span>) where it should keep it's configuration and data. By default we have two demonstration cores, called <span style="font-family:courier new,courier,monospace;">core0</span> and <span style="font-family:courier new,courier,monospace;">core1</span>, kept right in Solr's home directory. I find that messy, so we're going to create a new directory called <span style="font-family:courier new,courier,monospace;">cores</span>, and give each core a subdirectory under that. Then we'll update that <span style="font-family:courier new,courier,monospace;">solr.xml</span> file to tell it the new location of <span style="font-family:courier new,courier,monospace;">core0</span> and <span style="font-family:courier new,courier,monospace;">core1</span>. This is purely for convenience and clarity of configuration, but when you have 20 concurrent solr dev sites to manage, you'll thank me.</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo mkdir /etc/solr/cores
+sudo mv /etc/solr/core[0-1] /etc/solr/cores</pre>
+</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/solr/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
+&nbsp; &lt;core name="core0" instanceDir="cores/core0" /&gt;
+&nbsp; &lt;core name="core1" instanceDir="cores/core1" /&gt;
+&lt;/cores&gt;</pre>
+<div>That's it. If all you want is a Solr multicore setup, this is where you get off. From here on in it's Drupal-specific.</div></div><h3>4) Add a new core for a Drupal site</h3><div>Now that everything is nicely organized in <span style="font-family:courier new,courier,monospace;">/etc/solr</span>, let's add a new search core for a Drupal site. We're going to copy one of the example core directories, and then copy in the configuration files that are distributed with Drupal's search_api_solr module. With each new site, I recommend copying in these configuration files from the module rather than trusting what's in an existing core directory, simply because these configurations update with the search_api_solr module itself. You want to make sure that your core is using the configuration that your version of the module expects! <em>These are the steps you will have to take every time you want to add a new core for a Drupal site.</em></div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo cp -a /etc/solr/cores/core0 /etc/solr/cores/myfirstcore
+sudo cp /path/to/drupal_site/sites/all/modules/search_api_solr/solr-conf/* /etc/solr/cores/myfirstcore/conf</pre>
+</div><div>
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
+&nbsp; &lt;core name="core0" instanceDir="cores/core0" /&gt;
+&nbsp; &lt;core name="core1" instanceDir="cores/core1" /&gt;
+&nbsp; &lt;core name="myfirstcore" instanceDir="cores/myfirstcore" /&gt;
+&lt;/cores&gt;
+</pre>
+</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo chown -R tomcat6 /etc/solr/
+sudo service tomcat6 restart</pre>
+</div><div>That's it. Copy a directory, add one line to a configuration file, and restart tomcat6, and you have a new solr core to work with.</div><h3>5) Profit</h3><div>Now that your solr core is up and running, you can visit the search_api_solr configuration page and add a new server of type "solr", with the following settings:</div><div>&nbsp;</div><div><strong>Solr Hostname</strong>: localhost</div><div>&nbsp;</div><div><strong>Solr Port</strong>: 8080</div><div>&nbsp;</div><div><strong>Solr Path</strong>: /solr/myfirstcore</div><div>&nbsp;</div><div>Test and enjoy! If you have any trouble with these instructions, or have anything to add... leave us a comment!</div></div>
+
+
+<p>&nbsp;</p>
+
+]]></content>
+  </entry>
+  
+</feed>

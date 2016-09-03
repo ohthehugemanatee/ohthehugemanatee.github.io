@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="I got called in for an interesting issue on one of the servers I co-maintain today.  Sites were messing up left right and center, in all sorts of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/page/6">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/sendmail-return-path-php-and-importance.html">Sendmail Return-path, Php, and the Importance of the Variables You Don&#8217;t Think Of</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-20T20:37:00+02:00" pubdate data-updated="true">May 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I got called in for an interesting issue on one of the servers I co-maintain today.  Sites were messing up left right and center, in all sorts of bizarre ways.  CSS wouldn’t be delivered, or half of it would be, or some of the content would disappear… and different on every page load!  It only took me a moment to confirm - the server was out of space on the root device.<br><br>This was readily visible in the logs - any mysql transaction you tried would return “Got error 28 from storage engine”, which typically means the drive is out of space.  And a quick <code>df -ht</code> confirmed:<br><br><blockquote><code><br>root@production:/# df -h<br>Filesystem            Size  Used Avail Use% Mounted on<br>/dev/sda1             9.9G  9.4G  160K 100% /<br>none                  7.3G  128K  7.3G   1% /dev<br>none                  7.6G     0  7.6G   0% /dev/shm<br>none                  7.6G   76K  7.6G   1% /var/r...</code></blockquote>
+</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/sendmail-return-path-php-and-importance.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/running-redmine-in-subdirectory.html">Running Redmine in a Subdirectory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-16T13:17:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+<a href="http://www.redmine.org/">Redmine</a> is a fantastic project management tool for technically oriented organizations.  At my job, we use it to manage 30-50 active projects at a time, as well as the back history of several hundred projects.  Oddly enough, the <a href="http://www.redmine.org/projects/redmine/wiki/RedmineInstall">normal installation process</a> puts it on port 3000 .  We had some trouble with developers’ ISPs not allowing HTTPS traffic over non-standard ports, so we had to move redmine onto port 443 along with the rest of the SSL traffic.  We use the same hostname for several internal services, and differentiate by subdirectory - so I thought I’d just put redmine into another subdirectory.<br><br>This was more painful than I expected it to be.  According to examples in the Redmine forums and many referring blog posts, you should be able to do this with a simple vhost configuration:<br><blockquote><code>&lt;VirtualHost *:80...</code></blockquote>
+</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/running-redmine-in-subdirectory.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html">Setting Up Secure LDAP on Ubuntu 10.04 - the Idiot&#8217;s Guide to SSL, TLS, and SLAPD</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-13T21:58:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+LDAP is one of the Elder Gods of the UNIX world.  It had it’s beginnings in DAP, the first Directory Access Protocol, in 1988.  Within a decade DAP was more or less discarded in favor of the Lightweight Directory Access Protocol.  And it has stayed in basically the same format ever since.<br><br>LDAP is, as you might have guessed, a directory protocol.  It was developed in response to X.500, a spec for telephone directories… but personally, I have a hard time thinking about LDAP structure in terms of a phone book.  The structure is really a lot more like directories on a drive.  The idea is to store and retrieve information in a hierarchical structure.  You can technically put anything in there, but most often&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/updating-kernels-for-amazon-aws.html">Updating Kernels for Amazon (AWS) Instances</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-09T17:27:00+02:00" pubdate data-updated="true">May 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Lately I’ve been getting hit by an odd kernel bug on one of the servers I maintain.  It’s discussed in some depth on <a href="https://bugs.launchpad.net/ubuntu/+source/linux-ec2/+bug/614853">Launchpad</a>, but the gist is that when trying to find an idle cpu for a new thread, the scheduler divides by cpu_power.  On EC2 instances, it’s possible for cpu_power to be 0, which causes a divide by zero kernel crash.  <u>Why</u> cpu_power is 0 is still an unknown; this should never be the case.  But in the meantime, there’s a patch committed to ec2 kernel 2.6.32-313.26 which adds a check before running this division.  If cpu_power is 0, it waits a bit and tries again.  I believe it also adds a kernel yell, to help with tracking down the underlying problem.  In the meantime, this bug was crashing one of my instances.<br><br>So it’s time to update the kernel.  This should be easy, right?  apt-get dist-upgrade seems to do it… but if you reboot, uname -r will tell you you&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/updating-kernels-for-amazon-aws.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/simple-aws-backups-with-snapshots-and.html">Simple AWS Backups With Snapshots and AMIs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-30T15:26:00+02:00" pubdate data-updated="true">Apr 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Are you just getting started with Amazon Web Services?  It’s a great service, but it faces some reliability challenges.  This post explains how to set up a simple backup system using Amazon’s “snapshot” “machine image” functionalities.<br><br><b>Dependencies</b><br><br>Before you begin, you will need:<br><br><ul>
+<li>Amazon’s standard <a href="http://aws.amazon.com/developertools/351?_encoding=UTF8&amp;jiveRedirect=1">EC2 Command Line Tools</a>
+</li>
+<li>Alestic’s <a href="http://alestic.com/2009/09/ec2-consistent-snapshot">ebs-consistent-snapshot</a> program</li>
+<li>Tech Kismet’s <a href="http://remove-old-snapshots.php/">remove-old-snapshots.php</a> script (which must be so named)</li>
+</ul>
+<br><div><br></div>
+<div><b>AMI Images</b></div>
+<div><b><br></b></div>
+<div>Everyone knows that Amazon Instances are ephemeral.  When &#8230;</div>
+</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/04/simple-aws-backups-with-snapshots-and.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/aws-load-balancer-ssl-limitations.html">AWS Load Balancer SSL Limitations</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-29T13:58:00+02:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+No one else seems to have documented this anywhere, so I’m gonna do it here.<br><br>Amazon Web Services has a great little load balancer system you can use.  A few clicks, and you’re away to the races with a shiny load balancer of your own!  The best part?  It will even do SSL termination at the load balancer for you.  Just paste in your certs and away you go!  Right?<br><br>Wrong.  Seems like every time I do this, I end up with an invalid certificate at some stage of the game. Amazon doesn’t tell you WHAT about your cert is wrong, or even what cert formats they want.  They just say “error: invalid private key”.<br><br>I use a lot of Comodo certificates, which take about a day to generate.  I don’t know why it takes them that long, maybe they’re lovingly hand crafted by artisanal SSL certificate islanders on a small pacific island.  The point is, it &#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/04/aws-load-balancer-ssl-limitations.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/multiple-ssl-sites-on-one-aws-instance.html">Multiple SSL Sites on One AWS Instance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-29T13:44:00+02:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+It’s a familiar problem - you can’t really host multiple SSL sites on a single IP address.  There’s a fancy workaround if you get a pricey multi-domain certificate, of course.  But separate sites, with separate certificates just won’t work.  The reason is simple - put yourself in Apache’s shoes.<br><br>When you’re using name based virtualhosts, Apache uses the request headers to determine which vhost should get the request.  But HTTPS headers are encrypted!  So there’s no way for Apache to tell which virtual host should get this message, without decrypting it furst.  But it can’t decrypt without knowing the correct virtual host…<br><br>There’s a great workaround for this with Amazon, using their Elastic Load Balancer (ELB) system.  You simply set up a load balancer, and forward port 443 to, say port 8443 on your instance, and have Apache listen on 8443 for SSL connections.  Recently Amazon rolled out the ability to terminate SSL on &#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/04/multiple-ssl-sites-on-one-aws-instance.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/working-with-bash-awk.html">Working With Bash - Awk</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-24T12:24:00+02:00" pubdate data-updated="true">Apr 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Now a quickie - one of my favorite tools: awk.  Some of you will probably think of this as obvious, and that’s great.  But tools like awk are the things that I skipped learning when I got started… and when I finally started using them, my world expanded tremendously.  Here’s hoping I can pay it forward to one other sysadmin out there.  So let’s get going.<br><br><b>Awk</b><br><b><br></b><br>My first handy command is <i>awk</i> . This command lets you set a pattern to hunt for, and then an action to take every time it finds the pattern.  Pattern, action.  And that’s the format on the command line:<br><blockquote>awk pattern {action}</blockquote>If you omit the patter&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/04/working-with-bash-awk.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html">HTC Inspire, Cyanogenmod 7, and HSUPA</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-14T02:21:00+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+About a month ago, I picked up my first Android phone: the HTC Inspire 4g, from AT&amp;T in the US.  I determined to root it, install a custom OS, and laugh at all the poor saps who get bad battery life on HTC Sense.<br><br>The first challenge is in the name.  See, the HTC Inspire 4G is really just a rebranded HTC Desire HD, which is a tweaked HTC Desire, which is another name for the HTC Ace. <br><br>I eventually got my head on straight, with the help of the good people at the <a href="http://forum.xda-developers.com/forumdisplay.php?f=1018">xda-developers forum</a>, and in particular with the <a href="http://forum.xda-developers.com/showthread.php?t=952352">Ace Hack Kit</a> which is linked there.  Windows types might be interested in <a href="http://forum.xda-developers.com/showthread.php?t=961406">Bubby’s Simple Root and S-Off</a> kit, which is apparently wonderful and easy to use.  I wouldn’t know, my PC is all the way on the other side of the room.   I did this on my Mac, which is right in front of me.<br><br>In a nutshell, here’s what you&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/03/still-more-wireless-troubleshooting.html">Still More Wireless Troubleshooting</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-03-24T12:19:00+01:00" pubdate data-updated="true">Mar 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+The damnedest thing happened - I went out of town.  I went out of town, and discovered that I was STILL getting dropouts every 90 seconds!  On a totally different router, on the opposite site of the planet, in a rural area with no conceivable wireless interference.  This prompted me to boot into Windows 7 (I have a Boot Camp partition) to try my ping test under a totally different software stack.<br><br>Even under Windows, every 90 seconds I would get a ping spike for a second. <br><br>This means it’s got to be hardware, or &#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/03/still-more-wireless-troubleshooting.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/7/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

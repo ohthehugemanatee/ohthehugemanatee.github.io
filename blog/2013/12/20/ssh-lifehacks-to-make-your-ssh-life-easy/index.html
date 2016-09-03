@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SSH Lifehacks to Make Your SSH Life Easy - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="If you use SSH every day, or even every other day, this post is for you. We&rsquo;re going to walk through some of the more convenient options &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SSH Lifehacks to Make Your SSH Life Easy</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-20T16:29:27+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>If you use SSH every day, or even every other day, this post is for you. We&rsquo;re going to walk through some of the more convenient options available to you in your global SSH configuration to make your life easier and faster.</p>
+
+<p>First of all, you should know that SSH has a great configuration file, typically located in your home directory at <em>.ssh/config</em>. Everything we&rsquo;re talking about today belongs there. There&rsquo;s tons of stuff you can do with it, and I&rsquo;m only going to scratch the surface.</p>
+
+<h2>Re-Using Existing Connections</h2>
+
+<p>Every time you SSH into a server, it opens a new connection and authenticates all over again, right? That&rsquo;s slow, and it&rsquo;s a PITA if you have to type a password for your private key or just to access the server. You&rsquo;re already connected once, so why not reuse the same connection? Just add these lines to your <em>.ssh/config</em>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Re-use existing connections instead of opening new ones
+</span><span class='line'>ControlMaster auto
+</span><span class='line'>ControlPath /tmp/ssh_mux_%h_%p_%r_%l</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This tells SSH to use a socket file for each connection, and to name the file in a way that&rsquo;s unique for each combination of host, port, remote username, and local hostname. That is to say, if you&rsquo;re connecting to the same host/port with the same username and from the same local hostname, it will automatically re-use the existing connection.</p>
+
+<p><strong>Result: Multiple SSH connections are WAY faster.</strong></p>
+
+<h2>Host shortcuts and definitions</h2>
+
+<p>You can easily define commonly used connections with shortcuts. So instead of typing <code>ssh -i ~/.ssh/ohthehugemanatee.pem -P 2222 ohthehugemanatee@live.ohthehugemanatee.org</code>, you can just type <code>ssh live</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Host live
+</span><span class='line'>  Hostname live.ohthehugemanatee.org
+</span><span class='line'>  Port 2222
+</span><span class='line'>  User ohthehugemanatee
+</span><span class='line'>  IdentityFile ~/.ssh/ohthehugemanatee.pem
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>SSH Agent Forwarding &ndash; One key to rule them all</h2>
+
+<p>Normally when you want to access a resource from multiple machines, you have to generate a public/private keypair on each machine. A great example is a git repo: if I want to access the same git repository on my localhost, the staging server, and the live server, I will have to generate three keypairs and grant access to all three. Talk about a pain in the ass!</p>
+
+<p>Fortunately there&rsquo;s a much easier way to do this, which is available in almost all distributed versions of openssh: SSH agent forwarding. With agent forwarding enabled, your private key from one machine becomes available for each subsequent machine you connect to. In other words, if you have one private key on your localhost, and SSH into another server, your local private key will be available if you want to SSH (or use git) from that server. Automatically. And only while you&rsquo;re connected, so it&rsquo;s safe.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>ForwardAgent yes
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just drop that in your Host definition (per above), and if the remote host supports it it will work automatically. It is not recommended to set this option globally, because your private key is actually very sensitive stuff, and you don&rsquo;t want to accidentally forward your key to an untrusted server. But feel free to enable it on every host where it&rsquo;s convenient!</p>
+
+<h2>Bonus material</h2>
+
+<p>Technically these items aren&rsquo;t about <em>.ssh/config</em>, but they&rsquo;re still so convenient I had to share them.</p>
+
+<p>Note that the same improvements to your SSH will also apply to your use of SCP and other SSH tools. So that brutally long and painful rsync-over-ssh command that you&rsquo;ve had to type a thousand times, can now just use &ldquo;live&rdquo; as a shortcut. Git, too. It&rsquo;s a great relief to be able to type <code>scp ~/Sites/index.php live:~</code>. It&rsquo;s just so much more readable!</p>
+
+<p>But if you want to get <strong>even lazier</strong>, you&rsquo;re going to love the next tip. Why ssh in at all, when you can just mount the remote directory somewhere convenient on your local system? Let&rsquo;s use that Host alias above, and mount the remote web root (<em>/var/www/html</em>) at <em>~/live-environment</em>. It&rsquo;s much more convenient there, after all.</p>
+
+<p><code>sshfs live:/var/www/html ~/live</code></p>
+
+<p>Note that this no longer works in OSX without installing <a href="http://osxfuse.github.io/">OSX Fuse</a>. Still, the 5 minute download and install process is totally worth it for this easy SSH lifehack.</p>
+
+<p>Or is that not lazy enough for you? &ldquo;Do I really have to mount the whole directory?&rdquo; I hear you cry! &ldquo;I wanna just edit one file&hellip;&rdquo; Well have I got the tip for you! For the ultimately lazy, <a href="http://www.vim.org/">vim</a> supports editing files directly over SSH. Try it out:</p>
+
+<p><code>vim scp://live/var/www/html/index.php</code></p>
+
+<p>Think about it: before you read this post, that would have taken you several long-winded commands to type. Your arthritic fingers can thank me later.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-20T16:29:27+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2013</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/sysadmin/'>sysadmin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/03/this-is-why-real-star-nix-people-hate-osx/" title="Previous Post: This is why real *nix people hate OSX">&laquo; This is why real *nix people hate OSX</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/" title="Next Post: 44,497 people are wrong: how to NEVER need Views PHP.">44,497 people are wrong: how to NEVER need Views PHP. &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

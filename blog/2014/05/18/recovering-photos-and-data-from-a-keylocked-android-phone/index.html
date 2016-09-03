@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Recover Photos and Data From a Keylocked Android Phone - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Recently a good friend of mine passed away suddenly. Her family asked me to recover her photos and videos from her computer and android phone. The &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Recover Photos and Data From a Keylocked Android Phone</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-18T18:55:31+02:00" pubdate data-updated="true">May 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently a good friend of mine passed away suddenly. Her family asked me to recover her photos and videos from her computer and android phone. The computer was easy enough, but the android phone posed a real problem. It had a keylock enabled, and USB debugging disabled. There was no external SD card to pull out, which meant that all the photos were stored on the internal memory. The phone was a totally stock Samsung Galaxy S3 mini. With a lot of reading, I worked out a way to get a data dump from her phone without having to bypass the keylock.</p>
+
+<h2>1) Get Clockworkmod Recovery</h2>
+
+<p><a href="https://www.clockworkmod.com/">Clockworkmod recovery</a> is a familiar tool to anyone who has ever rooted their Android phone or installed a custom ROM. I run my own phone on <a href="http://www.cyanogenmod.org/">Cyanogenmod</a>, so I knew the broad strokes of how to install and use it. If you haven&rsquo;t done this before: your Android device actually has several partitions on it for various kinds of data. Your device actually has several different boot &ldquo;modes&rdquo;, which are activated by various key combinations on startup. One of the boot modes, &ldquo;recovery&rdquo;, is specifically there to allow critical system access and maintenance. This is where Clockworkmod lives.</p>
+
+<p>Download the <a href="https://www.clockworkmod.com/rommanager">Clockworkmod ROM for your device</a>. Use the &ldquo;Touch Recovery&rdquo; version if your touchscreen is working, since it&rsquo;s the easiest to use.</p>
+
+<h2>2) Get a tool to flash your device</h2>
+
+<p>There are many tools out there to help you flash various partitions on your device. Samsung devices are built for a tool called Odin, which was leaked from the company some time ago. Unfortunately Odin is Windows-only and not all that stable&hellip; but there is a great cross-platform, open source alternative called <a href="http://glassechidna.com.au/heimdall/">Heimdall</a>. Get Heimdall, at least, and optionally JOdin3.</p>
+
+<p>Heimdall has an awesome command line interface, and a decent GUI if you&rsquo;re brave and know what you&rsquo;re talking about. I found it much easier to understand by using the Java based (AKA multi-platform) frontend <a href="http://casual-dev.com/2014/01/04/jodin3-web-browser-or-offline-flashing-tool/">JOdin3</a>. Even though in the end I couldn&rsquo;t get JOdin3 to do the job for me, its interface was intuitive enough that I could then understand what was going on from the command line.</p>
+
+<p>So all you REALLY need here, is Heimdall or the equivalent for your device. But a GUI can be nice.</p>
+
+<h2>3) Get Clockworkmod onto your device</h2>
+
+<p><em>NOTE: THE INSTRUCTIONS IN THIS SECTION ONLY APPLY TO SAMSUNG DEVICES. A SIMPLE GOOGLE SEARCH WILL FIND APPROPRIATE INSTRUCTIONS FOR OTHER DEVICES.</em></p>
+
+<h3>Get into Download mode</h3>
+
+<p>In order for Heimdall/JOdin3/Odin/whatever to connect to your device, it has to be in &ldquo;Download&rdquo; mode, sometimes called &ldquo;Odin&rdquo; mode. Google will help you find instructions for your specific device, but for the Samsung Galaxy S3 Mini, I had to do the following:</p>
+
+<ul>
+<li>Power off. You can do this even when the keypad is locked, just by holding down the power button for long enough.</li>
+<li>Press and hold the power, volume down, and home keys simultaneously until the phone starts and a warning screen appears.</li>
+<li>Pay attention to the warning screen, and press volume up when you are ready to continue.</li>
+</ul>
+
+
+<p>A phone in Download mode looks kinda scary. There&rsquo;s not much on the screen, but it does explain quite clearly that it is in Download mode or Odin mode, and that the current firmware is the stock firmware.</p>
+
+<p>Now plug the device into your computer via USB, and make sure Heimdall can see it by running this on the computer:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo heimdall detect</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(note: I&rsquo;m not sure that you really need sudo for these operations, but might as well)</p>
+
+<h3>Figure out which partition you&rsquo;re flashing</h3>
+
+<p>In order to update the data on a partition, Heimdall needs to know how the partitions are laid out on your device. Samsung devices can dump their partition table in a format called PIT. Heimdall can actually handle getting the PIT file automatically, but you still need to have a look to see which partition you want to be working on. So first run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo heimdall print-pit</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will give you a full dump of all the partitions on your device. It&rsquo;s quite readable; look for the partition with the Flash Filename &ldquo;recovery.img&rdquo;. It should look something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>--- Entry #20 ---
+</span><span class='line'>Binary Type: 0 (AP)
+</span><span class='line'>Device Type: 2 (MMC)
+</span><span class='line'>Identifier: 19
+</span><span class='line'>Attributes: 5 (Read/Write)
+</span><span class='line'>Update Attributes: 1 (FOTA)
+</span><span class='line'>Partition Block Size: 491520
+</span><span class='line'>Partition Block Count: 32768
+</span><span class='line'>File Offset (Obsolete): 0
+</span><span class='line'>File Size (Obsolete): 0
+</span><span class='line'>Partition Name: Kernel2
+</span><span class='line'>Flash Filename: recovery.img
+</span><span class='line'>FOTA Filename:</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>DO NOT SKIP THIS STEP</em>. In theory all Samsung Galaxy S3 minis are identical, but if yours is not you could brick your device! It&rsquo;s very easy to do.</p>
+
+<p>Figure out the Identifier for that partition. In my case it was &ldquo;19&rdquo;.</p>
+
+<h3>Flash your recovery partition</h3>
+
+<p>Now that you know which partition you want to flash, and you have a file to flash it with, you can actually flash it with heimdall. Note that your phone probably restarted after running that PIT command, so you&rsquo;ll have to get back into Download mode again. Then just run:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo heimdall flash --19 recovery.img</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In that command, &ldquo;19&rdquo; is the identifier of the partition I want to flash, and &ldquo;recovery.img&rdquo; is the clockworkmod ROM which I downloaded right at the beginning of the post. It will show you step by step what&rsquo;s going on, and then reboot the phone upon success.</p>
+
+<h2>4) Connect to the phone with ADB</h2>
+
+<p>Android has a wonderful tool in the SDK, intended for debugging problems with android devices. It&rsquo;s called ADB, and it lets you connect to the android device over USB and run a variety of commands. It even lets you get into a shell on the device! If you don&rsquo;t have ADB already, download the <a href="https://developer.android.com/sdk/index.html">Android Developer Tools</a>. If you aren&rsquo;t planning on actually developing and just need ADB (like me), then install from the slightly smaller package on that page, listed under &ldquo;Use an existing IDE&rdquo;.</p>
+
+<p>Once you&rsquo;ve downloaded and installed the developer tools, you can find the ADB command in the platform-tools directory from the download.</p>
+
+<p>ADB cannot communicate with a phone unless &ldquo;enable USB debugging&rdquo; is turned on in the phone&rsquo;s Settings interface&hellip; but when you&rsquo;re locked out that&rsquo;s impossible. Fortunately, if you boot into Clockworkmod Recovery, Debugging is turned on by default. So reboot into Clockworkmod by holding down the power, home, and volume up keys.</p>
+
+<p>When clockworkmod recovery has loaded, test the connection with ADB by running:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>adb devices</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you see your device listed, you&rsquo;re in business! You can now pull files from the android device with &ldquo;adb pull [filename] [destination]&rdquo;. Of course, that&rsquo;s assuming you know your way around the android filesystem!</p>
+
+<p>I found the easiest way to get all the data was to use ClockworkMod&rsquo;s built in backup system to make a backup of all data on the phone (this takes a few minutes), then I could pull the backups because I knew which directory they were in. After running the backup, all I had to do was</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>adb pull /data/media/clockworkmod/backup ~/Desktop/android-backup</span></code></pre></td></tr></table></div></figure>
+
+
+<p>All of my friend&rsquo;s photos, videos, and contacts were stored in the Data tar archive. I hope this helps someone else out there!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-18T18:55:31+02:00" pubdate data-updated="true">May 18<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/android/'>android</a>, <a class='category' href='/blog/categories/hacking/'>hacking</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/12/why-use-an-ide-when-vim-is-so-awesome/" title="Previous Post: Why use an IDE when vim is so awesome?">&laquo; Why use an IDE when vim is so awesome?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/" title="Next Post: Drupalcamp Helsinki takes on the world">Drupalcamp Helsinki takes on the world &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

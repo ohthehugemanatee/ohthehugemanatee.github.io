@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Updating Kernels for Amazon (AWS) Instances - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Lately I&#8217;ve been getting hit by an odd kernel bug on one of the servers I maintain. &nbsp;It&#8217;s discussed in some depth on Launchpad, but &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2011/05/updating-kernels-for-amazon-aws.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Updating Kernels for Amazon (AWS) Instances</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-09T17:27:00+02:00" pubdate data-updated="true">May 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Lately I&#8217;ve been getting hit by an odd kernel bug on one of the servers I maintain. &nbsp;It&#8217;s discussed in some depth on <a href="https://bugs.launchpad.net/ubuntu/+source/linux-ec2/+bug/614853">Launchpad</a>, but the gist is that when trying to find an idle cpu for a new thread, the scheduler divides by cpu_power. &nbsp;On EC2 instances, it&#8217;s possible for cpu_power to be 0, which causes a divide by zero kernel crash. &nbsp;<u>Why</u> cpu_power is 0 is still an unknown; this should never be the case. &nbsp;But in the meantime, there&#8217;s a patch committed to ec2 kernel 2.6.32-313.26 which adds a check before running this division. &nbsp;If cpu_power is 0, it waits a bit and tries again. &nbsp;I believe it also adds a kernel yell, to help with tracking down the underlying problem. &nbsp;In the meantime, this bug was crashing one of my instances.<br /><br />So it&#8217;s time to update the kernel. &nbsp;This should be easy, right? &nbsp;apt-get dist-upgrade seems to do it&#8230; but if you reboot, uname -r will tell you you&#8217;re still on the old kernel. &nbsp;That&#8217;s when the swearing begins.<br /><br />You see, cloud based hosting is a very seductive thing. &nbsp;Those servers LOOK like real servers. &nbsp;They FEEL like real servers. &nbsp;And in 99% of all ways they ACT like real servers. &nbsp;But they are not real servers. &nbsp;And that 1% of difference is where all of the pain comes in. &nbsp;As an aside, succumbing to this illusion is setting yourself up for disaster with any cloud based server.<br /><br />One of the differences is that you don&#8217;t have a real boot sector, or a real BIOS. &nbsp;Everything you know about the first steps of booting a system has to go out the window. &nbsp;Amazon uses Xen virtualization, which means that all that boot stuff you know should be replaced with <a href="http://wiki.xensource.com/xenwiki/PvGrub">PVGrub</a>. &nbsp;Actually, don&#8217;t bother learning too much about it; we&#8217;re just interested in upgrading our kernel.<br /><br />Amazon <a href="http://ec2-downloads.s3.amazonaws.com/user_specified_kernels.pdf">documents this in a PDF</a>, which is a bit painful to work through. &nbsp;I&#8217;ve walked you through my process here.<br /><br />The first thing to know is that you need kernel support for PVGrub (or PV-Grub, because they&#8217;re inconsistent with the naming). &nbsp;Don&#8217;t sweat this too much, pvgrub is supported in most big distros. &nbsp;Amazon claims to have tested with these ones:<br /><br />• Fedora 8‐9 Xen kernels<br />• Fedora 13 (2.6.33.6‐147 and higher)<br />• SLES/openSUSE 10.x, 11.0, 11.1 Xen<br />• SLES/openSUSE 11.x EC2 Variant<br />• Ubuntu EC2 Variant  kernels<br />• RHEL 5.x kernels <br />• RHEL 6.x kernels<br />• CentOS 5.x kernels<br />• Gentoo<br /><br />Ubuntu, at least, is smart enough to install the EC2 variant kernels in that apt-get dist-upgrade you ran earlier, so that much is done for you already. <br /><br />The next thing you need to know is that PVGrub has a strong historical connection to PXE booters. &nbsp;If you haven&#8217;t worked with network booting, that&#8217;s what PXE does for you. &nbsp;The main difference is that you have to go back to having separate initrd and vmlinuz images in your /boot directory. &nbsp;To be honest, I never trusted booting without vmlinuz, so this made me a little happy. &nbsp;It made me even happier to see that apt-get had dropped both images in there for me already. <br /><br />Now you have to create a grub boot list. &nbsp;On a real server, this is the file which tells Grub which kernels are options for booting. &nbsp;Create /boot/grub/menu.lst with the following content:<br /><br /><blockquote><code> default 0</code><code> timeout 3<br /></code><code> title EC2<br /></code><code> root (hd0)<br /></code><code> kernel /boot/vmlinuz-2.6.32-314-ec2 root=/dev/sda1</code><code> initrd /boot/initrd.img-2.6.32-314-ec2</code></blockquote><br />Those are the vmlinuz and initrd filenames that I got from my update - since you&#8217;re following this guide somewhere in the future, those version numbers will be different. &nbsp;Have a quick look to see what you&#8217;ve got in /boot , and replace those filenames in your own menu.lst.<br /><br />That&#8217;s it - but in order to make this active, you have to bundle it as an AMI and start a new instance. &nbsp;This actually enforces a very good, conservative workflow. &nbsp;You get to run your updates, and test the kernel update on a non-live environment before moving your live IP over. <br /><br />Because you&#8217;re using a non-standard kernel, you do have to manually specify a few things in your AMI build process. &nbsp;Here&#8217;s the run-down:<br /><blockquote><code> # ec2-bundle-vol -r [ARCH] -d [DESTINATION] -p [AMI-NAME] -u [AWS-USERID] -k [KEYFILE] -c [CERTFILE] -s 10240 -e [EXCEPTIONS] --kernel [KERNEL-ID]</code></blockquote><div>This is your standard <a href="http://docs.amazonwebservices.com/AmazonEC2/dg/2006-10-01/CLTRG-ami-bundle-vol.html">ec2-bundle-vol</a> command. &nbsp;If you don&#8217;t use this too often, here are the variables:<br /><br /><ul><li>[ARCH] is the CPU architecture for your instance. &nbsp;It&#8217;s either i386 or x86_64</li><li>[DESTINATION] is the temporary filespace to use when building the AMI. &nbsp;<b>Do not do this on the root partition</b>. &nbsp;I use /mnt , which is the 100gb EBS volume provided with the instance.</li><li>[AMI-NAME] is the name for the AMI. It can be anything, I used production-kernel-2.6.32-314-ec2</li><li>[AWS-USERID] Your AWS userID number. &nbsp;You can find it in the top right corner of the AWS account page.</li><li>[KEYFILE] and [CERTFILE] are your AWS keyfile and certificate files, which are used to authenticate with AWS.</li><li>[EXCEPTIONS] is a comma delineated list of directories to leave out of the image file. &nbsp;In my case this is /mnt,/tmp,/ebs . &nbsp;Note that if you leave /tmp out, the tempdir created automatically will have incorrect permissions.</li></ul><div>[KERNEL-ID] doesn&#8217;t fit into a bullet point. &nbsp;This is an ID that identifies the architecture of the instance for Amazon&#8217;s bootloader, and it&#8217;s important. &nbsp;Choose the right KID depending on your CPU, instance type, and region:</div><div><div><table><tbody><tr><td></td><td><b>32-bit Instance</b></td><td><b>64-bit Instance</b></td><td><b>32-bit EBS</b></td><td><b>64-bit EBS</b></td></tr><tr><td><b>US-East-1</b></td><td>aki-407d9529</td><td>aki-427d952b</td><td>aki-4c7d9525</td><td>aki-4e7d9527</td></tr><tr><td><b>US-West-1</b></td><td>aki-99a0f1dc</td><td>aki-9ba0f1de</td><td>aki-9da0f1d8</td><td>aki-9fa0f1da</td></tr><tr><td><b>EU-West-1</b></td><td>aki-4deec439</td><td>aki-4feec43b</td><td>aki-47eec433</td><td>aki-41eec435</td></tr><tr><td><b>AP-SouthEast-1</b></td><td>aki-13d5aa41</td><td>aki-11d5aa43</td><td>aki-6fd5aa3d</td><td>aki-6dd5aa3f</td></tr></tbody></table></div><div><br /></div><div>One important note: in Amazon&#8217;s PDF documentation, they use an odd character set. &nbsp;This means that the hyphen in the middle of the AKI is not a unicode hyphen. &nbsp;I spent more than an hour trying to figure out why my AMI was complaining of an invalid AKI over this! &nbsp;Either copy and paste the ID from this blog post, or type it in by hand. <br /><br />From here on in ,it&#8217;s a standard AMI upload and register process:<br /><br /><blockquote><code> # ec2-upload-bundle -b [BUCKET-LOCATION] -m [MANIFEST] -a [KEY] -s [SECRET KEY]</code></blockquote><br /><br /><ul><li>[BUCKET-LOCATION] is the name of an S3 bucket where you want to save this AMI. &nbsp;If the bucket doesn&#8217;t exist, ec2-upload-bundle will create it.</li><li>[MANIFEST] is the manifest file created with ec2-bundle-vol above. &nbsp;It&#8217;ll be in the same directory, with the same name, just with the extension .manifest.xml . &nbsp;For example, /mnt/production-kernel-2.6.32-314-ec2.manifest.xml</li><li>[KEY] and [SECRET KEY] are your AWS key and secret key, which you can get from your AWS Account area.</li></ul><br /><code><br /># ec2-register –-name [AMI NAME] [S3 MANIFEST]<br /></code><br /><br /><br /><ul><li>[AMI NAME] is the name of your AMI (duh)</li><li>[S3 MANIFEST] is the path of the manifest file you just uploaded, including the bucket path, on S3. &nbsp;For example prod-upgrade/production-kernel-2.6.32-314-ec2.manifest.xml</li></ul>Now start your new AMI, and test like hell before replacing that production instance!&nbsp;</div></div></div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-09T17:27:55+02:00" class="updated">Updated May 9<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2011/05/updating-kernels-for-amazon-aws.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2011/05/updating-kernels-for-amazon-aws.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/04/simple-aws-backups-with-snapshots-and.html" title="Previous Post: Simple AWS backups with Snapshots and AMIs">&laquo; Simple AWS backups with Snapshots and AMIs</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html" title="Next Post: Setting up Secure LDAP on Ubuntu 10.04 - the idiot's guide to SSL, TLS, and SLAPD">Setting up Secure LDAP on Ubuntu 10.04 - the idiot's guide to SSL, TLS, and SLAPD &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2011/05/updating-kernels-for-amazon-aws.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2011/05/updating-kernels-for-amazon-aws.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

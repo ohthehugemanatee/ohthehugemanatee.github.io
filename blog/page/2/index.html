@@ -1,0 +1,671 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google’s Play Store downloads the app &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/page/2">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/">Troubleshooting Android Error -505 From Google Play</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-29T12:20:33+02:00" pubdate data-updated="true">May 29<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google’s Play Store downloads the app successfully, then presents me with “Unknown Error -505”.</p>
+
+<p><img class="center" src="/images/error-505.jpg" title='"Error 505"' alt='"Error 505"'></p>
+
+<p>This error message means precisely nothing. It means “something went wrong during installation, and we’re not telling you what.” This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
+
+<p>Your device is not going to give you more information on its own. Instead, you need to install ADB, the “Android Debug Bridge” which lets you type commands directly to your Android device over a USB connection. It’s not hard to install, so <a href="https://duckduckgo.com/?q=how+to+install+adb">go and set that up now</a>.</p>
+
+<p>Next, you will have to make sure your Android device permits you to use ADB. On the phone, go to Settings &gt; About Phone, and scroll down to where you see “Build Number” listed. Tap on “Build Number” until you see a popup telling you that you are now a “developer”. Then go back to Settings, and tap on the new “Developer Opt&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/">How to Build a New Source for Drupal Migrate 8</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-05-02T16:10:36+02:00" pubdate data-updated="true">May 2<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
+
+<p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of “source”, “destination”, and “migration” classes so that even the most convolut&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/">How and Why to Update the Modem/baseband Firmware on a Samsung Android Phone</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-04T14:09:47+02:00" pubdate data-updated="true">Apr 4<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>If you have a Samsung Android phone, and you use Samsung’s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
+
+<p>But for everyone who uses a custom ROM like <a href="http://cyanogenmod.org">Cyanogenmod</a>, <a href="http://www.paranoidandroid.co/">ParanoidAndroid</a>, or <a href="http://www.aokp.co/">AOKP</a>, sit up and pay attention: you’re missing some key updates for your phone, and &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/">Drupalgeddon: Best Practices Aren&#8217;t Good Enough Anymore</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-03T17:30:32+01:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Last week’s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so – it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that’s never happened to the Drupal community before, and it is extremely serious. In some way it’s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
+
+
+
+
+<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project – particularly the large and compl&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/29/mobile-apps-are-a-temporary-phase/">Mobile Apps Are a Temporary Phase, All Hail the Accessible Web</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-10-29T13:13:04+01:00" pubdate data-updated="true">Oct 29<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Dries made <a href="http://buytaert.net/w3c-declares-html5-standard-final">an interesting post about the new HTML5 standard</a> the other day. OK, the post itself is more of an announcement, but the meat (as far as I’m concerned) is near the end, where he says that “The trend in development seems to be towards native mobile applications rather than mobile websites.” He links to the excellent <a href="http://a16z.com/2014/10/28/mobile-is-eating-the-world/">Mobile is Eating the World</a> presentation by Benedict Evans as evidence.</p>
+
+
+
+
+<p>Really? Because while I agree with Evans that mobile in general is the future, I don’t see it as evidence that mobile <em>apps</em>, specifically, are the future. In fact I believe the contrary: mobile apps are just a phase. <em>Mobile web</em> is going to eat the world, and it’s because of the capacity for a single source to provide machine-readable, machine-reformattable content.</p>
+
+
+
+
+<p>What do I mean by machine-readable and machine-reformattable? Technologists will understand what I mean when I say “responsive”, and they may even understand that responsive and accessible go hand in hand. I am avoiding those terms because they are more specific &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/10/29/mobile-apps-are-a-temporary-phase/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/">Get Memcache Statistics From the Command Line in One Easy Command</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-22T15:43:30+02:00" pubdate data-updated="true">Jul 22<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>A quick one for myself to come back to. I can never find this one liner when I need it! It’s simple enough:</p>
+
+<figure class="code"><div class="highlight"><table><tr>
+<td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td>
+<td class="code"><pre><code class=""><span class="line">watch 'php -r '"'"'$m=new Memcache;$m-&gt;connect("127.0.0.1", 11211);print_r($m-&gt;getstats());'"'"</span></code></pre></td>
+</tr></table></div></figure><p>Next time I need to get memcached stats, I’ll check back here.</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/">Bug: Multilingual Auto Label Will Break Your Entity Static Cache</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T17:00:45+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal’s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
+
+<p>For now, the only solution is a slow one – we clear static entity caches when we generate multilingual titles. That’s not an awesome fix, but it’s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
+
+<p>And for those of you keeping score, this is a good example of how to file a bug report for a really complex issue in a really popular module… and follow up until you resolve it.</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/01/d8-core-sprint-in-dc/">D8 Core Sprint in DC</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T16:27:17+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>A quick note to all the Drupalists in the DC general area – Forum One is trying to put together a D8 core sprint in their DC office space. They’re coordinating with the DC Meetup group to try and spread the word to as many community members as possible!</p>
+
+<p>If you haven’t been to a code sprint before, it’s basically a coding party. Developers get together and help each other contribute better and faster by reviewing code on the spot, mentoring each other, and generally working in small ad-hoc groups. It’s a lot of fun, and gives a big boost to development of the next generation of Drupal.</p>
+
+<p>Forum One will provide the locale in downtown DC complete with&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/07/01/d8-core-sprint-in-dc/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/">How to Configure Authcache on Drupal 7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-14T16:15:40+02:00" pubdate data-updated="true">Jun 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>So you have authenticated user traffic you want to cache? Good – you’re on the right post. This post is a walk through for caching content for authenticated users in Drupal 7. We will be using the Authcache suite of modules. If you haven’t read it yet, I strongly recommend you check out my last post, <a href="https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/">Authenticated User Caching Concepts in Drupal 7</a>.</p>
+
+<p>Our goal is a simple authenticated user caching system based on Authcache’s AJAX implementation, with a Memcached backend. We will serve pages&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/09/authenticated-user-caching-in-drupal/">Authenticated User Caching Concepts in Drupal 7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-09T22:21:01+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
+
+<p>But what about authenticated users? You can cache elements of the page using a method like <a href="https://drupal.org/project/rendercache">Render cache</a>, <a href="https://drupal.org/project/entitycache">Entity Cache</a>, or <a href="https://drupal.org/project/views_content_cache">Views Content Cache</a>. But Drupal still has to assemble each page for your users, a relatively heavy operation! If you want to address hundreds or thousands of authenticated users, you’re simply SOL by these traditional approaches.</p>
+
+<p>Enter the <a href="https://drupal.org/project/authcache">Auth Cache</a> suite of modules. Though this project has been around for quite some time,&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/06/09/authenticated-user-caching-in-drupal/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

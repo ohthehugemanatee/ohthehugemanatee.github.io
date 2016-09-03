@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: 
+
+Sitemap: http://ohthehugemanatee.github.io/sitemap.xml 

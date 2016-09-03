@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Set Up Apache Solr Multicore for Drupal - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Apache Solr is the search technology that powers many Drupal sites. It integrates easily with Drupal&#8217;s search_api contrib module, through the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Set Up Apache Solr Multicore for Drupal</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal&#8217;s <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It&#8217;s easy enough to set up a single site installation of solr on your own, but if you&#8217;re serious about building Drupal sites with solr you will be building more than one site. Solr includes a &#8221;<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>&#8221; mode, which lets you serve multiple search cores to separate sites from a single installation. Each core looks, feels, and acts like a totally separate Solr install, so you can develop as many solr sites as you like. Each core has its own configuration, data directory&#8230; the works. One core can support extensive custom geo data, and another can be completely location blind. The best part: with Solr multicore, adding a new search core to your existing stack is a trivial 5 minute installation.</p>
+
+
+<p>But getting a working, sane, and easy to manage solr multicore installation is not quite as trivial as a single site. I get asked for instructions on this all the time, so here they are for posterity. These instructions assume you&#8217;re running on a supported version of <a href="http://www.ubuntu.com/" target="_blank">Ubuntu Linux</a>, but very few steps are distribution-specific. I&#8217;ve noted them inline, so you can work out just what you need to do for your unique environment.</p>
+
+
+<h3>1) Understand what you&#8217;re doing</h3>
+
+
+<p>I know you aren&#8217;t going to read this whole post before getting started, so instead step 1 is to understand the beast.</p>
+
+
+<p>Drupal&#8217;s <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> module allows you to plug in different search engines to act as the back end. We&#8217;re going to use the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module, so that Drupal passes search indexing and queries to Apache Solr for processing. Installing and configuring this on the Drupal side is beyond the scope of this post, but it&#8217;s not radically different from any other contrib module. The radically different part is in setting up Solr, and making sure it knows how to understand the information coming from Drupal.&nbsp;</p>
+
+
+<p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is a search engine built in Java. Basically you run a java program, feed it a bunch of data, and it stores it in a searchable index. Then you send it search queries, and it gives you a sorted list of results. In order to do this, it needs to understand the structure of the data in the search index, and a handful of similar details. We&#8217;re lucky in that Drupal&#8217;s search_api_solr comes with exactly the configuration files we need to make Solr understand the indexing and search request data that comes from Drupal. We&#8217;ll be able to just copy the configuration files right out of the search_api_solr.</p>
+
+
+<p>In order to run solr in a secure environment, and in order to feed it information that&#8217;s coming in over HTTP, you need a Java Servlet engine. This is basically a web server that is specifically built to pass requests on to Java applications like Solr. You can think of it as a wrapper for Solr. There are a few competing open source servlet engines, but we&#8217;re going to use <a href="https://tomcat.apache.org/" target="_blank">Tomcat</a> in this tutorial. Tomcat is popular, powerful, and easy to install on most modern Linux distributions.&nbsp;</p>
+
+
+<h3>2) Install Apache Tomcat</h3>
+
+
+<p>On Ubuntu and Debian systems, this should be as easy as&nbsp;</p>
+
+
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo apt-get install tomcat6 tomcat6-admin tomcat6-common tomcat6-user</pre>
+
+
+<div>Bam, you have tomcat installed, as well as everything you need for tomcat to control access to administrative and user functions. The default location for tomcat6 is <span style="font-family: 'courier new', courier, monospace;">/usr/share/tomcat6</span> , and configuration is stored in <span style="font-family: 'courier new', courier, monospace;">/etc/tomcat6</span> .</div>
+
+
+<p>By default Tomcat&#8217;s user database is a simple xml file. We&#8217;re going to edit it so that we have an administrative user that can tweak behaviors from Tomcat&#8217;s web interface.</p>
+
+
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/tomcat6/tomcat-users.xml"><span style="font-family: Arial, Verdana, sans-serif;">&lt;role rolename="admin"/&gt;
+&lt;role rolename="manager"/&gt;
+&lt;user username="tomcat" password="mypasswordhere" roles="admin,manager"/&gt;
+&lt;/tomcat-users&gt;
+</span></pre>
+
+
+<div><span style="background-color: rgb(250, 250, 250); line-height: 18px; white-space: pre;">Make sure that you define both the admin and manager roles as above, and that you have one user that gets both roles. Save the file, and restart the tomcat6 service.</span></div>
+
+
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo service tomcat6 restart</pre>
+
+
+<p><span style="color: rgb(51, 51, 51); font-family: arial, 'lucida grandriale', 'lucida sans unicode', tahoma, sans-serif; line-height: 18px;">Now Tomcat is up and running, and you can administer it. By default the administrative interface runs on port 8080. This is actually quite handy to keep around, so I recommend blocking external access to 8080 at the firewall level, and accessing it locally when you need to make configuration changes or tests. Test it out now at http://localhost:8080/ . By default you should see a page that shows links to the administration sections, and some other generic information about your Tomcat instance.</span></p>
+
+
+<h3>2) Install Apache Solr</h3>
+
+
+<div><em>Note: as of this writing, search_api_solr is not yet compatible with the latest major version of Solr (4.1). You can track progress on this issue at <a href="http://drupal.org/node/1676224" target="_blank">http://drupal.org/node/1676224</a> . In the meantime, we&#8217;re proceeding with a current version of 3.6. These instructions should work for the latest 3.6.x you can find on the Solr website.</em></div>
+
+
+<div>&nbsp;</div>
+
+
+<div><br>Now we&#8217;re going to download the Solr Java application, and copy the compiled version of it into tomcat&#8217;s jailed &#8220;webapps&#8221; directory, where it&#8217;s safe to run. We&#8217;re also going to create a convenience simlink there so we can keep the version information in the filename, and we don&#8217;t have to update any config files when we want to update Solr versions. Finally, we&#8217;re going to simlink solr&#8217;s configuration directory to&nbsp;<span style="font-family: 'courier new', courier, monospace;">/etc/solr</span> , so you don&#8217;t have to memorize the location.</div>
+
+
+<div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">cd /tmp
+wget http://apache.rediris.es/lucene/solr/3.6.2/apache-solr-1.4.1.zip
+unzip apache-solr-3.6.3.zip</pre>
+</div>
+
+
+<div><div><p>Now we create a directory for Solr to keep its compiled Java applications in, right in tomcat&#8217;s homedir because that will be easy to find later. We copy the compiled .war file for solr into that new directory, and simlink it to an easier to remember name that we can use in configuration files.</p>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo mkdir /usr/share/tomcat6/webapps
+sudo cp /tmp/apache-solr-3.6.3/dist/apache-solr-3.6.3.war /usr/share/tomcat6/webapps
+sudo ln -s /usr/share/tomcat6/webapps/apache-solr-3.6.3.war /usr/share/tomcat6/webapps/solr.war</pre>
+</div><div>Now technically we have the solr application installed&#8230; but Solr needs for its own home directory as well. This is where you will keep solr-specific configuration files, and eventually the files related to your search cores themselves. We&#8217;ll base our solr directory off of the example multicore setup that is distributed with solr itself. This directory needs to be writable by solr so it can keep search index information in it, so we have to make sure it&#8217;s owned by tomcat6 (the user who will be running solr). Finally, we&#8217;ll simlink solr&#8217;s home directory to /etc/solr&nbsp;so it&#8217;s more memorable.</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo cp -a /tmp/apache-solr-3.6.3/example/multicore /usr/share/tomcat6/solr
+sudo chown -R tomcat6 /usr/share/tomcat6/solr
+sudo ln -s /usr/share/tomcat6/solr /etc/solr</pre>
+</div><div>Solr is now ready to go. Let&#8217;s tell tomcat6&#8217;s servlet container component, Catalina, about solr and what access it needs to run. We describe a new &#8220;Context&#8221; to Catalina, which is based on the solr.war simlink we just created. We tell it where to find the environment solr.war calls &#8220;solr/home&#8221;, which is the solr homedir we just set up.&nbsp;</div></div>
+
+
+<div><div>
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/tomcat6/Catalina/localhost/solr.xml">&lt;Context docBase="/usr/share/tomcat6/webapps/solr.war" debug="0" privileged="true" allowLinking="true" crossContext="true"&gt;
+&nbsp; &lt;Environment name="solr/home" type="java.lang.String" value="/usr/share/tomcat6/solr" override="true" /&gt;
+&lt;/Context&gt;</pre>
+<div>Restart tomcat6 with <span style="font-family: 'courier new', courier, monospace;">sudo service tomcat6 restart</span>, so it reads the new configuration. Now we have a multi-core solr environment set up to run on Tomcat6. Congratulations! The hard part is over. Test to make sure solr is loading properly by visiting your Tomcat admin page at <span style="font-family: 'courier new', courier, monospace;">http://localhost:8080/manager/html</span> . You should see new links there for solr, with two example cores already built in.</div></div><h3>3) Configure Solr Multicore for Convenience</h3><div>Let&#8217;s have a look at the solr configuration you just created. In your <span style="font-family:courier new,courier,monospace;">/etc/solr</span> directory, you actually only need one file: <span style="font-family:courier new,courier,monospace;">solr.xml</span> . This configuration file tells solr everything it needs to know about how it is set up. In fact, the only part you have to care about is at the end, where it lists <span style="font-family:courier new,courier,monospace;">&lt;core&gt;</span> declarations.&nbsp;</div><div>
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="vi /etc/solr/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
+&nbsp; &lt;core name="core0" instanceDir="core0" /&gt;
+&nbsp; &lt;core name="core1" instanceDir="core1" /&gt;
+&lt;/cores&gt;</pre>
+</div><div>Each new core gets a name and a directory path (relative to solr&#8217;s home,<span style="font-family:courier new,courier,monospace;"> /etc/solr</span>) where it should keep it&#8217;s configuration and data. By default we have two demonstration cores, called <span style="font-family:courier new,courier,monospace;">core0</span> and <span style="font-family:courier new,courier,monospace;">core1</span>, kept right in Solr&#8217;s home directory. I find that messy, so we&#8217;re going to create a new directory called <span style="font-family:courier new,courier,monospace;">cores</span>, and give each core a subdirectory under that. Then we&#8217;ll update that <span style="font-family:courier new,courier,monospace;">solr.xml</span> file to tell it the new location of <span style="font-family:courier new,courier,monospace;">core0</span> and <span style="font-family:courier new,courier,monospace;">core1</span>. This is purely for convenience and clarity of configuration, but when you have 20 concurrent solr dev sites to manage, you&#8217;ll thank me.</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo mkdir /etc/solr/cores
+sudo mv /etc/solr/core[0-1] /etc/solr/cores</pre>
+</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/solr/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
+&nbsp; &lt;core name="core0" instanceDir="cores/core0" /&gt;
+&nbsp; &lt;core name="core1" instanceDir="cores/core1" /&gt;
+&lt;/cores&gt;</pre>
+<div>That&#8217;s it. If all you want is a Solr multicore setup, this is where you get off. From here on in it&#8217;s Drupal-specific.</div></div><h3>4) Add a new core for a Drupal site</h3><div>Now that everything is nicely organized in <span style="font-family:courier new,courier,monospace;">/etc/solr</span>, let&#8217;s add a new search core for a Drupal site. We&#8217;re going to copy one of the example core directories, and then copy in the configuration files that are distributed with Drupal&#8217;s search_api_solr module. With each new site, I recommend copying in these configuration files from the module rather than trusting what&#8217;s in an existing core directory, simply because these configurations update with the search_api_solr module itself. You want to make sure that your core is using the configuration that your version of the module expects! <em>These are the steps you will have to take every time you want to add a new core for a Drupal site.</em></div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo cp -a /etc/solr/cores/core0 /etc/solr/cores/myfirstcore
+sudo cp /path/to/drupal_site/sites/all/modules/search_api_solr/solr-conf/* /etc/solr/cores/myfirstcore/conf</pre>
+</div><div>
+<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
+&nbsp; &lt;core name="core0" instanceDir="cores/core0" /&gt;
+&nbsp; &lt;core name="core1" instanceDir="cores/core1" /&gt;
+&nbsp; &lt;core name="myfirstcore" instanceDir="cores/myfirstcore" /&gt;
+&lt;/cores&gt;
+</pre>
+</div><div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo chown -R tomcat6 /etc/solr/
+sudo service tomcat6 restart</pre>
+</div><div>That&#8217;s it. Copy a directory, add one line to a configuration file, and restart tomcat6, and you have a new solr core to work with.</div><h3>5) Profit</h3><div>Now that your solr core is up and running, you can visit the search_api_solr configuration page and add a new server of type &#8220;solr&#8221;, with the following settings:</div><div>&nbsp;</div><div><strong>Solr Hostname</strong>: localhost</div><div>&nbsp;</div><div><strong>Solr Port</strong>: 8080</div><div>&nbsp;</div><div><strong>Solr Path</strong>: /solr/myfirstcore</div><div>&nbsp;</div><div>Test and enjoy! If you have any trouble with these instructions, or have anything to add&#8230; leave us a comment!</div></div>
+
+
+<p>&nbsp;</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/sysadmin/'>sysadmin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/" title="Previous Post: Adding Rules to your contrib module (so you can reject half the tickets in your queue)">&laquo; Adding Rules to your contrib module (so you can reject half the tickets in your queue)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/" title="Next Post: Review: GeoServer Beginner's Guide, by Stefano Iacovella and Brian Youngblood">Review: GeoServer Beginner's Guide, by Stefano Iacovella and Brian Youngblood &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

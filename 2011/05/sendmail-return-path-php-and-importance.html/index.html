@@ -1,0 +1,322 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sendmail Return-path, Php, and the Importance of the Variables You Don't Think Of - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="I got called in for an interesting issue on one of the servers I co-maintain today. &nbsp;Sites were messing up left right and center, in all sorts &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2011/05/sendmail-return-path-php-and-importance.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Sendmail Return-path, Php, and the Importance of the Variables You Don't Think Of</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-20T20:37:00+02:00" pubdate data-updated="true">May 20<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I got called in for an interesting issue on one of the servers I co-maintain today. &nbsp;Sites were messing up left right and center, in all sorts of bizarre ways. &nbsp;CSS wouldn&#8217;t be delivered, or half of it would be, or some of the content would disappear&#8230; and different on every page load! &nbsp;It only took me a moment to confirm - the server was out of space on the root device.<br /><br />This was readily visible in the logs - any mysql transaction you tried would return &#8220;Got error 28 from storage engine&#8221;, which typically means the drive is out of space. &nbsp;And a quick <code>df -ht</code> confirmed:<br /><br /><blockquote><code><br />root@production:/# df -h<br />Filesystem &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Size &nbsp;Used Avail Use% Mounted on<br />/dev/sda1 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 9.9G &nbsp;9.4G &nbsp;160K 100% /<br />none &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;7.3G &nbsp;128K &nbsp;7.3G &nbsp; 1% /dev<br />none &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;7.6G &nbsp; &nbsp; 0 &nbsp;7.6G &nbsp; 0% /dev/shm<br />none &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;7.6G &nbsp; 76K &nbsp;7.6G &nbsp; 1% /var/run<br />none &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;7.6G &nbsp; &nbsp; 0 &nbsp;7.6G &nbsp; 0% /var/lock<br />none &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;7.6G &nbsp; &nbsp; 0 &nbsp;7.6G &nbsp; 0% /lib/init/rw<br />/dev/sdb &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;414G &nbsp;5.9G &nbsp;387G &nbsp; 2% /mnt<br />/dev/sdf &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 50G &nbsp;8.8G &nbsp; 42G &nbsp;18% /ebs</code></blockquote><div><br /></div><div>Yep, /dev/sda1 was at 100% . &nbsp;So I ran through the usual suspects, and tracked it down to /var/log pretty quickly:</div><div><br /></div><blockquote><code><br /><div>root@production:/var# du -h |grep G</div><div>7.2G ./log</div><div>7.8G . </div></code></blockquote><div><br /></div><div>Sweet noodly goodness, 7 gigs of logs? &nbsp;</div><div><br /></div><div><blockquote><code><div>root@production:/var/log# ls -lh |grep G</div><div>total 6.6G</div><div>-rw-r----- 1 syslog &nbsp; &nbsp;adm &nbsp;2.2G 2011-05-20 18:51 mail.info</div><div>-rw-r----- 1 syslog &nbsp; &nbsp;adm &nbsp;2.2G 2011-05-20 18:51 mail.log</div></code></blockquote><div><br /></div></div><div>Specifically, the mail logs were taking up all the space. &nbsp;The first order of business was to get them off the root device, so I moved them to /mnt , the freebie extra-ethereal EBS volume that Amazon gives you with every S3 instance. &nbsp;Then I could restart mysql/apache2, and at least the sites would be back up and normal. So what was going on in these logs?</div><br /><br /><br /><blockquote><code><br />root@production:/var/log# tail /mnt/mail.log <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGv30H001061: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:53, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGuuWt000738: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:55:00, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGvCZe001480: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:44, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGuf9L032603: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:55:15, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGv5qh001300: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:51, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGvPKQ002038: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:31, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGvHfI001678: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:39, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGvMxj001908: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:34, xdelay=00:00:00, mailer=esmtp, pri=13980000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com. <br /><br />May 20 18:51:56 ip-10-118-81-22 sm-mta[21749]: p4JGvHgB001693: to=&lt;www-data@production.swearing.com&gt;, delay=1+01:54:3May 20 18:53:11 ip-10-118-81-22 sm-mta[21749]: p4FJ5XYp028180: to=&lt;www-data@production.swearing.com&gt;, delay=4+23:40:11, xdelay=00:00:00, mailer=esmtp, pri=64650000, relay=production.swearing.com., dsn=4.0.0, stat=Deferred: Connection timed out with production.swearing.com.<br /><div><br /></div></code></blockquote><div>OK, clearly something is looping delivery failures. &nbsp;This server hosts several websites, without their accompanying email, so it&#8217;s configured to force an MX lookup before attempting to send anything anywhere. &nbsp;But it doesn&#8217;t receive mail, so it would have just timed out waiting for itself to respond.&nbsp;</div><div><br /></div><div>This is a problem, but that&#8217;s a condition that should never happen. &nbsp;So what on earth would make it try to &nbsp;deliver mail to production.swearing.com? &nbsp;I headed over to the mail queue to see. &nbsp;The output of mailq was enormous, and I had to Ctrl+C it partway through. &nbsp;Every record was &#8220;Deferred&#8221; due to a timeout on production.swearing.com . &nbsp; OK, so clearly there&#8217;s a lot in the queue. &nbsp;So I had a look at some of the messages.</div><div><br /></div><blockquote><code><br /><div><div>root@production:/var/spool/mqueue# cat dfp4I0uHUF025487&nbsp;</div><div><br /></div><div>This is a MIME-encapsulated message</div><div><br /></div><div>--p4I0uHUF025487.1305680177/ip-10-118-81-22.ec2.internal</div><div><br /></div><div>The original message was received at Wed, 18 May 2011 00:56:14 GMT</div><div>from localhost [127.0.0.1]</div><div><br /></div><div>&nbsp; &nbsp;----- The following addresses had permanent fatal errors -----</div><div>&lt;asf@gmail.com&gt;</div><div>&nbsp; &nbsp; (reason: 550-5.1.1 The email account that you tried to reach does not exist. Please try)</div><div><br /></div><div>&nbsp; &nbsp;----- Transcript of session follows -----</div><div>... while talking to gmail-smtp-in.l.google.com.:</div><div>&gt;&gt;&gt; DATA</div><div>&lt;&lt;&lt; 550-5.1.1 The email account that you tried to reach does not exist. Please try</div><div>&lt;&lt;&lt; 550-5.1.1 double-checking the recipient's email address for typos or</div><div>&lt;&lt;&lt; 550-5.1.1 unnecessary spaces. Learn more at &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div><div>&lt;&lt;&lt; 550 5.1.1 http://mail.google.com/support/bin/answer.py?answer=6596 dz10si728275vdc.78</div><div>550 5.1.1 &lt;asf@gmail.com&gt;... User unknown</div><div>&lt;&lt;&lt; 503 5.5.1 RCPT first. dz10si728275vdc.78</div><div><br /></div><div>--p4I0uHUF025487.1305680177/ip-10-118-81-22.ec2.internal</div><div>Content-Type: message/delivery-status</div><div><br /></div><div>Reporting-MTA: dns; ip-10-118-81-22.ec2.internal</div><div>Received-From-MTA: DNS; localhost</div><div>Arrival-Date: Wed, 18 May 2011 00:56:14 GMT</div><div><br /></div><div>Final-Recipient: RFC822; asf@gmail.com</div><div>Action: failed</div><div>Status: 5.1.1</div><div>Remote-MTA: DNS; gmail-smtp-in.l.google.com</div><div>Diagnostic-Code: SMTP; 550-5.1.1 The email account that you tried to reach does not exist. Please try</div><div>Last-Attempt-Date: Wed, 18 May 2011 00:56:17 GMT</div><div><br /></div><div>--p4I0uHUF025487.1305680177/ip-10-118-81-22.ec2.internal</div><div>Content-Type: text/rfc822-headers</div><div><br /></div><div>Return-Path: &lt;www-data@production.swearing.com&gt;</div><div>Received: from production.swearing.com (localhost [127.0.0.1])</div><div><span class="Apple-tab-span" style="white-space: pre;"> </span>by ip-10-118-81-22.ec2.internal (8.14.3/8.14.3/Debian-9.1ubuntu1) with ESMTP id p4I0uEUF025482</div><div><span class="Apple-tab-span" style="white-space: pre;"> </span>for &lt;asf@gmail.com&gt;; Wed, 18 May 2011 00:56:14 GMT</div><div>Received: (from www-data@localhost)</div><div><span class="Apple-tab-span" style="white-space: pre;"> </span>by production.swearing.com (8.14.3/8.14.3/Submit) id p4I0uEcp025480;</div><div><span class="Apple-tab-span" style="white-space: pre;"> </span>Wed, 18 May 2011 00:56:14 GMT</div><div>Date: Wed, 18 May 2011 00:56:14 GMT</div><div>Message-Id: &lt;201105180056.p4I0uEcp025480@production.swearing.com&gt;</div><div>To: asf@gmail.com</div><div>Subject: Swearing at Computers :: new comment for your post.</div><div>MIME-Version: 1.0</div><div>Content-Type: text/plain; charset=UTF-8; format=flowed; delsp=yes</div><div>Content-Transfer-Encoding: 8Bit</div><div>X-Mailer: Drupal</div><div>Errors-To: info@swearing.com</div><div>Sender: info@swearing.com</div><div>From: info@swearing.com</div><div><br /></div><div>--p4I0uHUF025487.1305680177/ip-10-118-81-22.ec2.internal--</div></div></code></blockquote><div><br /></div><div><br /></div><div>They were all in this vein. &nbsp;So for some reason, the swearing.com site was trying to send out a comment notification to a non-existent email address, which was getting rejected (rightly so). &nbsp;A little inspection in Drupal bore this out: asf@gmail.com, and many other addresses from these queued messages, were being subscribed to comment notifications. &nbsp;There is a comment form somewhere on swearing.com that allows people to sign up for notifications without going through a CAPTCHA. &nbsp;I took this up with the owner of the site immediately.</div><div><br /></div><div>But there&#8217;s still another layer of problem here. &nbsp;Why were delivery failures not being sent to the from: address? &nbsp;A little research led me to the appropriate <a href="http://www.faqs.org/rfcs/rfc2821.html">RFP</a>. &nbsp;The Return-path header is added by the MTA at the last possible moment, specifically as an address for delivery errors. &nbsp;It&#8217;s also used as an indicator when the message is being sent from this host or just relayed. &nbsp;And by default, sendmail uses the return-path of user@hostname. &nbsp;</div><div><br /></div><div>The solution is to have a real email address set up somewhere for this kind of error. &nbsp;You can modify your php.ini (or apache config) to set the default return-path pretty easily. &nbsp;Simply add this to your php.ini :</div><br /><blockquote><code>sendmail_path "/usr/sbin/sendmail -t -i -f servers@trellon.com"</code><br /></blockquote>That&#8217;s it!  Now hopefully I got all the spammy addresses out of that contact form&#8230; or servers@swearing.com is gonna have a lot of mail waiting on Monday!<div><div id="wiki_add_attachment" style="color: #484848; font-family: Verdana, sans-serif; font-size: 12px;"></div></div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-20T20:37:09+02:00" class="updated">Updated May 20<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2011/05/sendmail-return-path-php-and-importance.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2011/05/sendmail-return-path-php-and-importance.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/05/running-redmine-in-subdirectory.html" title="Previous Post: Running Redmine in a subdirectory">&laquo; Running Redmine in a subdirectory</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/05/what-sony-hacks-tell-us-about-their.html" title="Next Post: What the Sony hacks tell us about their Sysadmins and management">What the Sony hacks tell us about their Sysadmins and management &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2011/05/sendmail-return-path-php-and-importance.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2011/05/sendmail-return-path-php-and-importance.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

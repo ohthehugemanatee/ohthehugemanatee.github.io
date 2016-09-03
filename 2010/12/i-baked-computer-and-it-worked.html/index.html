@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>I Baked a Computer (and It Worked!) - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="This weekend a friend asked me to have a look at his HP DV9500 laptop. &nbsp;It was having trouble - when you turned it on, the screen showed &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">I Baked a Computer (and It Worked!)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2010-12-20T00:57:00+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+This weekend a friend asked me to have a look at his <a href="http://forum.notebookreview.com/hp-compaq/152879-hp-dv9500.html">HP DV9500</a> laptop. &nbsp;It was having trouble - when you turned it on, the screen showed nothing but a solid grey with a few thin black bars. &nbsp;The grey increased in intensity as the system ran, until it ran off the colors that the display knew how to show.<br /><br />Clearly, there was a problem with the video card.<br /><br />I tried plugging it into an external monitor, and lo and behold, the system was actually booting fine! &nbsp;Just the video card had lost the ability to send a coherent signal to the built-in screen. &nbsp;I thought this might be a problem with the connection inside the laptop body, but then my friend explained what HP had told him.<br /><br /><a href="http://h30434.www3.hp.com/t5/Display-and-video/hp-dv9500-screen-problem/m-p/37120">This was a factory defect</a>. &nbsp;DV9500 laptops that shipped with the <a href="http://www.nvidia.com/page/geforce8.html">NVIDIA 8600GS</a> video card tend to run into the mysterious &#8220;grey screen with black bars&#8221; problem about 2 years in. &nbsp;Oddly enough, 2 years is the limit on the standard HP warranty. &nbsp;People within warranty have the laptop replaced for free. &nbsp;For people outside of warranty, it costs 570€. &nbsp;My friend was in the latter, SOL category.<br /><br />So I looked into the problem a little bit deeper. According to my google search, the problem is actually that the solder joints between the GPU and the motherboard use a kind of solder that doesn&#8217;t stand up to high temperatures very well. &nbsp;High temperatures like those that might be generated in a compact body laptop with a powerful GPU in it! &nbsp;<a href="http://h30434.www3.hp.com/t5/Display-and-video/hp-dv9500-screen-problem/m-p/190057">The solder balls up or cracks</a>, making the GPU prone to failure. &nbsp;So to fix the problem all you have to do is re-solder all the connections between the GPU and the motherboard, ideally using a kind of solder that handles high temperatures better or forcing the GPU fan to run faster. &nbsp;Easy, right? &nbsp; Hahahahaha no.<br /><br />One forum user suggested a solution, I think in jest: just <a href="http://h30434.www3.hp.com/t5/Hardware/Pavillion-dv9500-WON-T-START/td-p/194528">put the motherboard in the oven</a>! &nbsp;The heat will melt the solder, and it will fill in any cracks. &nbsp;But people tried it, and reported that it worked for them. &nbsp;So with nothing to lose, we tried the same.<br /><br />Easier said than done - of all the laptops I&#8217;ve disassembled, the DV9500 has got to be the worst. &nbsp;22 screws for the underside exterior alone, and 3 more layers to get through after that! &nbsp;Probably about 75 screws to keep track of in the end. &nbsp;Plus you have to peel off all the anti-static plastic they&#8217;ve got glued to the motherboard, and remember where all THAT goes&#8230; I found this<a href="http://www.youtube.com/watch?v=z8CGafMQaq4"> disassembly video for a similar model</a> to be very helpful in reminding me where all the screws and plastic went when it came time to piece it back together.<br /><br />Here are your steps to baking a repaired HP DV9500/NVIDIA 8600GS:<br /><br /><ol><li>Get the motherboard out of the case. &nbsp;We want <b>just the motherboard</b>, with no plastic, screws, or additional parts. This is a pain in the ass. &nbsp;As you remove the screws, lay them out on a flat surface in some semblance of their layout on the actual laptop. &nbsp;Don&#8217;t be afraid to a map for each layer - there are a LOT of screws on this guy, and you don&#8217;t want to forget what goes where!&nbsp;</li><li>Pre-heat your oven to 175-200 degrees Celsius (350-390 degrees Fahrenheit).</li><li>Ball up 4 pieces of tin foil into cone shapes, and place them on a baking sheet. &nbsp;Place the pointy end of the cones on screw points on the motherboard. &nbsp;This is because screw points are lined and electrically insulated from the rest of the mobo - we don&#8217;t want any solder dripping down!</li><li>Put the motherboard in the oven for 6-8 minutes. Set a timer. &nbsp;You will smell burning plastic after about 3 minutes - don&#8217;t worry.</li><li>Remove the motherboard, and set it out to cool for 30 minutes. &nbsp;I put mine outside in the winter air for 10 minutes, same effect. :)</li><li>Piece your laptop back together, and hope!</li></ol><div>It took me 45 minutes to piece the laptop back together, cursing the whole time. &nbsp;But when I finally turned it on, and the screen WORKED&#8230; I couldn&#8217;t believe it. &nbsp;My friend started jumping up and down, I beamed like an idiot, and his shy, reserved wife gave me a kiss. &nbsp;I was a hero, for baking their computer.</div><div><br /></div><div>This is one of the most bizarre tricks I&#8217;ve ever used to fix a computer, and I just had to share.&nbsp;</div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2010-12-20T01:02:07+01:00" class="updated">Updated Dec 20<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/8600gs/'>8600gs</a>, <a class='category' href='/blog/categories/computers/'>computers</a>, <a class='category' href='/blog/categories/crazy/'>crazy</a>, <a class='category' href='/blog/categories/dv9500/'>dv9500</a>, <a class='category' href='/blog/categories/hp/'>hp</a>, <a class='category' href='/blog/categories/laptop/'>laptop</a>, <a class='category' href='/blog/categories/nvidia/'>nvidia</a>, <a class='category' href='/blog/categories/repair/'>repair</a>, <a class='category' href='/blog/categories/video-card/'>video card</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2010/12/unlocking-and-jailbreaking-my-iphone.html" title="Previous Post: Unlocking and jailbreaking my iPhone 3gs on 4.1.2 - a little late">&laquo; Unlocking and jailbreaking my iPhone 3gs on 4.1.2 - a little late</a>
+      
+      
+        <a class="basic-alignment right" href="/2010/12/how-to-jailbreak-and-unlock-iphone-3gs.html" title="Next Post: How to jailbreak and unlock iPhone 3GS IOS 4.2.1, old baseband">How to jailbreak and unlock iPhone 3GS IOS 4.2.1, old baseband &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

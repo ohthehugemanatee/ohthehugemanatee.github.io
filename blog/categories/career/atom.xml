@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Career | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/career/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/"/>
+    <updated>2016-07-29T13:14:06+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs</id>
+    <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
+
+<p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
+
+<p>Drupal is an interesting field in which to work, and there&rsquo;s a lot of momentum for good developers. I chose to work with Amazee Labs because they are some of the best at what we do. I&rsquo;ve always been a fan of their work on a technical level, and now, getting to be a part of the team is very exciting.</p>
+
+<p>My project with Amazee is packed with smart people and exciting technologies. I&rsquo;m working with brilliant Drupalists <a href="https://www.drupal.org/u/fubhy">Sebastian Siemssen</a> and <a href="https://www.drupal.org/u/moshe-weitzman">Moshe Weitzman</a>, which is a thrill on its own. We&rsquo;re mixing Drupal 8 with a custom data storage backend, serving data to a thousand separate <a href="https://facebook.github.io/react/">ReactJS</a> sites via <a href="http://graphql.org/">GraphQL</a>. The whole thing is developed, tested, and run in production on <a href="https://docker.com">Docker</a>. Perhaps the best part is that this team is so dedicated to Doing it Right. I&rsquo;ve worked with plenty of great development shops; none of them do Agile Right; Amazee does. I&rsquo;ve never seen anyone process-obsessed enough to reap the rewards of things like continuous integration or even thorough sprint reviews, but Amazee is managing it. All told, it&rsquo;s very exciting to work with such smart people, in such an effective environment, on such cutting edge technology. I&rsquo;ve gotten to flex muscles I didn&rsquo;t know I had, which is a great feeling. I will definitely be posting more about the technical issues I encounter along the way.</p>
+
+<p>Of course, one of the most appealing parts of this job is the flexibility to continue pursuing my other passion in music. The Cast is getting bigger and bigger, with 30-40 shows this year. I&rsquo;m really working hard to balance these two parts of my life, and the trajectory of The Cast ensures that this balance will be a big focus for me in the next several years. I don&rsquo;t want to leave open source tech entirely; but I may scale back my conference visibility, and focus my contributions more. We&rsquo;ll see what happens. No matter what, I&rsquo;m happy to be working with a fantastic team and supportive company. On to amazeeing things together!</p>
+]]></content>
+  </entry>
+  
+</feed>

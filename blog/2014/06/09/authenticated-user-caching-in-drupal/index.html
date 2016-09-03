@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Authenticated User Caching Concepts in Drupal 7 - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Authenticated User Caching Concepts in Drupal 7</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-09T22:21:01+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
+
+<p>But what about authenticated users? You can cache elements of the page using a method like <a href="https://drupal.org/project/rendercache">Render cache</a>, <a href="https://drupal.org/project/entitycache">Entity Cache</a>, or <a href="https://drupal.org/project/views_content_cache">Views Content Cache</a>. But Drupal still has to assemble each page for your users, a relatively heavy operation! If you want to address hundreds or thousands of authenticated users, you&rsquo;re simply SOL by these traditional approaches.</p>
+
+<p>Enter the <a href="https://drupal.org/project/authcache">Auth Cache</a> suite of modules. Though this project has been around for quite some time, it had a reputation of being finicky and hard to set up. It got a significant rewrite in the last year thanks to <a href="https://drupal.org/users/znerol">znerol</a>, and is now a powerhouse of a module that brings authenticated user caching much closer to regular users.</p>
+
+<p>I will say that this is still not for the squeamish. You have to really understand the building blocks of your site, and you will have to make a plan for each unique layout on your site. There are some page elements that are quite hard to build this way, but for the most part Authcache makes this easy.</p>
+
+<h2>The theory</h2>
+
+<p>The idea behind authenticated user caching is simple. We already have a great caching mechanism for pages that stay exactly the same for all users. So we simply identify the parts of the page that will change for each user, and use a placeholder for them instead. Think of it as a <user customized stuff here> tag in HTML. This way the page caching mechanism can ignore the customized content, and focus on the stuff that IS the same across all requests.</p>
+
+<p>There are three major ways of doing this placeholder: AJAX, ESI, and Cookies.</p>
+
+<p>With AJAX, you just include a little JS that says &ldquo;fill this DIV with the contents of <a href="http://example.com/user/customized/thing">http://example.com/user/customized/thing</a>&rdquo;. The client&rsquo;s web browser makes a second call to the server, which is configured to allow /user/customized/thing through the cache all the way to your website. Drupal (or whatever you&rsquo;re running) fills in the HTML that belongs in that div and returns it to the browser. Congratulations! You just served an authenticated user a page which was 99% cached. You only had to generate the contents of one div.</p>
+
+<p>ESI is short for <a href="https://en.wikipedia.org/wiki/Edge_Side_Includes">Edge Side Includes</a>, a small extension to HTML which effectively does the same thing as that Javascript, but on the &ldquo;Edge server&rdquo;. The Edge server is whatever service touches the HTTP request last before sending it to the client. Apache, NGINX, Varnish, pound&hellip; you want this to happen as far down the stack as you control. An ESI tag in your HTML looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;esi:include src="http://example.com/user/customized/thing" onerror="continue"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s pretty clear, even to a human reader, what this tag means: &ldquo;replace this tag with the contents of <a href="http://example.com/user/customized/thing">http://example.com/user/customized/thing</a>&rdquo;. ESI actually supports some simple logic as well, but that&rsquo;s not really relevant to what we&rsquo;re doing here.</p>
+
+<p>The only difference between ESI and AJAX is where the placeholder is filled. With ESI it happens on the edge service, and with AJAX it happens in the client browser. There is a subtle difference here: a page with ESI will not be delivered until all the ESI calls have returned something, while an AJAX page will return right away, even if the components don&rsquo;t immediately appear. On the other hand, ESI is much better for degraded browsers. YMMV.</p>
+
+<p>The last method is using Cookies. You can store arbitrary information on cookies, as long as you&rsquo;re careful about security. That can be a very effective way to get certain limited information through a caching layer. Authcache actually comes with an example module for just such a use case. It passes the user&rsquo;s name and account URL in a cookie, so you can display it in a block.</p>
+
+<p>This is effective for very small amounts of information, but keep it limited. Cookie headers aren&rsquo;t designed to hold large quantities of data, and reverse proxies can have a hard time if you put too much information in there. Still, it&rsquo;s a neat trick that can cover you for that &ldquo;Hello Username&rdquo; block.</p>
+
+<h2>Authcache in Drupal</h2>
+
+<p>The <a href="https://drupal.org/project/authcache">Authcache</a> suite of modules tries to automatically implement AJAX and/or ESI for you. It actually goes one step further, and implements a caching layer for those &ldquo;fragments&rdquo; which are to be returned via ESI/AJAX. The fragments can be stored in any caching system which implements <a href="http://api.drupal.org/api/drupal/includes%21cache.inc/interface/DrupalCacheInterface/7">DrupalCacheInterface</a>, ie any caching module you&rsquo;ve heard of. Memcache, APC, File Cache, Redis, MongoDB. The full page HTML with placeholders can be cached in Drupal&rsquo;s normal page cache, in Boost, or in Varnish.</p>
+
+<p>Once you have these caching mechanisms defined, it&rsquo;s just a question of marking sections of your site which need a second callback. Authcache presents a large number of modules to do this. You can define any of the following as requiring a second call:</p>
+
+<ul>
+<li>Blocks</li>
+<li>Views</li>
+<li>Panels Panes</li>
+<li>Fields</li>
+<li>Comments</li>
+<li>Flags</li>
+<li>Forms</li>
+<li>Forums</li>
+<li>Polls</li>
+<li>Votes</li>
+</ul>
+
+
+<p>&hellip; and that&rsquo;s all without writing a single line of custom code! Each one of those elements gets a new &ldquo;Authcache&rdquo; setting, where you can define it as needing a second callback, and set the method for the callback as either AJAX or ESI. You can even fall back to another method if the first one fails!</p>
+
+<p>A good example of how this works is the Forms integration. Authcache will modify any and all forms on your site, so that they have an ESI or AJAX placeholder for the form token. This means that the form itself can be stored in your page cache (Varnish, Boost, or whatever), and the form token will be filled in automatically! That&rsquo;s a phenomenal speed improvement without any configuration beyond enabling the module.</p>
+
+<p>Setting up Authcache is a little complicated, and I&rsquo;ll cover that in depth in my next post. But once the basic AJAX or ESI support is set up and these modules are enabled, caching authenticated users becomes a question of visiting each unique layout on your site and making a plan for each element that involves user customization. Authcache makes this easy.</p>
+
+<p>Next post: <a href="https://ohthehugemanatee.org/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/">How to configure Authcache on Drupal 7</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-09T22:21:01+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/performance/'>performance</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/05/28/drupal-superheroes-assemble/" title="Previous Post: Drupal Superheroes: ASSEMBLE!">&laquo; Drupal Superheroes: ASSEMBLE!</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/" title="Next Post: How to configure Authcache on Drupal 7">How to configure Authcache on Drupal 7 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

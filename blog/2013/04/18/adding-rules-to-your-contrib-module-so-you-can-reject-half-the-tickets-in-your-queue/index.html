@@ -1,0 +1,538 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Adding Rules to Your Contrib Module (So You Can Reject Half the Tickets in Your Queue) - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Drupal&#8217;s Rules module lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Adding Rules to Your Contrib Module (So You Can Reject Half the Tickets in Your Queue)</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="http://drupal.org" target="_blank">Drupal&#8217;s</a> <a href="http://drupal.org/project/rules" target="_blank">Rules module</a> lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the hands of the site builder, and it makes developers (rightly) nervous. But there&#8217;s another way to think about it.</p>
+
+
+<p>What&#8217;s fantastic about Rules is that it lets everyone who wants your module to behave slightly differently to <em>change the behavior for themselves</em>. In fact, if you build the logic of your module into Rules you get&nbsp;an excuse to reject half the tickets in your contrib module queue on the grounds of &#8220;works as intended,&#8221; aka &#8220;do it yourself.&#8221; &nbsp;To me, this is the quiet brilliance of Commerce module&#8217;s dependence on Rules. Their code is almost 100% functional elements, with as little behavioral logic as possible. All of the logic is written in Rules. Of course they still distribute Commerce with a hefty set of default rules, so it works with a standard implementation out of the box. But at the same time, it is open to completely custom workflows without the developers ever having to get involved.</p>
+
+
+<p>Today we&#8217;re going to cover adding Rules to existing code. This is an easy way to write solid and useful patches for other contrib modules out there, patches that get used. For your own projects you will probably want to implement this code in your own custom module, just hooking into core or contrib behaviors. Either way the logic is the same.</p>
+
+
+<p>At it&#8217;s core, the Rules API lets you expose functions you&#8217;ve already written to the GUI. 90% of the work is just declaring the functions. There are three elements that Rules cares about:</p>
+
+
+<ul><li><strong>Events</strong>: Potential triggers that a user can use to take action with Rules.</li><li><strong>Actions</strong>: Functions which take a set of parameters and do something.&nbsp;</li><li><strong>Conditions</strong>: Test functions, which return <span style="font-family:courier new,courier,monospace;">TRUE</span> or <span style="font-family:courier new,courier,monospace;">FALSE</span>.</li></ul>
+
+
+<p>You declare these elements to Rules with hooks, usually assembled into a separate <span style="font-family:courier new,courier,monospace;">modulename.rules.inc</span> file. First, let&#8217;s define an event with <span style="font-family:courier new,courier,monospace;"><a href="http://drupalcontrib.org/api/drupal/contributions!rules!rules.api.php/function/hook_rules_event_info/7" target="_blank">hook_rules_event_info()</a></span>.</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.rules.inc">&lt;?php
+/**
+* Implements hook_rules_event_info().
+* Fire a Rules event when a node is validated.
+*/
+function mymodule_rules_event_info() {
+&nbsp; return array(
+&nbsp;&nbsp;&nbsp; 'mymodule_node_is_being_validated' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'group' =&gt; t('My module'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'label' =&gt; t('A node is being validated!'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'variables' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'node' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'type' =&gt; 'node',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'label' =&gt; t('unsaved node being validated'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ),
+        'form_id' =&gt; array(
+          'type' =&gt; 'text',
+          'label' =&gt; t('Form ID'),
+        ),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ),
+&nbsp;&nbsp;&nbsp; ),
+  );
+}
+?&gt;
+</pre>
+
+
+<p>This implementation tells rules that you are defining an Event with the machine name <span style="font-family: 'courier new', courier, monospace;">mymodule_node_is_being_validated</span>. In the Rules dropdown select box that lets you choose the triggering action for a new rule, your Event is called &#8220;A node is being validated!&#8221; and is sorted into the group &#8220;My Module&#8221;. &nbsp;The variables array sets the variables that are offered with this particular event. Each variable in the array must have a &nbsp;machine name (the key), a human-readable label and a data type. Now, anywhere that you want to fire this rules event, you call it with&nbsp;<span style="font-family: 'courier new', courier, monospace;">rules_invoke_event(&#8216;mymodule_node_is_being_validated&#8217;, $node)&nbsp;</span>to fire the Event. In this case, you could hook into node validation and add it easily enough:</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.module">&lt;?php
+/**
+* Implements hook_node_validate().
+* Fires our Rules event on node validation.
+*/
+function mymodule_node_validate($node, $form, &amp;$form_state) {
+  rules_invoke_event('mymodule_node_is_being_validated', $node, $form['#form_id']);
+}
+?&gt;
+</pre>
+
+
+<p>This example brings up one of the big limitations of Rules: you can&#8217;t fail validation. We can set an error message, respond with all the power of Rules, but no matter what you do you cannot make this node form fail validation. The good people at <a href="http://drupal.org/project/rules_forms" target="_blank">rules_forms</a> module are trying to address this, but it&#8217;s a much thornier problem than it looks.</p>
+
+
+<p>Next, let&#8217;s define a Rules action with <span style="font-family:courier new,courier,monospace;"><a href="http://drupalcontrib.org/api/drupal/contributions%21rules%21rules.api.php/function/hook_rules_action_info/7" target="_blank">hook_rules_action_info()</a></span>. This time we&#8217;ll use a real world use case from a recent client: our Rules Action will allow you to subscribe a user to a node with the <a href="http://drupal.org/project/subscriptions" target="_blank">subscriptions</a> module. Again, we&#8217;ll add this info implementation to our <span style="font-family:courier new,courier,monospace;">mymodule.rules.inc</span> file for clarity.</p>
+
+
+<p>&nbsp;</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.rules.inc">&lt;?php
+/**
+* Implements hook_rules_action_info()
+* Add a Rules Action for subscribing a user to a node.
+*/
+function mymodule_rules_action_info() {
+&nbsp; return array(
+&nbsp;&nbsp;&nbsp; 'mymodule_subscribe_user_to_a_node' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'label' =&gt; t('Subscribe a user to a node'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'group' =&gt; t('Subscriptions'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'parameter' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'user' =&gt; array(
+          'type' =&gt; 'user',
+          'label' =&gt; 'Subscribing user',
+        ),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'node' =&gt; array(
+          'type' =&gt; 'node',
+          'label' =&gt; 'Target node',
+        ),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ),
+&nbsp;&nbsp;&nbsp; ),
+&nbsp; );
+}
+?&gt;
+</pre>
+
+
+<p>&nbsp;</p>
+
+
+<p>You can see that we use the same <span style="font-family:courier new,courier,monospace;">label</span>, <span style="font-family:courier new,courier,monospace;">group</span>, and <span style="font-family:courier new,courier,monospace;">module</span> declarations here. Actions take parameters as well, which are structured very similarly to the <span style="font-family:courier new,courier,monospace;">variables</span> in events. You don&#8217;t have to do anything more to make an action: this is it. When Rules fires the action it will look for a function called <span style="font-family:courier new,courier,monospace;">mymodule_subscribe_user_to_a_node</span>, and fire it with the parameters provided in the GUI. In this case we wrapped our own function around subscribe module&#8217;s functionality, because of the way subscribe&#8217;s own subscription function works.</p>
+
+
+<p>&nbsp;</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.module">&lt;?php
+/**
+* Creates a subscription for the user
+*
+* @param $user
+*&nbsp; The user to subscribe to the node.
+* @param $node
+*&nbsp; The node to which the user will subscribe.
+*/
+function mymodule_subscribe_user_to_a_node($user, $node) {
+&nbsp; module_load_include('inc', 'subscriptions', 'subscriptions.admin');
+&nbsp; if (!is_object($node) || !isset($node-&gt;nid)) {
+&nbsp;&nbsp;&nbsp; watchdog('rules_subscriptions', 'Error: object passed is not node. Data: !node', array('!node' =&gt; print_r($node, true)), WATCHDOG_ERROR);
+&nbsp;&nbsp;&nbsp; return;
+&nbsp; }
+&nbsp; $form_state = array(
+&nbsp;&nbsp;&nbsp; 'values' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'stype' =&gt; 'node',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'sid' =&gt; $node-&gt;nid,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'uid' =&gt; $user-&gt;uid,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'author_uid' =&gt; NULL,
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'send_interval' =&gt; _subscriptions_get_setting('send_interval', $user),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'updates' =&gt; _subscriptions_get_setting('send_updates', $user),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'comments' =&gt; _subscriptions_get_setting('send_comments', $user),
+&nbsp;&nbsp;&nbsp; ),
+&nbsp; );
+&nbsp; drupal_form_submit('subscriptions_add_form', $form_state, 'node', $node-&gt;nid);
+}
+?&gt;
+</pre>
+
+
+<p>&nbsp;</p>
+
+
+<p>So much for Rules actions - they&#8217;re even easier than events! &nbsp;There is one big defining difference for Actions though: they can provide new variables back to Rules. This is as easy as a <span style="font-family:courier new,courier,monospace;">provides</span> array in <span style="font-family:courier new,courier,monospace;">hook_rules_action_info()</span>, and returning an array of values from the actual function called.&nbsp;</p>
+
+
+<p>Now let&#8217;s look at a Rules condition. No surprise by now, we declare the existence of our Rules Condition through <span style="font-family:courier new,courier,monospace;"><a href="http://drupalcontrib.org/api/drupal/contributions!rules!rules.api.php/function/hook_rules_condition_info/7" target="_blank">hook_rules_condition_info()</a></span>&nbsp;in <span style="font-family:courier new,courier,monospace;">mymodule.rules.inc</span>&nbsp;:</p>
+
+
+<p>&nbsp;</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.rules.inc">&lt;?php
+/**
+* Implements hook_rules_condition_info().
+* Checks if the given user is admin.
+*/
+function mymodule_rules_condition_info() {
+&nbsp; return array(
+&nbsp;&nbsp;&nbsp; 'mymodule_user_is_admin' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'group' =&gt; t('My Module'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'label' =&gt; t('User is Admin'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'parameter' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'user' =&gt; array(
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'type' =&gt; 'user',
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 'label' =&gt; t('User to test'),
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ),
+&nbsp;&nbsp;&nbsp; ),
+&nbsp; );
+}
+?&gt;
+</pre>
+
+
+<p>&nbsp;</p>
+
+
+<p>Once again we see the familiar structure to declare what is about to happen. And just like in an Action, Rules is going to fire a function named after the array key, <span style="font-family:courier new,courier,monospace;">mymodule_user_is_admin</span>, with the parameters provided. Here we&#8217;ll have a very simple function to check this, and it has to return <span style="font-family:courier new,courier,monospace;">TRUE</span> or <span style="font-family:courier new,courier,monospace;">FALSE</span>.&nbsp;</p>
+
+
+<p>&nbsp;</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.module">&lt;?php
+function mymodule_user_is_admin($user) {
+  if ($user-&gt;uid == '1') {
+    return TRUE;
+  }
+  return FALSE;
+}
+?&gt;
+</pre>
+
+
+<p>Great, so now your module is fully integrated with Rules, right? Well, you have to actually include the Rules logic with the module. Rules provides hook_rules_default_configuration for you to do this, but writing rules by hand is a pain. The shortcut solution is to build your Rules in the Rules GUI and export them, and paste the export into your code. <a href="http://drupalcontrib.org/api/drupal/contributions%21entity%21entity.module/7" target="_blank"><span style="font-family:courier new,courier,monospace;">entity_import()</span></a> is a handy function from the <a href="http://drupal.org/project/entity" target="_blank">EntityAPI</a> module you can use to translate the export format into the format Rules needs. Here&#8217;s a sample <span style="font-family:courier new,courier,monospace;">(hook_rules_default_configuration</span> must be implemented in <span style="font-family:courier new,courier,monospace;">mymodule.rules_defaults.inc</span>):</p>
+
+
+<p>&nbsp;</p>
+
+
+<pre class="brush: php; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="mymodule.rules_defaults.inc">&lt;?php
+/**
+* Implements hook_default_rules_configuration().
+*/
+function mymodule_default_rules_configuration() {
+&nbsp; $rules = array();
+  $rules['rules_mymodule_behavior'] = entity_import(
+    'rules_config',&nbsp;
+    '............');
+  return $rules;
+}</pre>
+
+
+<p>Note that the new rule name has to be prefixed with <span style="font-family:courier new,courier,monospace;">rules_</span>&nbsp;. &nbsp;That&#8217;s all you need to do.</p>
+
+
+<p>What&#8217;s wonderful about these functions is how simple they are. Depending on how your module is written, adding Rules support could be as simple as adding calls to <span style="font-family: 'courier new', courier, monospace;">hook_rules_event_info()</span>, <span style="font-family: 'courier new', courier, monospace;">hook_rules_action_info()</span>, and <span style="font-family: 'courier new', courier, monospace;">hook_rules_condition_info()</span> that connect to existing functions already in your module. In 10 minutes or less, you can open your module up to much more flexibility than was ever possible before. And if you dare to prune the functionality out of your existing code, you can build it in the Rules GUI, export it, and have all your logic exposed and totally customizable in a further 15 minutes. That&#8217;s less than half an hour, and you can start training your users to deal with their own problems. :)</p>
+
+
+<p>Questions? Problems? Leave us a message in the comments&#8230;</p>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2013/03/how-to-uninstall-dolly-drive.html" title="Previous Post: How to uninstall Dolly Drive">&laquo; How to uninstall Dolly Drive</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/" title="Next Post: How to set up Apache Solr Multicore for Drupal">How to set up Apache Solr Multicore for Drupal &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Lots of sites are now built with the “Panels everywhere” method, using Panels and Panelizer to configure modular layouts in the Drupal GUI. These &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/page/4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/03/how-to-create-a-custom-panels-pane/">How to Create a Custom Panels Pane</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-03T13:09:11+01:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Lots of sites are now built with the “Panels everywhere” method, using <a href="https://www.drupal.org/project/panels">Panels</a> and <a href="https://www.drupal.org/project/panelizer">Panelizer</a> to configure modular layouts in the Drupal GUI. These modules come with lots of great default Panes, and create even more defaults based on your existing Blocks and Views. But there’s always a case for a custom Pane.</p>
+
+<p>As usual, I’ll assume that you have an empty custom module called <em>mymodule</em>, with only a <em>.info</em> and a <em>.module</em> file to its name.</p>
+
+<h2>1) Tell CTools that you have custom code here</h2>
+
+<p>Ctools, like Views, needs a hook to declare the fact that you have custom code. To do this we’ll use <em><a href="http://drupalcontrib.org/api/drupal/contributions!ctools!ctools.api.php/function/hook_ctools_plugin_directory/7">hook_ctools_plugin_directory</a></em>. This hook is invoked for all Ctools plugin types, and includes the module name as a&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/01/03/how-to-create-a-custom-panels-pane/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/">44,497 People Are Wrong: How to NEVER Need Views PHP.</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-26T12:01:44+01:00" pubdate data-updated="true">Dec 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>You’re building a View, but you can’t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data in a custom table that you want to include in the View. So you look for a contributed module, and <a href="https://www.drupal.org/project/views_php">Views PHP</a> looks like the answer to your problem! Until you read the module page, where it says:</p>
+
+<blockquote><p>“…it is highly advisable to use regular handlers and plugins when available (or even to create one yourself). Take note that filtering and sorting a view using PHP always has a considerable perfomance impact.”</p></blockquote>
+
+<p>As of this writing, <em>44,497</em> site maintainers have read that warning and chosen to ignore it. <strong>They’ve chosen to put their PHP into a non-revisioned, difficult-to-access place, a&#8230;</strong></p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/">SSH Lifehacks to Make Your SSH Life Easy</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-20T16:29:27+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>If you use SSH every day, or even every other day, this post is for you. We’re going to walk through some of the more convenient options available to you in your global SSH configuration to make your life easier and faster.</p>
+
+<p>First of all, you should know that SSH has a great configuration file, typically located in your home directory at <em>.ssh/config</em>. Everything we’re talking about today belongs there. There’s tons of stuff you can do with it, and I’m only going to scratch the surface.</p>
+
+<h2>Re-Using Existing Connections</h2>
+
+<p>Every time you SSH into a server, &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/this-is-why-real-star-nix-people-hate-osx/">This Is Why Real *nix People Hate OSX</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-03T21:11:23+01:00" pubdate data-updated="true">Dec 3<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>You know what grinds my gears? Unnecessary changes to behaviors of totally standard Linux/Unix commands in OSX. 99% of the time you can use the OSX command line like any sane CLI, but every once in awhile you run into these oddities that are seemingly only there to piss you off. I ran into one today: <em>sed</em> behaves differently on OSX. It counts its arguments differently, so you have to explicitly give it an empty argument for -i. So</p>
+
+<p><code>sed -i 's/find/replace/g'</code></p>
+
+<p>has to become</p>
+
+<p><code>sed -i '' -e 's/find/replace/g'</code></p>
+
+<p>There’s no benefit here, just Apple being a PITA.</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/12/03/this-is-why-real-star-nix-people-hate-osx/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/02/custom-context-conditions/">Custom Context Conditions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-12-02T15:06:49+01:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>One of the big advantages to using the <a href="https://drupal.org/project/context" title="Context Module on drupal.org">Context module</a> is how totally extensible it is. Not only can you use and re-use the built in conditions, you can write your own. This brings all the power of the custom PHP evaluation method of block placement, but in a structure that makes your code re-usable, contributable, versioned, and standards-based. Writing a custom Context Condition is also a great template for how to integrate custom behaviors in many of the more complex Drupal modules such as Views and Search_API. We’ll see this pattern again and again, and this is about the most basic one to demonstrate with.</p>
+
+<p>My task was to determine if the displayed node was entity-referenced as being the “special” node from it’s parent organic group. It’s a weird requirement (which is exactly why a custom Condition makes sense here), so let me explain that again. On a site with Organic Groups, the Group n&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/12/02/custom-context-conditions/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/">A Drupalist Makes the Case for Jekyll/Octopress</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-11-26T23:59:05+01:00" pubdate data-updated="true">Nov 26<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Today I’m launching my new domain, <a href="https://ohthehugemanatee.org">OhTheHugeManatee.org</a>. ORG was the only TLD left, but I’m asking after .com . :)</p>
+
+<p>I made the decision to launch it using <a href="http://jekyllrb.com/" title="Jekyll">Jekyll</a> and <a href="http://octopress.org" title="Octopress">Octopress</a>, rather than Drupal. This feels a little funny to a career Drupalist like myself. Why not use Drupal 7, or use it as a testing ground for Drupal 8? Anyone who knows me will know that I complain bitterly about Ruby, and I’ve been vocal about the misuse of Jekyll for <a href="http://healthcare.gov" title="Healthcare.gov">healthcare.gov</a> . So I feel that an explanation is due, and probably appropriate for my first post written on the system.</p>
+
+<p>First of all, <em>I’m a strong believer in the best tool for the job</em>. I believe that Drupal is the best tool for a lot of complex content management tasks, and I’m excited to work with Drupal 8 as a contributor and implementer. But a single user blog is not a complex content management task. Maybe at some point I will start up a multi-faceted website that covers everything I do, from code to opera to ninjutsu… but that’s not today, and it’s not the objective for this site. For this site, I want a tool &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/02/every-feature-a-branch-every-branch-a-dev-environment-without-breaking-the-bank-the-perfect-git-flow-dev-environment-for-small-shops/">Every Feature a Branch, Every Branch a Dev Environment&#8230; Without Breaking the Bank! The Perfect Git-flow Dev Environment for Small Shops</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-02T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><h2><strong>What and Why?</strong></h2>
+
+
+<p>Everyone loves the <strong>git flow</strong> method for managing branches in development projects. If you’ve been living under a rock and don’t know what git flow is, here’s <a href="http://nvie.com/posts/a-successful-git-branching-model/">the original blog post that brought order to branching chaos</a>. Honestly you can get a really good idea just by looking at the diagram:</p>
+
+
+<p><br><img alt="" src="/downloads/drupal/git-flow.png" style="border-width: 0px; border-style: solid; margin: 10px; float: left;" height="484" width="363"></p>
+
+
+<p>Git-flow is a great branching methodology. It leverages git’s merge strength to the max, and lets you focus on the important things. The only problem is: it requires a lot of development environments.</p>
+
+
+<p>This isn’t actually a problem for many projects. Most coding projects keep their important work - you guessed it - in code, and a new development environment is just a “git checkout -b branchname” away. But for Drupal projects it can be a real pain. Setting up a new environment means copying codebase, files, and db… not particularly hard to do, but enough effort that most people take short cuts. For this reason, most firms don’t rea&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/09/02/every-feature-a-branch-every-branch-a-dev-environment-without-breaking-the-bank-the-perfect-git-flow-dev-environment-for-small-shops/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/20/ssl-certificates-demystified/">SSL Certificates Demystified</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-20T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>It seems like any time anyone has to configure a server for SSL/TLS, they treat it like some kind of voodoo magic. And I guess it can seem that way: if you get your certificates in the right formats from your certificate authority, you basically just drop them into Apache/NGINX/whatever and let it go. </p>
+
+
+<p>But what happens if those files <strong>aren’t</strong> in the right format by default? And what if you actually want to understand what’s going on with your server?</p>
+
+
+<p>The truth is, encryption is not terribly difficult to understand. It’s a little tricky to explain, and the maths in the nitty gritty of it can get really intense, but a high level understanding is important for anyone who works with SSL. </p>
+
+
+<div>The basis for SSL is <a href="https://en.wikipedia.org/wiki/Public_key_cryptography">public-key</a> (asymmetrical) cryptography. The &#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/06/20/ssl-certificates-demystified/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/">Review: GeoServer Beginner&#8217;s Guide, by Stefano Iacovella and Brian Youngblood</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-05-21T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Recently we’ve been holding <a href="http://5ringsweb.com/blog/geoserver-beginners-guide-free-copies">a competition</a> to give away free copies of the popular ebook, <a href="http://www.packtpub.com/geoserver-share-edit-geospatial-data-beginners-guide/book">GeoServer Beginner’s Guide</a>. The book’s purpose is to teach through practical examples. Right on the cover, it promises: “Less theory, more results!” This is a tricky balance to strike in a beginner’s guide. You can’t simply jump into coding a map display when the user doesn’t understand the fundamental concepts! But authors Brian Youngblood and Stefano Iacovella find a good middle ground.</p>
+
+
+<p>The first chapter explains totally fundamental GIS concepts, answering basic questions like “what is spatial data?” And “&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/">How to Set Up Apache Solr Multicore for Drupal</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal’s <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It’s easy enough to set up a single site installation of solr on your own, but if you’re serious about building Drupal sites with solr you will be building more than one site. Solr includes a ”<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>” mode, which lets you serve multiple search cores to separate site&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/5/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/3/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

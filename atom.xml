@@ -1,0 +1,1528 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Migrate Content Into Drupal 8 Paragraphs]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/"/>
+    <updated>2016-08-27T10:52:16+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs</id>
+    <content type="html"><![CDATA[<p><a href="https://drupal.org/project/paragraphs">Paragraphs module</a> is rapidly becoming a critical tool in every Drupalist&rsquo;s site building toolkit. It creates a field that references a (draggable) list of paragraph entities. Paragraphs are an entity type with bundles, which means you have all sorts of different paragraph types to choose from, each with its own customizable fields, layout, template, etc.</p>
+
+<p>Though it originally started as a way to address &ldquo;long form&rdquo; content pieces, today Paragraphs is used as a fundamental building block for much more. I talked to a colleague last week who uses it for component-based design: <em>everything</em> on his sites is a paragraph. Every page layout is just a content type, with a Paragraphs field for each column. All components are treated equally. So the library of components that you built in a good, component-based design process, is translated into a library of Paragraphs, representing everything from a front page slideshow, to callout boxes, to sidebar blocks. Pretty cool stuff.</p>
+
+<p>This growth in use cases for Paragraphs means that Drupal 8 migrations almost inevitably involve Paragraphs. They can be a bit tricky, too. It&rsquo;s an entity reference field, but a little too complicated to use the entity_generate plugin. Plus, it&rsquo;s really an <a href="https://www.drupal.org/project/entity_reference_revisions">Entity Reference Revisions</a> field, so you need some revision handling, too.</p>
+
+<p>I&rsquo;ve seen some people handle this through a complicated <a href="https://www.drupal.org/node/2129651">migrate process plugin</a>. That&rsquo;s a little counter-intuitive to me, and you end up with a fair bit of custom code. The simplest solution I&rsquo;ve seen is to give Paragraphs their own Migration.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Getting My Notes Out of Evernote]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
+    <updated>2016-08-13T16:44:40+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
+    <content type="html"><![CDATA[<h2>The Why</h2>
+
+<p>I&rsquo;m an obsessive note taker. Meetings, ideas, to do lists, grocery lists&hellip; The act of writing really helps me remember, so I&rsquo;ve been writing everything down since I was a teenager.  For years I had a thousand text documents scattered around my computer. In 2008 I discovered that the act of writing isn&rsquo;t nearly as effective as the act of <em>searching</em>, so I resolved to start taking notes in a central, searchable, sync&#8217;ed system. In short, I jumped on the Evernote train.</p>
+
+<p>Nowadays, it seems like every time I turn around, Evernote has found some more bloat to add. First it was photos and videos, then to do lists and Reminders. Then came poorly-implemented sharing, groups, chat, geo-tagging, google drive integration, and so on. I recently heard that it does Salesforce integration, too. I&rsquo;m sure that somewhere out there, there&rsquo;s a target market that wants all of this shit every time they write a shopping list, but I am not in that market. I just want to write, sync, and search text.</p>
+
+<p>I get to digress a little here, because it&rsquo;s my blog. I like simple, reliable tools that don&rsquo;t try to think for me. I write notes in a mix of 4 languages, so spellcheck is an automatic fail. Autocorrect is even worse. Grammar checkers make it impossible to mix short form and long form notes. I don&rsquo;t even want smart quotes. I&rsquo;m a programmer. When I type something in single quotes, I want it to <em>stay</em> in single quotes. In short, if your feature starts with the word &ldquo;smart&rdquo;, it can fuck off.</p>
+
+<p>In the last several months I&rsquo;ve noticed that I have a thousand text notes on my computer again. It&rsquo;s not hard to see why: Evernote has gotten all &ldquo;smart&rdquo;. OSX&rsquo;s Textedit application can be configured to take the kind of simple notes I like, so that&rsquo;s what I found myself using. So I resolved to find a new note taking system.</p>
+
+<h2>The What</h2>
+
+<p>Here were my criteria:</p>
+
+<ul>
+<li>ONLY text notes. I&rsquo;ve got other ways to handle pictures, drawings, geo-location, and to-do lists. This is just for text.</li>
+<li>The ability to disable everything &ldquo;smart&rdquo; in the text editor. I don&rsquo;t even want smart URLs. Just text.</li>
+<li>Automatically saves and syncs. Of the hundred or so text documents on my Desktop, 99% of them are called &ldquo;Untitled&rdquo;.</li>
+<li>Searchable.</li>
+<li>Accessible from my Phone and all of my computers</li>
+<li>Starting a new note should be as easy as Ctrl+N</li>
+<li>Easy to sync/share with my wife</li>
+<li>Ability to write to a note from the terminal or any other application.</li>
+</ul>
+
+
+<p>I considered just using vim, but my vim environment is way too feature-packed for what I want. I used vim as an IDE for a long time, remember? I have similar issues with Atom and Emacs &ndash; they just do way more than I want them to. Simple, simple, simple!</p>
+
+<p>I chose Simplenote on the recommendation of a few like-minded people, and I love it so far. But of course, there&rsquo;s some migration to take care of!</p>
+
+<h2>The How</h2>
+
+<p>Out of the box, Simplenote is a great note-taking tool for my purposes. I had to disable some of the usual &ldquo;smart&rdquo; features, but it took me less than 30 seconds to find and disable them. No biggie. It was missing two key features, though: the ability to write from the terminal, and my long history of Evernote documents.</p>
+
+<p>The solution to both involves an undocumented feature of Simplenote: Dropbox integration. Send an email to customer support and ask for them to enable it on your account. It&rsquo;s rudimentary, and as their support rep explained to me, &ldquo;this feature isn’t really something we can support, its more of a convenience thing we’ve added for you.&rdquo; I&rsquo;m cool with that.</p>
+
+<p>Just like that, I have a note-taking system that does two-way sync to a folder of .txt files on all my devices. I can create txt files any way I like, of course: pipe data from the terminal, have PHP write debug output, or use a totally different text editor. That&rsquo;s a huge feature add! It also adds some other nice features, like now my wife can share my notes. Oh, and Spotlight will search those notes automatically, too. Sweet.</p>
+
+<p>Importing from Evernote was a bit of a bitch. Evernote lets you export notebooks to HTML, or HTML wrapped in a custom XML format (.enex, because the world needs another file extension). Neither of those are terribly helpful. I tried a couple of options that failed out on my system:</p>
+
+<ul>
+<li><a href="https://github.com/claytron/ever2simple">Ever2simple</a>, which promises to convert .enex into a directory of Markdown text files, wouldn&rsquo;t install because libxml is a tricky beast on OSX. Then it wouldn&rsquo;t run because libxml is a tricky beast on OSX. I gave up.</li>
+<li><a href="http://www.geeknote.me/">Geeknote</a>, the Evernote command line client, which promises to export to txt files. No installation instructions for non-Linux users, requires python-setuptools which is tricky to get on OSX, and wants sudo access for the installer script without explaining why. Nope.</li>
+</ul>
+
+
+<p>I finally stumbled on a little PHP project called <a href="https://github.com/panicsteve/enex-dump">enexdump</a>. One file, no installation, written in my most comfortable language after English. Less than 100 lines of code. Perfect! It worked like a charm.</p>
+
+<p><code>php enex-dump.php ~/Desktop/my-notes.enex</code></p>
+
+<p>And a couple of minutes later, I had an /output folder full of txt files.</p>
+
+<p>So far I can only recommend this setup. Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/"/>
+    <updated>2016-07-29T13:14:06+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs</id>
+    <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
+
+<p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
+
+<p>Drupal is an interesting field in which to work, and there&rsquo;s a lot of momentum for good developers. I chose to work with Amazee Labs because they are some of the best at what we do. I&rsquo;ve always been a fan of their work on a technical level, and now, getting to be a part of the team is very exciting.</p>
+
+<p>My project with Amazee is packed with smart people and exciting technologies. I&rsquo;m working with brilliant Drupalists <a href="https://www.drupal.org/u/fubhy">Sebastian Siemssen</a> and <a href="https://www.drupal.org/u/moshe-weitzman">Moshe Weitzman</a>, which is a thrill on its own. We&rsquo;re mixing Drupal 8 with a custom data storage backend, serving data to a thousand separate <a href="https://facebook.github.io/react/">ReactJS</a> sites via <a href="http://graphql.org/">GraphQL</a>. The whole thing is developed, tested, and run in production on <a href="https://docker.com">Docker</a>. Perhaps the best part is that this team is so dedicated to Doing it Right. I&rsquo;ve worked with plenty of great development shops; none of them do Agile Right; Amazee does. I&rsquo;ve never seen anyone process-obsessed enough to reap the rewards of things like continuous integration or even thorough sprint reviews, but Amazee is managing it. All told, it&rsquo;s very exciting to work with such smart people, in such an effective environment, on such cutting edge technology. I&rsquo;ve gotten to flex muscles I didn&rsquo;t know I had, which is a great feeling. I will definitely be posting more about the technical issues I encounter along the way.</p>
+
+<p>Of course, one of the most appealing parts of this job is the flexibility to continue pursuing my other passion in music. The Cast is getting bigger and bigger, with 30-40 shows this year. I&rsquo;m really working hard to balance these two parts of my life, and the trajectory of The Cast ensures that this balance will be a big focus for me in the next several years. I don&rsquo;t want to leave open source tech entirely; but I may scale back my conference visibility, and focus my contributions more. We&rsquo;ll see what happens. No matter what, I&rsquo;m happy to be working with a fantastic team and supportive company. On to amazeeing things together!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Some Git Log Magic]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic/"/>
+    <updated>2016-04-15T13:12:41+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic</id>
+    <content type="html"><![CDATA[<p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
+
+<p>There were a few questions I wanted to answer about one particular developer&rsquo;s input. I&rsquo;m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I&rsquo;m trying to break him of the habit. Here are my questions:</p>
+
+<ul>
+<li>What proportion of his commits were generated after hours?</li>
+<li>Which tickets did he work on after hours?</li>
+<li>Which after hours tickets were the biggest, generating the most commits?</li>
+</ul>
+
+
+<p>First I had to set some standards: &ldquo;after hours&rdquo; is defined as &ldquo;between 7pm and 7am&rdquo;; ticket ID numbers are noted in our commit log with square brackets, ie <code>[#12345]</code>.</p>
+
+<p>We&rsquo;ll start with the total number of commits in this last release period, which we need to figure out the proportion of his commits. This is easy with <code>git shortlog</code>. Git log (and shortlog)&rsquo;s <code>--author</code> argument matches any part of the user&rsquo;s name, so it was easy enough to get Timmy&rsquo;s commits. This is would be the most intuitive git command I know of, except for the mystery <code>-s</code>: a shortlog-only argument that squashes commits down to a count.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git shortlog -s --author=Timmy --after="2016-02-12" --before="2016-04-14"
+</span><span class='line'>   609  Timmy Horton</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(not his real name)</p>
+
+<p>To get the rest of the information we want we have to switch to full git log, and get a custom-formatted one line representation of each commit, with the information that we want. We use <code>--format</code> to speciy our custom format. Here&rsquo;s <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html#_pretty_formats">the complete list of format variables</a> &ndash; our use is pretty trivial.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14"
+</span><span class='line'>
+</span><span class='line'>Thu Apr 14 00:34:58 2016 -0400: [#50559] Remove dependency on comm_group_stats.inc from foo_communities.info
+</span><span class='line'>Wed Apr 13 17:13:02 2016 -0400: [#50549] Add proper EFQs to foo_global_render_homepage_block
+</span><span class='line'>Wed Apr 13 17:10:41 2016 -0400: Merge branch 'stable' into 50549-homepage-counts-are-off
+</span><span class='line'>Wed Apr 13 00:13:54 2016 -0400: Merge branch 'stable' into 50485-groups-communities-counts
+</span><span class='line'>Wed Apr 13 00:13:01 2016 -0400: [#50481] Correct counts calculations on Communities and Groups DS field and Mini Panel Panes
+</span><span class='line'>Tue Apr 12 03:59:17 2016 -0400: [#50248] Fix relative url issue on custom DS Author Field
+</span><span class='line'>Tue Apr 12 03:18:49 2016 -0400: [#50248] Remove duplicate title in Pathauto alias for Event
+</span><span class='line'>Tue Apr 12 03:10:53 2016 -0400: [#50248] Change Pathauto alias for Communities
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we&rsquo;ll filter to just the commits which happened between 7pm and 8am, with grep. You can use <code>egrep</code> to take advantage of &ldquo;extended&rdquo; regular expression matching, so I wrote a little regex that looks for the first component of the time, and checks that the second digit is in the right range.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}'
+</span><span class='line'>
+</span><span class='line'>Thu Apr 14 00:34:58 2016 -0400: [#50559] Remove dependency on comm_group_stats.inc from foo_communities.info
+</span><span class='line'>Wed Apr 13 00:13:01 2016 -0400: [#50481] Correct counts calculations on Communities and Groups DS field and Mini Panel Panes
+</span><span class='line'>Tue Apr 12 03:59:17 2016 -0400: [#50248] Fix relative url issue on custom DS Author Field
+</span><span class='line'>Tue Apr 12 03:18:49 2016 -0400: [#50248] Remove duplicate title in Pathauto alias for Event
+</span><span class='line'>Tue Apr 12 03:10:53 2016 -0400: [#50248] Change Pathauto alias for Communities
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ll take this regex apart for you. I know I can recognize a time as any colon-separated trio of two digit numbers. <code>\d</code> is a number, <code>{2}</code> is &ldquo;exactly two of the preceding element&rdquo;, so the pattern is <code>\d{2}:\d{2}:\d{2}</code>. We really want just the hours between 00 and 09, and between 19 and 23. Square brackets denote ranges, but regex examines one <em>character</em> at a time. It sees 01 as a zero, then a one. We have to take it apart a little more than this. The first range is <code>0[0-9]</code> &ndash; that one is easy. We separate it from its neighbor with a vertical pipe to make it an OR comparison, and surround each option in that OR in parenthesis to make sure that both digits are considered together. Since we have to think in single digits, the second time range range could be 19, or <code>2[0-3]</code>. Finally, I surround the whole OR set in parentheses because it makes it easier to read.</p>
+
+<p>Getting a count of this list is easy: we just pipe the result to <code>wc -l</code> to get a count of lines.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | wc -l
+</span><span class='line'>
+</span><span class='line'>225</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wow &ndash; more than a third of his commits happened after hours! That&rsquo;s definitely not good.</p>
+
+<p>Let&rsquo;s find out which tickets he worked on, using our standardized notation for ticket numbers. We can exclude merge commits with git log&rsquo;s <code>--no-merges</code> argument. But what about printing just the ticket numbers? We&rsquo;ll use my favorite multitool: awk!</p>
+
+<p>Awk breaks up input into columns, and has a whole language for doing exotic and fun things with those columns. Who needs excel, anyway? If you want to learn more about awk, check out my <a href="https://ohthehugemanatee.org/2011/04/working-with-bash-awk.html">very old post on the subject</a>. Here we&rsquo;re just going to accept awk&rsquo;s default of space-separated columns, and print off column number 7.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}'
+</span><span class='line'>
+</span><span class='line'>[#50559]
+</span><span class='line'>[#50481]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Great, but there are a lot of duplicates there. I guess 50248 was a big one, for example. So we&rsquo;ll pass it through <code>uniq</code> to limit it to just unique tickets. Uniq removes duplicates, but only duplicates in a row. So most of the time &ndash; including today &ndash; we pair it with <code>sort</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}' | sort | uniq
+</span><span class='line'>
+</span><span class='line'>[#48192]
+</span><span class='line'>[#49324]
+</span><span class='line'>[#49343]
+</span><span class='line'>[#49464]
+</span><span class='line'>[#49473]
+</span><span class='line'>[#49863]
+</span><span class='line'>[#50005]
+</span><span class='line'>[#50033]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Much better! Now, how many commits went into each one of those tickets? This was a new one for me: we&rsquo;ll use uniq&rsquo;s <code>-c</code> flag to tell it to produce counts. And just for readability, we&rsquo;ll sort the resulting list by the count.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}' | sort | uniq -c | sort
+</span><span class='line'>
+</span><span class='line'>   1 [#50238]
+</span><span class='line'>   1 [#50251]
+</span><span class='line'>   1 [#50252]
+</span><span class='line'>   1 [#50480]
+</span><span class='line'>   1 [#50481]
+</span><span class='line'>   1 [#50559]
+</span><span class='line'>   2 [#50418]
+</span><span class='line'>   2 [50033]
+</span><span class='line'>   3 [#49863]
+</span><span class='line'>   3 [#50319]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Questions answered! Maybe next I should use gnuplot to plot the number of commits against lateness of the hour&hellip;</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[An Open Letter to Wired Magazine]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine/"/>
+    <updated>2016-02-09T14:10:31+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine</id>
+    <content type="html"><![CDATA[<p>Dear Wired &ndash;
+I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/">post about the changes in ad blocker policy</a> on your site. Thanks for writing in such an open and respectful tone; it&rsquo;s clear you care about your readers and want to find a reasonable way forward.</p>
+
+<p>Unfortunately the post fails to address the REASONS that your readers use ad blockers. If only you had gone a little bit farther in the post and offered specific promises in exchange for being whitelisted, I think you would keep a much larger proportion of your readers.</p>
+
+<p>As an example, here are some promises you could have made that would have convinced me.</p>
+
+<ul>
+<li><p>Third party scripts will be kept to under 33% of page weight. (They&rsquo;re at ~50% for this article, and that&rsquo;s with a 1.1MB gif in the content!)</p></li>
+<li><p>We will respect &ldquo;do not track&rdquo; headers in your browser (or settings on your Wired account) by excluding you from ad- and analytics-related tracking, and only serving you anonymous ads.</p></li>
+<li><p>We may serve ads based on your browsing behavior at wired.com, but they will always include a short explanation. For example, &ldquo;because you were interested in Article X:&rdquo;</p></li>
+<li><p>Our ad placement and content will follow strict rules (link to a public page of your guidelines), similar to the Adblock &ldquo;Acceptable Ads&rdquo; criteria (<a href="https://adblockplus.org/en/acceptable-ads#criteria">https://adblockplus.org/en/acceptable-ads#criteria</a>).</p></li>
+<li><p>We will serve all content and ads over HTTPS, from within the wired.com domain (or include a list of specific sources), so you can trust that it&rsquo;s really coming from us.</p></li>
+</ul>
+
+
+<p>I&rsquo;m not asking for those specific promises or numbers per se. They&rsquo;re only an example of how you could reassure 20% of your readers that they can trust you as a whitelisted site.</p>
+
+<p>As it is, Wired doesn&rsquo;t offer to address any of the issues that make (technical) people enable an ad blocker. Your post is reduced to a nicely worded ultimatum. You&rsquo;re asking me to make a special exception for Wired, and offering only a stick as incentive. No carrot, no quid pro quo, and no addressing my concerns. And you&rsquo;re doing it on a 3.3MB page with 1.5MB worth of third party ads and tracking code attached, served over HTTP. As a technical reader, this FEELS to me like an ultimatum; like a belligerent challenge. Wired is close enough to the technical community to know how well we respond to ultimatums: I expect you&rsquo;re about to lose ~20% of your direct readership in a core market, and suffer a PR backlash in tech community blogs to boot.</p>
+
+<p>I doubt this is what the Wired board had in mind.</p>
+
+<p>Perhaps you could take a lesson from application designers. <strong>If 20% of your user base uses workarounds to get at your content while dodging parts of the user experience, that indicates great content and bad user experience.</strong> Before locking out a fifth of your readership, try a little market research to improve that Ux. Just do a cursory investigation into WHAT people find so terrible, and WHY they use the alternative; consider how you might change your Ux to make that unnecessary. After all, this is 20% of your user base who likes your core product (content) so much, they find ways to access it despite a shitty Ux. It would be a shame to lose such a dedicated (and large) group of fans.</p>
+
+<p>It&rsquo;s possible that all of those users install ad blockers because marketing execs personally insulted them, and they won&rsquo;t have anything to do with ads in any form. But I suspect you&rsquo;d find a good percentage who use ad or script blockers for security, faster page loads, and to avoid badly behaved trackers. If you can promise even some of those benefits in exchange for whitelisting, you will get a lot more takers.</p>
+
+<p>I will become a Wired reader again if you can promise me that your ads will be unobtrusive, exclusively from Wired, transmitted over a secure connection, and respectful of my wishes with regards to being tracked or my browsing behavior sold.</p>
+
+<p>Until you can make that promise in clear terms, I&rsquo;ll keep my ad blocker turned on.</p>
+
+<p>Thanks</p>
+
+<p>Campbell Vertesi</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How Drupal Should Handle Client-side Framework Obsolescence]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/"/>
+    <updated>2015-12-08T12:06:02+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence</id>
+    <content type="html"><![CDATA[<p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he&rsquo;s still mulling it over. I couldn&rsquo;t resist adding to the storm.</p>
+
+<p>I completely agree that Drupal would benefit from figuring out a standardized approach to decoupled front ends. I think Dries is spot-on in supporting a &ldquo;progressive decoupling&rdquo; model as a great best-of-both-worlds response that can happen within 8.x. I would frame the problem a little differently, though.</p>
+
+<p>The thing is, we already HAVE embraced a framework and shipped with it in core: backboneJS. And we&rsquo;re dealing with the development cycle delta already: backbone is now quite outdated; in order to keep up we have to consider ditching it in favor of options like react and angular.  <strong>I don&rsquo;t think this is a &ldquo;how do we architect a new part of Drupal&rdquo; problem, so much as a &ldquo;we already have this issue and we know it will recur&rdquo; problem</strong>. Rather than trying to decide upon a single framework that will remain relevant for the entire lifecycle of Drupal 8, the goal should be to provide a structure that makes it easy to respond once angular/react/whatever are out-of-date, too.</p>
+
+<p>I advocate taking exactly the PHPTemplate route we took in 4.6 (was it? 4.5?): <strong>ship one engine with core, but make it replaceable</strong>. There are a few reasons behind this. First, I think Dries&#8217; rejection of this approach misses some key elements: the landscape of PHP based template engines in 2005 is very different than that of front end frameworks in 2015, and the task of replacing a Drupal 4.6 templating engine is very different from that of replacing a Drupal 8 front end framework. Second, I think we&rsquo;ve stumbled upon a reasonably successful model for adapting to development cycle deltas in how we&rsquo;ve worked with JQuery in Drupal 7. Finally, I believe that making our front end framework replaceable fits with Drupal&rsquo;s overall architectural philosophy, and will help D8 stay relevant for longer.</p>
+
+<p>Dries is right to point out that when we did this with PHPTemplate, effectively nobody took advantage of the ability to replace it. But think back to the development landscape of PHP based templating engines in 2005, and compare it to JS frameworks in 2015: the pace of development was was much slower, every PHP project rolled their own system, libraries to extend capabilities were effectively nonexistent, the total number of developers was lower, and the amount of innovation between alternatives was lower. The arguments that make AngularJS compelling, for example (tens of thousands of developers, hundreds of tutorials, thousands of ngextensions, etc), bear little resemblance to the arguments for &ndash; what even <em>were</em> the alternatives to PHPTemplate in 2005?</p>
+
+<p>Further, the task of replacing PHPTemplate in Drupal 4.6 is not analogous to the task of replacing a JS framework in D8. We only use backbone to handle interactions and &ldquo;big pipe&rdquo; style includes (rather than page rendering out of whole cloth). Dries proposes continuing this approach (and I agree). The task of replacing Backbone with Angular or React would be a big one, but nowhere near as big as building an entire templating engine from scratch for Drupal 4.6. It&rsquo;s still hard work of course, but you&rsquo;re not rebuilding a third of the platform, or architecting your own library with a unique approach.</p>
+
+<p>We made PHPTemplate replaceable as a hedge against Adrian Rossouw getting hit by a bus, and because if Adrian wanted to roll his own engine, surely other developers would, too. It turns out that wasn&rsquo;t necessary; no other templating system gained enough traction to make a dent in the default. That was an effect of the development landscape and the size of the task. This is just not the case with front end frameworks.</p>
+
+<p>In 2005, we were confident that if PHPTemplate was a great choice in 2005, it would probably still be a great choice in 2006, and with care it could remain a reasonable choice for 5 years or more. Replacability was for allowing alternatives. In the case of externally developed front end frameworks in 2015, we can say with certainty that a great choice this year will be an old choice in 2 years, a bad choice in 3, and a liability in 5. That&rsquo;s a different problem space.</p>
+
+<p><strong>I think we have a better analogy with JQuery than with PHPTemplate</strong>. That was also an external library with a development pace delta problem. Within 3 years of including JQuery in Drupal 6 core, the JQuery Update module climbed into the list of most-used modules. For Drupal 7 we architected to make this a little easier, anticipating that it would be necessary. That&rsquo;s worked out well for us. Fortunately there aren&rsquo;t a lot of mutually exclusive alternatives to JQuery, so all we&rsquo;ve needed is updates. Still, I think there are good lessons here for introducing a standard front end framework in Drupal 8: people will need updates faster than core can provide them, and the contrib space is a reasonable place to get them &ndash; even (especially?) when the updates are so common they become de facto parts of core.</p>
+
+<p>Finally, a key philosophy for Drupal 8 is that builders can replace or override entire subsystems. Making the front-end framework similarly replaceable fits right in line with this architecture. If I want to replace Backbone with React, I should be able to do that relatively easily. In a dream world we could abstract out the whole thing, and make core front end framework agnostic. THAT would be a monumental task, indeed!</p>
+
+<p>I advise changing the implementation and documentation of backbone in Drupal 8.x to be (more easily) replaceable or augmentable in contrib. I&rsquo;m convinced that we would see an AngularJS contrib module within a year, and probably a ReactJS one as well. The power law predicts that the community will standardize around one framework at a time, which means that we really only have to be concerned about transition periods. Even then, front end frameworks don&rsquo;t have to be exclusive. Site builders could include the ReactJS library as a dependency of module X, the AngularJS library as a dependency of module Y, and backbone from core. The people developing sites where an extra 36kB (the size of AngularJS 1.4.8) of page size matters are also the ones best positioned to fully replace one library with another.</p>
+
+<p><strong>TL;DR: Contrib is a great place to handle the ever-changing, rapid landscape of front end frameworks. All Drupal core has to do is make it easy.</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
+    <updated>2015-10-08T11:16:02+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
+    <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
+
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
+
+
+<script async src="http://ohthehugemanatee.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+<p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
+
+<h2>Are we there yet?</h2>
+
+<p>Despite all the rejoicing on social media, this isn&rsquo;t the final release for Drupal 8 &ndash; it&rsquo;s only the first Release Candidate. This means that we have (officially!) 0 &ldquo;critical&rdquo; bugs left to fix in Drupal 8. That means exactly what it sounds like: there are no critical, world-ending bugs left&hellip; <em>that we know of</em>. Just like any software product, we&rsquo;ll continue to discover critical issues through its entire life cycle. We&rsquo;re still finding occasional critical issues in Drupal 7 almost five years since its first release candidate; that&rsquo;s just a part of supporting a piece of software over the long term. The RC phase means that while Drupal 8 is stable enough to use, we&rsquo;re still discovering critical bugs a little too frequently to recommend it for everyone, in every use case.</p>
+
+<p>&ldquo;A little too frequently&rdquo; means that the rate of critical bugs incoming is still too high to be able to promise the fast respond-and-fix turnaround that we want. Every two weeks we&rsquo;ll create a new Release Candidate version that fixes whatever new criticals have been discovered. Once the core team is confident that they can squash bugs in a timely enough manner, they&rsquo;ll (finally) release Drupal version 8.0.0.</p>
+
+<h2>But when will it REALLY be released?</h2>
+
+<p>&ldquo;When it&rsquo;s ready&rdquo; still applies! But we are very, very close now. To give you a point of reference, Drupal 7 went through four Release Candidates before release (two months). That codebase was a lot more fragile than this one, so it&rsquo;s reasonable to hope that we&rsquo;ll have a very Drupally Christmas season this year. Personally I&rsquo;m betting on January.</p>
+
+<p><img src="https://www.drupal.org/files/christmas-ad.png"></p>
+
+<h2>Can I use it yet?</h2>
+
+<p><span style="font-size: 1.5em"><em>Yes!</em></span> <span style='font-size:0.5em'>Some terms and conditions apply.</span></p>
+
+<p>Just because there are no criticals left, doesn&rsquo;t mean that D8 is completely bug-free! We have <a href="https://www.drupal.org/project/issues/search/drupal?assigned=&amp;submitted=&amp;project_issue_followers=&amp;status[]=1&amp;status[]=13&amp;status[]=8&amp;status[]=14&amp;status[]=4&amp;priorities[]=300&amp;categories[]=1&amp;version[]=8.0.x-dev&amp;issue_tags_op=%3D&amp;issue_tags=">a big pile of known &ldquo;major&rdquo; issues</a> that have been deferred until after 8.0.0, which should impact your decision. You can see at that link that some of them are already ready to be committed. The catch is that during the RC phase, we aren&rsquo;t allowed to commit these fixes. <a href="https://www.drupal.org/core/d8-allowed-changes#rc">We&rsquo;re basically only allowed to work on criticals and documentation</a>. So there are still some serious issues that might be a problem in some use cases.</p>
+
+<p>The biggest issue (that I know of) is <a href="https://www.drupal.org/node/2542868">a potential incompatibility between Drupal 8&rsquo;s new &ldquo;cache tags&rdquo; header and some hosting providers</a>. The problem is that Drupal includes some important caching information on the &ldquo;back of the envelope&rdquo; of its response to a page request, and it&rsquo;s possible to run out of envelope! If the cache tags header gets too long for the web host to handle, it can behave unpredictably. You might get white screens of death, or it might just shorten the cache tags header, removing important information. There&rsquo;s a solution in the works to allow a maximum length setting, but it won&rsquo;t make it in until 8.0.1 (two weeks after 8.0.0). In the meantime you should avoid D8 if you have any very complex pages with many elements. The examples in that ticket are good ones: a news site with very complex layouts, or a single page site with a lot of &ldquo;stuff&rdquo; crammed onto the one, front page.</p>
+
+<p>The other &ldquo;gotcha&rdquo; to bear in mind is that it will take some time for Drupal&rsquo;s contributed modules ecosystem to catch up with the new version. According to <a href="http://www.bluespark.com/status-top-100-contributed-modules-drupal-8">Bluespark&rsquo;s status of the top 100 modules for D8</a> page, so far only 9 of the top 100 D7 modules have a D8 release marked &ldquo;stable.&rdquo; 19 of those top 100 modules are included in D8 core however, so our total count is up to 28. This is enough to give a good foundation for relatively simple sites, especially if you have some PHP skills under your belt. But I wouldn&rsquo;t go building a complex Intranet on it just yet!</p>
+
+<h2>Wait, so it&rsquo;s still busted?</h2>
+
+<p>No! Drupal 8 is a solid platform for most use cases &ndash; that&rsquo;s the point of the RC release! It&rsquo;s time to go ahead and use it for site builds. Just take it easy and use it for simple sites, first. Give the rest of the community a chance to release stable modules, and hold off on that Facebook-buster behemoth website you&rsquo;ve got planned until a few months after launch.</p>
+
+<h2>What happens after 8.0.0?</h2>
+
+<p>After 8.0.0 is released, we will make an enormous, fundamental shift in how Drupal is developed. We will start using <a href="http://semver.org">semantic versioning</a> with a regular release schedule. Every two weeks we&rsquo;ll release a new &ldquo;patch level&#8217; release: 8.0.1, 8.0.2, and so on. Patch level releases will be bug fixes only, and will be backwards-compatible &ndash; that means they won&rsquo;t break anything on your site. Approximately every 6 months, we&rsquo;ll release a new &#8220;minor level&rdquo; release: 8.1.0, 8.2.0, etc. Minor releases are allowed to contain new features, but they are still guaranteed to be backwards-compatible. So even these releases won&rsquo;t break anything on your site. We&rsquo;re still <a href="">figuring out</a> the exact process for minor releases, but they will include similar phases to what we&rsquo;ve seen with D8 core: a beta phase, and release candidates until we&rsquo;re sure there are no more criticals.</p>
+
+<p>What about API changes, and features that would break existing sites? We won&rsquo;t even start developing on those until well into the D8 life cycle. Those changes will belong in the 9.x branch, and will be kept completely separate from anything that could touch your site.</p>
+
+<p>The key take-away here is that D8 updates should never break your site. They may add features, but they will not interfere with whatever you&rsquo;ve already built. We&rsquo;ll continue a regular pace of improving the product in a predictable, scheduled, and backwards-compatible way.</p>
+
+<h2>Where are the best Drupal 8 release parties?</h2>
+
+<p>The Drupal Association is coordinating promotion for official Drupal 8 launch parties. If you want to host one, just <a href="https://assoc.drupal.org/drupal-8-launch-party">fill out their form</a> and they&rsquo;ll help you promote it! So far no one has built a site mapping the parties, but keep an eye out in the #drupal hashtag on twitter!</p>
+
+<h2>Who do I congratulate? Who do I thank?</h2>
+
+<p>Drupal 8 RC 1 is the combined effort of more than 3200 contributors. That is an incredible number. By comparison, Apache, the world&rsquo;s most popular open source webserver, has 118 contributors. MySQL, the database platform which runs an enormous portion of the Internet, has 1320 contributors. So you can basically walk up to anyone at a Drupalcon and thank him or her!</p>
+
+<p>Most of the contributors to Drupal 8 leaned on the support, training, and hand-holding of mentors at Drupal events all over the world. I know I needed a mentor for my first core contributions, and I got to turn around and mentor other people myself. The mentors are the support network that made this level of mass contribution possible.</p>
+
+<p>But the level of effort is definitely not evenly distributed. Most contributors have made fewer than 20 registered contributions. <a href="https://drupal.org/u/dawehner">But</a> <a href="https://drupal.org/u/tim.plunkett">some</a> <a href="https://drupal.org/u/berdir">people</a> <a href="https://drupal.org/u/alexpott">have</a> <a href="https://drupal.org/u/wim-leers">really</a> <a href="https://drupal.org/u/sun">gone</a> <a href="https://drupal.org/u/damiankloip">above</a> <a href="https://drupal.org/u/xjm">and</a> <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">beyond</a> <a href="https://drupal.org/u/larowlan">what</a> <a href="https://drupal.org/u/chx">anyone</a> <a href="https://drupal.org/u/andypost">would</a> <a href="https://drupal.org/u/ameteescu">expect</a>. <a href="https://drupal.org/u/jhodgdon">It&rsquo;s</a> <a href="https://drupal.org/u/yched">no</a> <a href="https://drupal.org/u/joelpittet">exaggeration</a> <a href="https://drupal.org/u/effulgentsia">to</a> <a href="https://drupal.org/u/yesct">say</a> <a href="https://drupal.org/u/swentel">that</a> <a href="https://drupal.org/u/cottser">these</a> <a href="https://drupal.org/u/nod_">people</a> <a href="https://drupal.org/u/vijaycs85">have</a> <a href="https://drupal.org/u/pwolanin">shaped</a> <a href="https://drupal.org/u/aspilicious">the</a> <a href="https://drupal.org/u/tstoeckler">future</a> <a href="https://drupal.org/u/xano">of</a> <a href="https://drupal.org/u/plach">the</a> <a href="https://drupal.org/u/lewisnyman">Internet</a>.</p>
+
+<p>It is easy to concentrate on the number of contributions as the only metric of involvement in the release of D8. But some of the biggest influences on Drupal 8 have been community leaders, whose effort is not counted in commits under their own names. The initiative leads who architected and directed all this contribution: <a href="https://drupal.org/u/heyrocker">heyrocker</a>, <a href="https://drupal.org/u/Senpai">Senpai</a>, <a href="https://drupal.org/u/jlambert">jlambert</a>, <a href="https://drupal.org/u/Crell">Crell</a>, <a href="https://drupal.org/u/dmitrig01">dmitrig01</a>, <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">Gábor Hojtsy</a>, <a href="https://drupal.org/u/jose-reyero">Jose Reyero</a>, <a href="https://drupal.org/u/mitchell">mitchell</a>, <a href="https://drupal.org/u/jenlampton">jenlampton</a>, <a href="https://drupal.org/u/bleen18">bleen18</a>, <a href="https://drupal.org/u/jackalope">jackalope</a>, <a href="https://drupal.org/u/ericduran">ericduran</a>, <a href="https://drupal.org/u/jhood">jhood</a>, <a href="https://drupal.org/u/jacine">jacine</a>, <a href="https://drupal.org/u/shyamala">shyamala</a>, <a href="https://drupal.org/u/rupl">rupl</a>, <a href="https://drupal.org/u/johnalbin">JohnAlbin</a>, <a href="https://drupal.org/u/twom">twom</a>, and <a href="https://drupal.org/u/sofiya">sofiya</a>. Without them, we would have had nothing to commit!</p>
+
+<p>Listing all of those names brings to mind the platform that they all use to contribute and coordinate: <a href="https://drupal.org">drupal.org</a>, maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. It also brings to mind the events, like Drupalcon, Drupalcamps, Dev Days, which everyone attends to collaborate, teach, and learn; also maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. Not to mention the Drupal 8 Accelerate program, which raised $250,000 towards developer grants; also created and maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. The people at the Association have worked tirelessly to support this release.</p>
+
+<p>All of this developer time is extremely valuable, and not all of it came out of the developers&#8217; own free time. Huge swaths of Drupal 8 development have been sponsored by the companies that participate in the community. We&rsquo;ve only been tracking their contributions for a short time, but the information we have is powerful. This release would not have happened without the developer time donated by companies like <a href="https://acquia.com">Acquia</a>, <a href="http://www.md-systems.ch">MD Systems</a>, <a href="http://www.chapterthree.com">Chapter Three</a>, <a href="http://tag1consulting.com">Tag1</a>, and <a href="http://druid.fi">Druid</a>. A quick glance at <a href="https://www.drupal.org/drupal-services">Drupal.org&rsquo;s Drupal Services page</a> shows us that contribution is a normal part of the culture for the biggest Drupal companies. These were the top 5, but almost every major Drupal shop has contributed in some measure. Thank you to these companies for believing in our product and supporting it so generously.</p>
+
+<p>Finally, the people who bear the greatest personal responsibility are definitely the core maintainers. These people don&rsquo;t just deserve your thanks; they deserve lifetime supplies of free beer sent to their homes. I can&rsquo;t offer that on a blog; all I can say is THANK YOU.</p>
+
+<p><a href="https://drupal.org/u/effulgentsia">Alex Bronstein</a></p>
+
+<p><a href="https://drupal.org/u/dries">Dries Buytaert</a></p>
+
+<p><a href="https://drupal.org/u/webchick">Angie &ldquo;webchick&rdquo; Byron</a></p>
+
+<p><a href="https://drupal.org/u/catch">Nat Catchpole</a></p>
+
+<p><a href="https://drupal.org/u/xjm">Jess Myrbo</a></p>
+
+<p><a href="https://drupal.org/u/alexpott">Alex Pott</a></p>
+
+<p>To everyone who contributed, but especially the people I&rsquo;ve listed here: You&rsquo;ve made a new generation of Internet innovation possible. Thank you.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[El Capitain Broke My Developer Stuff! Here's How to Fix It]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/"/>
+    <updated>2015-10-01T12:44:42+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools</id>
+    <content type="html"><![CDATA[<p>Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
+
+<h2>1) Disable System Integrity Protection</h2>
+
+<p><a href="https://en.wikipedia.org/wiki/System_Integrity_Protection">System Integrity Protection</a> is a new feature of OSX, also called &ldquo;rootless.&rdquo; As the nickname suggests, it creates another level of access above your root account. The nerfed root account can&rsquo;t modify anything in a (broad) list of system files, folders, or processes. This makes sense for most users, who blindly enter their sudo password for any installer that asks. It is not so good for developers, who regularly use these folders. Homebrew is one application that expects access to <em>/usr/local</em>, a protected folder. Other applications that are busted by SIP are OSXFuse, MacGPG, Git&hellip; the list goes on. So step one is to disable SIP.</p>
+
+<ul>
+<li>Reboot into recovery mode (hold Command+R on reboot)</li>
+<li>Access the Terminal from the dropdown menus.</li>
+<li>Run <code>csrutil disable</code></li>
+<li>Reboot back into OSX</li>
+</ul>
+
+
+<p>Congratulations, your root account is un-nerfed. If you use OSXFuse, a VPN, or anything else that relies on unsigned KEXTs, you&rsquo;ll have to keep this disabled.</p>
+
+<h2>2) Fix permissions on /usr/local</h2>
+
+<p>Open the terminal and run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chflags norestricted /usr/local <span class="o">&amp;&amp;</span> sudo chown <span class="k">$(</span>whoami<span class="k">)</span>:admin /usr/local <span class="o">&amp;&amp;</span> sudo chown -R <span class="k">$(</span>whoami<span class="k">)</span>:admin /usr/local
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This fixes the permissions to what homebrew and other applications expect: you own the directory and all its contents. It also changes the flags for SIP, to allow future modifications if you choose to re-enable it.</p>
+
+<h2>3) Fix developer tools</h2>
+
+<p>I also found that every time I tried to run&hellip;. well almost anything, I would get errors like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+</span><span class='line'>Stashing your changes:
+</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
+</span><span class='line'>Error: Failure <span class="k">while </span>executing: git stash save --include-untracked --quiet
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To fix this, you have to re-install Xcode developer tools, like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcode-select --install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It took 5 minutes to download and install on my system.</p>
+
+<h2>4) Fix homebrew</h2>
+
+<p>To make sure your homebrew install is working again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#$ brew update</span>
+</span><span class='line'><span class="c">#$ brew doctor</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Follow any instructions the good doctor gives you! Here&rsquo;s what I did:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew link ppl011
+</span><span class='line'>brew install libxml2 onigurama
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Those were probably more to do with how badly I maintain my own homebrew cellar than anything else, but if the doctor gives you instructions, follow them!</p>
+
+<p>Finally, update your brew-installed applications &ndash; many of them have updates for El Capitain.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew upgrade
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>5) Fix git</h2>
+
+<p>You&rsquo;re not using the outdated version of git that comes with Xcode developer tools(2.3.8), are you? No, you&rsquo;re using the current release (2.5.3), <a href="http://git-scm.com/download/mac">downloaded from git-scm.com</a>. Whether you had it previously installed, or just installed it now, it lives in /usr/local/git . But the system will still default to using the old Xcode version. Here&rsquo;s how to fix that:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#$ git --version</span>
+</span><span class='line'>git version 2.3.8 <span class="o">(</span>Apple Git-58<span class="o">)</span>
+</span><span class='line'><span class="c">#$ sudo mv /usr/bin/git /usr/bin/git.xcode</span>
+</span><span class='line'>Password:
+</span><span class='line'><span class="c">#$ sudo ln -s /usr/local/git/bin/git /usr/bin/git</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>6) Re-install GPGTools</h2>
+
+<p>The GPGTools team have done a great job of handling the known incompatibility between GPGMAil and El Capitain&rsquo;s version of the Mail application&hellip; but I still had trouble with the other parts of the suite (which I actually use). I found it easiest to just <a href="https://gpgtools.org">download and re-install</a>.</p>
+
+<h2>7) Optional, but recommended: tell me about good Linux laptops</h2>
+
+<p>I understand how SIP is helpful for normal consumers, but developers are not normal consumers. This step by Apple crosses my comfort barrier, so I&rsquo;m officially interested in a linux laptop for the first time in years. I have a while to decide, but if you know of a Linux laptop that can compete with my Macbook Air in terms of convenience, sexiness, and reliability, please post about it in the comments.</p>
+
+<p>That&rsquo;s everything I had to do to get my system back in working order&hellip; for now. I&rsquo;ll update this post if I find more steps!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bundled TV Pricing Will Come Back From the Dead]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing/"/>
+    <updated>2015-07-17T11:27:29+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing</id>
+    <content type="html"><![CDATA[<p>Everyone is excited these days about the <a href="https://500ish.com/the-9-bullet-points-of-doom-for-espn-a692d0f48182">death of ESPN</a>, particularly as evidence of the <a href="http://www.thefiscaltimes.com/2015/03/12/Long-Slow-Death-Cable-Just-Reached-Tipping-Point">death of &ldquo;bundle priced&rdquo; Cable TV</a>. Consumers are supposed to be excited that soon they will only have to pay for the content they want. Don&rsquo;t get too excited yet.</p>
+
+<p>Let&rsquo;s remember the basic purpose of bundled cable TV: for content producers, cable company bundles provide an easy, single outlet for their content. It&rsquo;s &ldquo;somebody else&rdquo; who will get the content to their viewers, sell advertising, and collect payment. For consumers, bundles provide a packaged set of channels that&rsquo;s easier to manage (and price) than a bunch of individual contracts.</p>
+
+<p>Apart from whatever level of collusion exists in the TV world, the prices for bundles have reached some sort of equilibrium: basic cable TV with Internet costs about US$45, and &ldquo;channel bundles&rdquo; are $30-40 on top of that. Seems like a great savings for cord cutters, AND they only have to get the content they want, right?</p>
+
+<p>Maybe not. A cord cutter still pays $35/mo for basic Internet. They pay $9/mo for an annual Netflix subscription, but not everything is available on Netflix. The TV and Movie industry use their copyright stranglehold to limit a lot of high demand content to Hulu, for $8/mo. And since the cord-cutter demographic is also the prime demo for Game of Thrones, there&rsquo;s HBO Now for $15/mo. Turns out that if you want to get access to the same content you got in your cable bundle, you&rsquo;re looking at $67/mo, or $71/mo if you include Amazon Prime. And what happens when ESPN opens their live streaming channel?</p>
+
+<p>What happened to our cord-cutter savings? Suddenly it looks like you&rsquo;re paying the same amount of money, just to different people &ndash; plus, you&rsquo;re stuck with the administrative pain of keeping track of what shows are available on which service, and making sure you&rsquo;re subscribed. Of course, the number of services is still growing, so this part of the cost is only going up.</p>
+
+<p>I have a great business idea: I&rsquo;ll handle all the subscriptions for you, and you just pay me one monthly fee. $90 per month, and you can have Internet access with Netflix, Hulu, HBO, and Amazon all together. You get the simplicity of knowing you&rsquo;re subscribed to all the most popular services, without having to track every one or handle the payments. I call it &ldquo;bundling&rdquo;. See what I did there?</p>
+
+<p>There is a market niche for bundled services in any multi-channel environment. It sure seems like cable is dead, and bundle pricing with it. But the truth is it&rsquo;s just in transition. We&rsquo;ll still pay basically the same amount, for the same things we did before; we just get a new delivery mechanism.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How the World Sees Drupal - the Dutch PHP Conference 2015]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015/"/>
+    <updated>2015-06-27T12:04:52+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015</id>
+    <content type="html"><![CDATA[<p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
+
+<p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: &ldquo;I don&rsquo;t know PHP. I&rsquo;m a Drupal developer.&rdquo; On the other side, our platform&rsquo;s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code. The more Drupal built up its&#8217; separate API and library of unique concepts like hooks and theme functions, the further we separated from everyone else in our programming language. This movement wasn&rsquo;t unique to Drupal; as a group PHP developers were building on many, very different frameworks. The PHP World conference was a segregated affair; projects like Zend, PHPBB, and Wordpress kept to themselves.</p>
+
+<p>This changed in 2010. Facebook had invested tremendous resources into their own brand of PHP, &ldquo;HipHop&rdquo;, and in many ways sparked a wave of renewed interest in the language. The PHP community spawned the Framework Interoperability Group (FIG), an initiative dedicated to standardized practices in PHP that could bring the various frameworks together. Drupal 8 was designed to align with the FIG goals, using current practices and components like Composer, PSR-4 namespacing, and dependency injection. Large parts of Drupal&rsquo;s core functionality are provided by Symfony components; the system is now a recognizable contemporary PHP project. In the FIG era, PHP developers are rediscovering the enterprise class CMS in their midst.</p>
+
+<p>I was surprised to learn about Drupal&rsquo;s poor reputation among the more hardcore PHP developers. Many of them had had a bad experience with Drupal 5 or 6, and never looked back. Some had tried Drupal 7, and were bewildered by the slew of Drupal-specific concepts and structures they needed to learn for even the simplest modifications. Many people I spoke with thought of Drupal as a pile of procedural code, packed with confusing work-arounds and anachronisms that made it not worth adopting. Few had heard of Drupal 8&rsquo;s move to contemporary, object-oriented coding practices. Many were dismissive of even the concept of an application framework like ours.</p>
+
+<p>At the same time, the developers at this conference were just as fun and happy to help each other as at the best Drupal events. I learned a tremendous amount about working with Drupal&rsquo;s new object-oriented tool kit, and grew a lot as a programmer. Once I explained the differences with Drupal 8, most people were curious to see just how it worked. And just like at my favorite Drupal events, even the most well-known developers were interested to help. I complained about my frustrations with the PHPUnit testing suite, and was introduced to the original author and maintainer. I had a question about the relative performance of PHP 5.6, 7, and HHVM, and got to talk about it with the release manager for the whole PHP project. This kind of openness and interest in collaboration convinced me more than anything else, that Drupal should integrate more with the mainstream PHP.</p>
+
+<p>Drupal 8 RC1 is just around the corner, and Drupal developers all over the world are learning the new programming concepts that have reshaped our product. It is time for us to break out of our insular community, and learn from the rest of the PHP world. They&rsquo;re friendly, they have a lot to teach us &ndash; and they can help take Drupal as a project to the next level.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Troubleshooting Android Error -505 From Google Play]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/"/>
+    <updated>2015-05-29T12:20:33+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
+    <content type="html"><![CDATA[<p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/error-505.jpg" title="&#34;Error 505&#34;" alt="&#34;Error 505&#34;"></p>
+
+<p>This error message means precisely nothing. It means &ldquo;something went wrong during installation, and we&rsquo;re not telling you what.&rdquo; This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
+
+<p>Your device is not going to give you more information on its own. Instead, you need to install ADB, the &ldquo;Android Debug Bridge&rdquo; which lets you type commands directly to your Android device over a USB connection. It&rsquo;s not hard to install, so <a href="https://duckduckgo.com/?q=how+to+install+adb">go and set that up now</a>.</p>
+
+<p>Next, you will have to make sure your Android device permits you to use ADB. On the phone, go to Settings > About Phone, and scroll down to where you see &ldquo;Build Number&rdquo; listed. Tap on &ldquo;Build Number&rdquo; until you see a popup telling you that you are now a &ldquo;developer&rdquo;. Then go back to Settings, and tap on the new &ldquo;Developer Options&rdquo; menu item near the bottom. Enable the &ldquo;USB Debugging&rdquo; option there.</p>
+
+<p>Now plug your phone into your computer via USB, and open up your Terminal. Windows users, use the Console &ndash; it&rsquo;s the same thing. First, we&rsquo;ll see if our Android device is even visible to ADB.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb devices
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You should see a list of devices attached, with (probably) only one listing. If not, check to make sure that your phone is really in USB Debugging mode.</p>
+
+<p>Now, we&rsquo;re going to try to install that same troublesome application over ADB. In order to do this, you&rsquo;ll have to download the application&rsquo;s installer (APK) file on your computer. Google makes this hard to do directly, you&rsquo;ll have to use a <a href="http://apps.evozi.com/apk-downloader/">third-party website</a> or a <a href="https://addons.mozilla.org/en-us/firefox/addon/apk-downloader/?src=search">browser extension</a> to find your download link. Download that APK file and save it somewhere safe on your computer. Remember the path to that file! I saved mine in <em>~/Downloads</em>.</p>
+
+<p>With that APK file in hand, let&rsquo;s try installing your application over ADB. My problematic app was the Deutsche Bahn Navigator app, but obviously you should substitute the filename to your APK here.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb install ~/Downloads/de.hafas.android.db.apk
+</span><span class='line'>5051 KB/s <span class="o">(</span>5991578 bytes in 1.158s<span class="o">)</span>
+</span><span class='line'>  pkg: /data/local/tmp/de.hafas.android.db.apk
+</span><span class='line'>Failure <span class="o">[</span>INSTALL_FAILED_DUPLICATE_PERMISSION <span class="nv">perm</span><span class="o">=</span>de.dbnavigator.permission.list <span class="nv">pkg</span><span class="o">=</span>de.bahn.dbtickets<span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(Full disclosure: that is not the exact permission and package I had, I foolishly closed the terminal window before recording it. But the error and the format are correct, which is what&rsquo;s important here.)</p>
+
+<p>NOW we have something to work with! We get an error message, and some information that might explain what&rsquo;s going on. In this case, the installation failed because of a duplicate permission, whatever that means. But it tells me the name of the permission, and &ndash; even better &ndash; the package that controls it. Notice that com.dbtickets is not the application I was trying to install. It&rsquo;s something else, a separate app I had, called &ldquo;DB Tickets&rdquo;. This tells me that if I uninstall that other application, it should solve this problem. You can do that from ADB as well:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb uninstall de.bahn.dbtickets
+</span><span class='line'>Success
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I can try installing the original app again, and it should work. I can do that from the Play Store application, or directly from ADB with the command we tried above. At this point, I&rsquo;m way more likely to try it through ADB just to make sure I get an error message if it breaks!</p>
+
+<p>You can follow this process to get further information about any error -505 you may receive. You can do all sorts of things through ADB to resolve this kind of problem. Check the <a href="https://developer.android.com/tools/help/adb.html#commandsummary">complete list of commands</a> for more information.</p>
+
+<h2>Postlude</h2>
+
+<p>This experience pointed out two large Ux failures on the part of Google:</p>
+
+<p>First, is one of the most frustrating Ux concepts out there, which I call: &ldquo;never present the user with useful information.&rdquo; I understand that 99% of the time, users do not want or need to see technical information about what&rsquo;s going on. Even <em>I</em> want my systems to seem like they &ldquo;just work.&rdquo; But the 1% of the time when we DO want technical information, is in our error messages. The sensible Ux policy to adopt here, is &ldquo;make every error message easy to google for more information&rdquo;.</p>
+
+<p>Second, enabling developer mode. Here are the official instructions:</p>
+
+<blockquote><p>&hellip;go to Settings > About phone and tap Build number seven times. Return to the previous screen to find Developer options at the bottom.</p></blockquote>
+
+<p>&hellip; what? This is 2015. You don&rsquo;t have to hide your &ldquo;Developer mode&rdquo; behind some obscure Easter Egg behavior. I don&rsquo;t know if it&rsquo;s standard, but on my phone you&rsquo;re asked right at the start what level of settings you want to see: simple or advanced. Adding a third level for &ldquo;developer&rdquo; would make a lot more sense.</p>
+
+<p>But hey, at least we can always get what we want from the terminal.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
+    <updated>2015-05-02T16:10:36+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
+    <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
+
+<p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of &ldquo;source&rdquo;, &ldquo;destination&rdquo;, and &ldquo;migration&rdquo; classes so that even the most convoluted migration is 90% written for you. To create a migration in Drupal 7, you create a custom module, declare your migrations in a hook_info, and then extend the built in &ldquo;migration&rdquo; class. You instantiate one of the given classes for the source material (is it a CSV? JSON? Direct connection to a custom DB?), then one of the classes for the destination (is it a content type? Taxonomy term?). Then you add one simple line of code mapping each field from source to destination. If you know what you&rsquo;re doing, the task I had in mind shouldn&rsquo;t take more than 15 minutes per source.</p>
+
+<p>It&rsquo;s not quite so easy in Drupal 8. First of all, with Migrate in core, we had to greatly simplify the goals for the module. The version of Migrate that is really functional and stable is specifically and <em>only</em> the basic framework. There is a separate migrate_drupal module to provide everything you need for migrating from Drupal 6 or 7. This has been a laser-tight focus on just the essentials, which means there&rsquo;s no UI, very little drush support, and definitely no nice extras like the ability to read non-Drupal sources.</p>
+
+<p>My task this week became to write the first CSV source for Drupal 8 Migrate.</p>
+
+<h1>Drupal 8 Migrate Overview</h1>
+
+<p>Drupal 8 Migrations, when you&rsquo;re using classes that already exist, are actually even easier than Migrate 7. All you do is write a single YAML file for each kind of data you&rsquo;re transferring, and put it in a custom module&rsquo;s <em>config/install</em> directory. Your YAML file gives your migration a name and a group, tells us what the source is for data, maps source fields to destination fields, and tells us what the destination objects are. Here&rsquo;s an example Migration definition file from core. See if you can understand what&rsquo;s being migrated here.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">d6_system_site</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Drupal 6 site configuration</span>
+</span><span class='line'><span class="l-Scalar-Plain">migration_groups</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Drupal 6</span>
+</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">variable</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">variables</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_name</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_mail</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_slogan</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_frontpage</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_403</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_404</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">drupal_weight_select_max</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">admin_compact_mode</span>
+</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_name</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">mail</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_mail</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">slogan</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_slogan</span>
+</span><span class='line'>  <span class="s">&#39;page/front&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_frontpage</span>
+</span><span class='line'>  <span class="s">&#39;page/403&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_403</span>
+</span><span class='line'>  <span class="s">&#39;page/404&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_404</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">weight_select_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">drupal_weight_select_max</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">admin_compact_mode</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">admin_compact_mode</span>
+</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">config</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">config_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">system.site</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You probably figured it out: this migration takes the system settings (variables) from a Drupal 6 site, and puts them into the Drupal 7 configuration. Not terribly hard, right? You can even do data transformations from the source field value to the destination.</p>
+
+<p>Unfortunately, the only sources we have so far are for Drupal 6 and 7 sites, pulling directly from the database. If you want to use Migrate 8 the way we used Migrate 7, as an easy way to pull in data from arbitrary sources, you&rsquo;ll have to contribute.</p>
+
+<h1>Writing a source plugin in Migrate_plus</h1>
+
+<p>Enter <a href="https://www.drupal.org/sandbox/mikeryan/migrate_plus">Migrate Plus module</a>. This is the place in contrib, where we can fill out all the rest of the behavior we want from Migrate, that&rsquo;s not necessarily a core requirement. This is where we&rsquo;ll be writing our source plugin.</p>
+
+<p>To add a source plugin, just create a .php file in migrate_plus/src/Plugins/migrate/source . Drupal will discover the new plugin automatically the next time you rebuild the cache. The filename has to be the same as the name of the class, so choose carefully! My file is called CSV.php . Here&rsquo;s the top of the file you need for a basic :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * @file</span>
+</span><span class='line'><span class="sd"> * Contains \Drupal\migrate_plus\Plugin\migrate\source\csv.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">namespace</span> <span class="nx">Drupal\migrate_plus\Plugin\migrate\source</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">use</span> <span class="nx">Drupal\migrate\Plugin\migrate\source\SourcePluginBase</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Source for CSV files.</span>
+</span><span class='line'><span class="sd"> *</span>
+</span><span class='line'><span class="sd"> * @MigrateSource(</span>
+</span><span class='line'><span class="sd"> *   id = &quot;csv&quot;</span>
+</span><span class='line'><span class="sd"> * )</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">CSV</span> <span class="k">extends</span> <span class="nx">SourcePluginBase</span> <span class="p">{</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;m calling this out separately because for newbies to Drupal 8, this is the hard part. This is all the information that Drupal needs to be able to find your class when it needs it. The @file comment is important. That and the namespace below have to match the actual location of the .php file.</p>
+
+<p>Then you declare any other classes that you need, with their full namespace. To start with all you need is SourcePluginBase.</p>
+
+<p>Finally you have to annotate the class with that @MigrateSource(id=&ldquo;csv&rdquo;). This is how Migrate module knows that this is a MigrateSource, and the name of your Plugin. Don&rsquo;t miss it!</p>
+
+<p>Inside the class, you must have the following methods. I&rsquo;ll explain a bit more about each afterwards.</p>
+
+<ul>
+<li>initializeIterator() : Should return a valid Iterator object.</li>
+<li>getIds() : Should return an array that defines the unique identifiers of your data source.</li>
+<li>__toString() : Should return a simple, string representation of the source.</li>
+<li>fields() : Should return a definitive list of fields in the source.</li>
+<li>__construct() : You don&rsquo;t NEED this method, but you probably will end up using it.</li>
+</ul>
+
+
+<h2>initializeIterator()</h2>
+
+<p>An Iterator is a complicated sounding word for an Object that contains everything you need to read from a data source, and go through it one line at a time. Maybe you&rsquo;re used to fopen(&lsquo;path/to/file&rsquo;, &lsquo;r&rsquo;) to open a file, and then you write code for every possible operation with that file. An iterator takes care of all that for you. In the case of most file-based sources, you can just use the SplFileObject class that comes with PHP.</p>
+
+<p>Any arguments that were passed in the source: section of the YAML file will be available under $this->configuration. So if my YAML looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">csv</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="s">&#39;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>My initializeIterator( ) method can look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">initializeIterator</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// File handler using our custom header-rows-respecting extension of SPLFileObject.</span>
+</span><span class='line'>  <span class="nv">$file</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplFileObject</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]);</span>
+</span><span class='line'>  <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">setFlags</span><span class="p">(</span><span class="nx">SplFileObject</span><span class="o">::</span><span class="na">READ_CSV</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nv">$file</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Not too complicated, right? This method is called right at the beginning of the migration, the first time Migrate wants to get any information out of your source. The iterator will be stored in $this->iterator.</p>
+
+<h2>getIds()</h2>
+
+<p>This method should return an array of all the unique keys for your source. A unique key is some value that&rsquo;s unique for that row in the source material. Sometimes there&rsquo;s more than one, which is why this is an array. Each key field name is also an array, with a child &ldquo;type&rdquo; declaration. This is hard to explain in English, but easy to show in code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">getIDs</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$ids</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span><span class='line'>  <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$key</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$ids</span><span class="p">[</span><span class="nv">$key</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;string&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nv">$ids</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We rely on the YAML author to tell us the key fields in the CSV, and we just reformat them accordingly. Type can be &lsquo;string&rsquo;, &lsquo;float&rsquo;, &lsquo;integer&rsquo;, whatever makes sense.</p>
+
+<h2>__toString()</h2>
+
+<p>This method has to return a simple string explanation of the source query. In the case of a file-based source, it makes sense to print the path to the file, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>fields()</h2>
+
+<p>This method returns an array of available fields on the source. The keys should be the machine names, the values are descriptive, human-readable names. In the case of the CSV source, we look for headers at the top of the CSV file and build the array that way.</p>
+
+<h2>__construct()</h2>
+
+<p>The constructor method is called whenever a class is instantiated. You don&rsquo;t technically HAVE to have a constructor on your source class, but you&rsquo;ll find it helpful. For the CSV source, I used the constructor to make sure we have all the configuration that we need. Then I try and set sane values for fields, based on any header in the file.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$plugin_id</span><span class="p">,</span> <span class="nv">$plugin_definition</span><span class="p">,</span> <span class="nx">MigrationInterface</span> <span class="nv">$migration</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">parent</span><span class="o">::</span><span class="na">__construct</span><span class="p">(</span><span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$plugin_id</span><span class="p">,</span> <span class="nv">$plugin_definition</span><span class="p">,</span> <span class="nv">$migration</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Path is required.</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nx">MigrateException</span><span class="p">(</span><span class="s1">&#39;You must declare the &quot;path&quot; to the source CSV file in your source settings.&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Key field(s) are required</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nx">MigrateException</span><span class="p">(</span><span class="s1">&#39;You must declare the &quot;keys&quot; the source CSV file in your source settings.&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Set header rows from the migrate configuration.</span>
+</span><span class='line'>  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">=</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;header_rows&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;header_rows&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Figure out what CSV columns we have.</span>
+</span><span class='line'>  <span class="c1">// One can either pass in an explicit list of column names to use, or if we have</span>
+</span><span class='line'>  <span class="c1">// a header row we can use the names from that</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">&amp;&amp;</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">csvColumns</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// Skip all but the last header</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$row</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$row</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$header</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nv">$header</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
+</span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span><span class="p">[]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nv">$header</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="k">elseif</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">])</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">];</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Profit!</h2>
+
+<p>That&rsquo;s it! Four simple methods, and you have a new source type for Drupal 8 Migrate. Of course, you will probably find complications that require a bit more work. For CSV, supporting a header row turned out to be a real pain. Any time Migrate tried to &ldquo;rewind&rdquo; the source back to the first line, it would try and migrate the header row! I ended up extending SplFileObject just to handle this issue.</p>
+
+<p>Here&rsquo;s the YAML file I used to test this, importing a list of states from some US Census data.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">states</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">States</span>
+</span><span class='line'><span class="l-Scalar-Plain">migration_groups</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">US Census</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">csv</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="s">&#39;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">header_rows</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Id2</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Geography</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">keys</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Id2</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Geography</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">vid</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">state</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity:taxonomy_term</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can see my CSV source and Iterator in the <a href="https://www.drupal.org/node/2458003">issue queue for migrate_plus</a>. Good luck, and happy migrating!</p>
+
+<h2>Thanks</h2>
+
+<p>I learned a lot this week. Big thanks to the <a href="https://www.drupal.org/node/2127611">Migrate Documentation</a>, but especially to <a href="https://www.drupal.org/u/chx">chx</a>, <a href="https://www.drupal.org/u/mikeryan">mikeryan</a>, and the other good folks in #drupal-migrate who helped set me straight.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How and Why to Update the Modem/baseband Firmware on a Samsung Android Phone]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/"/>
+    <updated>2015-04-04T14:09:47+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone</id>
+    <content type="html"><![CDATA[<p>If you have a Samsung Android phone, and you use Samsung&rsquo;s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
+
+<p>But for everyone who uses a custom ROM like <a href="http://cyanogenmod.org">Cyanogenmod</a>, <a href="http://www.paranoidandroid.co/">ParanoidAndroid</a>, or <a href="http://www.aokp.co/">AOKP</a>, sit up and pay attention: you&rsquo;re missing some key updates for your phone, and it&rsquo;s probably the reason you have trouble with cellular signal or battery life. I only learned this myself because my beloved Samsung S4 I-9505 has been having a hell of a time keeping signal lately. Over the last 6 months or so, it&rsquo;s picked up a quirk where it randomly drops the signal and starts to overheat in my pocket. Only toggling in and out of airplane mode to restart the connection solves the problem.</p>
+
+<p>Turns out that just as Android gets regular updates, there are updates to the firmware of the cellular modem inside your phone. In any other device, I would expect the firmware to remain extremely stable, and new versions of the OS to include equally stable drivers. In the mobile phone world however, when Google updates Android, manufacturers update their firmware along with it. Mostly these are incremental updates to improve stability or battery life. Over time however, if you&rsquo;re updating your OS but not your firmware, your cellular modem is getting gradually more and more out of sync with what the driver in the OS expects of it.</p>
+
+<p>In my case, I had a recent build of Cyanogenmod based on Android 4.4.4, last updated in March 2015, and a modem firmware that was based on 4.2.2, last updated in May 2013. So my phone was acting up. Maybe yours is doing the same.</p>
+
+<p>Updating your modem firmware doesn&rsquo;t touch the rest of the operating system, and it doesn&rsquo;t touch your data. It&rsquo;s always a good idea to take a backup, but this is not a high risk operation for your data. If you&rsquo;re not careful you might make your signal situation even worse, but at least your photos and contacts will be OK!</p>
+
+<p>Before I go any further, a word about vocabulary: the modem firmware can reasonably be called your &ldquo;baseband&rdquo;, and sometimes people use &ldquo;firmware update&rdquo; to refer to the combined updates to OS <em>and</em> modem firmware that get shipped out by manufacturers. I will only use &ldquo;firmware&rdquo; to describe the part that drives the modem, because that&rsquo;s what we&rsquo;re dealing with in this article. On other blog posts or forum posts people will not be so consistent, so read carefully!</p>
+
+<p>In order to update your modem firmware, The first thing to do is to find out the Android version that you&rsquo;re using on your particular ROM. On most ROMs you can find out under &ldquo;Settings&rdquo;, &ldquo;About this phone&rdquo;. Look for the line that says &ldquo;Android Version&rdquo;.</p>
+
+<p>Next, you have to find out the version of the most recent modem firmware release for your device, built for the same version of Android you&rsquo;re running. <a href="http://www.sammobile.com/devices/">SamMobile</a> has a fantastic catalog of devices with specifications and build histories for each one. Note that each carrier handles their own updates, so they package their own modem firmwares with slightly different serial numbers. There shouldn&rsquo;t be any significant difference, but check which one comes from your country and provider just in case, using their <a href="http://www.sammobile.com/firmwares/">Firmware lookup</a>. Note that if you want to download from SamMobile, you have to sign up for their download platform. I didn&rsquo;t &ndash; instead, I hunted for the right download with Google, and eventually found it on the great <a href="http://forum.xda-developers.com">xda developers</a> forum. There are a bunch of posts like <a href="http://forum.xda-developers.com/showpost.php?p=50965837">this one</a> with download links to tons of different firmwares. Make sure you look yours up, first!</p>
+
+<p>If there isn&rsquo;t a build for exactly the same version of Android that you have, it&rsquo;s OK to use one a little bit behind. <em>Do not</em> take a modem firmware build that&rsquo;s newer than your Android build. That could leave you in a situation like this;</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/gVx4OOcIRXg" frameborder="0" allowfullscreen></iframe>
+
+
+<p>If your phone is a GT-I9505 from T-Mobile Germany, you can shortcut this process and get the same download I did](<a href="http://forum.xda-developers.com/showthread.php?t=2192025&amp;page=503">http://forum.xda-developers.com/showthread.php?t=2192025&amp;page=503</a>). If you have any other device or are from any other region or phone company, <em>find the right firmware for your own phone</em>. Double check it, you can really mess up your phone if you do this wrong.</p>
+
+<p>The updated firmware file is a .tar file, which contains two .bin files: modem.bin for the 3g modem in your phone, and NON-HLOS.bin for the LTE modem in your phone. You&rsquo;ll need both. Apparently if you&rsquo;re on Windows you can use <a href="http://www.downloadodin.info/">Odin</a> which will let you send both those .bin files at once by choosing the combined .tar file. I&rsquo;m on a Mac so I don&rsquo;t know about that. I used the excellent, open source, cross-platform tool <a href="http://glassechidna.com.au/heimdall/">Heimdall</a>, which has a great, easy command line interface. Download and install, and unpack that .tar file somewhere convenient.</p>
+
+<p>Then get your phone into &ldquo;Download mode&rdquo;. For the Samsung Galaxy S4, this means:</p>
+
+<p>1) Power off by holding the power button.
+2) Simultaneously hold the home, volume down, and power keys until the phone comes on and asks you if you&rsquo;re SURE you want to go into Download mode. You are sure, so press volume up to continue.
+3) Plug the phone into your computer.</p>
+
+<p>Then in the Terminal, run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~<span class="nv">$ </span>heimdall detect
+</span><span class='line'>Device detected
+</span><span class='line'>
+</span><span class='line'>~<span class="nv">$ </span>heimdall flash --APNHLOS ~/Downloads/Modem_GNG8_FULL/NON-HLOS.bin --MDM ~/Downloads/Modem_GNG8_FULL/modem.bin
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(do not include the ~$ in your typing! It&rsquo;s just an indicator to show you what you type, and what comes back from the system)</p>
+
+<p>&ldquo;heimdall detect&rdquo; tells heimdall to find your phone attached via USB. &ldquo;heimdall flash&rdquo; tells it to blow away the LTE modem firmware you have now with the file NON-HLOS.bin, and the 3G modem firmware you have now with the file modem.bin.</p>
+
+<p>If all goes well, the phone will reset itself and boot back up normally. You can check to see that your flash worked by looking for the new serial number in your phone Settings.</p>
+
+<p>Or perhaps you&rsquo;ll find the same problem I did: something else on my computer had already &ldquo;claimed&rdquo; this phone, so Heimdall errored out with &ldquo;libusbx: error [darwin_claim_interface] USBInterfaceOpen: another process has device opened for exclusive access. ERROR: Claiming interface failed!&rdquo; If you encounter this problem, you can solve it by manually shutting down that other software:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~<span class="nv">$ </span>sudo kextstat |grep -v apple
+</span><span class='line'>Index Refs Address            Size       Wired      Name <span class="o">(</span>Version<span class="o">)</span> &lt;Linked Against&gt;
+</span><span class='line'>  134    0 0xffffff7f80eca000 0x4000     0x4000     com.devguru.driver.SamsungComposite <span class="o">(</span>1.4.25<span class="o">)</span> &lt;38 4 3&gt;
+</span><span class='line'>  136    0 0xffffff7f80ec3000 0x3000     0x3000     com.devguru.driver.SamsungACMControl <span class="o">(</span>1.4.25<span class="o">)</span> &lt;38 4 3&gt;
+</span><span class='line'>  138    0 0xffffff7f80ead000 0xc000     0xc000     com.devguru.driver.SamsungACMData <span class="o">(</span>1.4.25<span class="o">)</span> &lt;84 38 5 4 3&gt;
+</span><span class='line'>  141    0 0xffffff7f829fa000 0x6000     0x6000     net.tunnelblick.tun <span class="o">(</span>1.0<span class="o">)</span> &lt;7 5 4 1&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note the lines that say Samsung in them. Those are the Samsung drivers that are blocking Heimdall. Now I hate Kies even <em>more</em>! We can shut them down one at a time like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>~<span class="nv">$ </span>sudo kextunload -b com.devguru.driver.SamsungComposite
+</span><span class='line'>~<span class="nv">$ </span>sudo kextunload -b com.devguru.driver.SamsungACMControl
+</span><span class='line'>~<span class="nv">$ </span>sudo kextunload -b com.devguru.driver.SamsungACMData
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then try the heimdall commands again. For my phone, I found greatly improved signal&hellip; and because it wasn&rsquo;t spinning extra cycles without signal, greatly improved battery life, too. So we know: every time you update your ROM, do a modem firmware update, too.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
+    <updated>2014-11-03T17:30:32+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
+    <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
+
+
+
+
+<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project &ndash; particularly the large and complex ones like Drupal! In this case it was the result of a choice in the database abstraction layer to use emulated prepared statements. There&rsquo;s a great dissection of the whole vulnerability at <a href="http://blog.ircmaxell.com/2014/10/a-lesson-in-security.html">ircmaxell</a>, but the point here is that it was an intentional decision. We were aware of a theoretical security risk, just as we are in making lots of decisions. But theoretical risks don&rsquo;t mean much compared with real, measurable losses from the available alternatives. As I said before, this can happen to any software project, and Drupal is a relatively responsible, well written one. What&rsquo;s interesting now, is the response.</p>
+
+
+
+
+<p>First of all, I am amazed to read responses from many Drupal users who are panicked at having to run a diff of their sites, because they don&rsquo;t have appropriate tools in place. If you are developing without a VCS and automated backups, you are doing more harm than good. Just stop. Take a week to learn the basic requirements of a development environment, and start employing them. End of story.</p>
+
+
+
+
+<p>I&rsquo;m not concerned for those people &ndash; their sites were disasters waiting for an excuse anyway. What&rsquo;s frightening about this particular situation is that even if you are working with backups and a VCS, even if you patch critical security vulnerabilities on an aggressive schedule, it still wasn&rsquo;t good enough.</p>
+
+
+
+
+<p>All of my Drupal 7 sites are affected by this PSA. I work for a large, well-respected agency, with access to leading-edge workflows and tools. We follow best practices. All of my sites are secured well beyond PCI requirements. But PCI requirements say that critical security patches have to be applied within 30 days of release. Our best practices include patch review from the tech lead, and validating patches on test environments before pushing them live. With only 7 hours between patch release and exploits in the wild, there isn&rsquo;t time for any of that.</p>
+
+
+
+
+<p>I&rsquo;ve heard people complain that it&rsquo;s too difficult to update Drupal. &ldquo;drush up &mdash;security-only&rdquo; seems pretty simple to me, or at least simple enough that
+ further simplification won&rsquo;t address the real problem. That&rsquo;s because the real problem isn&rsquo;t that it&rsquo;s difficult to apply updates &ndash; it&rsquo;s that a human be
+ing has to initiate them. I live in the Central European timezone, GMT+6. The patch was released at 10PM for me, and bots were exploiting it by 5AM the following morning. I went to work that day and initiated the patching process, so that my patches could be &ldquo;responsibly&rdquo; deployed to live with 24-48 hours of client validation time on my dev and staging environments. Despite being relatively on top of patches and responding relatively quickly, the fact that I&rsquo;m human, and my clients are human, meant we never stood a chance of patching this issue fast enough. Even if we skipped validation, and even if the update process was just one button (rather than two commands), we would still have failed to update in time. I find myself reminded of the Battlestar Galactica pilot, where the Cylon robots are chasing the humans. After each hyperspace jump, the humans have 33 minutes to complete the calculations for another jump before the machines catch up with them. After 130 hours and 237 jumps, it becomes apparent that the humans&#8217; need for sleep is a critical vulnerability.</p>
+
+
+
+
+<p>The only solution is automated patching. It&rsquo;s hard to figure out a workflow that allows it; indeed you&rsquo;re forced into post-hoc testing, which means engineering an easy rollback solution. The truth is that 99% of security patches will not affect any of the functionality you&rsquo;ve customized or upon which you rely, so hopefully this will be an edge case. But it&rsquo;s a problem that actually has to be addressed. Here&rsquo;s how I&rsquo;m adapting my own projects over the coming weeks:</p>
+
+
+
+
+<p>Every wednesday, every hour, my Jenkins instance runs a script which checks modules and core for each project for security updates. When an update is available, it automatically creates a branch off of Stable (my staging branch), applies the updates, and pushes the result up to the server. My git scripts already create a new subdirectory environment for every pushed branch. Once the environment is ready, Jenkins runs all available behat tests against the new branch. If all tests pass, the branch is automatically merged back into Master, Stage, and Live, and pushed. This push operation triggers a normal Jenkins deployment, which takes a backup anyway. An email is generated to the project administrator advising them which security updates were automatically applied, and linking to the relevant changefiles.</p>
+
+
+
+
+<p>I&rsquo;m excited about implementing this new layer of automation, because it builds on the best practice workflows I already like (test driven development, git flow VCS organization, automated deployment and backups&hellip;) to produce a tangible time savings and security improvement for my sites. At the same time, I can&rsquo;t say that this is something I recommend for EVERYONE, precisely because it requires such a high level of environment maintenance. When you&rsquo;re a one-person development shop, it&rsquo;s hard to afford the time to set up the perfect development environment. It&rsquo;s hard to convince those bottom-of-the-food-chain clients to pay for things like automated testing and deployment. And certainly once you have those things set up, you don&rsquo;t get paid for maintaining them!</p>
+
+
+
+
+<p>I&rsquo;m going to be keeping my eyes open for better solutions that can be applied by the &ldquo;developer on the street.&rdquo; Something relatively easy, but which allows the same kind of automated, fast response time for security patches. I&rsquo;m interested in any ideas you want to post in the comments!</p>
+
+
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Mobile Apps Are a Temporary Phase, All Hail the Accessible Web]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/10/29/mobile-apps-are-a-temporary-phase/"/>
+    <updated>2014-10-29T13:13:04+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/10/29/mobile-apps-are-a-temporary-phase</id>
+    <content type="html"><![CDATA[<p>Dries made <a href="http://buytaert.net/w3c-declares-html5-standard-final">an interesting post about the new HTML5 standard</a> the other day. OK, the post itself is more of an announcement, but the meat (as far as I&rsquo;m concerned) is near the end, where he says that &ldquo;The trend in development seems to be towards native mobile applications rather than mobile websites.&rdquo; He links to the excellent <a href="http://a16z.com/2014/10/28/mobile-is-eating-the-world/">Mobile is Eating the World</a> presentation by Benedict Evans as evidence.</p>
+
+
+
+
+<p>Really? Because while I agree with Evans that mobile in general is the future, I don&rsquo;t see it as evidence that mobile <em>apps</em>, specifically, are the future. In fact I believe the contrary: mobile apps are just a phase. <em>Mobile web</em> is going to eat the world, and it&rsquo;s because of the capacity for a single source to provide machine-readable, machine-reformattable content.</p>
+
+
+
+
+<p>What do I mean by machine-readable and machine-reformattable? Technologists will understand what I mean when I say &ldquo;responsive&rdquo;, and they may even understand that responsive and accessible go hand in hand. I am avoiding those terms because they are more specific than what I&rsquo;m getting at.</p>
+
+
+
+
+<p>For the uninitiated, remember that what you see in your web browser is actually an interpretation of code, and all the machines see is the code. It is possible to structure your code in a way that makes it relatively easy for a computer to understand what is the title of a page, what is the main menu, what is main content, and what is secondary. You can even include suggestions for what to do when encountering certain sizes of screen (&ldquo;responsive&rdquo; behavior), and offer a version of your content that has no layout, just the text. If you are careful, your website can be easy for a machine to read and understand. It can also be easy for browsers to reformat in a reasonable way, no matter what shape or size their screen. This is what I mean by machine-readable and machine-reformattable.</p>
+
+
+
+
+<p>There is simply so much pressure/incentive for building machine-reformattable, machine-readable content on the web, that I believe it will absolutely take over for per-platform applications.</p>
+
+
+
+
+<ul>
+<li><p>Legislated accessibility requirements for web and related content. All over the world &ldquo;section 508 compliance&rdquo; style directives are being strengthened, both legally and technologically. More big brands are sued every year for insufficiently accessible content. At the same time, never has it been so easy to make websites that meet accessibility needs. In fact, if you&rsquo;re clever about it, <a href="https://www.youtube.com/watch?v=RjcV-hmD2ZM">designing accessibility is very close to designing responsiveness</a>. Because of this trend, websites increasingly have to create reasonably machine-readable, machine-reformattable content <em>anyway</em>.</p></li>
+<li><p>Platform diversification. If you want real universal coverage for your app, you presently have to build for iOS, Android, FirefoxOS, Windows, Sailfish, Tizen, Ubuntu, and probably more. You can decide that it&rsquo;s not worth developing for some of those, that you can trade off market share for a cheaper development cost. But no matter what happens with their app stores or market shares, all of these devices have to include web browsers as a basic feature. A machine-readable, machine-reformattable web experience supports all platforms automatically.</p></li>
+<li><p>Device diversification. People are consuming content on an ever-expanding array of devices: phones of varying shapes, tablets, mini-tablets, laptops, touchtops, TV sticks, GGlass, smartwatches, and more. If your product can only be consumed with a special application, you have an extremely large development and support problem. But again, no matter what the device, it has to include an interface to the web as a basic feature. A machine-readable, machine-reformattable web experience supports all devices automatically.</p></li>
+<li><p>Machine-curated content. Increasingly our information worlds are shaped by computer algorithms attempting to decide what content we want to see. Whether it&rsquo;s google interpreting a search or facebook filtering your feed, it is critically important for brands to create truly machine-readable content. If you don&rsquo;t, the machines won&rsquo;t know when you&rsquo;re relevant, and you won&rsquo;t be recommended.</p></li>
+</ul>
+
+
+
+
+<p>These factors are enough for us to see the decision that organizations face. There are two options to provide a branded, controlled digital experience:</p>
+
+
+
+
+<p>1) Develop a minimally machine-readable, machine-reformattable website for legal and SEO requirements, and develop separate apps for each possible combination of OS and device. That&rsquo;s 19 apps at my count. Maybe 24, depending on Ubuntu&rsquo;s hardware compatibility.</p>
+
+
+
+
+<p>2) Develop a single, truly machine-readable, machine-reformattable web application.</p>
+
+
+
+
+<p>That&rsquo;s a pretty significant cost and efficiency pressure towards machine-readable, machine-reformattable web apps, especially in the medium/long term. It doesn&rsquo;t cover everyone, though. There are some organizations for whom it will continue to make sense to develop and maintain standalone apps. Some of these are:</p>
+
+
+
+
+<ul>
+<li><p>very large organizations. The budget and staffing requirements are simply too expensive for a small or medium sized organization. It may cost $1 million to develop an application for all 25 devices, and $300,000 to develop that application in truly machine-readable HTML. Some organizations are simply big enough that this amount of waste can go unnoticed.</p></li>
+<li><p>organizations with special requirements. For example, a bank may need extra layers of security that are difficult to do in HTMLX in order for you to deposit checks by picture.</p></li>
+<li><p>extremely personal brands. Mobile devices are extremely personal, and persistence there is more intimate than a bookmark or a website. Facebook is one such example; in fact most social networks probably fall under this category.</p></li>
+</ul>
+
+
+
+
+<p>For the other 99% of organizations out there, I expect that unique snowflake apps will give way to standardized, truly responsive and machine readable, web interfaces. I believe that in the next decade or so, most websites will be machine-readable and machine-reformattable. This shift will mean legibility and engagement for everyone: from Google&rsquo;s spiders to visual assistive devices, from TV pluggables to smart watches. And it will mean that the &ldquo;apposphere&rdquo; will largely evaporate away.</p>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Get Memcache Statistics From the Command Line in One Easy Command]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/"/>
+    <updated>2014-07-22T15:43:30+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command</id>
+    <content type="html"><![CDATA[<p>A quick one for myself to come back to. I can never find this one liner when I need it! It&rsquo;s simple enough:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>watch 'php -r '"'"'$m=new Memcache;$m-&gt;connect("127.0.0.1", 11211);print_r($m-&gt;getstats());'"'"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Next time I need to get memcached stats, I&rsquo;ll check back here.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Bug: Multilingual Auto Label Will Break Your Entity Static Cache]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/"/>
+    <updated>2014-07-01T17:00:45+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache</id>
+    <content type="html"><![CDATA[<p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal&rsquo;s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
+
+<p>For now, the only solution is a slow one &ndash; we clear static entity caches when we generate multilingual titles. That&rsquo;s not an awesome fix, but it&rsquo;s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
+
+<p>And for those of you keeping score, this is a good example of how to file a bug report for a really complex issue in a really popular module&hellip; and follow up until you resolve it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[D8 Core Sprint in DC]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc/"/>
+    <updated>2014-07-01T16:27:17+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc</id>
+    <content type="html"><![CDATA[<p>A quick note to all the Drupalists in the DC general area &ndash; Forum One is trying to put together a D8 core sprint in their DC office space. They&rsquo;re coordinating with the DC Meetup group to try and spread the word to as many community members as possible!</p>
+
+<p>If you haven&rsquo;t been to a code sprint before, it&rsquo;s basically a coding party. Developers get together and help each other contribute better and faster by reviewing code on the spot, mentoring each other, and generally working in small ad-hoc groups. It&rsquo;s a lot of fun, and gives a big boost to development of the next generation of Drupal.</p>
+
+<p>Forum One will provide the locale in downtown DC complete with pizza, beer, and soda. We also have a few of our core mentors on hand to help you get started if this is your first time contributing to core. Because of the building security, if you want to attend you <a href="http://www.eventbrite.com/e/drupal-8-code-sprint-with-forum-one-tickets-11921354091">have to register first</a>! I won&rsquo;t be able to attend, but my colleagues <a href="https://twitter.com/johnbburg">John Brandenburg</a> and <a href="https://twitter.com/kalpanagoel">Kalpana Goel</a> will be there mentoring. Go sign up now!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Configure Authcache on Drupal 7]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/"/>
+    <updated>2014-06-14T16:15:40+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7</id>
+    <content type="html"><![CDATA[<p>So you have authenticated user traffic you want to cache? Good &ndash; you&rsquo;re on the right post. This post is a walk through for caching content for authenticated users in Drupal 7. We will be using the Authcache suite of modules. If you haven&rsquo;t read it yet, I strongly recommend you check out my last post, <a href="https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/">Authenticated User Caching Concepts in Drupal 7</a>.</p>
+
+<p>Our goal is a simple authenticated user caching system based on Authcache&rsquo;s AJAX implementation, with a Memcached backend. We will serve pages out of Drupal&rsquo;s own page cache, with placeholders for any content which could be customized to the logged in user. The user&rsquo;s browser will make a second call to the web server for the content that belongs in those placeholders. Whenever possible, the placeholders will be filled from browser cache or data stored in memcached. By the end of this post, we&rsquo;ll have a frontpage which loads for authenticated users without ever hitting the database.</p>
+
+<h2>Install Authcache</h2>
+
+<p>First you will need to set up a local installation to follow along. Set up an environment for Drupal 7 with memcached running. You can set up your own vanilla D7 site to work with &ndash; just create some devel content, an interesting panels-and-views based frontpage, and set up memcached. You can also use this <a href="http://ohthehugemanatee.github.io/downloads/drupal/drupal_authcache.tgz">ready-to-go drush archived Drupal site</a>. Note that this is a rather large site; I like to generate 16,000 nodes or so so I can really feel the difference between a cached return and a live one. Apart from all those nodes, it has:</p>
+
+<ul>
+<li>Drupal 7-latest</li>
+<li>Drupal&rsquo;s Memcache module. (Make sure your environment has memcached set up!)</li>
+<li>A bunch of devel-generated content</li>
+<li>A bunch of other handy modules for generating a faux-frontpage</li>
+<li>Drupal&rsquo;s Authcache module</li>
+<li>The caching-relevant portion of settings.php in a separate file called settings.caching.php.</li>
+</ul>
+
+
+<p>Install the Authcache module per usual, along with the following other modules:</p>
+
+<ul>
+<li>Authcache AJAX</li>
+<li>Authcache Block</li>
+<li>Authcache Builtin Storage Backend</li>
+<li>Authcache Debug</li>
+<li>Authcache Form</li>
+<li>Authcache Page Manager</li>
+<li>Authcache Panels</li>
+<li>Authcache Panels by Page Manager</li>
+<li>Authcache Personalization API</li>
+<li>Authcache Views</li>
+</ul>
+
+
+<p>That&rsquo;s a lot of modules, because znerol has done a great job of compartmentalizing functionality. This is complicated stuff, and the less of it you have to enable, the better!</p>
+
+<p>When you enable the modules, you&rsquo;ll get a message complaining that you don&rsquo;t have the cache backend configured yet. Add these two lines to your settings.php to let Drupal know about the Authcache backend:</p>
+
+<figure class='code'><figcaption><span>settings.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_backends&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="s1">&#39;sites/all/modules/authcache/authcache.cache.inc&#39;</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_backends&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="s1">&#39;sites/all/modules/authcache/modules/authcache_builtin/authcache_builtin.cache.inc&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now your site is prepared to deliver cached content to authenticated users. Now comes the first scary bit: disable Drupal&rsquo;s built in page caching from admin/config/development/performance .</p>
+
+<h2>Configure Authcache</h2>
+
+<p>Now that you&rsquo;re set up to deliver cached content to authenticated users, we can get to the fun part: configuring. Unlike Anonymous user caching, in order to cache content for authenticated users we actually need to let our caching system know a little bit about the various components of a given page. The front page of the demo Drupal site you downloaded is a reasonably complicated one. Panels with Views and Quicktabs, including several blocks which are unique to each user. We have to go through each element which could be customized to a user, and set an authcache policy on it.</p>
+
+<p>As we proceed, you will notice a little red button which has appeared in the top left corner of your browser window.</p>
+
+<p><img class="left" src="http://ohthehugemanatee.github.io/images/authcache-debug.png" width="300" title="authcache debug" alt="the authcache debug block"></p>
+
+<p>This is Authcache Debug: a helpful little block which tells you if the page was delivered from cache, or if an element on there is still preventing the page from being cached. If you&rsquo;re logged in as admin, you&rsquo;ll notice that it says the page has been excluded of cache, because &ldquo;Caching disabled for superuser&rdquo;. So in order to test this properly, you&rsquo;ll have to create another user account to keep open in a separate browser window. Go ahead and do that now.</p>
+
+<p>Once you&rsquo;re logged in as a user who SHOULD be seeing cached content, that Debug block will start coming in handy. Visit the frontpage as your test user, and note that it goes yellow (meaning it&rsquo;s cacheable, but it wasn&rsquo;t in cache yet), and then green on a reload. On that reload you&rsquo;ll see Cache Status &ldquo;HIT&rdquo;, and a few helpful statistics about the page&rsquo;s normal render time (460.17ms for me) vs its cached render time (3.85ms).</p>
+
+<p>Technically I can end the guide here. My work here is done! You&rsquo;re caching content for authenticated users!</p>
+
+<h2>Customizing content for cached, authenticated users</h2>
+
+<p>If you try logging in as yet ANOTHER user, you&rsquo;ll start to notice some things which are a bit odd. For starters, that &ldquo;random post&rdquo; quickab is serving the same post every time. And once one user creates a node, and it is listed in the &ldquo;Your posts&rdquo; quicktab, that node is listed for EVERYONE in the &ldquo;your posts&rdquo; quicktab. This is because all we&rsquo;ve done so far is enable caching for authenticated users. Apart from the handful of page components which Authcache can detect and handle out-of-the-box (which we&rsquo;ll get to in a moment), everything is just being statically cached. One cache for every user, just like anonymous users get.</p>
+
+<p>That&rsquo;s not what we signed up for. Some elements on the page actually need to be cached separately, on a per-user basis. Some of them should never be cached at all. Remember all those authcache modules we saw a moment ago? What are they doing, picking their noses?</p>
+
+<p>Actually, some of those modules are already working for you. The most notable is authcache_form, which jumps into every Forms API based form &ndash; that is to say, all of them &ndash; and replaces the form token with a placeholder. The token gets filled in by AJAX after the rest of the page loads from cache. Authcache_comments works invisibly, too.</p>
+
+<p>For the page elements which are less predictable than forms, authcache modules offer you, the administrator, a way to identify the elements which need special handling and set how they should be handled. So to get the rest of the page working properly, We have to identify a handful of page elements which need separate caching behavior from the rest of the frontpage.</p>
+
+<p>Working from the top of the page downwards, first we&rsquo;ll deal with that &ldquo;Your posts&rdquo; quicktab. Edit the View which generates that block, at admin/structure/views/view/posts/edit/block_2 . If you expand the &ldquo;Advanced&rdquo; section on the right, you&rsquo;ll see that we have an &ldquo;Authcache&rdquo; section now! Open it up, and enable the &ldquo;authcache&rdquo; checkbox which appears. Now you have a wealth of options for caching just this View.</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-views.png" title="authcache views" alt="the authcache views interface"></p>
+
+<p>Note that just because it&rsquo;s customized per user doesn&rsquo;t mean it shouldn&rsquo;t be cached! We can cache this fragment for about an hour before running that query again. Once we save the View and clear caches, if you return to the frontpage you&rsquo;ll find that each user gets their own &ldquo;Your posts&rdquo; block. Success!</p>
+
+<p>The next block over in the quicktab, Random Post, is a little trickier. This one we want to change as often as possible. We could follow a similar approach to what we just did, and in Views&#8217; authcache settings just set a cache lifetime of 0. But in most cases this isn&rsquo;t necessary. On a truly high performance site, you should cache EVERYTHING, even if only for a few seconds. A cache lifetime of 5 or 10 seconds is usually short enough that users won&rsquo;t notice it; but your server will. For a block which appears on every page of the site, a 10 second cache lifetime can mean it only has to actually query and compute once when a user clicks through 3 links to find the content he wants. This is a sort of microcache, and it can save you CPU cycles. For this block, let&rsquo;s set a cache lifetime of 10 seconds. Set cache lifetime to &ldquo;Custom&rdquo;, and enter 10 seconds into the field which appears. This one does not have to be cached per user; it can be global.</p>
+
+<p>You should apply these same tricks to all three blocks on the sidebar: users like you, recent comments, who&rsquo;s online, and who&rsquo;s new. But for the sake of practice, I&rsquo;ll show you a couple of different ways to get to that Authcache setting.</p>
+
+<p>You can find it in the Panels Content admin screen (thanks, authcache_panels!).</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-panels.png" title="authcache panels" alt="the authcache panels interface"></p>
+
+<p>You can find it on the Block configuration page (thanks, authcache_block!).</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-block.png" title="authcache block" alt="the authcache block interface"></p>
+
+<p>(note: on the Demo site these are not positioned as blocks; they are positioned by panels. That means they don&rsquo;t go through blocks&#8217; normal render process, which means that authcache_block would be useless here!</p>
+
+<p>Following this process you can deliver the frontpage to users, while only asking Drupal to generate one or two objects.</p>
+
+<h2>Avoid the DB entirely</h2>
+
+<p>The last step, once you have the page behaving the way you want, is probably my favorite. It is possible to have Authcache deliver pages without EVER hitting the database! In order to get this going, you need to make sure that all the information Authcache needs about your caching configuration is available either in settings.php, or in memcached. We also ned to tell Authcache to attempt building the page without a DB connection. This is surprisingly easy. With memcached already set up, we just need to add the following to settings.php</p>
+
+<figure class='code'><figcaption><span>settings.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1">// Authcache should try to serve from cache without connecting to the DB.</span>
+</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;authcache_builtin_cache_without_database&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">TRUE</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Cache settings that are usually set in the &#39;performance&#39; admin UI.</span>
+</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;page_compression&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;page_cache_maximum_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">600</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Tell Drupal that authcache keys should be stored in Memcached.</span>
+</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_class_cache_authcache_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MemCacheDrupal&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Tell Drupal that page cache should be stored in Memcached.</span>
+</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_class_cache_page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MemCacheDrupal&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s actually all there is to it. BAM! You&rsquo;re serving your frontpage without ever touching the DB.</p>
+
+<h2>Troubleshooting/Going deeper</h2>
+
+<p><strong>Some pages come up with a red light in Authcache Debug.</strong></p>
+
+<p>That&rsquo;s normal. There are all sorts of situations in which you would not want to cache a page. If one of your test users creates a node and then visits that new node, you will notice just such a red light.</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-red.png" title="authcache red" alt="authcache cancels caching on a page"></p>
+
+<p>Authcache Debug is your best friend here. Sometimes this is something simple, like in this example. All we need to do is enable authcache_menu, and this will turn green. Other times the problem is deeper. Perhaps there is a page element which needs a caching mechanism defined. Or perhaps a fragment that you have set to use ESI, isn&rsquo;t visible for the ESI tags to be evaluated.</p>
+
+<p>It is also worth noting that authcache_debug is not infallible. There are definitely situations where it gets it wrong. Ultimately the best way to tell for certain is to open up your browser&rsquo;s developer tools and look at the Cache-Control headers yourself.</p>
+
+<p><strong>That &ldquo;random&rdquo; block and the &ldquo;user&rdquo; block change on every page load! I thought I set a 1 hour cache lifetime on those. What gives?</strong></p>
+
+<p>Authcache doesn&rsquo;t actually keep a cached copy of these fragments. It simply sets the Cache-Control header on the fragments to let any <em>external</em> caches know that it&rsquo;s OK to cache the fragment for a certain amount of time. Many web browsers respect this and will avoid the extra request. But even if your browser doesn&rsquo;t for some reason (it&rsquo;s in anonymous mode, or you have cache disabled because you&rsquo;re a developer, dammit!), there are other proxies that you can set up to see this in action. Varnish and NGINX will both normally respect the Cache-Control directive, so these fragments will not come from Drupal.</p>
+
+<p><strong>It still seems like I&rsquo;m bootstrapping Drupal an awful lot&hellip; What else can I do?</strong></p>
+
+<p>One of the cool tricks that comes with Authcache is a separate front controller. This is an alternative to Drupal&rsquo;s own index.php which handles normal page requests. The authcache front controller is much lighter weight, and can make direct calls to the DB without a full Drupal bootstrap. All of the authcache modules are designed to work well with it.</p>
+
+<p>To set up the frontcontroller, simply copy sites/all/modules/authcache/modules/authcache_p13n/safe_frontcontroller/authcache.php to your site&rsquo;s root directory. Then add the following line to settings.php :</p>
+
+<figure class='code'><figcaption><span>settings.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;authcache_p13n_frontcontroller_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;authcache.php&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is actually recommended for most installations, not only because it makes the URL for fragments shorter; but it also saves some $_SERVER key rewrites which can cause problems.</p>
+
+<p><strong>Caching ALL the things</strong></p>
+
+<p>Authcache comes with a pretty sensible set of defaults as far as which pages should be cached. But you may want to tweak them. For example, you may want to exclude search result pages from caching. You can control this at admin/config/system/authcache/pagecaching .</p>
+
+<p><strong>But what about (obscure problem X)</strong></p>
+
+<p>Fixing obscure problems is not what blog posts are good at. They are good at showing you a basic method that will work in a lot of cases, or at least will teach you the fundamental concepts. The <a href="https://drupal.org/project/issues/authcache?categories=All">issue queue for Authcache</a> is active, and extremely well maintained. I can&rsquo;t remember the last time I encountered such an active module maintainer as znerol. Check it out!</p>
+
+<p>But in case that doesn&rsquo;t help, the next blog post in this series is going to talk about advanced topics in authenticated user caching: expire module integration, ESI vs AJAX, stripping form tokens, and my favorite: planning a layered caching architecture for your site! See you then!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Authenticated User Caching Concepts in Drupal 7]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
+    <updated>2014-06-09T22:21:01+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
+    <content type="html"><![CDATA[<p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
+
+<p>But what about authenticated users? You can cache elements of the page using a method like <a href="https://drupal.org/project/rendercache">Render cache</a>, <a href="https://drupal.org/project/entitycache">Entity Cache</a>, or <a href="https://drupal.org/project/views_content_cache">Views Content Cache</a>. But Drupal still has to assemble each page for your users, a relatively heavy operation! If you want to address hundreds or thousands of authenticated users, you&rsquo;re simply SOL by these traditional approaches.</p>
+
+<p>Enter the <a href="https://drupal.org/project/authcache">Auth Cache</a> suite of modules. Though this project has been around for quite some time, it had a reputation of being finicky and hard to set up. It got a significant rewrite in the last year thanks to <a href="https://drupal.org/users/znerol">znerol</a>, and is now a powerhouse of a module that brings authenticated user caching much closer to regular users.</p>
+
+<p>I will say that this is still not for the squeamish. You have to really understand the building blocks of your site, and you will have to make a plan for each unique layout on your site. There are some page elements that are quite hard to build this way, but for the most part Authcache makes this easy.</p>
+
+<h2>The theory</h2>
+
+<p>The idea behind authenticated user caching is simple. We already have a great caching mechanism for pages that stay exactly the same for all users. So we simply identify the parts of the page that will change for each user, and use a placeholder for them instead. Think of it as a <user customized stuff here> tag in HTML. This way the page caching mechanism can ignore the customized content, and focus on the stuff that IS the same across all requests.</p>
+
+<p>There are three major ways of doing this placeholder: AJAX, ESI, and Cookies.</p>
+
+<p>With AJAX, you just include a little JS that says &ldquo;fill this DIV with the contents of <a href="http://example.com/user/customized/thing">http://example.com/user/customized/thing</a>&rdquo;. The client&rsquo;s web browser makes a second call to the server, which is configured to allow /user/customized/thing through the cache all the way to your website. Drupal (or whatever you&rsquo;re running) fills in the HTML that belongs in that div and returns it to the browser. Congratulations! You just served an authenticated user a page which was 99% cached. You only had to generate the contents of one div.</p>
+
+<p>ESI is short for <a href="https://en.wikipedia.org/wiki/Edge_Side_Includes">Edge Side Includes</a>, a small extension to HTML which effectively does the same thing as that Javascript, but on the &ldquo;Edge server&rdquo;. The Edge server is whatever service touches the HTTP request last before sending it to the client. Apache, NGINX, Varnish, pound&hellip; you want this to happen as far down the stack as you control. An ESI tag in your HTML looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;esi:include src="http://example.com/user/customized/thing" onerror="continue"/&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s pretty clear, even to a human reader, what this tag means: &ldquo;replace this tag with the contents of <a href="http://example.com/user/customized/thing">http://example.com/user/customized/thing</a>&rdquo;. ESI actually supports some simple logic as well, but that&rsquo;s not really relevant to what we&rsquo;re doing here.</p>
+
+<p>The only difference between ESI and AJAX is where the placeholder is filled. With ESI it happens on the edge service, and with AJAX it happens in the client browser. There is a subtle difference here: a page with ESI will not be delivered until all the ESI calls have returned something, while an AJAX page will return right away, even if the components don&rsquo;t immediately appear. On the other hand, ESI is much better for degraded browsers. YMMV.</p>
+
+<p>The last method is using Cookies. You can store arbitrary information on cookies, as long as you&rsquo;re careful about security. That can be a very effective way to get certain limited information through a caching layer. Authcache actually comes with an example module for just such a use case. It passes the user&rsquo;s name and account URL in a cookie, so you can display it in a block.</p>
+
+<p>This is effective for very small amounts of information, but keep it limited. Cookie headers aren&rsquo;t designed to hold large quantities of data, and reverse proxies can have a hard time if you put too much information in there. Still, it&rsquo;s a neat trick that can cover you for that &ldquo;Hello Username&rdquo; block.</p>
+
+<h2>Authcache in Drupal</h2>
+
+<p>The <a href="https://drupal.org/project/authcache">Authcache</a> suite of modules tries to automatically implement AJAX and/or ESI for you. It actually goes one step further, and implements a caching layer for those &ldquo;fragments&rdquo; which are to be returned via ESI/AJAX. The fragments can be stored in any caching system which implements <a href="http://api.drupal.org/api/drupal/includes%21cache.inc/interface/DrupalCacheInterface/7">DrupalCacheInterface</a>, ie any caching module you&rsquo;ve heard of. Memcache, APC, File Cache, Redis, MongoDB. The full page HTML with placeholders can be cached in Drupal&rsquo;s normal page cache, in Boost, or in Varnish.</p>
+
+<p>Once you have these caching mechanisms defined, it&rsquo;s just a question of marking sections of your site which need a second callback. Authcache presents a large number of modules to do this. You can define any of the following as requiring a second call:</p>
+
+<ul>
+<li>Blocks</li>
+<li>Views</li>
+<li>Panels Panes</li>
+<li>Fields</li>
+<li>Comments</li>
+<li>Flags</li>
+<li>Forms</li>
+<li>Forums</li>
+<li>Polls</li>
+<li>Votes</li>
+</ul>
+
+
+<p>&hellip; and that&rsquo;s all without writing a single line of custom code! Each one of those elements gets a new &ldquo;Authcache&rdquo; setting, where you can define it as needing a second callback, and set the method for the callback as either AJAX or ESI. You can even fall back to another method if the first one fails!</p>
+
+<p>A good example of how this works is the Forms integration. Authcache will modify any and all forms on your site, so that they have an ESI or AJAX placeholder for the form token. This means that the form itself can be stored in your page cache (Varnish, Boost, or whatever), and the form token will be filled in automatically! That&rsquo;s a phenomenal speed improvement without any configuration beyond enabling the module.</p>
+
+<p>Setting up Authcache is a little complicated, and I&rsquo;ll cover that in depth in my next post. But once the basic AJAX or ESI support is set up and these modules are enabled, caching authenticated users becomes a question of visiting each unique layout on your site and making a plan for each element that involves user customization. Authcache makes this easy.</p>
+
+<p>Next post: <a href="https://ohthehugemanatee.org/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/">How to configure Authcache on Drupal 7</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

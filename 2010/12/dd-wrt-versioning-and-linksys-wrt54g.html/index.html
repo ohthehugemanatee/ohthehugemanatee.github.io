@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>DD-WRT, Versioning, and the Linksys WRT54G Wireless Router - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="I have had all sorts of trouble with the wireless situation in my apartment. &nbsp;The layout of the place is such that the kitchen sits in between &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">DD-WRT, Versioning, and the Linksys WRT54G Wireless Router</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2010-12-20T12:47:00+01:00" pubdate data-updated="true">Dec 20<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I have had all sorts of trouble with the wireless situation in my apartment. &nbsp;The layout of the place is such that the kitchen sits in between the two major rooms (living room and bedroom), and I swear those kitchen walls must be made of lead. &nbsp;No wireless signal seems to get through. &nbsp;I have phone jacks for ADSL in the living room and bedroom, nothing in between.<div><br /></div><div>So I hooked up my Orange Livebox (with wifi) in one room, and my&nbsp;<a href="http://en.wikipedia.org/wiki/Linksys_WRT54G_series">Linksys WRT54G (v.4)</a>&nbsp;in the other, to act as a repeated wifi network. &nbsp;I was already using the badass <a href="http://www.dd-wrt.com/site/index">DD-WRT firmware</a>&nbsp;so I could use the Linksys router as a wifi adapter for my wired desktop (in serious terms, it was acting as a network bridge to a wired LAN, to which my desktop was connected). &nbsp;This effectively made my Linksys router into a repeater bridge, which is a pretty awesome piece of functionality for an 8 year old, $45 router. &nbsp;</div><div><br /></div><div>Except it didn&#8217;t work properly. &nbsp;I would get dropped packets, slowdown over long periods of uptime, and even skype wasn&#8217;t reliable over the connection. &nbsp;It got to the point where I would make sure I was sitting beside the &#8220;good&#8221; router to make Skype calls (an important part of my day job). &nbsp;</div><div><br /></div><div>So I turned off the linksys for awhile, and tried working with just the Orange Livebox as my wifi router. &nbsp;I still had the same problems - it turned out that the bad router was NOT the hacked one! &nbsp;So I tried it the other way around: I disabled wifi on my Livebox, and set up the Linksys as a simple wireless router.</div><div><br /></div><div>This was definitely better - it turned out that just the Linksys, when placed correctly, CAN get a decent wireless signal to the entire apartment. &nbsp;(In a few days I&#8217;m going to try modding the antennas to be more directional to see if that helps). &nbsp;But I still got connection drops! &nbsp;</div><div><br /></div><div>At least now it was a more regular pattern. &nbsp;Skype would be fine, but I would get about 1 second dropouts in audio every 30 seconds or so. &nbsp;Looking at my Skype &#8220;advanced call quality&#8221; window, I could see that Jitter was high, so I identified that as a possible culprit. &nbsp;I also noted that the connection quality was listed as &#8220;Local: Good; Remote: Bad.&#8221;</div><div><br /></div><div>Here is where I get on my soapbox. &nbsp;I CAN&#8217;T STAND &#8220;simplified,&#8221; &#8220;user-friendly&#8221; summaries that don&#8217;t offer more information. &nbsp;Remote: Bad. &nbsp;OK, I know there&#8217;s a problem with the remote network. &nbsp;But I was connected through two layers of firewall, through two layers of private IP - my wireless network, on the 10.10.10.x subnet, and my Orangebox LAN, on the 192.168.1.x subnet. &nbsp;Were both those subnets considered &#8220;Local&#8221;? &nbsp;Was it possible that the remote connection at fault was between Linksys and Livebox? &nbsp;Or is Remote: Bad because I&#8217;m conferencing with colleagues across the US, Canada, Cambodia, Australia, Slovakia, and Paris? &nbsp;I&#8217;m happy that Skype wants to simplify my troubleshooting, but &#8220;Remote: Bad&#8221; has to give more detail to be useful.</div><div><br /></div><div>Determined to fix the problem, I tried a ping test to my router. &nbsp;I found about a 2% packet loss, happening in chunks every 30 seconds or so. &nbsp;</div><div><br /></div><div>So I checked out the dd-wrt website. &nbsp;My router firmware was current, according to the&nbsp;<a href="http://www.dd-wrt.com/site/support/router-database">page for my model</a>&nbsp;in the Router Database linked from their front page. &nbsp;In this case, the database recommends firmware revision 13064, 10/10/09. &nbsp;So I started to browse the <a href="http://www.dd-wrt.com/phpBB2/">forums</a>. &nbsp;Right off the bat, I was guided to a couple of sticky posts at the top: the <a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?t=51486">peacock thread</a>&nbsp;and the <a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?t=52043">firmware recommendation</a> thread. &nbsp;They both indicated:</div><blockquote><i>&#8220;The router database has recommended some less stable builds, including SP1 and 13064 (10/10/09) build. I suggest using the builds that are recommended here or in Redhawk&#8217;s announcement above, rather than the ones in the router database. SP1 is full of bugs, and while 13064 is not nearly as bad, some are reporting connection issues fairly regularly. Sometimes the router database also has had the wrong build type. The router database is being worked on improve the recommendations.&#8221;</i></blockquote>and<br /><br /><blockquote><i>&#8220;The Database may recommend bad builds and you should look [in this forum post] for recommended builds that have proven to be stable from actual user testing.&#8221;</i></blockquote>In other words: the router database is full of known bad information, use the recommendations in the forums instead. &nbsp;Sometimes &#8220;recommended&#8221; builds even BRICK routers! &nbsp;In my case, the recommended firmware was known to cause connection issues, including dropped packets and disconnects. <br /><br />Maybe I&#8217;m being old-fashioned, but I think this is a <b>really bad</b>&nbsp;way to run an open source project website. &nbsp;It&#8217;s great to have a convenient, easy-to-use router database linked on the front page. &nbsp;Firmware decisions are difficult for most people, so this is a fantastic tool&#8230; if it&#8217;s properly maintained. &nbsp;&nbsp;If it isn&#8217;t, it&#8217;s just a very attractive, easy-to-use tool to tear your hair out.<br /><br />Imagine if Ubuntu&#8217;s apt repositories recommended packages that were known-incompatible with your hardware. &nbsp;Ubuntu would correct the system IMMEDIATELY, or bring it offline until they could. &nbsp;This was a major concern when distros started working with centralized package repositories, and open source organizations put a lot of effort into keeping these &#8220;recommended software&#8221; databases functional for 99% of users with every update. &nbsp;Hell, Redhat&#8217;s CentOS is so conservative about updates, some common packages are YEARS behind! <br /><br />The lesson here, is that a software recommendation database has to recommend WORKING software to be useful. &nbsp;And the DD-WRT firmware database is not. &nbsp;This makes it worse than useless - it makes it misleading, and potentially damaging to your hardware.<br /><br />I&#8217;m not a complete dick though - I understand. &nbsp;It&#8217;s clear the DD-WRT team put a lot of effort into their recommendation database. &nbsp;With a few updates to the back end to simplify the process of keeping it up to date, maybe their volunteers would have an easier time of it. &nbsp;As I said, it&#8217;s a fantastic tool. &nbsp;There&#8217;s no need to abandon it&#8230;. just a few more tweaks or another round of updates and it could be perfect!<br /><br />But while they organize these tweaks or updates, the DD-WRT team should put up a prominent disclaimer. &nbsp;It&#8217;s not complicated to add a line to the front page, right below the firmware recommendation link. &nbsp;Just one line that says &#8220;This information may not be current. &nbsp;Please check the forum before selecting your firmware!&#8221; &nbsp;If you put the line on the recommendation page template, you can go even further and actually link to the forum page for the user&#8217;s model. &nbsp;There are seven chipset families supported by DD-WRT - that&#8217;s only seven URL possibilities to deal with. &nbsp;Give the users a chance to find the correct information before they brick their routers or give up on open source firmware entirely. <br /><br />Apparently the DD-WRT wiki has more up to date information per router model. &nbsp;You could just as easily link there instead of the router database. &nbsp;Or connect the two, so the router database shows you the wiki page for your model along with the summary information. &nbsp;There are lots of technical solutions we could implement here, but the bottom line is, WARN YOUR USERS if the information in your software recommendation database is out of date, apocryphal, or inaccurate. <br /><br />Oh, and for my Linksys WRT54G v.4? &nbsp;The appropriate firmware to use is linked from the (sticky) <a href="http://www.dd-wrt.com/phpBB2/viewtopic.php?t=52043">Broadcom recommendations</a> forum post: <a href="ftp://dd-wrt.com/others/eko/BrainSlayer-V24-preSP2/08-12-10-r14929/broadcom/">Brainslayer build 14929</a>&nbsp;. &nbsp;This is only a best firmware for my specific model, though - if you have another Broadcom-based router, or even another WRT54G model, <b>read that forum post.</b>&nbsp;&nbsp;It will help you pick the right firmware for your router, unlike the router recommendation database and this blog post.<br /><br />Yet another evening lost to cursing at computers.
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2010-12-20T12:47:15+01:00" class="updated">Updated Dec 20<span>th</span>, 2010</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/dd-wrt/'>dd-wrt</a>, <a class='category' href='/blog/categories/linksys/'>linksys</a>, <a class='category' href='/blog/categories/livebox/'>livebox</a>, <a class='category' href='/blog/categories/open-source/'>open source</a>, <a class='category' href='/blog/categories/routers/'>routers</a>, <a class='category' href='/blog/categories/wifi/'>wifi</a>, <a class='category' href='/blog/categories/wrt54g/'>wrt54g</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2010/12/how-to-jailbreak-and-unlock-iphone-3gs.html" title="Previous Post: How to jailbreak and unlock iPhone 3GS IOS 4.2.1, old baseband">&laquo; How to jailbreak and unlock iPhone 3GS IOS 4.2.1, old baseband</a>
+      
+      
+        <a class="basic-alignment right" href="/2010/12/more-dd-wrt-linksys-wrt54g.html" title="Next Post: More DD-WRT / Linksys WRT54G troubleshooting">More DD-WRT / Linksys WRT54G troubleshooting &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

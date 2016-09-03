@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>On Drupal Entities, or How Organic Groups and Taxonomy Are the Same Thing - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="I&#8217;m a big fan of the new Entities model for Drupal. I&#8217;ve been working a lot with it lately, and it makes a lot of sense&#8230; but my &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">On Drupal Entities, or How Organic Groups and Taxonomy Are the Same Thing</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-03-25T12:58:00+02:00" pubdate data-updated="true">Mar 25<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I&#8217;m a big fan of the new Entities model for Drupal. I&#8217;ve been working a lot with it lately, and it makes a lot of sense&#8230; but my favorite part is how it keeps blowing away my old assumptions, inherited from 7 years of Drupal experience. <br /><br />Here&#8217;s a big one that got me recently: Organic Groups is useless, because it&#8217;s basically Taxonomy with a couple of neat add-ons. Or Organic Groups is incredibly useful, however you choose to think about it. <br /><br />Let&#8217;s think about Taxonomy from the perspective of what it actually accomplishes. It&#8217;s a fieldable (thanks D7) way to group content. Each Taxonomy Term is an object on its own, which is referenced by other content to provide groupings. There&#8217;s nothing there that you can&#8217;t do with a generic entity, entityreference module, and a block view on taxonomy landing pages. <br /><br />In D4-D6, Taxonomy was the best way to categorize content, especially if you want that categorization to be hierarchical in nature. Period. In D7&#8230; meh. You can build an entity that replaces taxonomy incredibly easily. In this sense, Taxonomy is useless. It could be removed from Drupal core, and treated as a great example of a well fleshed out Entity that fills a common use case. I look forward to seeing taxonomy reference replaced by entityreference, which will make the transformation complete.<br /><br />ON THE OTHER HAND, having this pre-built entity is incredibly useful. Because Taxonomy IS a good implementation of the Entity model, it is flexible enough to obsolete a lot of more complex modules in a lot of use cases&#8230; and saves you a fair amount of coding and configuration in the meanwhile. <br /><br />Now, I am a huge fan of Organic Groups, and in D6 it was the number one way to give flexible content groupings with any kind of membership. It always bugged me how much configuration you had to do for the simplest of Group structures, though. And in D7&#8230; now you can do a lot of what Organic Groups does with the Taxonomy Entity. I didn&#8217;t think this was so until I really thought it through, and had an example to work with.<br /><br />So I had a site where we wanted to provide schedules for every user on the site, and allow Events to be scheduled for arbitrary groups as well. Each group should have a landing page with its own calendar for the group and all sub-groups. For example, the group calendar for &#8220;Company Executive&#8221; should include events for &#8220;Vice Presidents&#8221;, &#8220;Chiefs&#8221;, and &#8220;Chairpeople&#8221;. Group membership is all centrally managed. And if you&#8217;re a member of a group, you should receive update emails for every event that gets added to your group. <br /><br />In D6 this was a perfect use case for Organic Groups. In D7, I decided to do this with taxonomy instead. Why? The Ux for hierarchy creation and management is better in taxonomy because of the vast contrib ecosystem for it. What I would have built with Views, EntityReference, and custom code for nice hierarchical Ux in OG, is 80% built for me from day 1 with Taxonomy. Just apply the &#8220;Groups&#8221; taxonomy to the user object and the content types you want, and bam - you&#8217;ve just put Users and Content into semantic groups together. That&#8217;s what OG, at it&#8217;s core, provided for us in D6&#8230; and with some pre-built Views, is all it provided for a lot of projects.<br /><br />This led me down an interesting path of thought. What is the point of OG, if Taxonomy can duplicate its functionality so handily? <br /><br />And it dawned on me: all Organic Groups really offers is a fieldable Entity that interacts with Permissions in a way that is common for user-created groups. We could do this with Taxonomy and some custom code: write a module that offers permission limitations based on taxonomy term association with the user object, and then include a nice UI for adding terms to your user object by clicking a link on the taxonomy term page&#8230; you&#8217;ve got a solid competitor for OG. And at that point, I would start saying things like &#8220;why did you bother using Taxonomy, when OG would have done it out of the box?&#8221;<br /><br />And I think that&#8217;s when I really got the power of entities. We&#8217;ve been used to seeing modules as a way to provide extra capabilities to Drupal. They can still do that, of course. But many of the best modules will just offer pre-configured Entities for popular use cases. Like an Entity that groups users and content, offers a way for users to join groups conveniently, and gives Permissions ramifications for group membership. Or an entity that lets you group other entities semantically into a hierarchy. The complex Organic Groups and the simple Taxonomy are only a couple of steps removed from each other&#8230; and both great examples of Entities in action.
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-03-25T12:58:01+02:00" class="updated">Updated Mar 25<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/entity/'>entity</a>, <a class='category' href='/blog/categories/organic-groups/'>organic groups</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/05/ouch-sony.html" title="Previous Post: Sony hacked AGAIN - time to turn out the lights?">&laquo; Sony hacked AGAIN - time to turn out the lights?</a>
+      
+      
+        <a class="basic-alignment right" href="/2012/04/drupal-quick-learning-guides-drupal.html" title="Next Post: Drupal quick learning guides: Drupal structure">Drupal quick learning guides: Drupal structure &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

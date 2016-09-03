@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Simple AWS Backups With Snapshots and AMIs - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="Are you just getting started with Amazon Web Services? &nbsp;It&#8217;s a great service, but it faces some reliability challenges. &nbsp;This post &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Simple AWS Backups With Snapshots and AMIs</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-30T15:26:00+02:00" pubdate data-updated="true">Apr 30<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Are you just getting started with Amazon Web Services? &nbsp;It&#8217;s a great service, but it faces some reliability challenges. &nbsp;This post explains how to set up a simple backup system using Amazon&#8217;s &#8220;snapshot&#8221; &#8220;machine image&#8221; functionalities.<br /><br /><b>Dependencies</b><br /><br />Before you begin, you will need:<br /><br /><ul><li>Amazon&#8217;s standard <a href="http://aws.amazon.com/developertools/351?_encoding=UTF8&amp;jiveRedirect=1">EC2 Command Line Tools</a></li><li>Alestic&#8217;s <a href="http://alestic.com/2009/09/ec2-consistent-snapshot">ebs-consistent-snapshot</a> program</li><li>Tech Kismet&#8217;s <a href="http://remove-old-snapshots.php/">remove-old-snapshots.php</a> script (which must be so named)</li></ul><br /><div><br /></div><div><b>AMI Images</b></div><div><b><br /></b></div><div>Everyone knows that Amazon Instances are ephemeral. &nbsp;When you shut down your server, it&#8217;s really gone. So the first thing you want to do is create an &#8220;Amazon Machine Image&#8221; of your server. &nbsp;You can use an AMI to start new instances anytime you like, and the backup is stored on S3 so it is region-independent. &nbsp;Anyone who felt the EBS regional downtime last week is looking for region-independent backup solutions.</div><div><br /></div><div>So here&#8217;s a little script I wrote to do a regular backup of your server to AMI:</div><br /><blockquote><code><br />#!/bin/bash<br /># Variables.  Change this to suit the server.  Exceptions should be a comma-separated list of directories to exclude from the backup.&nbsp;</code>&nbsp;</blockquote><blockquote><code> SERVER="server-name" #the name of the server you are backing up&nbsp;</code><br /><div><code>UID="1234-1234-1234" # Your Amazon user ID number&nbsp;</code></div><div><code>CERT="/path/to/your/certfile.pem" # Your Amazon certificate file&nbsp;</code></div><div><code>KEY="/path/to/your/key.pem" #Your Amazon key file</code></div><div><code>ACCESSKEY="12345567823SSDFGS6" #your Amazon access key</code></div><div><code>SECRETKEY="aSDFOUxsfoiusfSDF12SF/Sfi0Asgoiwre" #your amazon secret key&nbsp;</code><br /><div><code>EXCEPTIONS="/ebs,/mnt" #Directories you want to exclude&nbsp;</code><br /><div><code>DESTINATION="/mnt" #Temporary filespace for building the backup itself&nbsp;</code></div><br /><div><code>ARCH="x86_64" # Is your Instance 32 or 64 bit? <br />DATE=`date +%Y-%m-%d` #today's date<br /><br /><br /># set up nice error handling function error_exit { echo "$1" 1&gt;&amp;2 exit 1 }<br />rm -rf "$DESTINATION"/backup* echo "$(date) Starting instance backup script." echo "creating backup bundle..."<br />if /usr/bin/ec2-bundle-vol -u $UID -c $CERT -k $KEY -p backup-$SERVER-$DATE -r $ARCH -e "$EXCEPTIONS" -d "$DESTINATION"; then   echo "SUCCESS" else    error_exit "ERROR creating bundle. Exiting..." fi echo "uploading backup bundle..."<br />if /usr/bin/ec2-upload-bundle -b backup  -m "$DESTINATION"/backup-$SERVER-$DATE.manifest.xml -a $ACCESSKEY -s $SECRETKEY; then    echo "SUCCESS" else   error_exit "ERROR uploading bundle.  Exiting..." fi<br />echo "registering backup bundle with AWS..."<br />if ec2-register -K $KEY -C $CERT backup/backup-$SERVER-$DATE.manifest.xml; then   echo "SUCCESS" else   error_exit "ERROR registering bundle.  Exiting..." fi<br />echo "deleting backup cache..."<br />if rm -rf "$DESTINATION"/backup*; then   echo "SUCCESS" else   error_exit "ERROR deleting backup cache.  Exiting..." fi<br />echo "backup commands run successfully"<br />exit 0<br /></code></div></div></div></blockquote><br />Run this guy on cron, and you have a regular backup going. &nbsp;The one thing it does not do is prune old backups. &nbsp;Most server setups are fire-and-forget - this is a way of documenting that firing process for next time.<br /><br /><b>EBS Snapshots</b><br /><b><br /></b><br />The counterpart to Instances are EBS data stores. &nbsp;These are block devices that provide permanent storage on Amazon&#8217;s cloud. &nbsp;Here&#8217;s my backup script for an attached EBS store.<br /><br /><code><br /></code><br /><blockquote><code> #!/bin/bash</code><code><br /></code><code> # Variables. &nbsp;Change this to suit the server. &nbsp;Mysql User needs access to lock and unlock tables. Number is how many old backup snapshots to keep.</code><code><br /></code><code> SERVER="server-name" #the name of the server you are backing up, for labeling</code><code> VOLUME="vol-1234567a" #the volume ID that you are backing up</code><code> MOUNTPOINT="/ebs" #where the volume is mounted</code><code> MYSQLUSER="root" #a mysql user with access to lock all tables</code><code> MYSQLPASS="password" #password for the mysql user</code><code> KEYID=12345799asf8675asf #your Amazon key</code><code> SECRETKEY=asf765sdg876wrkhalsfa/234@$ &nbsp;# your Amazon secret key</code><code> NUMBER="15" # How many old backups to keep</code><code> DATE=`date +%Y-%m-%d` #today's date</code><code><br /></code><code><br /></code><code> # set up nice error handling</code><code> function error_exit</code><code> {</code><code> &nbsp; &nbsp; &nbsp; &nbsp; echo "$1" 1&gt;&amp;2</code><code> &nbsp; &nbsp; &nbsp; &nbsp; exit 1</code><code> }</code><code><br /></code><code> echo "$(date) Starting EBS backup script."</code><code> echo "creating EBS snapshot..."</code><code><br /></code><code> if /usr/bin/ec2-consistent-snapshot --description "$SERVER backup $DATE" --aws-access-key-id $KEYID --aws-secret-access-key $SECRETKEY --mysql-username $MYSQLUSER --mysql-password $MYSQLPASS --xfs-filesystem "$MOUNTPOINT" $VOLUME;&nbsp;</code><span class="Apple-style-span" style="font-family: monospace;">then</span><code> &nbsp; echo "SUCCESS"</code><code> else</code><code> &nbsp; error_exit "ERROR creating snapshot. Exiting..."</code><code> &nbsp; exit 1</code><code> fi</code><code><br /></code><code> if /usr/bin/php /usr/sbin/remove-old-snapshots.php -v $VOLUME -n $NUMBER ; then</code><code> &nbsp; echo "SUCCESS"</code><code> else</code><code> &nbsp; error_exit "ERROR removing old snapshots. &nbsp;Exiting..."</code><code> &nbsp; exit 1</code><code> fi</code><code><br /></code><code> echo "backup commands run successfully"</code><code> exit 0</code></blockquote><br /><code></code><br /><div><br />This little guy is very useful if you have an EBS device that you use for a running MySQL instance. It will lock MySQL tables briefly, and start the snapshot process from Amazon. &nbsp;This one does prune old backups, you can specify how many you want to keep. <br /><br />The biggest down side to the EBS snapshot is that it is zone-locked. &nbsp;An EBS snapshot can only be used in the zone where it was created. &nbsp;So in the case of a zone-specific outage, you&#8217;re SOL.<br /><br />This is not a proper, region-independent, auto-pruning, tested backup system. &nbsp;This is a set of basic element scripts that you can run on cron, and have some peace of mind while you look into something more robust. &nbsp; &nbsp;But it is a good start, at least!</div>
+</div>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-04-30T15:26:06+02:00" class="updated">Updated Apr 30<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/ami/'>ami</a>, <a class='category' href='/blog/categories/aws/'>aws</a>, <a class='category' href='/blog/categories/backups/'>backups</a>, <a class='category' href='/blog/categories/ebs/'>ebs</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/2011/04/aws-load-balancer-ssl-limitations.html" title="Previous Post: AWS Load Balancer SSL limitations">&laquo; AWS Load Balancer SSL limitations</a>
+      
+      
+        <a class="basic-alignment right" href="/2011/05/updating-kernels-for-amazon-aws.html" title="Next Post: Updating kernels for Amazon (AWS) Instances">Updating kernels for Amazon (AWS) Instances &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html';
+        var disqus_url = 'http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Views | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/views/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[44,497 People Are Wrong: How to NEVER Need Views PHP.]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/"/>
+    <updated>2013-12-26T12:01:44+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php</id>
+    <content type="html"><![CDATA[<p>You&rsquo;re building a View, but you can&rsquo;t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data in a custom table that you want to include in the View. So you look for a contributed module, and <a href="https://www.drupal.org/project/views_php">Views PHP</a> looks like the answer to your problem! Until you read the module page, where it says:</p>
+
+<blockquote><p>&ldquo;&hellip;it is highly advisable to use regular handlers and plugins when available (or even to create one yourself). Take note that filtering and sorting a view using PHP always has a considerable perfomance impact.&rdquo;</p></blockquote>
+
+<p>As of this writing, <em>44,497</em> site maintainers have read that warning and chosen to ignore it. <strong>They&rsquo;ve chosen to put their PHP into a non-revisioned, difficult-to-access place, and to enable PHP input in a module that was never designed for security. They&rsquo;ve left their site at risk of a very difficult to diagnose and even harder to fix WSOD</strong>.</p>
+
+<p>I&rsquo;m going to go out on a limb here, and suggest that in many of these cases, the decision was made because someone had the impression that writing a Views handler or Plugin was difficult. I&rsquo;m here to tell you that&rsquo;s not so: it&rsquo;s actually quite easy.</p>
+
+<h2>What we&rsquo;re doing </h2>
+
+<p>We&rsquo;re going to tell Views about the structure of the data we want to display, filter, or sort &ndash; even if there&rsquo;s not actually a new data source involved, that&rsquo;s how you do it &ndash; and then we&rsquo;ll write the function that actually does the filter/sort/etc by improving an existing field display/filter/sort that Views already includes.</p>
+
+<p>This process will work for:</p>
+
+<ul>
+<li>Defining a new data source for Views, ie something your module keeps in the DB.</li>
+<li>Creating multiple field displays/filters/sorts for an existing field.</li>
+<li>Creating a completely computed field display/filter/sort, with nothing in the DB.</li>
+</ul>
+
+
+<p>I know that in 99% of use cases for Views PHP, you don&rsquo;t need to define a new data source, table, adn fields. Trust me that this is the easiest way to learn it, though. I promise we&rsquo;ll get to your use case before the end of the post.</p>
+
+<h1>How to</h1>
+
+<p>I&rsquo;ll assume you have a custom module built, with a .info and .module file, but nothing in there yet. We&rsquo;ll call our module &ldquo;mymodule&rdquo; for the example.</p>
+
+<h2>1) Tell Views about your module</h2>
+
+<p>We implement <em><a href="https://api.drupal.org/api/views/views.api.php/function/hook_views_api/7">hook_views_api</a></em> to let Views know that our module provides some code for Views, and what version of the Views API we&rsquo;re using.</p>
+
+<p>``` php mymodule.module
+&lt;?php</p>
+
+<p>/<em>*
+ * Implements hook_views_api().
+ </em>/
+function mymodule_views_api() {
+  return array(</p>
+
+<pre><code>'api' =&gt; 3,
+'path' =&gt; drupal_get_path('module', 'mymodule') . '/views',
+</code></pre>
+
+<p>  );
+}
+```</p>
+
+<p>Couldn&rsquo;t be simpler. We declare that we&rsquo;re using Views API 3, and that our Views code will all live in the <em>/views</em> subdirectory of our module.</p>
+
+<h2>2) Tell Views about your custom code</h2>
+
+<p>Now that Views knows to look in our <em>/views</em> directory, we should populate it. Views will look for a file called <em>modulename.views.inc</em> in that directory, so this is where we will put our Views hooks. There are lots of Views interventions you can do in this file, but we&rsquo;re only interested in one: <em><a href="https://api.drupal.org/api/views/views.api.php/function/hook_views_data/7">hook_views_data</a></em>.</p>
+
+<p>This hook lets you define new data sources to Views, and for each one show how to render a field, how to Filter results, and how to Sort results based on your new data source. I promised you three use cases up there though, and here&rsquo;s the trick: you don&rsquo;t have to have an actual data source. You can define a filter for a database field that&rsquo;s already described elsewhere.</p>
+
+<p>First let&rsquo;s look at a real field definiton though, because it&rsquo;s simpler. Here&rsquo;s how we would define a real DB table as a data source. The table looks like this:</p>
+
+<table style="border-collapse:collapse;">
+<tr><th>naid</th><th>name</th></tr>
+<tr><td>1</td><td>Frank Sinatra</td></tr> 
+<tr><td>2</td><td>Dean Martin</td></tr>
+<tr><td>3</td><td>Sammy Davis, Jr.</td></tr> 
+<tr><td>4</td><td>Peter Lawford</td></tr>
+<tr><td>5</td><td>Joey Bishop</td></tr>
+</table>
+
+
+<p>So here&rsquo;s our implementation of <em>hook_views_data</em>:</p>
+
+<p>``` php views/mymodule.views.inc
+/<em>*
+ * Implements hook_views_data().
+ </em>/
+function mymodule_views_data() {
+  // Build an array named after each DB table you&rsquo;re describing. In our case,
+  // just mymodule_table.
+  $data[&lsquo;mymodule_table&rsquo;] = array(</p>
+
+<pre><code>// First give some general information about the table as a data source.
+'table' =&gt; array(
+  // The grouping for this field/filter/sort in the Views UI.
+  'group' =&gt; t('Example Views Stuff'),
+  'base' =&gt; array(
+    'field' =&gt; 'naid', // This is the identifier field for the view.
+    'title' =&gt; t('Example Views API Data'),
+    'help' =&gt; t('Names provided by the Mymodule module.'),
+  ),
+),
+// Now we describe each field that Views needs to know about, starting 
+// with the identifier field.
+'naid' =&gt; array(
+  'title' =&gt; t('Name ID'),
+  'help' =&gt; t("The unique Name ID."),
+  'field' =&gt; array(
+    'handler' =&gt; 'views_handler_field_numeric',
+    'click sortable' =&gt; TRUE,
+  ),
+  'sort' =&gt; array(
+    'handler' =&gt; 'views_handler_sort',
+  ),
+  'filter' =&gt; array(
+    'handler' =&gt; 'views_handler_filter_numeric',
+  ),
+),
+// Now the name field.
+'name' =&gt; array(
+  'title' =&gt; t('Name'),
+  'help' =&gt; t("The Name."),
+  'field' =&gt; array(
+    'handler' =&gt; 'views_handler_field',
+    'click sortable' =&gt; TRUE,
+  ),
+  'sort' =&gt; array(
+    'handler' =&gt; 'views_handler_sort',
+  ),
+  'filter' =&gt; array(
+    'handler' =&gt; 'views_handler_filter_string',
+  ),
+),
+</code></pre>
+
+<p>  );
+  return $data;
+}
+```</p>
+
+<p>This is a pretty simple example, and I think the array structure speaks for itself. First you provide some general information about the table, then you create a sub-array for each field on the table. Each field&rsquo;s array should be named after the field, and provide at least title. Of course it wouldn&rsquo;t be useful if you didn&rsquo;t describe the handlers for any field/sort/filter operations you want to expose. For each one of these you just provide the name of the handler. In this example I used all built-in filters that come with Views, but it&rsquo;s easy enough to provide a custom handler.</p>
+
+<p>Many added behaviors in Views start with <em>hook_views_data</em>; this only covers the basics. You can also open fields up as arguments or relationships, or even add built-in relationships. For example, if our table also contained an NID field, we could define a relationship so that node fields are always available when listing names, and vice versa. This stuff is all surprisingly easy to do, it&rsquo;s just not the focus of this post.</p>
+
+<h2>3) Write your custom handler</h2>
+
+<p>Let&rsquo;s say we want to provide our own field handler for the name field. Maybe we want it to automatically separate first names. This is easy, too! You simply decide on a name for your new handler &ndash; by convention it should begin with <em>modulename_handler_type_</em>, so we&rsquo;ll use <em>mymodule_handler_field_firstname</em>. Here&rsquo;s the relevant part of that <em>$data</em> array from before:</p>
+
+<p>``` php /views/mymodule.views.inc
+&hellip;</p>
+
+<pre><code>// Now the name field.
+'name' =&gt; array(
+  'title' =&gt; t('Name'),
+  'help' =&gt; t("The Name."),
+  'field' =&gt; array(
+    'handler' =&gt; 'mymodule_handler_field_firstname',
+    'click sortable' =&gt; TRUE,
+  ),
+</code></pre>
+
+<p>&hellip;
+```</p>
+
+<p>Not exactly rocket science, is it?</p>
+
+<p>Now we create a file named after the handler, also in the <em>/views</em> subdirectory. Though you could write your own handler class from scratch, you&rsquo;ll almost never have to. It&rsquo;s much easier to just extend an existing class.</p>
+
+<p>``` php /views/mymodule_handler_field_firstname.inc
+&lt;?php</p>
+
+<p>/<em>*
+ * @file
+ * Definition of mymodule_handler_field_firstname.
+ </em>/</p>
+
+<p>/<strong>
+ * Provide the first name only from the name field.
+ *
+ * @ingroup views_filter_handlers
+ */
+class mymodule_handler_field_firstname extends views_handler_field {
+  /</strong>
+  * Render the name field.
+  */
+  public function render($values) {</p>
+
+<pre><code>$value = $this-&gt;get_value($values);
+$return = explode(' ', $value);
+return 'First name: ' . $return['0'];
+</code></pre>
+
+<p>  }
+}
+```</p>
+
+<p>You see the pattern we&rsquo;re following: just name a handler, then extend an existing Views handler class to do what you want. You can override options forms, the admin summary&hellip; really any aspect of the way Views handles this data. And the pattern is the same for fields, sorts, filters, and arguments.</p>
+
+<p>Once you&rsquo;ve created your handler&rsquo;s <em>.inc</em> file, you have to make sure your module loads it. So edit your module&rsquo;s <em>.info</em> file thusly:</p>
+
+<p>``` ini /mymodule.info
+name = My Module
+description = Demo module from ohthehugemanatee.org
+core = 7.x</p>
+
+<p>files[] = views/mymodule_handler_field_firstname.inc
+```</p>
+
+<h2>4) Multiple filters for one field</h2>
+
+<p>We all understand how this works for data that you&rsquo;re declaring for the first time in Views. But what if you want to provide multiple handlers for a single field? Maybe there are several different ways to filter or sort it. For most use cases, you should just follow the pattern above, and simply override the Views options form in your handler class. But occasionally you really do need multiple handlers.</p>
+
+<p>So let&rsquo;s add a second and third field handler for our <em>name</em> field:</p>
+
+<p>``` php /views/mymodule.views.inc
+&hellip;</p>
+
+<pre><code>// Now the name field. This is the first, and 'real' definition for this field.
+'name' =&gt; array(
+  'title' =&gt; t('Name'),
+  'help' =&gt; t("The Name."),
+  'field' =&gt; array(
+    'handler' =&gt; 'mymodule_handler_field_firstname',
+    'click sortable' =&gt; TRUE,
+  ),
+),
+'name_last' =&gt; array(
+  'title' =&gt; t('Last name'),
+  'help' =&gt; t('The Last name, extracted from the Name field'),
+  'real field' =&gt; 'name',
+  'field' =&gt; array(
+    'handler' =&gt; 'mymodule_handler_field_lastname',
+    'click sortable' =&gt; TRUE,
+  ),
+),
+'name_backwards' =&gt; array(
+  'title' =&gt; t('Evil Genius Name'),
+  'help' =&gt; t('The name, reversed so it sounds like the name of an evil genius.'),
+  'real field' =&gt; 'name',
+  'field' =&gt; array(
+    'handler' =&gt; 'mymodule_handler_field_evil',
+    'click sortable' =&gt; TRUE,
+    ),
+  ),
+</code></pre>
+
+<p>&hellip;
+```</p>
+
+<p>Can you spot the difference? All you have to do is add a variable for <em>real field</em>, which tells Views the field name to use for the source value, and that&rsquo;s it. Everything else is totally identical to a normal field. By custom we prefix the &ldquo;virtual&rdquo; field&rsquo;s name with the name of the real field, but that&rsquo;s as complicated as it gets.</p>
+
+<h1>Conclusion</h1>
+
+<p>If there&rsquo;s one thing I want you to take away from this blog post, it&rsquo;s that <strong>the Views API is actually really easy</strong>. And if you can&rsquo;t find something online, take a moment to actually look at the <a href="https://api.drupal.org/api/views/views.api.php/">API documentation included with the module</a>. It&rsquo;s <em>very</em> thorough, and easy to read. If you feel like you understand how this works, but the doco doesn&rsquo;t quite cover what you&rsquo;re trying to do, look for examples in the Views module itself! There are 169 handlers for every concievable kind of case, just within Views. Find something reasonable and build off of that!</p>
+
+<p>With this in mind, it&rsquo;s only 24 lines of simple code to provide your own handler for an existing field. After that 24 lines, you&rsquo;re doing the same things you were planning to do in views_php&hellip; but now you&rsquo;re doing them in a real coding environment, with a revisioning system, and where it&rsquo;s easy to track down and fix errors that could otherwise crash your site. 24 lines of array definition can save you a world of hurt. I hope to see those views_php installation numbers dropping soon.</p>
+]]></content>
+  </entry>
+  
+</feed>

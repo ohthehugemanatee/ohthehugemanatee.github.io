@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Jekyll/Octopress | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/jekyll-slash-octopress/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[A Drupalist Makes the Case for Jekyll/Octopress]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/"/>
+    <updated>2013-11-26T23:59:05+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress</id>
+    <content type="html"><![CDATA[<p>Today I&rsquo;m launching my new domain, <a href="https://ohthehugemanatee.org">OhTheHugeManatee.org</a>. ORG was the only TLD left, but I&rsquo;m asking after .com . :)</p>
+
+<p>I made the decision to launch it using <a href="http://jekyllrb.com/" title="Jekyll">Jekyll</a> and <a href="http://octopress.org" title="Octopress">Octopress</a>, rather than Drupal. This feels a little funny to a career Drupalist like myself. Why not use Drupal 7, or use it as a testing ground for Drupal 8? Anyone who knows me will know that I complain bitterly about Ruby, and I&rsquo;ve been vocal about the misuse of Jekyll for <a href="http://healthcare.gov" title="Healthcare.gov">healthcare.gov</a> . So I feel that an explanation is due, and probably appropriate for my first post written on the system.</p>
+
+<p>First of all, <em>I&rsquo;m a strong believer in the best tool for the job</em>. I believe that Drupal is the best tool for a lot of complex content management tasks, and I&rsquo;m excited to work with Drupal 8 as a contributor and implementer. But a single user blog is not a complex content management task. Maybe at some point I will start up a multi-faceted website that covers everything I do, from code to opera to ninjutsu&hellip; but that&rsquo;s not today, and it&rsquo;s not the objective for this site. For this site, I want a tool that makes it trivially easy to create, edit, and publish blog posts, using an editing interface that I&rsquo;m comfortable with. Octopress is a great fit for that requirement.</p>
+
+<p>Second, though I love my work with Drupal, <em>I&rsquo;m not blind to the rest of the world</em>. For the rest of the tech world, Jekyll is a leading blog platform. As I&rsquo;ve specialized more and more in Drupal, I feel the limitations of &ldquo;Drinking the Kool-Ade&rdquo; more and more. Drupal is ascendant right now, but it won&rsquo;t always be. Someday I&rsquo;ll have to move onto another framework, and getting comfortable with a different, but still popular, content framework can only be helpful. Better still that it&rsquo;s written in a language I&rsquo;m not comfortable with.</p>
+
+<p>Third, <em>it&rsquo;s genuinely a great platform</em>. There&rsquo;s a lot to learn from success, and Octopress is definitely having success among my peers. I&rsquo;m looking forward to playing with this new toy, and hopefully bringing some new insights into my home platform.</p>
+
+<p>The migration process is not difficult, as long as you know which scripts to use. Outside of the Drupal world there&rsquo;s a lot of confusion between D6 and D7, and it took me awhile to figure out that the importer I was running was for D6. For those who come after me, I used <a href="http://approache.com/blog/migrating-from-blogger-to-octopress/">this post</a> and it&rsquo;s links to migrate the content from my old blogger site, <a href="http://swearingatcomputers.blogspot.com">swearing at computers</a>. Then I used <a href="http://import.jekyllrb.com/docs/drupal7/">Jekyll&rsquo;s own doco</a> to get my posts from the <a href="http://5ringsweb.com/blog">5 Rings blog</a>. I&rsquo;m self hosted because I don&rsquo;t like plaintext transmission, and Github/Heroku don&rsquo;t provide free HTTPS hosting. Besides, I&rsquo;ve got all these servers lying around, I may as well use them. :)  After an abortive attempt to deploy myself using a simple git repo for the HTML, I ended up doing it the Jekyll way with rsync and &ldquo;rake deploy&rdquo;. Pretty slick.</p>
+]]></content>
+  </entry>
+  
+</feed>

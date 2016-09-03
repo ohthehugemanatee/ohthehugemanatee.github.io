@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Drush | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/drush/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-09-03T12:33:52+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Drush Self Aliases]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
+    <updated>2014-01-10T09:22:01+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
+    <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
+
+<p>And I&rsquo;ve also ignored the warning message every time before, but today I thought I&rsquo;d check it out:</p>
+
+<blockquote><p>WARNING:  Using temporary files to store and transfer sql-dump.  It is recommended that you specify &mdash;source-dump and &mdash;target-dump options on the command line, or set &lsquo;%dump&rsquo; or &lsquo;%dump-dir&rsquo; in the path-aliases section of your site alias records. This facilitates fast file transfer via rsync.</p></blockquote>
+
+<p>There are actually two possible solutions to this warning (that I can think of), and they illustrate some of the useful &ldquo;power user&rdquo; features of Drush that any frequent user should be aware of.</p>
+
+<p>The warning is there because drush would <em>prefer</em> to rsync the DB dump from site1 to site2, rather than a one time copy. Rsync has lots of speed improvements, not the least being diff transfer. When transferring an updated copy of a file which already exists at the destination, rsync will only send over the changes rather than the whole file. This is pretty useful if you&rsquo;re dealing with a large, text based file like an SQL dump &ndash; especially one that you&rsquo;ll be transferring often. In order to use this efficient processing though, Drush needs to know a safe path where it can store the DB dump in each location.</p>
+
+<p>First we&rsquo;ll add the <em>%dump-dir%</em> attribute to our alias for clientsite:</p>
+
+<p>``` php ~/.drush/clientsite.aliases.drush.php
+&lt;?php
+// Site clientsite, environment live
+$aliases[&lsquo;live&rsquo;] = array(
+  &lsquo;parent&rsquo; => &lsquo;@parent&rsquo;,
+  &lsquo;site&rsquo; => &lsquo;clientsite&rsquo;,
+  &lsquo;env&rsquo; => &lsquo;live&rsquo;,
+  &lsquo;root&rsquo; => &lsquo;/var/www/example.com/public_html&rsquo;,
+  &lsquo;remote-host&rsquo; => &lsquo;example.com&rsquo;,
+  &lsquo;remote-user&rsquo; => &lsquo;cvertesi&rsquo;,
+  &lsquo;path-aliases&rsquo; => array(</p>
+
+<pre><code>'%dump-dir' =&gt; '/home/cvertesi/.drush/db_dumps',
+</code></pre>
+
+<p>  ),
+);
+```</p>
+
+<p>Notice that <em>%dump-dir</em> actually goes in a special sub-array for <em>path-aliases</em>. This is very likely the only time you&rsquo;ll need to use that section, since most everything else in there is auto-detected. This is the directory on the remote side where drush will store the dump.</p>
+
+<p>Our options come in with the <em>@self</em> alias. In a local dev environment, the most common way to handle this is in your <em>drushrc.php</em> file:</p>
+
+<p><code>php ~/.drush/drushrc.php
+$options['dump-dir'] = '~/.drush/db_dumps';
+</code></p>
+
+<p>But this won&rsquo;t work for all cases. You can also take advantage of Drush&rsquo;s alias handling by creating a site alias with the settings you want, and letting Drush merge those settings into <em>@self</em>. When Drush builds its' cache of path aliases, it uses the site path as the cache key (for local sites only). That means that if you have a local alias with the same path as whatever <em>@self</em> happens to resolve to, your alias options will make it into the definition for <em>@self</em>. So here&rsquo;s the alternate solution:</p>
+
+<p>``` php ~/.drush/clientsite.aliases.drush.php
+$aliases[&lsquo;localdev&rsquo;] = array(
+  &lsquo;root&rsquo; => &lsquo;/Users/cvertesi/Sites/clientsite&rsquo;,
+  &lsquo;uri&rsquo; => &lsquo;default&rsquo;,
+  &lsquo;path-aliases&rsquo; => array(</p>
+
+<pre><code>'%dump-dir' =&gt; '/home/cvertesi/.drush/db_dumps',
+</code></pre>
+
+<p>  ),
+);
+```</p>
+
+<p>There&rsquo;s just one, obscure caveat with the latter method: somewhere in the alias merging process, BASH aliases are lost. That means that &lsquo;~&rsquo; stops resolving to your home directory, and you have to write it out (as I did above).</p>
+
+<p>Have fun!</p>
+]]></content>
+  </entry>
+  
+</feed>
