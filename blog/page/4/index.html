@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Lots of sites are now built with the “Panels everywhere” method, using Panels and Panelizer to configure modular layouts in the Drupal GUI. These &hellip;">
+  <meta name="description" content="You’re building a View, but you can’t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data in a custom &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,51 +81,6 @@
     <div id="content">
       <div class="blog-index">
   
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/03/how-to-create-a-custom-panels-pane/">How to Create a Custom Panels Pane</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-03T13:09:11+01:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>Lots of sites are now built with the “Panels everywhere” method, using <a href="https://www.drupal.org/project/panels">Panels</a> and <a href="https://www.drupal.org/project/panelizer">Panelizer</a> to configure modular layouts in the Drupal GUI. These modules come with lots of great default Panes, and create even more defaults based on your existing Blocks and Views. But there’s always a case for a custom Pane.</p>
-
-<p>As usual, I’ll assume that you have an empty custom module called <em>mymodule</em>, with only a <em>.info</em> and a <em>.module</em> file to its name.</p>
-
-<h2>1) Tell CTools that you have custom code here</h2>
-
-<p>Ctools, like Views, needs a hook to declare the fact that you have custom code. To do this we’ll use <em><a href="http://drupalcontrib.org/api/drupal/contributions!ctools!ctools.api.php/function/hook_ctools_plugin_directory/7">hook_ctools_plugin_directory</a></em>. This hook is invoked for all Ctools plugin types, and includes the module name as a&#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2014/01/03/how-to-create-a-custom-panels-pane/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
   
   
     <article>
@@ -526,6 +481,48 @@
 
     </article>
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/">Adding Rules to Your Contrib Module (So You Can Reject Half the Tickets in Your Queue)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p><a href="http://drupal.org" target="_blank">Drupal’s</a> <a href="http://drupal.org/project/rules" target="_blank">Rules module</a> lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the hands of the site builder, and it makes developers (rightly) nervous. But there’s another way to think about it.</p>
+
+
+<p>What’s fantastic about Rules is that it lets everyone who wants your module to behave slightly differently to <em>change the behavior for themselves</em>. In fact, if you build the logic of your module into Rules you get an excuse to reject half the tickets in your contrib module queue on the grounds of “works as intended,” aka “do it yourself.”  To me, this is the quiet brilliance of Commerce module’s dependence &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -551,10 +548,6 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2016/08/27/how-to-migrate-content-into-drupal-8-paragraphs/">How to Migrate Content Into Drupal 8 Paragraphs</a>
-      </li>
-    
-      <li class="post">
         <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
       </li>
     
@@ -568,6 +561,10 @@
     
       <li class="post">
         <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/">How Drupal Should Handle Client-side Framework Obsolescence</a>
       </li>
     
   </ul>
