@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Linux | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/linux/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2016-10-15T22:24:12+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Perfect Linux Mint on My Macbook Pro 9,2]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
+    <updated>2016-10-15T18:44:40+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
+    <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
+
+<p>This week I read about everyone&rsquo;s problems getting OSX Sierra going, and I decided it was time to take the plunge. Apple, I completely understand the direction you are going with your environment. You&rsquo;ve gotta lock down in order to make peoples' computers reliable, easy to use appliances. But I don&rsquo;t want an appliance, I want a computer. I disagree with some of your choices about the system, what software I should use, where I may install it from, and how I may use it. I&rsquo;m switching to an OS that lets me make those choices.</p>
+
+<p>Someone recently described the choice to me as &ldquo;program, or be programmed.&rdquo; That really stuck in my mind. OSX increasingly feels like &ldquo;someone else&rsquo;s computer&rdquo; for me. Someone else is making all the choices. Well, I don&rsquo;t have to &ldquo;be programmed&rdquo; passively. I can run an environment which respects my choices about privacy, which gives me the freedom to do whatever I want with my computer. So this week I went back to Linux.</p>
+
+<p>The last time I used Linux as a primary laptop OS was with Gentoo in 2003. OK, easy to say that this has come a LONG way since then. Still I don&rsquo;t know if I would recommend converting your existing system if you&rsquo;re a techno noob; better to buy a system with Linux pre-configured. With that said, I am damn impressed with how well <a href="http://linuxmint.com/">Linux Mint</a> runs out of the box on my Macbook Pro 9,2 (mid-2012). Setting everything up was a snap.</p>
+
+<h2>How to Get Linux Mint 18 running perfectly on a Macbook Pro 9,2</h2>
+
+<p>Just install it. Seriously, that&rsquo;s it. It just works.TM</p>
+
+<p>Installation went totally smoothly for me. I am dual booting for now, but I haven&rsquo;t had to get back into OSX all week. Note that you can access all your OSX files from inside Linux, as long as you don&rsquo;t have OSX&rsquo;s &ldquo;FileVault&rdquo; disk encryption turned on. Only Macs can decrypt that. There is a similar (more compatible) full disk encryption system for Linux, but at least during the transition I advise you to disable encryption for both &ldquo;sides&rdquo; of your computer. I did have to install ReFind to keep the dual boot working.</p>
+
+<p>Linux Mint asks you for permission to use the non-GPL drivers it needs to run your wireless card, and your CPU&rsquo;s special capabilities. It was a checkbox. Everything just worked. I really tried to find anything substantially broken out of the box, and came up empty. Touchpad, sound, webcam, suspend/resume&hellip; everything worked just fine.</p>
+
+<h2>Applications</h2>
+
+<p>I was pleasantly surprised to find that all of my most important applications have Linux flavors available, and they&rsquo;re easy to install. Much easier &ndash; or more standardized at least &ndash; than installation packages on OSX or Windows! Here are the big ones I use, with any relevant notes.</p>
+
+<ul>
+<li>SimpleNote</li>
+<li>Firefox Developer Edition</li>
+<li>PHPStorm &ndash; sadly I couldn&rsquo;t get it to keep my old licenses. I had to re-enter my license code manually.</li>
+<li>Toggl</li>
+<li>PrivateInternetAccess</li>
+<li>Slack &ndash; this app is pretty slow, surprisingly. I may go back to the web version.</li>
+<li>Zoom meetings &ndash; still just as painful on Linux</li>
+<li>Skype &ndash; skype.com has a newer version of this than the apt repo. No idea what the difference is, but it&rsquo;s still a resource hog.</li>
+<li>Lastpass &ndash; browser extension, but deserves a special mention. The version of the extension that&rsquo;s installed automatically (3.3.1) is SLOW and could never connect to Lastpass reliably. Did I mention it&rsquo;s SLOW? It singlehandedly destroyed my system&rsquo;s performance. Visit <a href="">the extension&rsquo;s page on addons.mozilla.org</a> and scroll down down down until you find &ldquo;developer channel&rdquo;. There you can download the current version, 4.1.29a. That&rsquo;s fast and light and current and working.</li>
+<li>FileVault &ndash; I keep my most sensitive files in a filevault-encrypted image. Unfortunately, only macs can open that format. I moved everything into a Veracrypt encrypted image instead, as the best multi-platform option.</li>
+<li>Docker &ndash; docker &ldquo;native&rdquo; for mac is actually running on a very slim Linux VM, so I knew it would be faster on a native Linux machine. But I was surprised that my informal benchmarks clocked it at almost 3x faster!</li>
+</ul>
+
+
+<p>I was worried about application coverage, but so far I haven&rsquo;t found any gaps.</p>
+
+<h2>Tweaks</h2>
+
+<p>I had two big tweaks: the task bar, and the touchpad. I also did one minor tweak to improve my battery life.</p>
+
+<p>I actually like the OSX dock and task bar concept. I find the default Windows-style taskbar finicky and a painful way to describe what applications are currently running. So I added <a href="https://glx-dock.org/">Cairo Dock</a>, and configured Cinnamon&rsquo;s built in taskbars to be a bit more OSX'ish.</p>
+
+<p>I&rsquo;m very finicky about my touchpad&rsquo;s behavior, and Linux Mint&rsquo;s control panel didn&rsquo;t expose enough of the options to me. Fortunately the Mac touchpad runs on the excellent <a href="ftp://www.x.org/pub/X11R7.5/doc/man/man4/synaptics.4.html">Synaptics driver</a>. That means you can configure every detail from the terminal with &ldquo;synclient optionname=value&rdquo; or &ldquo;synclient -l&rdquo; to list your current settings. Use that man page I linked to tell what options do what, and you can set the perfect configuration. Once you&rsquo;ve figured out what options are just right for you, put them in a file called /etc/X11/xorg.conf.d/60-synaptics.conf, like this:</p>
+
+<p><code>
+Section "InputClass"
+  Identifier "touchpad"
+  Driver "synaptics"
+  MatchIsTouchpad "on"
+  MatchDevicePath "/dev/input/event*"
+  Option "FingerHigh" "90"
+  Option "CoastingSpeed" "7"
+  Option "CoastingFriction" "16"
+  Option "EmulateTwoFingerMinW" "2"
+  Option "RTCornerButton" "0"
+  Option "RBCornerButton" "0"
+  Option "LTCornerButton" "0"
+  Option "LBCornerButton" "0"
+  Option "PalmDetect" "on"
+EndSection
+</code></p>
+
+<p>You will probably have to create the xorg.conf.d subdirectory&hellip; and you&rsquo;ll have to be sudo for the whole thing.</p>
+
+<p>Finally, I thought I&rsquo;d try to get more life out of this old battery. So I installed <a href="https://01.org/powertop">powertop</a>, and accepted all of it&rsquo;s automated recommendations. Now I get about 5 hours, which matches my experience in OSX. It is a 4 year old laptop, after all!</p>
+
+<p>That&rsquo;s it. One file to edit from the terminal, press &ldquo;OK&rdquo; a bunch on one application, and I got (what feels to me) like a perfect setup. This is so much better than the old days of walking uphill through the snow (both ways!) to get your display working. This is a polished, pleasant to use desktop environment.</p>
+
+<p>I&rsquo;m happy I switched.</p>
+]]></content>
+  </entry>
+  
+</feed>

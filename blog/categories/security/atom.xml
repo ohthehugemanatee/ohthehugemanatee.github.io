@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/security/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2016-09-03T12:45:46+02:00</updated>
+  <updated>2016-10-15T22:24:12+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,61 +14,138 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
-    <updated>2014-11-03T17:30:32+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
-    <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
+    <title type="html"><![CDATA[SSL Certificates Demystified]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified/"/>
+    <updated>2013-06-20T00:00:00+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified</id>
+    <content type="html"><![CDATA[<p>It seems like any time anyone has to configure a server for SSL/TLS, they treat it like some kind of voodoo magic. And I guess it can seem that way: if you get your certificates in the right formats from your certificate authority, you basically just drop them into Apache/NGINX/whatever and let it go.&nbsp;</p>
 
 
+<p>But what happens if those files&nbsp;<strong>aren't</strong> in the right format by default? And what if you actually want to understand what's going on with your server?</p>
 
 
-<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project &ndash; particularly the large and complex ones like Drupal! In this case it was the result of a choice in the database abstraction layer to use emulated prepared statements. There&rsquo;s a great dissection of the whole vulnerability at <a href="http://blog.ircmaxell.com/2014/10/a-lesson-in-security.html">ircmaxell</a>, but the point here is that it was an intentional decision. We were aware of a theoretical security risk, just as we are in making lots of decisions. But theoretical risks don&rsquo;t mean much compared with real, measurable losses from the available alternatives. As I said before, this can happen to any software project, and Drupal is a relatively responsible, well written one. What&rsquo;s interesting now, is the response.</p>
+<p>The truth is, encryption is not terribly difficult to understand. It's a little tricky to explain, and the maths in the nitty gritty of it can get really intense, but a high level understanding is important for anyone who works with SSL.&nbsp;</p>
 
 
+<div>The basis for SSL is <a href="https://en.wikipedia.org/wiki/Public_key_cryptography">public-key</a> (asymmetrical) cryptography. The idea is that you create a pair of files that have matching abilities:</div>
 
 
-<p>First of all, I am amazed to read responses from many Drupal users who are panicked at having to run a diff of their sites, because they don&rsquo;t have appropriate tools in place. If you are developing without a VCS and automated backups, you are doing more harm than good. Just stop. Take a week to learn the basic requirements of a development environment, and start employing them. End of story.</p>
+<div>&nbsp;</div>
 
 
+<div>*<strong> the "public" file can&nbsp;encrypt&nbsp;content</strong> so that the matching "private" file must be used to decrypt it. It can also <strong>verify the signature</strong> of the "private" file.</div>
 
 
-<p>I&rsquo;m not concerned for those people &ndash; their sites were disasters waiting for an excuse anyway. What&rsquo;s frightening about this particular situation is that even if you are working with backups and a VCS, even if you patch critical security vulnerabilities on an aggressive schedule, it still wasn&rsquo;t good enough.</p>
+<div>&nbsp;</div>
 
 
+<div>* <strong>the "private" file can&nbsp;decrypt&nbsp;content</strong> that was encrypted by the matching "public" file. It can also <strong>leave a unique digital signature</strong> which can be verified by the matching "public" file.</div>
 
 
-<p>All of my Drupal 7 sites are affected by this PSA. I work for a large, well-respected agency, with access to leading-edge workflows and tools. We follow best practices. All of my sites are secured well beyond PCI requirements. But PCI requirements say that critical security patches have to be applied within 30 days of release. Our best practices include patch review from the tech lead, and validating patches on test environments before pushing them live. With only 7 hours between patch release and exploits in the wild, there isn&rsquo;t time for any of that.</p>
+<div>&nbsp;</div>
 
 
+<div>If you've ever used the <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy">PGP encryption</a> system, that's basically how it works. You publish your public key in a publicly available directory, and keep your private key to yourself. That way, anyone can use your public key to encrypt content for you, and only you can decrypt it.</div>
 
 
-<p>I&rsquo;ve heard people complain that it&rsquo;s too difficult to update Drupal. &ldquo;drush up &mdash;security-only&rdquo; seems pretty simple to me, or at least simple enough that
- further simplification won&rsquo;t address the real problem. That&rsquo;s because the real problem isn&rsquo;t that it&rsquo;s difficult to apply updates &ndash; it&rsquo;s that a human be
-ing has to initiate them. I live in the Central European timezone, GMT+6. The patch was released at 10PM for me, and bots were exploiting it by 5AM the following morning. I went to work that day and initiated the patching process, so that my patches could be &ldquo;responsibly&rdquo; deployed to live with 24-48 hours of client validation time on my dev and staging environments. Despite being relatively on top of patches and responding relatively quickly, the fact that I&rsquo;m human, and my clients are human, meant we never stood a chance of patching this issue fast enough. Even if we skipped validation, and even if the update process was just one button (rather than two commands), we would still have failed to update in time. I find myself reminded of the Battlestar Galactica pilot, where the Cylon robots are chasing the humans. After each hyperspace jump, the humans have 33 minutes to complete the calculations for another jump before the machines catch up with them. After 130 hours and 237 jumps, it becomes apparent that the humans&#8217; need for sleep is a critical vulnerability.</p>
+<div>&nbsp;</div>
 
 
+<div>In the context of web communications, this model is taken to the next level. We use the encryption aspect of it, but we also use those digital signatures. Here's the process.</div>
 
 
-<p>The only solution is automated patching. It&rsquo;s hard to figure out a workflow that allows it; indeed you&rsquo;re forced into post-hoc testing, which means engineering an easy rollback solution. The truth is that 99% of security patches will not affect any of the functionality you&rsquo;ve customized or upon which you rely, so hopefully this will be an edge case. But it&rsquo;s a problem that actually has to be addressed. Here&rsquo;s how I&rsquo;m adapting my own projects over the coming weeks:</p>
+<div>&nbsp;</div>
 
 
+<div>1) You create this "key pair" for yourself, and hide the private key away somewhere. Optionally the private key can be password-protected.</div>
 
 
-<p>Every wednesday, every hour, my Jenkins instance runs a script which checks modules and core for each project for security updates. When an update is available, it automatically creates a branch off of Stable (my staging branch), applies the updates, and pushes the result up to the server. My git scripts already create a new subdirectory environment for every pushed branch. Once the environment is ready, Jenkins runs all available behat tests against the new branch. If all tests pass, the branch is automatically merged back into Master, Stage, and Live, and pushed. This push operation triggers a normal Jenkins deployment, which takes a backup anyway. An email is generated to the project administrator advising them which security updates were automatically applied, and linking to the relevant changefiles.</p>
+<div>&nbsp;</div>
 
 
+<div>2) You create a Certificate Request file (.CSR, usually). A Certificate Request is just a copy of your Public Key, with some identifying information about your organization. The most important piece of this information is the domain name this Request is for. You submit your CSR file to a Certificate Authority (abbreviated as "CA) company like <a href="https://www.rapidssl.com/">RapidSSL</a>, or any number of other Certificate Authorities out there.</div>
 
 
-<p>I&rsquo;m excited about implementing this new layer of automation, because it builds on the best practice workflows I already like (test driven development, git flow VCS organization, automated deployment and backups&hellip;) to produce a tangible time savings and security improvement for my sites. At the same time, I can&rsquo;t say that this is something I recommend for EVERYONE, precisely because it requires such a high level of environment maintenance. When you&rsquo;re a one-person development shop, it&rsquo;s hard to afford the time to set up the perfect development environment. It&rsquo;s hard to convince those bottom-of-the-food-chain clients to pay for things like automated testing and deployment. And certainly once you have those things set up, you don&rsquo;t get paid for maintaining them!</p>
+<div>&nbsp;</div>
 
 
+<div>3) The CA verifies that you really own the domain name specified in the CSR. How they verify that is up to the CA. Maybe they email the owner of the domain, maybe they ask you to modify a DNS record, maybe they just take you on your word (hopefully not!). Whatever they do, when the CA is satisfied that you really do own that domain name, they send you back your Certificate Request file. This version of the file is signed by the CA's own private key, and that difference makes it the actual "SSL certificate" file. If you've been keeping score at home, the SSL certificate is simply your public key with your organizational information attached, and your CA's signature.&nbsp;</div>
 
 
-<p>I&rsquo;m going to be keeping my eyes open for better solutions that can be applied by the &ldquo;developer on the street.&rdquo; Something relatively easy, but which allows the same kind of automated, fast response time for security patches. I&rsquo;m interested in any ideas you want to post in the comments!</p>
+<div>&nbsp;</div>
 
 
+<div>Great, now people can send you encrypted messages, right? Well, sorta. How do people know they can trust the CA? Maybe that CA is just some yahoo who lives up the hall, or your great aunt Edna. How can I trust Edna to vouch for you?&nbsp;</div>
 
+
+<div>&nbsp;</div>
+
+
+<div>4) The solution is a "chain of authority" file. This is just your CA's public key (which the browser needs to check that signature on your SSL certificate, remember?). What makes this public key special is that it's ALSO signed by whoever granted your CA permission to be a CA, and by whoever granted THAT person the permission to be a CA, all the way back to one of the "root" certificate authorities, whose public keys are bundled with every browser. (there are about 30 of them). So the chain file from aunt Edna might contain signatures from her daughter Annie, Annie's company AnnieCA, and GeoTrust, who granted AnnieCA the authority to give out certificates. GeoTrust is a root CA, so your browser already knows they're trusted. &nbsp;</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>So when a web browser connects to your server, your server sends out its SSL certificate file (ie the server's public key with Edna's "Seal of Authenticity" on it). The browser can then encrypt communications to send to your server, and your server can decrypt them with its private key. The browser can also check on Edna's Seal of Authenticity, because there's a chain of other CAs who have signed Edna's certificate, right back to one of the CAs that the browser already trusts.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>With a one-way secure channel open, and with confidence that your server really does own that public key, the browser sends its own public key to the server. This is really as far as you need to understand in order to set up your own webserver. Once the server and browser have exchanged public keys, the rest is automatic. For the sake of completion in this blog post, you should know that they don't continue using this asymmetric encryption for long. This secure channel is only used to set up a symmetric encryption method - that is, an encryption method where both sides have identical keys for encryption and decryption. &nbsp;The actual content is sent over this symmetrically encrypted connection, because symmetrical encryption is lighter on the CPU and the data overhead, and is actually harder to break.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>All we sysadmins really care about is the handshake, because that's where all those confusing key files go. So, TL;DR time. Here's what you need:</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>1) Your server's private key file. Note that this can be encrypted with a password, but most web hosts would rather you not. If there's a password, someone has to enter it every time they restart the server!</div>
+
+
+<div>2) The SSL Certificate, signed by your Certificate Authority.</div>
+
+
+<div>3) Your Certificate Authority's chain of intermediate certificates.</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>Most (Drupal-centric) web hosts will want all of these in PEM format. PEM is a text format, which means you can just copy and paste the key around. If your certificates are in another format, it's pretty easy to convert them to PEM with the openssl command, like this:</div>
+
+
+<div>&nbsp;</div>
+
+
+<div>
+<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag"> openssl &lt;old-cert-format&gt; -in old-cert-file -out new-cert-file.pem </pre>
+</div>
+
+
+<div>There are also a handful of options that can come in handy in specifying the output, but they really go beyond the scope of this blog post. The resource I always use is the <a href="https://twiki.cern.ch/twiki/bin/view/LinuxSupport/OpenSSLCheatsheet">CERN openSSL conversions cheat sheet</a>.&nbsp;</div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[What the Sony Hacks Tell Us About Their Sysadmins and Management]]></title>
+    <link href="http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their.html"/>
+    <updated>2011-05-21T00:04:00+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their</id>
+    <content type="html"><![CDATA[<p></p>
+
+<div class="css-full-post-content js-full-post-content">
+I wouldn't want to be a Sony sysadmin right now. <a href="http://www.f-secure.com/weblog/archives/00002160.html">F-Secure just blogged</a> about evidence of a <strong>fourth</strong> hack at the electronics giant.   This one is relatively harmless - a phishing scam being run from Sony servers - but this pattern of security problems should tell us a few things about Sony's SysAdmin staff:<br /><br />1) They're powerless in their own organization.<br />2) They don't get to set IT resource policy.<br />3) They're furious at their bosses right now.<br /><br />It's hard to generalize like this across an entire organization, but I'm willing to bet that in the affected departments this is the case.  Let's look at what we know about the hacks.  <br /><br />The first two involved stealing millions of users' credit card information, which was stored unencrypted and vulnerable during a DoS.  The hackers got in with a list of valid usernames and a dictionary attack.  I don't know any SysAdmin, no matter how junior, who would leave 100 million users' financial and personal information in an unencrypted format.  And on a server with access to this unencrypted financial information, who doesn't impose password standards?  I can understand a vulnerability during an exceptional circumstance - a really good SysAdmin team has contingency plans for this sort of thing, but at least it's an understandable problem - but dammit, that data was just left out in the open, with only a dictionary password to protect it!  The only thing the DoS did was cover for the dictionary attempts. What SysAdmin team <i>does</i> that?<br /><br />The next "attack" was really just a vulnerability in the password reset system.  If you knew a user's date of birth and email address, you could gain access to their account.  Again, who actually deploys a system that vulnerable on an enterprise level?  Again, this is an account that includes personal, financial data.  Not even an email confirmation, or personal security question in sight!  Remember this is a service that has a purpose built platform associated with it.  They could ask for the serial number off the back of your PS3, or send you a code to your Playstation Mobile.  They could set up an RSA-style key generator on your device, the way Google does with your mobile phone.  But no - your financial data was protected by information that you publish on Facebook.  What technical lead <i>does</i> that?<br /><br />And finally, this most recent attack is a more conventional hack on a (relatively) unimportant server. It's true that by now, Sony's many arms must be the target of every wannabe hacker with a cablemodem.  But seriously, don't these guys run updates?  Do they have a vulnerability scanner?  Nessus should give them a license as a charity case.<br /><br />I think the most damning part is the response to the hacks.  In a gesture to try and restore their reputation on security, Sony laid out their technical response:<br /><br /><ul><li>Added automated software monitoring and configuration management to help defend against new attacks</li><li>Enhanced levels of data protection and encryption</li><li>Enhanced ability to detect software intrusions within the network, unauthorized access and unusual activity patterns</li><li>Implementation of additional firewalls</li></ul><br />Wait a moment - are they telling us they DIDN'T have these things before?  SONY, of all companies, didn't have an intrusion detection system?  They didn't encrypt their data?  This megagiant of digital services had no internal firewalls, no security scans?  <br /><br /><h2>Don't blame the SysAdmins</h2><br />It seems like I'm going to come down on the SysAdmin team over there.  I'm not.  I know what it's like working in a business environment.  Most importantly, I know what it's like working in an environment where a <i>manager</i>, not a technical person, is calling the shots.  And to me, this reeks of it.  <br /><br />This smacks of a work environment where the technical people are told not to "waste" time on things like "updates", or to make things too complicated with "security".  A workplace where the SysAdmins have been saying for months that this stuff is important, but management has set other priorities.  <br /><br />It's frustrating being in that kind of environment on a day to day basis, but people get by.  There's plenty of new work to get to, plenty of issues that your boss thinks are more profitable than upkeep.  And the admins can't understand why the bosses don't want to spend time on these critical, invisible tasks.  It seems like such a simple principle, and there are a million metaphors for it: feeding the golden goose, getting your teeth checked, getting an oil change... whatever you want to call it, management is not interested.  And when the irresponsibility of management priorities finally comes home to roost, it's the SysAdmins who have to stay weekends and nights to fix it.  It's the SysAdmins who have to explain to everyone that data was unencrypted, that security patches weren't applied, that pentesting was never considered.  <br /><br />I've seen that happen at too many organizations to count, and I predict that a lot of Sony SysAdmins are secretly trying to find other jobs right now.  Looking for a new SysAdmin?  Pick up one of the guys at Sony!  They'd be happy for a working environment that lets them do their job.
+</div>
+
+
+<p></p>
 ]]></content>
   </entry>
   

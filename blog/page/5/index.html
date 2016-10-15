@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="I recently tried the Dolly Drive backup service, and decided it wasn’t for me. Foolishly, I uninstalled it the way you uninstall everything on OSX: &hellip;">
+  <meta name="description" content="Drupal’s Rules module lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/">Adding Rules to Your Contrib Module (So You Can Reject Half the Tickets in Your Queue)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p><a href="http://drupal.org" target="_blank">Drupal’s</a> <a href="http://drupal.org/project/rules" target="_blank">Rules module</a> lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the hands of the site builder, and it makes developers (rightly) nervous. But there’s another way to think about it.</p>
+
+
+<p>What’s fantastic about Rules is that it lets everyone who wants your module to behave slightly differently to <em>change the behavior for themselves</em>. In fact, if you build the logic of your module into Rules you get an excuse to reject half the tickets in your contrib module queue on the grounds of “works as intended,” aka “do it yourself.”  To me, this is the quiet brilliance of Commerce module’s dependence &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -296,7 +338,7 @@ Ah, it’s nice to be done with the basic structure stuff. At this point, I’m 
   
   <div class="entry-content">
 <div class="css-full-post-content js-full-post-content">
-I’ve been lax about posting lately, and to make this easier on myself I think I’ll post a bunch of quick guides for basic coding procedures with Drupal. Simple things and concepts, explored in just enough detail for you to understand how it works, resource links so you can actually go and put it into practice. <br><br>The first thing you need to understand about Drupal is the structure. Drupal is a modular Content Management System, built on PHP and whatever-database-you-want-which-is-probably-mysql-lets-face-it. Drupal contributed modules which are the majority of Drupal’s capabilities. <br>* themes : This contains the themes - layouts - that are available to Drupal. <br><br>I mentioned that most professional Drupal shops just use a separate codebase for each site they set up. They also don’t mix and match between using sites/default and sites/all . This is because it’s very easy to end up with a copy of the same module in two places, and it’s hard to know which version Drupal is actually using. So everyone standardizes their own pr&#8230;</div></div>
+I’ve been lax about posting lately, and to make this easier on myself I think I’ll post a bunch of quick guides for basic coding procedures with Drupal. Simple things and concepts, explored in just enough detail for you to understand how it works, resource links so you can actually go and put it into practice. <br><br>The first thing you need to understand about Drupal is the structure. Drupal is a modular Content Management System, built on PHP and whatever-database-you-want-which-is-probably-mysql-lets-face-it. Drupal &lt;=6.x actually requires MySQL or PostGres, and they&#8217;re still the standard on 99% of installs you&#8217;ll face.  The thing is, Drupal is incredibly flexible and capable. And the trick to coding with Drupal is to code WITH Drupal, not against it. There are tons of helper functions built in that make your life easier, if only you&#8217;ll work the way Drupal expects you to work. So this first post is about how Drupal expects you to work.  Drupal itself is a complicated guy that lives in several php files and directories. You are expected to NEVER touch any of these files or directories yourself. Seriously. 16,000 coders can&#8217;t be wrong, just leave it the fuck alone. You have access to OVERRIDE anything and everything that Drupal does though, and you can do that from a nice contained subdirectory where you can keep an eye on your code. This is the /sites subdirectory.  See, one Drupal codebase can actually host many websites. Each one gets its own subdirectory under /sites. for example, I might have:  /sites/swearingatcomputers.blogspot.com /sites/subdomain.swearingatcomputers.blogspot.com /sites/swearingatcomputers.blogspot.com.subdirectory  The directory name tells Drupal what incoming requests should be forwarded to which site. You can see how subdomains and subdirectories are handled in the naming convention, too. Pretty easy stuff. There&#8217;s also a special subdirectory for &#8220;default&#8221;, and one for &#8220;all&#8221;. Not to complicated to figure out: &#8220;all&#8221; is for code that applies to all your sites, and &#8220;default&#8221; is the sites subdirectory for when other names don&#8217;t match.  I&#8217;ll tell you a pro secret: hardly any of the big shops ever actually use the multi-site capability. In practice it&#8217;s a pain in the ass to remember which sites use which version of which module, and Drupal itself doesn&#8217;t take up any significant space. So most of us just set up a separate Dru&#8230;</div></div>
   
   <footer>
     <a rel="full-article" href="/2012/04/drupal-quick-learning-guides-drupal.html">Read on &rarr;</a>
@@ -479,50 +521,6 @@ I wouldn’t want to be a Sony sysadmin right now. <a href="http://www.f-secure.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/sendmail-return-path-php-and-importance.html">Sendmail Return-path, Php, and the Importance of the Variables You Don&#8217;t Think Of</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-05-20T20:37:00+02:00" pubdate data-updated="true">May 20<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-I got called in for an interesting issue on one of the servers I co-maintain today.  Sites were messing up left right and center, in all sorts of bizarre ways.  CSS wouldn’t be delivered, or half of it would be, or some of the content would disappear… and different on every page load!  It only took me a moment to confirm - the server was out of space on the root device.<br><br>This was readily visible in the logs - any mysql transaction you tried would return “Got error 28 from storage engine”, which typically means the drive is out of space.  And a quick <code>df -ht</code> confirmed:<br><br><blockquote><code><br>root@production:/# df -h<br>Filesystem            Size  Used Avail Use% Mounted on<br>/dev/sda1             9.9G  9.4G  160K 100% /<br>none                  7.3G  128K  7.3G   1% /dev<br>none                  7.6G     0  7.6G   0% /dev/shm<br>none                  7.6G   76K  7.6G   1% /var/r...</code></blockquote>
-</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/05/sendmail-return-path-php-and-importance.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -548,6 +546,10 @@ I got called in for an interesting issue on one of the servers I co-maintain tod
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Perfect Linux Mint on My Macbook Pro 9,2</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
       </li>
     
@@ -561,10 +563,6 @@ I got called in for an interesting issue on one of the servers I co-maintain tod
     
       <li class="post">
         <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/">How Drupal Should Handle Client-side Framework Obsolescence</a>
       </li>
     
   </ul>

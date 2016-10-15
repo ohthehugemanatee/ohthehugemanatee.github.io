@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: OSX | Oh The Huge Manatee]]></title>
+  <title><![CDATA[Category: Osx | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/osx/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2016-09-03T12:45:46+02:00</updated>
+  <updated>2016-10-15T22:24:12+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,108 +14,96 @@
 
   
   <entry>
-    <title type="html"><![CDATA[El Capitain Broke My Developer Stuff! Here's How to Fix It]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/"/>
-    <updated>2015-10-01T12:44:42+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools</id>
-    <content type="html"><![CDATA[<p>Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
+    <title type="html"><![CDATA[Perfect Linux Mint on My Macbook Pro 9,2]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
+    <updated>2016-10-15T18:44:40+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
+    <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
 
-<h2>1) Disable System Integrity Protection</h2>
+<p>This week I read about everyone&rsquo;s problems getting OSX Sierra going, and I decided it was time to take the plunge. Apple, I completely understand the direction you are going with your environment. You&rsquo;ve gotta lock down in order to make peoples' computers reliable, easy to use appliances. But I don&rsquo;t want an appliance, I want a computer. I disagree with some of your choices about the system, what software I should use, where I may install it from, and how I may use it. I&rsquo;m switching to an OS that lets me make those choices.</p>
 
-<p><a href="https://en.wikipedia.org/wiki/System_Integrity_Protection">System Integrity Protection</a> is a new feature of OSX, also called &ldquo;rootless.&rdquo; As the nickname suggests, it creates another level of access above your root account. The nerfed root account can&rsquo;t modify anything in a (broad) list of system files, folders, or processes. This makes sense for most users, who blindly enter their sudo password for any installer that asks. It is not so good for developers, who regularly use these folders. Homebrew is one application that expects access to <em>/usr/local</em>, a protected folder. Other applications that are busted by SIP are OSXFuse, MacGPG, Git&hellip; the list goes on. So step one is to disable SIP.</p>
+<p>Someone recently described the choice to me as &ldquo;program, or be programmed.&rdquo; That really stuck in my mind. OSX increasingly feels like &ldquo;someone else&rsquo;s computer&rdquo; for me. Someone else is making all the choices. Well, I don&rsquo;t have to &ldquo;be programmed&rdquo; passively. I can run an environment which respects my choices about privacy, which gives me the freedom to do whatever I want with my computer. So this week I went back to Linux.</p>
+
+<p>The last time I used Linux as a primary laptop OS was with Gentoo in 2003. OK, easy to say that this has come a LONG way since then. Still I don&rsquo;t know if I would recommend converting your existing system if you&rsquo;re a techno noob; better to buy a system with Linux pre-configured. With that said, I am damn impressed with how well <a href="http://linuxmint.com/">Linux Mint</a> runs out of the box on my Macbook Pro 9,2 (mid-2012). Setting everything up was a snap.</p>
+
+<h2>How to Get Linux Mint 18 running perfectly on a Macbook Pro 9,2</h2>
+
+<p>Just install it. Seriously, that&rsquo;s it. It just works.TM</p>
+
+<p>Installation went totally smoothly for me. I am dual booting for now, but I haven&rsquo;t had to get back into OSX all week. Note that you can access all your OSX files from inside Linux, as long as you don&rsquo;t have OSX&rsquo;s &ldquo;FileVault&rdquo; disk encryption turned on. Only Macs can decrypt that. There is a similar (more compatible) full disk encryption system for Linux, but at least during the transition I advise you to disable encryption for both &ldquo;sides&rdquo; of your computer. I did have to install ReFind to keep the dual boot working.</p>
+
+<p>Linux Mint asks you for permission to use the non-GPL drivers it needs to run your wireless card, and your CPU&rsquo;s special capabilities. It was a checkbox. Everything just worked. I really tried to find anything substantially broken out of the box, and came up empty. Touchpad, sound, webcam, suspend/resume&hellip; everything worked just fine.</p>
+
+<h2>Applications</h2>
+
+<p>I was pleasantly surprised to find that all of my most important applications have Linux flavors available, and they&rsquo;re easy to install. Much easier &ndash; or more standardized at least &ndash; than installation packages on OSX or Windows! Here are the big ones I use, with any relevant notes.</p>
 
 <ul>
-<li>Reboot into recovery mode (hold Command+R on reboot)</li>
-<li>Access the Terminal from the dropdown menus.</li>
-<li>Run <code>csrutil disable</code></li>
-<li>Reboot back into OSX</li>
+<li>SimpleNote</li>
+<li>Firefox Developer Edition</li>
+<li>PHPStorm &ndash; sadly I couldn&rsquo;t get it to keep my old licenses. I had to re-enter my license code manually.</li>
+<li>Toggl</li>
+<li>PrivateInternetAccess</li>
+<li>Slack &ndash; this app is pretty slow, surprisingly. I may go back to the web version.</li>
+<li>Zoom meetings &ndash; still just as painful on Linux</li>
+<li>Skype &ndash; skype.com has a newer version of this than the apt repo. No idea what the difference is, but it&rsquo;s still a resource hog.</li>
+<li>Lastpass &ndash; browser extension, but deserves a special mention. The version of the extension that&rsquo;s installed automatically (3.3.1) is SLOW and could never connect to Lastpass reliably. Did I mention it&rsquo;s SLOW? It singlehandedly destroyed my system&rsquo;s performance. Visit <a href="">the extension&rsquo;s page on addons.mozilla.org</a> and scroll down down down until you find &ldquo;developer channel&rdquo;. There you can download the current version, 4.1.29a. That&rsquo;s fast and light and current and working.</li>
+<li>FileVault &ndash; I keep my most sensitive files in a filevault-encrypted image. Unfortunately, only macs can open that format. I moved everything into a Veracrypt encrypted image instead, as the best multi-platform option.</li>
+<li>Docker &ndash; docker &ldquo;native&rdquo; for mac is actually running on a very slim Linux VM, so I knew it would be faster on a native Linux machine. But I was surprised that my informal benchmarks clocked it at almost 3x faster!</li>
 </ul>
 
 
-<p>Congratulations, your root account is un-nerfed. If you use OSXFuse, a VPN, or anything else that relies on unsigned KEXTs, you&rsquo;ll have to keep this disabled.</p>
+<p>I was worried about application coverage, but so far I haven&rsquo;t found any gaps.</p>
 
-<h2>2) Fix permissions on /usr/local</h2>
+<h2>Tweaks</h2>
 
-<p>Open the terminal and run:</p>
+<p>I had two big tweaks: the task bar, and the touchpad. I also did one minor tweak to improve my battery life.</p>
 
-<p><code>bash
-sudo chflags norestricted /usr/local &amp;&amp; sudo chown $(whoami):admin /usr/local &amp;&amp; sudo chown -R $(whoami):admin /usr/local
+<p>I actually like the OSX dock and task bar concept. I find the default Windows-style taskbar finicky and a painful way to describe what applications are currently running. So I added <a href="https://glx-dock.org/">Cairo Dock</a>, and configured Cinnamon&rsquo;s built in taskbars to be a bit more OSX'ish.</p>
+
+<p>I&rsquo;m very finicky about my touchpad&rsquo;s behavior, and Linux Mint&rsquo;s control panel didn&rsquo;t expose enough of the options to me. Fortunately the Mac touchpad runs on the excellent <a href="ftp://www.x.org/pub/X11R7.5/doc/man/man4/synaptics.4.html">Synaptics driver</a>. That means you can configure every detail from the terminal with &ldquo;synclient optionname=value&rdquo; or &ldquo;synclient -l&rdquo; to list your current settings. Use that man page I linked to tell what options do what, and you can set the perfect configuration. Once you&rsquo;ve figured out what options are just right for you, put them in a file called /etc/X11/xorg.conf.d/60-synaptics.conf, like this:</p>
+
+<p><code>
+Section "InputClass"
+  Identifier "touchpad"
+  Driver "synaptics"
+  MatchIsTouchpad "on"
+  MatchDevicePath "/dev/input/event*"
+  Option "FingerHigh" "90"
+  Option "CoastingSpeed" "7"
+  Option "CoastingFriction" "16"
+  Option "EmulateTwoFingerMinW" "2"
+  Option "RTCornerButton" "0"
+  Option "RBCornerButton" "0"
+  Option "LTCornerButton" "0"
+  Option "LBCornerButton" "0"
+  Option "PalmDetect" "on"
+EndSection
 </code></p>
 
-<p>This fixes the permissions to what homebrew and other applications expect: you own the directory and all its contents. It also changes the flags for SIP, to allow future modifications if you choose to re-enable it.</p>
+<p>You will probably have to create the xorg.conf.d subdirectory&hellip; and you&rsquo;ll have to be sudo for the whole thing.</p>
 
-<h2>3) Fix developer tools</h2>
+<p>Finally, I thought I&rsquo;d try to get more life out of this old battery. So I installed <a href="https://01.org/powertop">powertop</a>, and accepted all of it&rsquo;s automated recommendations. Now I get about 5 hours, which matches my experience in OSX. It is a 4 year old laptop, after all!</p>
 
-<p>I also found that every time I tried to run&hellip;. well almost anything, I would get errors like this:
-<code>
-xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-Stashing your changes:
-xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-xcrun: error: invalid active developer path (/Library/Developer/CommandLineTools), missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-Error: Failure while executing: git stash save --include-untracked --quiet
-</code></p>
+<p>That&rsquo;s it. One file to edit from the terminal, press &ldquo;OK&rdquo; a bunch on one application, and I got (what feels to me) like a perfect setup. This is so much better than the old days of walking uphill through the snow (both ways!) to get your display working. This is a polished, pleasant to use desktop environment.</p>
 
-<p>To fix this, you have to re-install Xcode developer tools, like so:
-<code>bash
-xcode-select --install
-</code>
-It took 5 minutes to download and install on my system.</p>
+<p>I&rsquo;m happy I switched.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Still More Wireless Troubleshooting]]></title>
+    <link href="http://ohthehugemanatee.github.io/2011/03/still-more-wireless-troubleshooting.html"/>
+    <updated>2011-03-24T12:19:00+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/2011/03/still-more-wireless-troubleshooting</id>
+    <content type="html"><![CDATA[<p></p>
 
-<h2>4) Fix homebrew</h2>
+<div class="css-full-post-content js-full-post-content">
+The damnedest thing happened - I went out of town. &nbsp;I went out of town, and discovered that I was STILL getting dropouts every 90 seconds! &nbsp;On a totally different router, on the opposite site of the planet, in a rural area with no conceivable wireless interference. &nbsp;This prompted me to boot into Windows 7 (I have a Boot Camp partition) to try my ping test under a totally different software stack.<br /><br />Even under Windows, every 90 seconds I would get a ping spike for a second. <br /><br />This means it's got to be hardware, or firmware related. &nbsp;My first instinct was to go for the PRAM, which is as close as Macs get to a BIOS. &nbsp;You can reset your PRAM by holding down Command, Option, P, and R as you reboot the machine. &nbsp;When you hear the "startup sound" the second time, you know you've got it right. Unfortunately this didn't help my dropouts.<br /><br />So now I'm kind of stuck. &nbsp;The firmware is up to date (Atheros 5416 2.1.14.5), the PRAM has been reset, but STILL I get dropouts every 90 seconds like clockwork... on any OS, connected to any router, with any encryption method (or none), anywhere in the world. &nbsp; The connection doesn't drop, it just loses packets for a second.<br /><br />I'm all out of ideas. &nbsp;I'm about ready to disassemble the thing and re-seat the card, in case there's some kind of a contact charge being built up that's discharging every 90 seconds and causing EMI to disrupt the connection. &nbsp;And <i>that</i>&nbsp;is a hypothesis of desperation my friends. &nbsp;Desperation. &nbsp;I do have another, Atheros miniPCI card living in my mediacenter system right now, so I may also test with that. &nbsp;I have a great broadcom miniPCI card kicking around, but unfortunately OSX doesn't have any drivers for that.<br /><br />Any suggestions?
+</div>
 
-<p>To make sure your homebrew install is working again:</p>
 
-<p>``` bash</p>
-
-<h1>$ brew update</h1>
-
-<h1>$ brew doctor</h1>
-
-<p>```</p>
-
-<p>Follow any instructions the good doctor gives you! Here&rsquo;s what I did:</p>
-
-<p><code>bash
-brew link ppl011
-brew install libxml2 onigurama
-</code></p>
-
-<p>Those were probably more to do with how badly I maintain my own homebrew cellar than anything else, but if the doctor gives you instructions, follow them!</p>
-
-<p>Finally, update your brew-installed applications &ndash; many of them have updates for El Capitain.</p>
-
-<p><code>bash
-brew upgrade
-</code></p>
-
-<h2>5) Fix git</h2>
-
-<p>You&rsquo;re not using the outdated version of git that comes with Xcode developer tools(2.3.8), are you? No, you&rsquo;re using the current release (2.5.3), <a href="http://git-scm.com/download/mac">downloaded from git-scm.com</a>. Whether you had it previously installed, or just installed it now, it lives in /usr/local/git . But the system will still default to using the old Xcode version. Here&rsquo;s how to fix that:</p>
-
-<p>``` bash</p>
-
-<h1>$ git &mdash;version</h1>
-
-<p>git version 2.3.8 (Apple Git-58)</p>
-
-<h1>$ sudo mv /usr/bin/git /usr/bin/git.xcode</h1>
-
-<p>Password:</p>
-
-<h1>$ sudo ln -s /usr/local/git/bin/git /usr/bin/git</h1>
-
-<p>```</p>
-
-<h2>6) Re-install GPGTools</h2>
-
-<p>The GPGTools team have done a great job of handling the known incompatibility between GPGMAil and El Capitain&rsquo;s version of the Mail application&hellip; but I still had trouble with the other parts of the suite (which I actually use). I found it easiest to just <a href="https://gpgtools.org">download and re-install</a>.</p>
-
-<h2>7) Optional, but recommended: tell me about good Linux laptops</h2>
-
-<p>I understand how SIP is helpful for normal consumers, but developers are not normal consumers. This step by Apple crosses my comfort barrier, so I&rsquo;m officially interested in a linux laptop for the first time in years. I have a while to decide, but if you know of a Linux laptop that can compete with my Macbook Air in terms of convenience, sexiness, and reliability, please post about it in the comments.</p>
-
-<p>That&rsquo;s everything I had to do to get my system back in working order&hellip; for now. I&rsquo;ll update this post if I find more steps!</p>
+<p></p>
 ]]></content>
   </entry>
   
