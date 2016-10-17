@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Linux | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2016-10-15T22:24:12+02:00</updated>
+  <updated>2016-10-17T19:20:16+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -88,6 +88,8 @@ EndSection
 <p>That&rsquo;s it. One file to edit from the terminal, press &ldquo;OK&rdquo; a bunch on one application, and I got (what feels to me) like a perfect setup. This is so much better than the old days of walking uphill through the snow (both ways!) to get your display working. This is a polished, pleasant to use desktop environment.</p>
 
 <p>I&rsquo;m happy I switched.</p>
+
+<p>Update October 17 &ndash; The hardware CPU fan governor was letting the CPU run very very hot. I finally installed <a href="https://github.com/dgraziotin/mbpfan">mbpfan</a>, and it&rsquo;s under control again. This is all just&hellip; so much more painless than I remember!</p>
 ]]></content>
   </entry>
   
