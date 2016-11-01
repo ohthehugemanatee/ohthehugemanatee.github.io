@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Drupal’s Rules module lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the &hellip;">
+  <meta name="description" content="Apache Solr is the search technology that powers many Drupal sites. It integrates easily with Drupal’s search_api contrib module, through the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,45 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/">How to Set Up Apache Solr Multicore for Drupal</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal’s <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It’s easy enough to set up a single site installation of solr on your own, but if you’re serious about building Drupal sites with solr you will be building more than one site. Solr includes a ”<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>” mode, which lets you serve multiple search cores to separate site&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -478,49 +517,6 @@ Varnish is a fantastic caching proxy, commonly used for CMSes.  It’s not uncom
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/what-sony-hacks-tell-us-about-their.html">What the Sony Hacks Tell Us About Their Sysadmins and Management</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-05-21T00:04:00+02:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-I wouldn’t want to be a Sony sysadmin right now. <a href="http://www.f-secure.com/weblog/archives/00002160.html">F-Secure just blogged</a> about evidence of a <strong>fourth</strong> hack at the electronics giant.   This one is relatively harmless - a phishing scam being run from Sony servers - but this pattern of security problems should tell us a few things about Sony’s SysAdmin staff:<br><br>1) They’re powerless in their own organization.<br>2) They don’t get to set IT resource policy.<br>3) They’re furious at their bosses right now.<br><br>It’s hard to generalize like this across an entire organization, but I’m willing to bet that in the affected departments this is the case.  Let’s look at what we know about the hacks.  <br><br>The first two involved stealing millions of users’ credit card information, which was stored unencrypted and vulnerable during a DoS.  The hackers got in with a list of valid usernames and a dictionary attack.  I don’t know any SysAdmin, no matter how junior, who would leave 100 million users’ financial and personal information in an unencrypted format.  And on a server with access to this unencrypted financial information, who doesn’t impose password standards?  I can understand a vulnerability during an exceptional circumstance - a really good SysAdmin team has contingency plans for this sort of thing, but at least it’s an understandable problem - but dammit, that&#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/05/what-sony-hacks-tell-us-about-their.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -546,6 +542,10 @@ I wouldn’t want to be a Sony sysadmin right now. <a href="http://www.f-secure.
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/">Developer Options for Replacing Your Old MacBook Pro</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Perfect Linux Mint on My Macbook Pro 9,2</a>
       </li>
     
@@ -559,10 +559,6 @@ I wouldn’t want to be a Sony sysadmin right now. <a href="http://www.f-secure.
     
       <li class="post">
         <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
       </li>
     
   </ul>

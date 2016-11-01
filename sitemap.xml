@@ -367,8 +367,14 @@
         <lastmod>2016-10-17T19:20:05+02:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/
+        </loc>
+        <lastmod>2016-10-31T11:27:33+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://ohthehugemanatee.github.io/blog/archives/</loc>
-        <lastmod>2016-10-17T19:20:05+02:00</lastmod>
+        <lastmod>2016-10-31T11:27:33+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/drupalplanet.xml</loc>
@@ -376,7 +382,7 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/</loc>
-        <lastmod>2016-10-17T19:20:05+02:00</lastmod>
+        <lastmod>2016-10-31T11:27:33+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/about-me.html</loc>

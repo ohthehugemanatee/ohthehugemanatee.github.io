@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Regular Drupalcon attendees know that the opening pre-keynote session is one of the highlights of the con. That’s the session where we welcome &hellip;">
+  <meta name="description" content="Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/06/09/authenticated-user-caching-in-drupal/">Authenticated User Caching Concepts in Drupal 7</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-09T22:21:01+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
+
+<p>But what about authenticated users? You can cache elements of the page using a method like <a href="https://drupal.org/project/rendercache">Render cache</a>, <a href="https://drupal.org/project/entitycache">Entity Cache</a>, or <a href="https://drupal.org/project/views_content_cache">Views Content Cache</a>. But Drupal still has to assemble each page for your users, a relatively heavy operation! If you want to address hundreds or thousands of authenticated users, you’re simply SOL by these traditional approaches.</p>
+
+<p>Enter the <a href="https://drupal.org/project/authcache">Auth Cache</a> suite of modules. Though this project has been around for quite some time,&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/06/09/authenticated-user-caching-in-drupal/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -477,47 +520,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/01/07/how-to-remove-a-drupal-install-profile/">How to Remove a Drupal Install Profile</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-01-07T13:23:45+01:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p><a href="https://drupal.org/project/install_profile_api">Install profiles</a> are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for setting up a site really quickly. What you did after the site was installed was your own business! But in Drupal 7 profiles are much more integrated with core. The assumption is that when you use an install profile, you want to rely on the profile’s maintainer for all your updates. This is not always the case.</p>
-
-<p>Very often your site will diverge from the install profile as it takes on a life of its own, and it will be useful to convert it to “vanilla” Drupal. Today I’ll use a relatively simple example of a musician site which is moving away from the <a href="https://drupal.org/project/pushtape">Pushtape</a> distribution. Later I’ll return to &#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2014/01/07/how-to-remove-a-drupal-install-profile/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -543,6 +545,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/">Developer Options for Replacing Your Old MacBook Pro</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Perfect Linux Mint on My Macbook Pro 9,2</a>
       </li>
     
@@ -556,10 +562,6 @@
     
       <li class="post">
         <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">An Open Letter to Wired Magazine</a>
       </li>
     
   </ul>
