@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Install profiles are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for &hellip;">
+  <meta name="description" content="I ran into an interesting problem with the drush @self alias today. I wanted to pull a fresh copy of the DB down from a client’s live site to my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/10/drush-self-aliases/">Drush Self Aliases</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-10T09:22:01+01:00" pubdate data-updated="true">Jan 10<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client’s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I’ve done this a thousand times before.</p>
+
+<p>And I’ve also ignored the warning message every time before, but today I thought I’d check it out:</p>
+
+<blockquote><p>WARNING:  Using temporary files to store and transfer sql-dump.  It is recommended that you specify —source-dump and —target-dump options on the command line, or set ‘%dump’ or ‘%dump-dir’ in the path-aliases section of your site alias records. This facilitates fast file transfer via rsync.</p></blockquote>
+
+<p>There are actually two possible solutions to this warning (that I&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/01/10/drush-self-aliases/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -487,48 +532,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/">Review: GeoServer Beginner&#8217;s Guide, by Stefano Iacovella and Brian Youngblood</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-21T00:00:00+02:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>Recently we’ve been holding <a href="http://5ringsweb.com/blog/geoserver-beginners-guide-free-copies">a competition</a> to give away free copies of the popular ebook, <a href="http://www.packtpub.com/geoserver-share-edit-geospatial-data-beginners-guide/book">GeoServer Beginner’s Guide</a>. The book’s purpose is to teach through practical examples. Right on the cover, it promises: “Less theory, more results!” This is a tricky balance to strike in a beginner’s guide. You can’t simply jump into coding a map display when the user doesn’t understand the fundamental concepts! But authors Brian Youngblood and Stefano Iacovella find a good middle ground.</p>
-
-
-<p>The first chapter explains totally fundamental GIS concepts, answering basic questions like “what is spatial data?” And “&#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/5/">&larr; Older</a>
@@ -554,6 +557,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/">Developer Options for Replacing Your Old MacBook Pro</a>
       </li>
     
@@ -567,10 +574,6 @@
     
       <li class="post">
         <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
       </li>
     
   </ul>

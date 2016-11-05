@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="I wouldn’t want to be a Sony sysadmin right now. F-Secure just blogged about evidence of a fourth hack at the electronics giant. This one is &hellip;">
+  <meta name="description" content="Varnish is a fantastic caching proxy, commonly used for CMSes. It’s not uncommon to see benchmarks boasting 300-500 page loads per second - I’ve &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/complete-drupal-cache-serving-http-and.html">The Complete Drupal Cache - Serving HTTP and HTTPS Content With Varnish</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-22T21:07:00+02:00" pubdate data-updated="true">May 22<span>nd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Varnish is a fantastic caching proxy, commonly used for CMSes.  It’s not uncommon to see benchmarks boasting 300-500 page loads per second - I’ve seen benches up to 5000 hits per second.  That’s faster than serving flat HTML from Apache; we’re talking about a serious benefit to your server load here.<br><br>Part of Varnish’s tremendous speed comes from how lean it is.  At only 58,000 lines of code, it’s very lightweight.  Unfortunately, this necessitates a no-frills approach.  And SSL is a frill.  <br><br>I think it’s very well put by Poul Henning-Kamp (lead developer on the Varnish project) in this <a href="http://www.varnish-cache.org/lists/pipermail/varnish-misc/2010-April/004044.html">mailing list post</a>:<br><br><blockquote>I have two main reservations about SSL in Varnish:<br><br>1. OpenSSL is almost 350.000 lines of code, Varnish is only 58.000,<br>   Adding such a massive amount of code to Varnish footprint, should<br>   result in a very tangible benefi&#8230;</blockquote>
+</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/complete-drupal-cache-serving-http-and.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -481,49 +525,6 @@ Now a quickie - one of my favorite tools: awk.  Some of you will probably think
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html">HTC Inspire, Cyanogenmod 7, and HSUPA</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-04-14T02:21:00+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-About a month ago, I picked up my first Android phone: the HTC Inspire 4g, from AT&amp;T in the US.  I determined to root it, install a custom OS, and laugh at all the poor saps who get bad battery life on HTC Sense.<br><br>The first challenge is in the name.  See, the HTC Inspire 4G is really just a rebranded HTC Desire HD, which is a tweaked HTC Desire, which is another name for the HTC Ace. <br><br>I eventually got my head on straight, with the help of the good people at the <a href="http://forum.xda-developers.com/forumdisplay.php?f=1018">xda-developers forum</a>, and in particular with the <a href="http://forum.xda-developers.com/showthread.php?t=952352">Ace Hack Kit</a> which is linked there.  Windows types might be interested in <a href="http://forum.xda-developers.com/showthread.php?t=961406">Bubby’s Simple Root and S-Off</a> kit, which is apparently wonderful and easy to use.  I wouldn’t know, my PC is all the way on the other side of the room.   I did this on my Mac, which is right in front of me.<br><br>In a nutshell, here’s what you&#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -549,6 +550,10 @@ About a month ago, I picked up my first Android phone: the HTC Inspire 4g, from 
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/">Developer Options for Replacing Your Old MacBook Pro</a>
       </li>
     
@@ -562,10 +567,6 @@ About a month ago, I picked up my first Android phone: the HTC Inspire 4g, from 
     
       <li class="post">
         <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/04/15/some-git-log-magic/">Some Git Log Magic</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2016-11-01T08:20:11+01:00</updated>
+  <updated>2016-11-05T12:36:24+01:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
+    <updated>2016-11-05T12:05:50+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
+    <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
+
+<p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
+
+<p>I just mentioned unit testable code as a benefit of the service container. To be honest this is a little tricksy in Drupal 7. For my own custom work I tend to isolate the test environment from the rest of Drupal, so I don&rsquo;t have to deal with everything else. Again, I followed Fabian&rsquo;s example there by looking at how <a href="http://cgit.drupalcode.org/render_cache/tree/tests?h=7.x-2.x">render cache does it&rsquo;s tests</a>. If you do want better integration, there is a good lullabot post that talks about (more) proper PHPUnit integration. <a href="https://www.lullabot.com/articles/write-unit-tests-for-your-drupal-7-code-part-1">https://www.lullabot.com/articles/write-unit-tests-for-your-drupal-7-code-part-1</a> .</p>
+
+<p>Next on my list is Composer-managed dependencies. The Acquia developer blog has a great post about <a href="https://dev.acquia.com/blog/using-composer-manager-get-island-now">using Composer Manager for this in D7</a>. This is a huge win for a lot of custom modules, and very easy.</p>
+
+<p>Last is plugins. The rest of this list is in no particular order, but I left plugins for last because I think this isn&rsquo;t actually necessary in D7. Personally I use modules&#8217; own hooks and just autoload independent classes. You might consider using plugins instead if you&rsquo;re going to write several plugins for the same module. In any case, <a href="https://www.previousnext.com.au/blog/drupal-8-now-object-oriented-plugins-drupal-7">Lee Rowlands has the go-to blog post about this</a>.</p>
+
+<p>All together, you can combine these approaches to write code for D7 with the biggest Dx features of D8: service injection, phpunit testing, composer libraries, and plugins. Note that each of these blog posts assumes different workarounds for all the other functionalities&hellip; but they should help you get an understanding of how to use that particular Dx improvement in 7.</p>
+
+<p>When I wrote that session proposal, I thought of this as a good way for D7 developers to learn D8 practices gradually, one at a time. I no longer think that&rsquo;s true. Mostly, there are so few working examples of D7 code using these practices, that it&rsquo;s quite hard to get your stuff working. This is particularly hard when you&rsquo;re just learning about the concept in the first place! Personally, I could mess around with this stuff and make my life harder with it in D7. But I couldn&rsquo;t really get the best advantage out of them until I had better examples. My best learning aids were the examples in D8 core, and the code scaffolding available through Drush and Drupal console.</p>
+
+<p>But now that I&rsquo;m comfortable with the concepts&hellip; I would absolutely use these approaches in D7 work. You know, if I&rsquo;m FORCED to work in the old system. :)</p>
+
+<p>One last aside here: it is easy to fall into the mindset that Drupal 8 practices are better just because they&rsquo;re newer. This is simply not true. These practices are not handed down from heaven, after all! When you have the rest of the D8 architecture in place, certain kinds of code tasks are much easier. That&rsquo;s why we like developing for it so much more. But other (less common, IMO) tasks are harder. And doing any of this in D7 means you have to put the architecture in place, too. That&rsquo;s a lot of time, and it&rsquo;s only worthwhile if you&rsquo;re going to use the particular strengths of these practices.</p>
+
+<p>So if it looks like one of these D8 practices will make your life easier for a particular task in D7, then by all means use these approaches to get there. Composer manager has a particularly low bar &ndash; it&rsquo;s so easy to use, and makes so many tasks easier, it&rsquo;s a good approach to many tasks. But if I ever catch you implementing service container to get two lines of code into a form_alter, I will come to where you work and slap your hands off the keyboard.</p>
+
+<p>Happy coding!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Developer Options for Replacing Your Old MacBook Pro]]></title>
@@ -1437,178 +1466,6 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 <p>If you haven&rsquo;t been to a code sprint before, it&rsquo;s basically a coding party. Developers get together and help each other contribute better and faster by reviewing code on the spot, mentoring each other, and generally working in small ad-hoc groups. It&rsquo;s a lot of fun, and gives a big boost to development of the next generation of Drupal.</p>
 
 <p>Forum One will provide the locale in downtown DC complete with pizza, beer, and soda. We also have a few of our core mentors on hand to help you get started if this is your first time contributing to core. Because of the building security, if you want to attend you <a href="http://www.eventbrite.com/e/drupal-8-code-sprint-with-forum-one-tickets-11921354091">have to register first</a>! I won&rsquo;t be able to attend, but my colleagues <a href="https://twitter.com/johnbburg">John Brandenburg</a> and <a href="https://twitter.com/kalpanagoel">Kalpana Goel</a> will be there mentoring. Go sign up now!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Configure Authcache on Drupal 7]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/"/>
-    <updated>2014-06-14T16:15:40+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7</id>
-    <content type="html"><![CDATA[<p>So you have authenticated user traffic you want to cache? Good &ndash; you&rsquo;re on the right post. This post is a walk through for caching content for authenticated users in Drupal 7. We will be using the Authcache suite of modules. If you haven&rsquo;t read it yet, I strongly recommend you check out my last post, <a href="https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/">Authenticated User Caching Concepts in Drupal 7</a>.</p>
-
-<p>Our goal is a simple authenticated user caching system based on Authcache&rsquo;s AJAX implementation, with a Memcached backend. We will serve pages out of Drupal&rsquo;s own page cache, with placeholders for any content which could be customized to the logged in user. The user&rsquo;s browser will make a second call to the web server for the content that belongs in those placeholders. Whenever possible, the placeholders will be filled from browser cache or data stored in memcached. By the end of this post, we&rsquo;ll have a frontpage which loads for authenticated users without ever hitting the database.</p>
-
-<h2>Install Authcache</h2>
-
-<p>First you will need to set up a local installation to follow along. Set up an environment for Drupal 7 with memcached running. You can set up your own vanilla D7 site to work with &ndash; just create some devel content, an interesting panels-and-views based frontpage, and set up memcached. You can also use this <a href="http://ohthehugemanatee.github.io/downloads/drupal/drupal_authcache.tgz">ready-to-go drush archived Drupal site</a>. Note that this is a rather large site; I like to generate 16,000 nodes or so so I can really feel the difference between a cached return and a live one. Apart from all those nodes, it has:</p>
-
-<ul>
-<li>Drupal 7-latest</li>
-<li>Drupal&rsquo;s Memcache module. (Make sure your environment has memcached set up!)</li>
-<li>A bunch of devel-generated content</li>
-<li>A bunch of other handy modules for generating a faux-frontpage</li>
-<li>Drupal&rsquo;s Authcache module</li>
-<li>The caching-relevant portion of settings.php in a separate file called settings.caching.php.</li>
-</ul>
-
-
-<p>Install the Authcache module per usual, along with the following other modules:</p>
-
-<ul>
-<li>Authcache AJAX</li>
-<li>Authcache Block</li>
-<li>Authcache Builtin Storage Backend</li>
-<li>Authcache Debug</li>
-<li>Authcache Form</li>
-<li>Authcache Page Manager</li>
-<li>Authcache Panels</li>
-<li>Authcache Panels by Page Manager</li>
-<li>Authcache Personalization API</li>
-<li>Authcache Views</li>
-</ul>
-
-
-<p>That&rsquo;s a lot of modules, because znerol has done a great job of compartmentalizing functionality. This is complicated stuff, and the less of it you have to enable, the better!</p>
-
-<p>When you enable the modules, you&rsquo;ll get a message complaining that you don&rsquo;t have the cache backend configured yet. Add these two lines to your settings.php to let Drupal know about the Authcache backend:</p>
-
-<figure class='code'><figcaption><span>settings.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_backends&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="s1">&#39;sites/all/modules/authcache/authcache.cache.inc&#39;</span><span class="p">;</span>
-</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_backends&#39;</span><span class="p">][]</span> <span class="o">=</span> <span class="s1">&#39;sites/all/modules/authcache/modules/authcache_builtin/authcache_builtin.cache.inc&#39;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now your site is prepared to deliver cached content to authenticated users. Now comes the first scary bit: disable Drupal&rsquo;s built in page caching from admin/config/development/performance .</p>
-
-<h2>Configure Authcache</h2>
-
-<p>Now that you&rsquo;re set up to deliver cached content to authenticated users, we can get to the fun part: configuring. Unlike Anonymous user caching, in order to cache content for authenticated users we actually need to let our caching system know a little bit about the various components of a given page. The front page of the demo Drupal site you downloaded is a reasonably complicated one. Panels with Views and Quicktabs, including several blocks which are unique to each user. We have to go through each element which could be customized to a user, and set an authcache policy on it.</p>
-
-<p>As we proceed, you will notice a little red button which has appeared in the top left corner of your browser window.</p>
-
-<p><img class="left" src="http://ohthehugemanatee.github.io/images/authcache-debug.png" width="300" title="authcache debug" alt="the authcache debug block"></p>
-
-<p>This is Authcache Debug: a helpful little block which tells you if the page was delivered from cache, or if an element on there is still preventing the page from being cached. If you&rsquo;re logged in as admin, you&rsquo;ll notice that it says the page has been excluded of cache, because &ldquo;Caching disabled for superuser&rdquo;. So in order to test this properly, you&rsquo;ll have to create another user account to keep open in a separate browser window. Go ahead and do that now.</p>
-
-<p>Once you&rsquo;re logged in as a user who SHOULD be seeing cached content, that Debug block will start coming in handy. Visit the frontpage as your test user, and note that it goes yellow (meaning it&rsquo;s cacheable, but it wasn&rsquo;t in cache yet), and then green on a reload. On that reload you&rsquo;ll see Cache Status &ldquo;HIT&rdquo;, and a few helpful statistics about the page&rsquo;s normal render time (460.17ms for me) vs its cached render time (3.85ms).</p>
-
-<p>Technically I can end the guide here. My work here is done! You&rsquo;re caching content for authenticated users!</p>
-
-<h2>Customizing content for cached, authenticated users</h2>
-
-<p>If you try logging in as yet ANOTHER user, you&rsquo;ll start to notice some things which are a bit odd. For starters, that &ldquo;random post&rdquo; quickab is serving the same post every time. And once one user creates a node, and it is listed in the &ldquo;Your posts&rdquo; quicktab, that node is listed for EVERYONE in the &ldquo;your posts&rdquo; quicktab. This is because all we&rsquo;ve done so far is enable caching for authenticated users. Apart from the handful of page components which Authcache can detect and handle out-of-the-box (which we&rsquo;ll get to in a moment), everything is just being statically cached. One cache for every user, just like anonymous users get.</p>
-
-<p>That&rsquo;s not what we signed up for. Some elements on the page actually need to be cached separately, on a per-user basis. Some of them should never be cached at all. Remember all those authcache modules we saw a moment ago? What are they doing, picking their noses?</p>
-
-<p>Actually, some of those modules are already working for you. The most notable is authcache_form, which jumps into every Forms API based form &ndash; that is to say, all of them &ndash; and replaces the form token with a placeholder. The token gets filled in by AJAX after the rest of the page loads from cache. Authcache_comments works invisibly, too.</p>
-
-<p>For the page elements which are less predictable than forms, authcache modules offer you, the administrator, a way to identify the elements which need special handling and set how they should be handled. So to get the rest of the page working properly, We have to identify a handful of page elements which need separate caching behavior from the rest of the frontpage.</p>
-
-<p>Working from the top of the page downwards, first we&rsquo;ll deal with that &ldquo;Your posts&rdquo; quicktab. Edit the View which generates that block, at admin/structure/views/view/posts/edit/block_2 . If you expand the &ldquo;Advanced&rdquo; section on the right, you&rsquo;ll see that we have an &ldquo;Authcache&rdquo; section now! Open it up, and enable the &ldquo;authcache&rdquo; checkbox which appears. Now you have a wealth of options for caching just this View.</p>
-
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-views.png" title="authcache views" alt="the authcache views interface"></p>
-
-<p>Note that just because it&rsquo;s customized per user doesn&rsquo;t mean it shouldn&rsquo;t be cached! We can cache this fragment for about an hour before running that query again. Once we save the View and clear caches, if you return to the frontpage you&rsquo;ll find that each user gets their own &ldquo;Your posts&rdquo; block. Success!</p>
-
-<p>The next block over in the quicktab, Random Post, is a little trickier. This one we want to change as often as possible. We could follow a similar approach to what we just did, and in Views&#8217; authcache settings just set a cache lifetime of 0. But in most cases this isn&rsquo;t necessary. On a truly high performance site, you should cache EVERYTHING, even if only for a few seconds. A cache lifetime of 5 or 10 seconds is usually short enough that users won&rsquo;t notice it; but your server will. For a block which appears on every page of the site, a 10 second cache lifetime can mean it only has to actually query and compute once when a user clicks through 3 links to find the content he wants. This is a sort of microcache, and it can save you CPU cycles. For this block, let&rsquo;s set a cache lifetime of 10 seconds. Set cache lifetime to &ldquo;Custom&rdquo;, and enter 10 seconds into the field which appears. This one does not have to be cached per user; it can be global.</p>
-
-<p>You should apply these same tricks to all three blocks on the sidebar: users like you, recent comments, who&rsquo;s online, and who&rsquo;s new. But for the sake of practice, I&rsquo;ll show you a couple of different ways to get to that Authcache setting.</p>
-
-<p>You can find it in the Panels Content admin screen (thanks, authcache_panels!).</p>
-
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-panels.png" title="authcache panels" alt="the authcache panels interface"></p>
-
-<p>You can find it on the Block configuration page (thanks, authcache_block!).</p>
-
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-block.png" title="authcache block" alt="the authcache block interface"></p>
-
-<p>(note: on the Demo site these are not positioned as blocks; they are positioned by panels. That means they don&rsquo;t go through blocks&#8217; normal render process, which means that authcache_block would be useless here!</p>
-
-<p>Following this process you can deliver the frontpage to users, while only asking Drupal to generate one or two objects.</p>
-
-<h2>Avoid the DB entirely</h2>
-
-<p>The last step, once you have the page behaving the way you want, is probably my favorite. It is possible to have Authcache deliver pages without EVER hitting the database! In order to get this going, you need to make sure that all the information Authcache needs about your caching configuration is available either in settings.php, or in memcached. We also ned to tell Authcache to attempt building the page without a DB connection. This is surprisingly easy. With memcached already set up, we just need to add the following to settings.php</p>
-
-<figure class='code'><figcaption><span>settings.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1">// Authcache should try to serve from cache without connecting to the DB.</span>
-</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;authcache_builtin_cache_without_database&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">TRUE</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Cache settings that are usually set in the &#39;performance&#39; admin UI.</span>
-</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;page_compression&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;page_cache_maximum_age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">600</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Tell Drupal that authcache keys should be stored in Memcached.</span>
-</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_class_cache_authcache_key&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MemCacheDrupal&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// Tell Drupal that page cache should be stored in Memcached.</span>
-</span><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;cache_class_cache_page&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;MemCacheDrupal&#39;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s actually all there is to it. BAM! You&rsquo;re serving your frontpage without ever touching the DB.</p>
-
-<h2>Troubleshooting/Going deeper</h2>
-
-<p><strong>Some pages come up with a red light in Authcache Debug.</strong></p>
-
-<p>That&rsquo;s normal. There are all sorts of situations in which you would not want to cache a page. If one of your test users creates a node and then visits that new node, you will notice just such a red light.</p>
-
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/authcache-red.png" title="authcache red" alt="authcache cancels caching on a page"></p>
-
-<p>Authcache Debug is your best friend here. Sometimes this is something simple, like in this example. All we need to do is enable authcache_menu, and this will turn green. Other times the problem is deeper. Perhaps there is a page element which needs a caching mechanism defined. Or perhaps a fragment that you have set to use ESI, isn&rsquo;t visible for the ESI tags to be evaluated.</p>
-
-<p>It is also worth noting that authcache_debug is not infallible. There are definitely situations where it gets it wrong. Ultimately the best way to tell for certain is to open up your browser&rsquo;s developer tools and look at the Cache-Control headers yourself.</p>
-
-<p><strong>That &ldquo;random&rdquo; block and the &ldquo;user&rdquo; block change on every page load! I thought I set a 1 hour cache lifetime on those. What gives?</strong></p>
-
-<p>Authcache doesn&rsquo;t actually keep a cached copy of these fragments. It simply sets the Cache-Control header on the fragments to let any <em>external</em> caches know that it&rsquo;s OK to cache the fragment for a certain amount of time. Many web browsers respect this and will avoid the extra request. But even if your browser doesn&rsquo;t for some reason (it&rsquo;s in anonymous mode, or you have cache disabled because you&rsquo;re a developer, dammit!), there are other proxies that you can set up to see this in action. Varnish and NGINX will both normally respect the Cache-Control directive, so these fragments will not come from Drupal.</p>
-
-<p><strong>It still seems like I&rsquo;m bootstrapping Drupal an awful lot&hellip; What else can I do?</strong></p>
-
-<p>One of the cool tricks that comes with Authcache is a separate front controller. This is an alternative to Drupal&rsquo;s own index.php which handles normal page requests. The authcache front controller is much lighter weight, and can make direct calls to the DB without a full Drupal bootstrap. All of the authcache modules are designed to work well with it.</p>
-
-<p>To set up the frontcontroller, simply copy sites/all/modules/authcache/modules/authcache_p13n/safe_frontcontroller/authcache.php to your site&rsquo;s root directory. Then add the following line to settings.php :</p>
-
-<figure class='code'><figcaption><span>settings.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;authcache_p13n_frontcontroller_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;authcache.php&#39;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is actually recommended for most installations, not only because it makes the URL for fragments shorter; but it also saves some $_SERVER key rewrites which can cause problems.</p>
-
-<p><strong>Caching ALL the things</strong></p>
-
-<p>Authcache comes with a pretty sensible set of defaults as far as which pages should be cached. But you may want to tweak them. For example, you may want to exclude search result pages from caching. You can control this at admin/config/system/authcache/pagecaching .</p>
-
-<p><strong>But what about (obscure problem X)</strong></p>
-
-<p>Fixing obscure problems is not what blog posts are good at. They are good at showing you a basic method that will work in a lot of cases, or at least will teach you the fundamental concepts. The <a href="https://drupal.org/project/issues/authcache?categories=All">issue queue for Authcache</a> is active, and extremely well maintained. I can&rsquo;t remember the last time I encountered such an active module maintainer as znerol. Check it out!</p>
-
-<p>But in case that doesn&rsquo;t help, the next blog post in this series is going to talk about advanced topics in authenticated user caching: expire module integration, ESI vs AJAX, stripping form tokens, and my favorite: planning a layered caching architecture for your site! See you then!</p>
 ]]></content>
   </entry>
   
