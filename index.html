@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="A year ago I proposed a session for Drupalcon Mumbai and Drupalcon New Orleans, called “The best of both worlds”. It promised to show attendees how &hellip;">
+  <meta name="description" content="In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: watch out for the cracks &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,15 +22,13 @@
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
-  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
   <script type="text/javascript">
@@ -50,11 +48,10 @@
 
 <body   >
   <header role="banner"><hgroup>
-<a href="/"><img src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  <h1><a href="/">Oh The Huge Manatee</a></h1>
   
     <h2>Drupal, Sysadminning, and Tech.</h2>
   
-</div>
 </hgroup>
 
 </header>
@@ -65,13 +62,12 @@
   
 <form action="https://www.duckduckgo.com/" method="get">
   <fieldset role="search">
-    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+    <input type="hidden" name="q" value="site:ohthehugemanatee.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
   </fieldset>
 </form>
   
 <ul class="main-navigation">
-  <li><a href="/about-me.html">Me</a></li>
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
@@ -81,6 +77,58 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Six Months Between the Cracks of Decoupled Drupal</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-11T11:18:44+01:00" pubdate data-updated="true">Feb 11<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
+
+<p>The cracks are the integration points between the different components. It&rsquo;s not GraphQL as a communication layer; it&rsquo;s that no one thinks to log GraphQL inconsistencies when they occur. It&rsquo;s not &ldquo;what&rsquo;s my development environment&rdquo;, it&rsquo;s &ldquo;how do these three development environments work on my localhost at the same time?&rdquo;. It&rsquo;s the thousand little complexities that you don&rsquo;t think about, basically because they aren&rsquo;t directly associated with a noun. We&rsquo;ve discovered &ldquo;crack&rdquo; problems like this in technical architecture and devops, communication, and even project management. They add up to a lot of unplanned time, and they have presented some serious project risks.</p>
+
+<p>A bit more about my recent project with <a href="https://amazeelabs.com">Amazee Labs</a>. It&rsquo;s quite a cool stack: several data sources feed into <a href="https://drupal.org">Drupal 8</a>, which offers an editorial experience and <a href="https://graphql.org">GraphQL</a> endpoints. Four <a href="https://facebook.github.io/react/">React</a>/<a href="https://facebook.github.io/relay/">Relay</a> sites sit in front, consuming the data and even offering an authenticated user experience (<a href="https://auth0.com">Auth0</a>). I&rsquo;ve been working with brilliant people: <a href="https://www.drupal.org/u/fubhy">Sebastian Siemssen</a>, <a href="https://www.drupal.org/u/moshe-weitzman">Moshe Weitzman</a>, <a href="https://github.com/pmelab">Philipp Melab</a>, and others. It has taken all of us to deal with the crack complexity.</p>
+
+<p>The first crack appeared as we were setting up environments for our development teams. How do you segment repositories? They get deployed to different servers, and run in very different environments. But they are critically connected to each other. We decided to have a separate &ldquo;back end&rdquo; repo, and separate repos for each &ldquo;front end&rdquo; site. Since Relay needs to compile the entire data schema on startup, this means that every time the back end is redeployed with a data model change, we have to automatically redeploy the front end(s). For local development, we ended up building a mock data backend in MongoDB running in Docker. Add one more technology to support to your list, with normal attendant support and maintenance issues.</p>
+
+<p>DevOps in general is more complicated and expensive in a decoupled environment. It&rsquo;s all easy at first, but at some point you have to start connecting the front- and back-ends on peoples&#8217; local development environments. Cue obvious problems like port conflicts, but also less obvious ones. The React developers don&rsquo;t know anything about drupal, drush, or php development environments. This means your enviroment setup needs to be VERY streamlined, even idiot-proof. Your devops team has to support a much wider variety of users than normal. Two of our front-enders had setups that made spinning up the back-end take more than 30 minutes. 30 minutes! We didn&rsquo;t even know that was possible with our stack.  The project coordinater has to budget significant time for this kind of support and maintenance.</p>
+
+<p>Some of the cracks just mean you have to code <em>very</em> carefully. At one point we discovered that certain kinds of invalid schema are perfectly tolerable to the GraphQL module. We could query everything just fine &ndash; but React couldn&rsquo;t compile the schema, and gave cryptic errors that were hard to track down. Or what about the issues where there <em>are</em> no error messages to work with? CORS problems were notoriously easy to miss, until everything broke without clear errors. Some of these are impossible to avoid. The best you can do is be thorough about your test coverage, add integration tests which consider all environments, and <em>document all the things</em>.</p>
+
+<p>Not all the cracks are technological; some are purely communication. In order to use a shared data service, we need a shared data model and API. So how do you communicate and coordinate that between 5 teams and 5 applications? We found this bottleneck extremely difficult. At first, it simply took a long time to get API components built. We had to coordinate so many stakeholders, that the back-end data arch and GraphQL endpoints got way behind the front-end sites. At another point, one backender organically became the go-to for everything GraphQL. He was a bottleneck within weeks, and was stuck with all the information silo&#8217;ed in his head. This is still an active problem area for us. We&rsquo;re working on thorough and well-maintained documentation as a reference point, but this costs time as well.</p>
+
+<p>Even project managers and scrum masters found new complexities. We had more than 30 people working on this project, and everyone had to be well coordinated and informed. You certainly can&rsquo;t do scrum with 30 people together &ndash; the sprint review would take days! But split it out into many smaller teams and your information and coordination problems just got much harder. Eventually we found our solution: we have 3 teams, each with their own PO, frontender(s) and backender(s), who take responsibility for whole features at a time. Each team does its own, quite vanilla, scrum process. Layered on top of this, developers are in groups which cut across the scrum teams, which have coordination meetings and maintain documentation and code standards. All the back-enders meet weekly and work with the same standards, but the tightest coordination is internal to a feature. So far this is working well, but ask me again in a few months. :)</p>
+
+<p>Working in a fully decoupled architecture and team structure has been amazing. It really is possible, and it really does provide a lot more flexibility. But it demands a harder focus on standards, communication, coordination, and architecture. Sometimes it&rsquo;s not about the bricks; it&rsquo;s about the mortar between them. So the next time you start work on a decoupled architecture, <em>watch out for the cracks!</em></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -110,15 +158,30 @@
   </header>
 
 
-  
-  
-  <div class="entry-content"><p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">“The best of both worlds”</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here’s my own collection of resources on the subject.</p>
+  <div class="entry-content"><p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
-<p>The big improvement that’s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service cont&#8230;</p></div>
+<p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
+
+<p>I just mentioned unit testable code as a benefit of the service container. To be honest this is a little tricksy in Drupal 7. For my own custom work I tend to isolate the test environment from the rest of Drupal, so I don&rsquo;t have to deal with everything else. Again, I followed Fabian&rsquo;s example there by looking at how <a href="http://cgit.drupalcode.org/render_cache/tree/tests?h=7.x-2.x">render cache does it&rsquo;s tests</a>. If you do want better integration, there is a good lullabot post that talks about (more) proper PHPUnit integration. <a href="https://www.lullabot.com/articles/write-unit-tests-for-your-drupal-7-code-part-1">https://www.lullabot.com/articles/write-unit-tests-for-your-drupal-7-code-part-1</a> .</p>
+
+<p>Next on my list is Composer-managed dependencies. The Acquia developer blog has a great post about <a href="https://dev.acquia.com/blog/using-composer-manager-get-island-now">using Composer Manager for this in D7</a>. This is a huge win for a lot of custom modules, and very easy.</p>
+
+<p>Last is plugins. The rest of this list is in no particular order, but I left plugins for last because I think this isn&rsquo;t actually necessary in D7. Personally I use modules&#8217; own hooks and just autoload independent classes. You might consider using plugins instead if you&rsquo;re going to write several plugins for the same module. In any case, <a href="https://www.previousnext.com.au/blog/drupal-8-now-object-oriented-plugins-drupal-7">Lee Rowlands has the go-to blog post about this</a>.</p>
+
+<p>All together, you can combine these approaches to write code for D7 with the biggest Dx features of D8: service injection, phpunit testing, composer libraries, and plugins. Note that each of these blog posts assumes different workarounds for all the other functionalities&hellip; but they should help you get an understanding of how to use that particular Dx improvement in 7.</p>
+
+<p>When I wrote that session proposal, I thought of this as a good way for D7 developers to learn D8 practices gradually, one at a time. I no longer think that&rsquo;s true. Mostly, there are so few working examples of D7 code using these practices, that it&rsquo;s quite hard to get your stuff working. This is particularly hard when you&rsquo;re just learning about the concept in the first place! Personally, I could mess around with this stuff and make my life harder with it in D7. But I couldn&rsquo;t really get the best advantage out of them until I had better examples. My best learning aids were the examples in D8 core, and the code scaffolding available through Drush and Drupal console.</p>
+
+<p>But now that I&rsquo;m comfortable with the concepts&hellip; I would absolutely use these approaches in D7 work. You know, if I&rsquo;m FORCED to work in the old system. :)</p>
+
+<p>One last aside here: it is easy to fall into the mindset that Drupal 8 practices are better just because they&rsquo;re newer. This is simply not true. These practices are not handed down from heaven, after all! When you have the rest of the D8 architecture in place, certain kinds of code tasks are much easier. That&rsquo;s why we like developing for it so much more. But other (less common, IMO) tasks are harder. And doing any of this in D7 means you have to put the architecture in place, too. That&rsquo;s a lot of time, and it&rsquo;s only worthwhile if you&rsquo;re going to use the particular strengths of these practices.</p>
+
+<p>So if it looks like one of these D8 practices will make your life easier for a particular task in D7, then by all means use these approaches to get there. Composer manager has a particularly low bar &ndash; it&rsquo;s so easy to use, and makes so many tasks easier, it&rsquo;s a good approach to many tasks. But if I ever catch you implementing service container to get two lines of code into a form_alter, I will come to where you work and slap your hands off the keyboard.</p>
+
+<p>Happy coding!</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -151,17 +214,74 @@
   </header>
 
 
-  
-  
-  <div class="entry-content"><p>The developer world is abuzz with criticism of the new Macbook Pro. After 4 years of waiting for an update, what we got has <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">two less ports, slower memory and a worse GPU</a>, is <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">a vanity project that the core demographic of Apple’s customers probably won’t even use</a>, in the final balance: <a href="https://petersphilo.org/2016/10/29/open-letter-to-tim-cook/">merely consumer-level</a>. It’s slammed as <a href="https://macperformanceguide.com/blog/2016/20161029_1016-Apple2016MacBookPro-compatibility.html">incompatible</a>, <a href="https://twitter.com/lapcatsoftware/status/791760906678067200">absurd</a>, and <a href="http://cdm.link/2016/10/apples-computer-vision-looks-backward-others-look-forward/">for pros… actually an insult</a>.</p>
+  <div class="entry-content"><p>The developer world is abuzz with criticism of the new Macbook Pro. After 4 years of waiting for an update, what we got has <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">two less ports, slower memory and a worse GPU</a>, is <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">a vanity project that the core demographic of Apple’s customers probably won’t even use</a>, in the final balance: <a href="https://petersphilo.org/2016/10/29/open-letter-to-tim-cook/">merely consumer-level</a>. It&rsquo;s slammed as <a href="https://macperformanceguide.com/blog/2016/20161029_1016-Apple2016MacBookPro-compatibility.html">incompatible</a>, <a href="https://twitter.com/lapcatsoftware/status/791760906678067200">absurd</a>, and <a href="http://cdm.link/2016/10/apples-computer-vision-looks-backward-others-look-forward/">for pros&hellip; actually an insult</a>.</p>
 
-<p>If you’re a developer in late 2016, and are in the market for a new laptop, there are some great options out there. It’s too bad that the latest line of Mac products don’t make the cut. I’ve been neck deep in this research myself, since it’s time to retire my mid-2012 non-retina Macbook Pro anyway. I thought I’d share.</p>
+<p>If you&rsquo;re a developer in late 2016, and are in the market for a new laptop, there are some great options out there. It&rsquo;s too bad that the latest line of Mac products don&rsquo;t make the cut. I&rsquo;ve been neck deep in this research myself, since it&rsquo;s time to retire my mid-2012 non-retina Macbook Pro anyway. I thought I&rsquo;d share.</p>
 
-<p>I’m looking for a new laptop. It should be portable enough to count as an “Ultrabook”, powerful enough to run my IDE and many virtualized environments, with enough battery life to get me through long plane &#8230;</p></div>
+<p>I&rsquo;m looking for a new laptop. It should be portable enough to count as an &ldquo;Ultrabook&rdquo;, powerful enough to run my IDE and many virtualized environments, with enough battery life to get me through long plane or trane trips. And it should have very high build quality, both for durability and aesthetics.</p>
+
+<h2>Operating System</h2>
+
+<p>OSX made it&rsquo;s name on a great user experience, and that&rsquo;s still mostly true. It&rsquo;s no longer true by such a wide margin, though. Windows has made enormous strides since then &ndash; it still feels frustrating for me, but it&rsquo;s worth a try for you.</p>
+
+<p>Most exciting for an open source guy like me, is the discovery that Linux desktops have gotten great. Gone are the days of futzing around just to get things set up in the first place. With a contemporary Ubuntu or Mint system (at least) you get a pleasant desktop experience out of the box. Give a try to Ubuntu on a live CD, and see how it feels for you. Depending on your mission critical applications, Linux might be a strong choice.</p>
+
+<p>If you find that you <em>have</em> to be on OSX, then you&rsquo;re stuck with either Apple hardware, or a <a href="http://www.hackintosh.com/">hackintosh</a>. From personal experience, a hackintosh is a great weekend project, but takes much more work than any Linux system I&rsquo;ve used. Every update meant serious surgery. Not for the faint of heart &ndash; but if you really need OSX, this might be the best path for you!</p>
+
+<p>Since we&rsquo;ve accepted that we&rsquo;re likely moving away from the mac platform, I&rsquo;m not going to talk much about the operating system here anymore. These systems all (apparently) have good Linux compatibility, so the choice of OS is up to you.</p>
+
+<h2>Apple</h2>
+
+<p>There&rsquo;s a lot (still) to like about Apple products.</p>
+
+<ul>
+<li>The OS is UNIX-enough-for-most</li>
+<li>The best applications for creatives and developers always have an OSX version</li>
+<li>Build quality is fantastic</li>
+<li>Aesthetics are market leading (ie it&rsquo;s pretty)</li>
+</ul>
+
+
+<p>Unfortunately, there are down sides too:</p>
+
+<ul>
+<li>The OS is increasingly &ldquo;locked in&rdquo;. With every update, you have to boot into recovery mode to disable some &ldquo;security&rdquo; features that lock you out of your own machine.</li>
+<li>For many development applications, you actually need a third party (well maintained) repo of otherwise standard applications &ndash; homebrew.</li>
+<li>The cost! The new MacBook Pro is a very expensive way to buy 4 year old hardware.</li>
+<li>The ecosystem is very clearly moving away from developer needs. From pushing everything to iCloud, to converging Ux with mobile, to disappointing hardware specs, there&rsquo;s no question which way Apple is headed. And it isn&rsquo;t towards better meeting your needs as a dev.</li>
+</ul>
+
+
+<p>With all this considered, I wouldn&rsquo;t buy a new MacBook for my work tasks. But developers should seriously consider staying with the old Macbook Pro 2012s for another couple of years. Hardware-wise it&rsquo;s still OK, it&rsquo;s just a question of how long before the OS gets too locked down for you.</p>
+
+<p>Looks like you can get one of these babies from eBay for <a href="http://www.ebay.com/sch/i.html?_from=R40&amp;_trksid=p2050601.m570.l1313.TR12.TRC2.A0.H0.Xmacbook+pro+2012.TRS0&amp;_nkw=macbook+pro+2012&amp;_sacat=0">about $800</a>.</p>
+
+<h2>Lenovo Thinkpad</h2>
+
+<p>Thinkpads have been the developer workhorse for years. Durable, with well known and supported hardware, they&rsquo;re especially known for their great Linux support.</p>
+
+<p>Personally I&rsquo;ve always found the build quality lacking in Thinkpads, but I know people who go so far as to custom build and swap out their own components for this versatile beast. Look for models with X, P, or T in the model number, for the best developer oriented models. These babies are extremely customizable &ndash; you can get top end hardware, in a well-built and light package. Note the battery life is normally (tested at) 11 hours, and a spare battery pack can bump that up past 24 hours of use. Apple hardware can&rsquo;t even touch that. The spec sheets say that Thinkpads are only fractionally thicker than a Macbook Air, and both models come in at just under 3lbs.</p>
+
+<p>For more information, I can only recommend <a href="https://hackaday.com/2016/10/28/apple-sucks-now-heres-a-thinkpad-buyers-guide/">Hackaday&rsquo;s recent Thinkpad buyer&rsquo;s guide</a>.</p>
+
+<h2>Dell XPS 13 Developer Edition</h2>
+
+<p>The XPS 13 is another laptop that you see at developer conventions. The developer edition has the option to come with Ubuntu pre-installed, meaning Linux &ndash; or at least Debian &ndash; compatibility is guaranteed. My colleagues who use XPS 13s love them.</p>
+
+<p>In most configurations you get a touch screen, and somewhere between 11 and 22 hours of battery life, depending on usage. The only complaint I&rsquo;ve heard is the positioning of the webcam. It&rsquo;s on the lower part of the screen bezel, so if you Skype a lot, everyone gets a nice view up your nose. From personal experience, my only complaint is the build quality. It still feels plastic, and just doesn&rsquo;t match up to the machined metal that I&rsquo;ve gotten used to.  Still, the XPS 13 Developer Edition is rightfully a leading laptop for serious developers.</p>
+
+<h2>Razer Blade Stealth</h2>
+
+<p>I never thought that Razer would end up on my short list of laptops to consider, but here we are. The <a href="http://www.razerzone.com/gaming-systems/razer-blade-stealth">New Razer Blade Stealth</a> is a powerhouse machine, in a machined metal chassis that feels every bit as sturdy as a Mac. The processor is the most powerful I&rsquo;ve seen in anything ultrabook-sized. Though Razer doesn&rsquo;t officially offer Linux as an option, users on their forums report that Ubuntu works out of the box.</p>
+
+<p>The only real down side to this machine is the battery, which is rated for just 9 hours of use. I say &ldquo;just&rdquo; 9 hours, even though our comparison system got 5-7 hours when it was new. Still, it&rsquo;s something to consider.</p>
+
+<h2>Conclusions for now</h2>
+
+<p>The moment I stepped outside the Apple store, I discovered that there is still a very healthy and diverse market of options for laptop buyers. Every other laptop I considered was cheaper and more powerful than the Macbook Pro line. Every other laptop was more compatible, had more ports, and generally seemed more useful to me. If that&rsquo;s the competitive landscape into which Apple is launching their &ldquo;absurd&rdquo; efforts, they must really have abandoned the developer demographic. On the plus side, Linux support is everywhere now. It&rsquo;s possible that this move by Apple will spur a serious wave of Linux adoption among developers.</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -194,15 +314,95 @@
   </header>
 
 
-  
-  
   <div class="entry-content"><p>A few months ago I posted about my <a href="/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
 
-<p>This &#8230;</p></div>
+<p>This week I read about everyone&rsquo;s problems getting OSX Sierra going, and I decided it was time to take the plunge. Apple, I completely understand the direction you are going with your environment. You&rsquo;ve gotta lock down in order to make peoples&#8217; computers reliable, easy to use appliances. But I don&rsquo;t want an appliance, I want a computer. I disagree with some of your choices about the system, what software I should use, where I may install it from, and how I may use it. I&rsquo;m switching to an OS that lets me make those choices.</p>
+
+<p>Someone recently described the choice to me as &ldquo;program, or be programmed.&rdquo; That really stuck in my mind. OSX increasingly feels like &ldquo;someone else&rsquo;s computer&rdquo; for me. Someone else is making all the choices. Well, I don&rsquo;t have to &ldquo;be programmed&rdquo; passively. I can run an environment which respects my choices about privacy, which gives me the freedom to do whatever I want with my computer. So this week I went back to Linux.</p>
+
+<p>The last time I used Linux as a primary laptop OS was with Gentoo in 2003. OK, easy to say that this has come a LONG way since then. Still I don&rsquo;t know if I would recommend converting your existing system if you&rsquo;re a techno noob; better to buy a system with Linux pre-configured. With that said, I am damn impressed with how well <a href="http://linuxmint.com/">Linux Mint</a> runs out of the box on my Macbook Pro 9,2 (mid-2012). Setting everything up was a snap.</p>
+
+<h2>How to Get Linux Mint 18 running perfectly on a Macbook Pro 9,2</h2>
+
+<p>Just install it. Seriously, that&rsquo;s it. It just works.TM</p>
+
+<p>Installation went totally smoothly for me. I am dual booting for now, but I haven&rsquo;t had to get back into OSX all week. Note that you can access all your OSX files from inside Linux, as long as you don&rsquo;t have OSX&rsquo;s &ldquo;FileVault&rdquo; disk encryption turned on. Only Macs can decrypt that. There is a similar (more compatible) full disk encryption system for Linux, but at least during the transition I advise you to disable encryption for both &ldquo;sides&rdquo; of your computer. I did have to install ReFind to keep the dual boot working.</p>
+
+<p>Linux Mint asks you for permission to use the non-GPL drivers it needs to run your wireless card, and your CPU&rsquo;s special capabilities. It was a checkbox. Everything just worked. I really tried to find anything substantially broken out of the box, and came up empty. Touchpad, sound, webcam, suspend/resume&hellip; everything worked just fine.</p>
+
+<h2>Applications</h2>
+
+<p>I was pleasantly surprised to find that all of my most important applications have Linux flavors available, and they&rsquo;re easy to install. Much easier &ndash; or more standardized at least &ndash; than installation packages on OSX or Windows! Here are the big ones I use, with any relevant notes.</p>
+
+<ul>
+<li>SimpleNote</li>
+<li>Firefox Developer Edition</li>
+<li>PHPStorm &ndash; sadly I couldn&rsquo;t get it to keep my old licenses. I had to re-enter my license code manually.</li>
+<li>Toggl</li>
+<li>PrivateInternetAccess</li>
+<li>Slack &ndash; this app is pretty slow, surprisingly. I may go back to the web version.</li>
+<li>Zoom meetings &ndash; still just as painful on Linux</li>
+<li>Skype &ndash; skype.com has a newer version of this than the apt repo. No idea what the difference is, but it&rsquo;s still a resource hog.</li>
+<li>Lastpass &ndash; browser extension, but deserves a special mention. The version of the extension that&rsquo;s installed automatically (3.3.1) is SLOW and could never connect to Lastpass reliably. Did I mention it&rsquo;s SLOW? It singlehandedly destroyed my system&rsquo;s performance. Visit <a href="">the extension&rsquo;s page on addons.mozilla.org</a> and scroll down down down until you find &ldquo;developer channel&rdquo;. There you can download the current version, 4.1.29a. That&rsquo;s fast and light and current and working.</li>
+<li>FileVault &ndash; I keep my most sensitive files in a filevault-encrypted image. Unfortunately, only macs can open that format. I moved everything into a Veracrypt encrypted image instead, as the best multi-platform option.</li>
+<li>Docker &ndash; docker &ldquo;native&rdquo; for mac is actually running on a very slim Linux VM, so I knew it would be faster on a native Linux machine. But I was surprised that my informal benchmarks clocked it at almost 3x faster!</li>
+</ul>
+
+
+<p>I was worried about application coverage, but so far I haven&rsquo;t found any gaps.</p>
+
+<h2>Tweaks</h2>
+
+<p>I had two big tweaks: the task bar, and the touchpad. I also did one minor tweak to improve my battery life.</p>
+
+<p>I actually like the OSX dock and task bar concept. I find the default Windows-style taskbar finicky and a painful way to describe what applications are currently running. So I added <a href="https://glx-dock.org/">Cairo Dock</a>, and configured Cinnamon&rsquo;s built in taskbars to be a bit more OSX&#8217;ish.</p>
+
+<p>I&rsquo;m very finicky about my touchpad&rsquo;s behavior, and Linux Mint&rsquo;s control panel didn&rsquo;t expose enough of the options to me. Fortunately the Mac touchpad runs on the excellent <a href="ftp://www.x.org/pub/X11R7.5/doc/man/man4/synaptics.4.html">Synaptics driver</a>. That means you can configure every detail from the terminal with &ldquo;synclient optionname=value&rdquo; or &ldquo;synclient -l&rdquo; to list your current settings. Use that man page I linked to tell what options do what, and you can set the perfect configuration. Once you&rsquo;ve figured out what options are just right for you, put them in a file called /etc/X11/xorg.conf.d/60-synaptics.conf, like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Section "InputClass"
+</span><span class='line'>  Identifier "touchpad"
+</span><span class='line'>  Driver "synaptics"
+</span><span class='line'>  MatchIsTouchpad "on"
+</span><span class='line'>  MatchDevicePath "/dev/input/event*"
+</span><span class='line'>  Option "FingerHigh" "90"
+</span><span class='line'>  Option "CoastingSpeed" "7"
+</span><span class='line'>  Option "CoastingFriction" "16"
+</span><span class='line'>  Option "EmulateTwoFingerMinW" "2"
+</span><span class='line'>  Option "RTCornerButton" "0"
+</span><span class='line'>  Option "RBCornerButton" "0"
+</span><span class='line'>  Option "LTCornerButton" "0"
+</span><span class='line'>  Option "LBCornerButton" "0"
+</span><span class='line'>  Option "PalmDetect" "on"
+</span><span class='line'>EndSection</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You will probably have to create the xorg.conf.d subdirectory&hellip; and you&rsquo;ll have to be sudo for the whole thing.</p>
+
+<p>Finally, I thought I&rsquo;d try to get more life out of this old battery. So I installed <a href="https://01.org/powertop">powertop</a>, and accepted all of it&rsquo;s automated recommendations. Now I get about 5 hours, which matches my experience in OSX. It is a 4 year old laptop, after all!</p>
+
+<p>That&rsquo;s it. One file to edit from the terminal, press &ldquo;OK&rdquo; a bunch on one application, and I got (what feels to me) like a perfect setup. This is so much better than the old days of walking uphill through the snow (both ways!) to get your display working. This is a polished, pleasant to use desktop environment.</p>
+
+<p>I&rsquo;m happy I switched.</p>
+
+<p>Update October 17 &ndash; The hardware CPU fan governor was letting the CPU run very very hot. I finally installed <a href="https://github.com/dgraziotin/mbpfan">mbpfan</a>, and it&rsquo;s under control again. This is all just&hellip; so much more painless than I remember!</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -235,17 +435,62 @@
   </header>
 
 
-  
-  
   <div class="entry-content"><h2>The Why</h2>
 
-<p>I’m an obsessive note taker. Meetings, ideas, to do lists, grocery lists… The act of writing really helps me remember, so I’ve been writing everything down since I was a teenager.  For years I had a thousand text documents scattered around my computer. In 2008 I discovered that the act of writing isn’t nearly as effective as the act of <em>searching</em>, so I resolved to start taking notes in a central, searchable, sync’ed system. In short, I jumped on the Evernote train.</p>
+<p>I&rsquo;m an obsessive note taker. Meetings, ideas, to do lists, grocery lists&hellip; The act of writing really helps me remember, so I&rsquo;ve been writing everything down since I was a teenager.  For years I had a thousand text documents scattered around my computer. In 2008 I discovered that the act of writing isn&rsquo;t nearly as effective as the act of <em>searching</em>, so I resolved to start taking notes in a central, searchable, sync&#8217;ed system. In short, I jumped on the Evernote train.</p>
 
-<p>Nowadays, it seems like every time I turn around, Evernote has found some more bloat to add. First it was photos and videos, then to do lists and Reminders. Then came poorly-implemented sharing, gro&#8230;</p></div>
+<p>Nowadays, it seems like every time I turn around, Evernote has found some more bloat to add. First it was photos and videos, then to do lists and Reminders. Then came poorly-implemented sharing, groups, chat, geo-tagging, google drive integration, and so on. I recently heard that it does Salesforce integration, too. I&rsquo;m sure that somewhere out there, there&rsquo;s a target market that wants all of this shit every time they write a shopping list, but I am not in that market. I just want to write, sync, and search text.</p>
+
+<p>I get to digress a little here, because it&rsquo;s my blog. I like simple, reliable tools that don&rsquo;t try to think for me. I write notes in a mix of 4 languages, so spellcheck is an automatic fail. Autocorrect is even worse. Grammar checkers make it impossible to mix short form and long form notes. I don&rsquo;t even want smart quotes. I&rsquo;m a programmer. When I type something in single quotes, I want it to <em>stay</em> in single quotes. In short, if your feature starts with the word &ldquo;smart&rdquo;, it can fuck off.</p>
+
+<p>In the last several months I&rsquo;ve noticed that I have a thousand text notes on my computer again. It&rsquo;s not hard to see why: Evernote has gotten all &ldquo;smart&rdquo;. OSX&rsquo;s Textedit application can be configured to take the kind of simple notes I like, so that&rsquo;s what I found myself using. So I resolved to find a new note taking system.</p>
+
+<h2>The What</h2>
+
+<p>Here were my criteria:</p>
+
+<ul>
+<li>ONLY text notes. I&rsquo;ve got other ways to handle pictures, drawings, geo-location, and to-do lists. This is just for text.</li>
+<li>The ability to disable everything &ldquo;smart&rdquo; in the text editor. I don&rsquo;t even want smart URLs. Just text.</li>
+<li>Automatically saves and syncs. Of the hundred or so text documents on my Desktop, 99% of them are called &ldquo;Untitled&rdquo;.</li>
+<li>Searchable.</li>
+<li>Accessible from my Phone and all of my computers</li>
+<li>Starting a new note should be as easy as Ctrl+N</li>
+<li>Easy to sync/share with my wife</li>
+<li>Ability to write to a note from the terminal or any other application.</li>
+</ul>
+
+
+<p>I considered just using vim, but my vim environment is way too feature-packed for what I want. I used vim as an IDE for a long time, remember? I have similar issues with Atom and Emacs &ndash; they just do way more than I want them to. Simple, simple, simple!</p>
+
+<p>I chose Simplenote on the recommendation of a few like-minded people, and I love it so far. But of course, there&rsquo;s some migration to take care of!</p>
+
+<h2>The How</h2>
+
+<p>Out of the box, Simplenote is a great note-taking tool for my purposes. I had to disable some of the usual &ldquo;smart&rdquo; features, but it took me less than 30 seconds to find and disable them. No biggie. It was missing two key features, though: the ability to write from the terminal, and my long history of Evernote documents.</p>
+
+<p>The solution to both involves an undocumented feature of Simplenote: Dropbox integration. Send an email to customer support and ask for them to enable it on your account. It&rsquo;s rudimentary, and as their support rep explained to me, &ldquo;this feature isn’t really something we can support, its more of a convenience thing we’ve added for you.&rdquo; I&rsquo;m cool with that.</p>
+
+<p>Just like that, I have a note-taking system that does two-way sync to a folder of .txt files on all my devices. I can create txt files any way I like, of course: pipe data from the terminal, have PHP write debug output, or use a totally different text editor. That&rsquo;s a huge feature add! It also adds some other nice features, like now my wife can share my notes. Oh, and Spotlight will search those notes automatically, too. Sweet.</p>
+
+<p>Importing from Evernote was a bit of a bitch. Evernote lets you export notebooks to HTML, or HTML wrapped in a custom XML format (.enex, because the world needs another file extension). Neither of those are terribly helpful. I tried a couple of options that failed out on my system:</p>
+
+<ul>
+<li><a href="https://github.com/claytron/ever2simple">Ever2simple</a>, which promises to convert .enex into a directory of Markdown text files, wouldn&rsquo;t install because libxml is a tricky beast on OSX. Then it wouldn&rsquo;t run because libxml is a tricky beast on OSX. I gave up.</li>
+<li><a href="http://www.geeknote.me/">Geeknote</a>, the Evernote command line client, which promises to export to txt files. No installation instructions for non-Linux users, requires python-setuptools which is tricky to get on OSX, and wants sudo access for the installer script without explaining why. Nope.</li>
+</ul>
+
+
+<p>I finally stumbled on a little PHP project called <a href="https://github.com/panicsteve/enex-dump">enexdump</a>. One file, no installation, written in my most comfortable language after English. Less than 100 lines of code. Perfect! It worked like a charm.</p>
+
+<p><code>php enex-dump.php ~/Desktop/my-notes.enex</code></p>
+
+<p>And a couple of minutes later, I had an /output folder full of txt files.</p>
+
+<p>So far I can only recommend this setup. Have fun!</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -278,17 +523,18 @@
   </header>
 
 
-  
-  
   <div class="entry-content"><p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
 
-<p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian – NOT American!), and despite heroic efforts we just couldn’t find a way to make a permanent relationship work.</p>
+<p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
 
-<p>Drupal is an interesting field in which to work, and there’s a lot of momentum for good developers. I chose to work with Amazee Labs because they are some of the best at what we do. I’ve always &#8230;</p></div>
+<p>Drupal is an interesting field in which to work, and there&rsquo;s a lot of momentum for good developers. I chose to work with Amazee Labs because they are some of the best at what we do. I&rsquo;ve always been a fan of their work on a technical level, and now, getting to be a part of the team is very exciting.</p>
+
+<p>My project with Amazee is packed with smart people and exciting technologies. I&rsquo;m working with brilliant Drupalists <a href="https://www.drupal.org/u/fubhy">Sebastian Siemssen</a> and <a href="https://www.drupal.org/u/moshe-weitzman">Moshe Weitzman</a>, which is a thrill on its own. We&rsquo;re mixing Drupal 8 with a custom data storage backend, serving data to a thousand separate <a href="https://facebook.github.io/react/">ReactJS</a> sites via <a href="http://graphql.org/">GraphQL</a>. The whole thing is developed, tested, and run in production on <a href="https://docker.com">Docker</a>. Perhaps the best part is that this team is so dedicated to Doing it Right. I&rsquo;ve worked with plenty of great development shops; none of them do Agile Right; Amazee does. I&rsquo;ve never seen anyone process-obsessed enough to reap the rewards of things like continuous integration or even thorough sprint reviews, but Amazee is managing it. All told, it&rsquo;s very exciting to work with such smart people, in such an effective environment, on such cutting edge technology. I&rsquo;ve gotten to flex muscles I didn&rsquo;t know I had, which is a great feeling. I will definitely be posting more about the technical issues I encounter along the way.</p>
+
+<p>Of course, one of the most appealing parts of this job is the flexibility to continue pursuing my other passion in music. The Cast is getting bigger and bigger, with 30-40 shows this year. I&rsquo;m really working hard to balance these two parts of my life, and the trajectory of The Cast ensures that this balance will be a big focus for me in the next several years. I don&rsquo;t want to leave open source tech entirely; but I may scale back my conference visibility, and focus my contributions more. We&rsquo;ll see what happens. No matter what, I&rsquo;m happy to be working with a fantastic team and supportive company. On to amazeeing things together!</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/07/29/moving-to-amazee-labs/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -321,11 +567,9 @@
   </header>
 
 
-  
-  
-  <div class="entry-content"><p>Today I got to generate git statistics for my team. It’s more fun than it sounds! First of all, it’s always entertaining to learn just how flexible git’s reporting can get. Secondly, it’s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
+  <div class="entry-content"><p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
 
-<p>There were a few questions I wanted to answer about one particular developer’s input. I’m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I’m trying to break him of the habit. Here are my questions:</p>
+<p>There were a few questions I wanted to answer about one particular developer&rsquo;s input. I&rsquo;m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I&rsquo;m trying to break him of the habit. Here are my questions:</p>
 
 <ul>
 <li>What proportion of his commits were generated after hours?</li>
@@ -334,11 +578,166 @@
 </ul>
 
 
-<p>First I had to set some standards: “after hours” is defined as “be&#8230;</p></div>
+<p>First I had to set some standards: &ldquo;after hours&rdquo; is defined as &ldquo;between 7pm and 7am&rdquo;; ticket ID numbers are noted in our commit log with square brackets, ie <code>[#12345]</code>.</p>
+
+<p>We&rsquo;ll start with the total number of commits in this last release period, which we need to figure out the proportion of his commits. This is easy with <code>git shortlog</code>. Git log (and shortlog)&rsquo;s <code>--author</code> argument matches any part of the user&rsquo;s name, so it was easy enough to get Timmy&rsquo;s commits. This is would be the most intuitive git command I know of, except for the mystery <code>-s</code>: a shortlog-only argument that squashes commits down to a count.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git shortlog -s --author=Timmy --after="2016-02-12" --before="2016-04-14"
+</span><span class='line'>   609  Timmy Horton</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(not his real name)</p>
+
+<p>To get the rest of the information we want we have to switch to full git log, and get a custom-formatted one line representation of each commit, with the information that we want. We use <code>--format</code> to speciy our custom format. Here&rsquo;s <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html#_pretty_formats">the complete list of format variables</a> &ndash; our use is pretty trivial.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14"
+</span><span class='line'>
+</span><span class='line'>Thu Apr 14 00:34:58 2016 -0400: [#50559] Remove dependency on comm_group_stats.inc from foo_communities.info
+</span><span class='line'>Wed Apr 13 17:13:02 2016 -0400: [#50549] Add proper EFQs to foo_global_render_homepage_block
+</span><span class='line'>Wed Apr 13 17:10:41 2016 -0400: Merge branch 'stable' into 50549-homepage-counts-are-off
+</span><span class='line'>Wed Apr 13 00:13:54 2016 -0400: Merge branch 'stable' into 50485-groups-communities-counts
+</span><span class='line'>Wed Apr 13 00:13:01 2016 -0400: [#50481] Correct counts calculations on Communities and Groups DS field and Mini Panel Panes
+</span><span class='line'>Tue Apr 12 03:59:17 2016 -0400: [#50248] Fix relative url issue on custom DS Author Field
+</span><span class='line'>Tue Apr 12 03:18:49 2016 -0400: [#50248] Remove duplicate title in Pathauto alias for Event
+</span><span class='line'>Tue Apr 12 03:10:53 2016 -0400: [#50248] Change Pathauto alias for Communities
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now we&rsquo;ll filter to just the commits which happened between 7pm and 8am, with grep. You can use <code>egrep</code> to take advantage of &ldquo;extended&rdquo; regular expression matching, so I wrote a little regex that looks for the first component of the time, and checks that the second digit is in the right range.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}'
+</span><span class='line'>
+</span><span class='line'>Thu Apr 14 00:34:58 2016 -0400: [#50559] Remove dependency on comm_group_stats.inc from foo_communities.info
+</span><span class='line'>Wed Apr 13 00:13:01 2016 -0400: [#50481] Correct counts calculations on Communities and Groups DS field and Mini Panel Panes
+</span><span class='line'>Tue Apr 12 03:59:17 2016 -0400: [#50248] Fix relative url issue on custom DS Author Field
+</span><span class='line'>Tue Apr 12 03:18:49 2016 -0400: [#50248] Remove duplicate title in Pathauto alias for Event
+</span><span class='line'>Tue Apr 12 03:10:53 2016 -0400: [#50248] Change Pathauto alias for Communities
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I&rsquo;ll take this regex apart for you. I know I can recognize a time as any colon-separated trio of two digit numbers. <code>\d</code> is a number, <code>{2}</code> is &ldquo;exactly two of the preceding element&rdquo;, so the pattern is <code>\d{2}:\d{2}:\d{2}</code>. We really want just the hours between 00 and 09, and between 19 and 23. Square brackets denote ranges, but regex examines one <em>character</em> at a time. It sees 01 as a zero, then a one. We have to take it apart a little more than this. The first range is <code>0[0-9]</code> &ndash; that one is easy. We separate it from its neighbor with a vertical pipe to make it an OR comparison, and surround each option in that OR in parenthesis to make sure that both digits are considered together. Since we have to think in single digits, the second time range range could be 19, or <code>2[0-3]</code>. Finally, I surround the whole OR set in parentheses because it makes it easier to read.</p>
+
+<p>Getting a count of this list is easy: we just pipe the result to <code>wc -l</code> to get a count of lines.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | wc -l
+</span><span class='line'>
+</span><span class='line'>225</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wow &ndash; more than a third of his commits happened after hours! That&rsquo;s definitely not good.</p>
+
+<p>Let&rsquo;s find out which tickets he worked on, using our standardized notation for ticket numbers. We can exclude merge commits with git log&rsquo;s <code>--no-merges</code> argument. But what about printing just the ticket numbers? We&rsquo;ll use my favorite multitool: awk!</p>
+
+<p>Awk breaks up input into columns, and has a whole language for doing exotic and fun things with those columns. Who needs excel, anyway? If you want to learn more about awk, check out my <a href="https://ohthehugemanatee.org/2011/04/working-with-bash-awk.html">very old post on the subject</a>. Here we&rsquo;re just going to accept awk&rsquo;s default of space-separated columns, and print off column number 7.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}'
+</span><span class='line'>
+</span><span class='line'>[#50559]
+</span><span class='line'>[#50481]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>[#50248]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Great, but there are a lot of duplicates there. I guess 50248 was a big one, for example. So we&rsquo;ll pass it through <code>uniq</code> to limit it to just unique tickets. Uniq removes duplicates, but only duplicates in a row. So most of the time &ndash; including today &ndash; we pair it with <code>sort</code>.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}' | sort | uniq
+</span><span class='line'>
+</span><span class='line'>[#48192]
+</span><span class='line'>[#49324]
+</span><span class='line'>[#49343]
+</span><span class='line'>[#49464]
+</span><span class='line'>[#49473]
+</span><span class='line'>[#49863]
+</span><span class='line'>[#50005]
+</span><span class='line'>[#50033]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Much better! Now, how many commits went into each one of those tickets? This was a new one for me: we&rsquo;ll use uniq&rsquo;s <code>-c</code> flag to tell it to produce counts. And just for readability, we&rsquo;ll sort the resulting list by the count.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}' | sort | uniq -c | sort
+</span><span class='line'>
+</span><span class='line'>   1 [#50238]
+</span><span class='line'>   1 [#50251]
+</span><span class='line'>   1 [#50252]
+</span><span class='line'>   1 [#50480]
+</span><span class='line'>   1 [#50481]
+</span><span class='line'>   1 [#50559]
+</span><span class='line'>   2 [#50418]
+</span><span class='line'>   2 [50033]
+</span><span class='line'>   3 [#49863]
+</span><span class='line'>   3 [#50319]
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Questions answered! Maybe next I should use gnuplot to plot the number of commits against lateness of the hour&hellip;</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/04/15/some-git-log-magic/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -371,23 +770,42 @@
   </header>
 
 
-  
-  
-  <div class="entry-content"><p>Dear Wired –
-I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/">post about the changes in ad blocker policy</a> on your site. Thanks for writing in such an open and respectful tone; it’s clear you care about your readers and want to find a reasonable way forward.</p>
+  <div class="entry-content"><p>Dear Wired &ndash;
+I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/">post about the changes in ad blocker policy</a> on your site. Thanks for writing in such an open and respectful tone; it&rsquo;s clear you care about your readers and want to find a reasonable way forward.</p>
 
 <p>Unfortunately the post fails to address the REASONS that your readers use ad blockers. If only you had gone a little bit farther in the post and offered specific promises in exchange for being whitelisted, I think you would keep a much larger proportion of your readers.</p>
 
 <p>As an example, here are some promises you could have made that would have convinced me.</p>
 
 <ul>
-<li><p>Third party scripts will be kept to under 33% of page weight. (They’re at ~50% for this article, and that’s with a 1.1MB gif in the content!)</p></li>
-<li><p>We will respect “do not track” headers in your browser (or settings on your Wired account) by excluding you from&#8230;</p></li>
-</ul></div>
+<li><p>Third party scripts will be kept to under 33% of page weight. (They&rsquo;re at ~50% for this article, and that&rsquo;s with a 1.1MB gif in the content!)</p></li>
+<li><p>We will respect &ldquo;do not track&rdquo; headers in your browser (or settings on your Wired account) by excluding you from ad- and analytics-related tracking, and only serving you anonymous ads.</p></li>
+<li><p>We may serve ads based on your browsing behavior at wired.com, but they will always include a short explanation. For example, &ldquo;because you were interested in Article X:&rdquo;</p></li>
+<li><p>Our ad placement and content will follow strict rules (link to a public page of your guidelines), similar to the Adblock &ldquo;Acceptable Ads&rdquo; criteria (<a href="https://adblockplus.org/en/acceptable-ads#criteria">https://adblockplus.org/en/acceptable-ads#criteria</a>).</p></li>
+<li><p>We will serve all content and ads over HTTPS, from within the wired.com domain (or include a list of specific sources), so you can trust that it&rsquo;s really coming from us.</p></li>
+</ul>
+
+
+<p>I&rsquo;m not asking for those specific promises or numbers per se. They&rsquo;re only an example of how you could reassure 20% of your readers that they can trust you as a whitelisted site.</p>
+
+<p>As it is, Wired doesn&rsquo;t offer to address any of the issues that make (technical) people enable an ad blocker. Your post is reduced to a nicely worded ultimatum. You&rsquo;re asking me to make a special exception for Wired, and offering only a stick as incentive. No carrot, no quid pro quo, and no addressing my concerns. And you&rsquo;re doing it on a 3.3MB page with 1.5MB worth of third party ads and tracking code attached, served over HTTP. As a technical reader, this FEELS to me like an ultimatum; like a belligerent challenge. Wired is close enough to the technical community to know how well we respond to ultimatums: I expect you&rsquo;re about to lose ~20% of your direct readership in a core market, and suffer a PR backlash in tech community blogs to boot.</p>
+
+<p>I doubt this is what the Wired board had in mind.</p>
+
+<p>Perhaps you could take a lesson from application designers. <strong>If 20% of your user base uses workarounds to get at your content while dodging parts of the user experience, that indicates great content and bad user experience.</strong> Before locking out a fifth of your readership, try a little market research to improve that Ux. Just do a cursory investigation into WHAT people find so terrible, and WHY they use the alternative; consider how you might change your Ux to make that unnecessary. After all, this is 20% of your user base who likes your core product (content) so much, they find ways to access it despite a shitty Ux. It would be a shame to lose such a dedicated (and large) group of fans.</p>
+
+<p>It&rsquo;s possible that all of those users install ad blockers because marketing execs personally insulted them, and they won&rsquo;t have anything to do with ads in any form. But I suspect you&rsquo;d find a good percentage who use ad or script blockers for security, faster page loads, and to avoid badly behaved trackers. If you can promise even some of those benefits in exchange for whitelisting, you will get a lot more takers.</p>
+
+<p>I will become a Wired reader again if you can promise me that your ads will be unobtrusive, exclusively from Wired, transmitted over a secure connection, and respectful of my wishes with regards to being tracked or my browsing behavior sold.</p>
+
+<p>Until you can make that promise in clear terms, I&rsquo;ll keep my ad blocker turned on.</p>
+
+<p>Thanks</p>
+
+<p>Campbell Vertesi</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2016/02/09/an-open-letter-to-wired-magazine/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -420,17 +838,32 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   </header>
 
 
-  
-  
-  <div class="entry-content"><p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he’s still mulling it over. I couldn’t resist adding to the storm.</p>
+  <div class="entry-content"><p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he&rsquo;s still mulling it over. I couldn&rsquo;t resist adding to the storm.</p>
 
-<p>I completely agree that Drupal would benefit from figuring out a standardized approach to decoupled front ends. I think Dries is spot-on in supporting a “progressive decoupling” model as a great best-of-both-worlds response that can happen within 8.x. I would frame the problem a little differently, though.</p>
+<p>I completely agree that Drupal would benefit from figuring out a standardized approach to decoupled front ends. I think Dries is spot-on in supporting a &ldquo;progressive decoupling&rdquo; model as a great best-of-both-worlds response that can happen within 8.x. I would frame the problem a little differently, though.</p>
 
-<p>The thing is, we already HAVE embraced a framework and shipped with it in core: backbo&#8230;</p></div>
+<p>The thing is, we already HAVE embraced a framework and shipped with it in core: backboneJS. And we&rsquo;re dealing with the development cycle delta already: backbone is now quite outdated; in order to keep up we have to consider ditching it in favor of options like react and angular.  <strong>I don&rsquo;t think this is a &ldquo;how do we architect a new part of Drupal&rdquo; problem, so much as a &ldquo;we already have this issue and we know it will recur&rdquo; problem</strong>. Rather than trying to decide upon a single framework that will remain relevant for the entire lifecycle of Drupal 8, the goal should be to provide a structure that makes it easy to respond once angular/react/whatever are out-of-date, too.</p>
+
+<p>I advocate taking exactly the PHPTemplate route we took in 4.6 (was it? 4.5?): <strong>ship one engine with core, but make it replaceable</strong>. There are a few reasons behind this. First, I think Dries&#8217; rejection of this approach misses some key elements: the landscape of PHP based template engines in 2005 is very different than that of front end frameworks in 2015, and the task of replacing a Drupal 4.6 templating engine is very different from that of replacing a Drupal 8 front end framework. Second, I think we&rsquo;ve stumbled upon a reasonably successful model for adapting to development cycle deltas in how we&rsquo;ve worked with JQuery in Drupal 7. Finally, I believe that making our front end framework replaceable fits with Drupal&rsquo;s overall architectural philosophy, and will help D8 stay relevant for longer.</p>
+
+<p>Dries is right to point out that when we did this with PHPTemplate, effectively nobody took advantage of the ability to replace it. But think back to the development landscape of PHP based templating engines in 2005, and compare it to JS frameworks in 2015: the pace of development was was much slower, every PHP project rolled their own system, libraries to extend capabilities were effectively nonexistent, the total number of developers was lower, and the amount of innovation between alternatives was lower. The arguments that make AngularJS compelling, for example (tens of thousands of developers, hundreds of tutorials, thousands of ngextensions, etc), bear little resemblance to the arguments for &ndash; what even <em>were</em> the alternatives to PHPTemplate in 2005?</p>
+
+<p>Further, the task of replacing PHPTemplate in Drupal 4.6 is not analogous to the task of replacing a JS framework in D8. We only use backbone to handle interactions and &ldquo;big pipe&rdquo; style includes (rather than page rendering out of whole cloth). Dries proposes continuing this approach (and I agree). The task of replacing Backbone with Angular or React would be a big one, but nowhere near as big as building an entire templating engine from scratch for Drupal 4.6. It&rsquo;s still hard work of course, but you&rsquo;re not rebuilding a third of the platform, or architecting your own library with a unique approach.</p>
+
+<p>We made PHPTemplate replaceable as a hedge against Adrian Rossouw getting hit by a bus, and because if Adrian wanted to roll his own engine, surely other developers would, too. It turns out that wasn&rsquo;t necessary; no other templating system gained enough traction to make a dent in the default. That was an effect of the development landscape and the size of the task. This is just not the case with front end frameworks.</p>
+
+<p>In 2005, we were confident that if PHPTemplate was a great choice in 2005, it would probably still be a great choice in 2006, and with care it could remain a reasonable choice for 5 years or more. Replacability was for allowing alternatives. In the case of externally developed front end frameworks in 2015, we can say with certainty that a great choice this year will be an old choice in 2 years, a bad choice in 3, and a liability in 5. That&rsquo;s a different problem space.</p>
+
+<p><strong>I think we have a better analogy with JQuery than with PHPTemplate</strong>. That was also an external library with a development pace delta problem. Within 3 years of including JQuery in Drupal 6 core, the JQuery Update module climbed into the list of most-used modules. For Drupal 7 we architected to make this a little easier, anticipating that it would be necessary. That&rsquo;s worked out well for us. Fortunately there aren&rsquo;t a lot of mutually exclusive alternatives to JQuery, so all we&rsquo;ve needed is updates. Still, I think there are good lessons here for introducing a standard front end framework in Drupal 8: people will need updates faster than core can provide them, and the contrib space is a reasonable place to get them &ndash; even (especially?) when the updates are so common they become de facto parts of core.</p>
+
+<p>Finally, a key philosophy for Drupal 8 is that builders can replace or override entire subsystems. Making the front-end framework similarly replaceable fits right in line with this architecture. If I want to replace Backbone with React, I should be able to do that relatively easily. In a dream world we could abstract out the whole thing, and make core front end framework agnostic. THAT would be a monumental task, indeed!</p>
+
+<p>I advise changing the implementation and documentation of backbone in Drupal 8.x to be (more easily) replaceable or augmentable in contrib. I&rsquo;m convinced that we would see an AngularJS contrib module within a year, and probably a ReactJS one as well. The power law predicts that the community will standardize around one framework at a time, which means that we really only have to be concerned about transition periods. Even then, front end frameworks don&rsquo;t have to be exclusive. Site builders could include the ReactJS library as a dependency of module X, the AngularJS library as a dependency of module Y, and backbone from core. The people developing sites where an extra 36kB (the size of AngularJS 1.4.8) of page size matters are also the ones best positioned to fully replace one library with another.</p>
+
+<p><strong>TL;DR: Contrib is a great place to handle the ever-changing, rapid landscape of front end frameworks. All Drupal core has to do is make it easy.</strong></p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/">Read on &rarr;</a>
-  </footer>
+  
 
 
     </article>
@@ -463,72 +896,86 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   </header>
 
 
-  
-  
   <div class="entry-content"><p>Last night (my time) I got the good news over twitter:</p>
 
-<blockquote class="twitter-tweet" lang="en">
-<p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!
-
-<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>— Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a>
-</blockquote>
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
 
 
 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
-<p>That’s right, Drupal 8 has it’s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
+<p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
 
 <h2>Are we there yet?</h2>
 
-<p>Despite all the rejoicing on social media, this isn’t the final release for Drupal 8 – it’s only the first Release Candidate. This means that we have (officially!) 0 “critical” bugs left to fix in Drupal 8. That means exactly what it sounds like: there are no critical, world-ending bugs left… <em>that we know of</em>. Just like any software product, we’ll continue to discover critical issues through its entire life cycle. We’re still finding occasional critical issues in Drupal 7 almost five years since its first release candidate; that’s just a part of supporting a piece of software over the long term. The RC phase means that while Drupal 8 is stable enough to use, we’re still discovering critical bugs a little too frequently to re&#8230;</p></div>
+<p>Despite all the rejoicing on social media, this isn&rsquo;t the final release for Drupal 8 &ndash; it&rsquo;s only the first Release Candidate. This means that we have (officially!) 0 &ldquo;critical&rdquo; bugs left to fix in Drupal 8. That means exactly what it sounds like: there are no critical, world-ending bugs left&hellip; <em>that we know of</em>. Just like any software product, we&rsquo;ll continue to discover critical issues through its entire life cycle. We&rsquo;re still finding occasional critical issues in Drupal 7 almost five years since its first release candidate; that&rsquo;s just a part of supporting a piece of software over the long term. The RC phase means that while Drupal 8 is stable enough to use, we&rsquo;re still discovering critical bugs a little too frequently to recommend it for everyone, in every use case.</p>
+
+<p>&ldquo;A little too frequently&rdquo; means that the rate of critical bugs incoming is still too high to be able to promise the fast respond-and-fix turnaround that we want. Every two weeks we&rsquo;ll create a new Release Candidate version that fixes whatever new criticals have been discovered. Once the core team is confident that they can squash bugs in a timely enough manner, they&rsquo;ll (finally) release Drupal version 8.0.0.</p>
+
+<h2>But when will it REALLY be released?</h2>
+
+<p>&ldquo;When it&rsquo;s ready&rdquo; still applies! But we are very, very close now. To give you a point of reference, Drupal 7 went through four Release Candidates before release (two months). That codebase was a lot more fragile than this one, so it&rsquo;s reasonable to hope that we&rsquo;ll have a very Drupally Christmas season this year. Personally I&rsquo;m betting on January.</p>
+
+<p><img src="https://www.drupal.org/files/christmas-ad.png"></p>
+
+<h2>Can I use it yet?</h2>
+
+<p><span style="font-size: 1.5em"><em>Yes!</em></span> <span style='font-size:0.5em'>Some terms and conditions apply.</span></p>
+
+<p>Just because there are no criticals left, doesn&rsquo;t mean that D8 is completely bug-free! We have <a href="https://www.drupal.org/project/issues/search/drupal?assigned=&amp;submitted=&amp;project_issue_followers=&amp;status[]=1&amp;status[]=13&amp;status[]=8&amp;status[]=14&amp;status[]=4&amp;priorities[]=300&amp;categories[]=1&amp;version[]=8.0.x-dev&amp;issue_tags_op=%3D&amp;issue_tags=">a big pile of known &ldquo;major&rdquo; issues</a> that have been deferred until after 8.0.0, which should impact your decision. You can see at that link that some of them are already ready to be committed. The catch is that during the RC phase, we aren&rsquo;t allowed to commit these fixes. <a href="https://www.drupal.org/core/d8-allowed-changes#rc">We&rsquo;re basically only allowed to work on criticals and documentation</a>. So there are still some serious issues that might be a problem in some use cases.</p>
+
+<p>The biggest issue (that I know of) is <a href="https://www.drupal.org/node/2542868">a potential incompatibility between Drupal 8&rsquo;s new &ldquo;cache tags&rdquo; header and some hosting providers</a>. The problem is that Drupal includes some important caching information on the &ldquo;back of the envelope&rdquo; of its response to a page request, and it&rsquo;s possible to run out of envelope! If the cache tags header gets too long for the web host to handle, it can behave unpredictably. You might get white screens of death, or it might just shorten the cache tags header, removing important information. There&rsquo;s a solution in the works to allow a maximum length setting, but it won&rsquo;t make it in until 8.0.1 (two weeks after 8.0.0). In the meantime you should avoid D8 if you have any very complex pages with many elements. The examples in that ticket are good ones: a news site with very complex layouts, or a single page site with a lot of &ldquo;stuff&rdquo; crammed onto the one, front page.</p>
+
+<p>The other &ldquo;gotcha&rdquo; to bear in mind is that it will take some time for Drupal&rsquo;s contributed modules ecosystem to catch up with the new version. According to <a href="http://www.bluespark.com/status-top-100-contributed-modules-drupal-8">Bluespark&rsquo;s status of the top 100 modules for D8</a> page, so far only 9 of the top 100 D7 modules have a D8 release marked &ldquo;stable.&rdquo; 19 of those top 100 modules are included in D8 core however, so our total count is up to 28. This is enough to give a good foundation for relatively simple sites, especially if you have some PHP skills under your belt. But I wouldn&rsquo;t go building a complex Intranet on it just yet!</p>
+
+<h2>Wait, so it&rsquo;s still busted?</h2>
+
+<p>No! Drupal 8 is a solid platform for most use cases &ndash; that&rsquo;s the point of the RC release! It&rsquo;s time to go ahead and use it for site builds. Just take it easy and use it for simple sites, first. Give the rest of the community a chance to release stable modules, and hold off on that Facebook-buster behemoth website you&rsquo;ve got planned until a few months after launch.</p>
+
+<h2>What happens after 8.0.0?</h2>
+
+<p>After 8.0.0 is released, we will make an enormous, fundamental shift in how Drupal is developed. We will start using <a href="http://semver.org">semantic versioning</a> with a regular release schedule. Every two weeks we&rsquo;ll release a new &ldquo;patch level&#8217; release: 8.0.1, 8.0.2, and so on. Patch level releases will be bug fixes only, and will be backwards-compatible &ndash; that means they won&rsquo;t break anything on your site. Approximately every 6 months, we&rsquo;ll release a new &#8220;minor level&rdquo; release: 8.1.0, 8.2.0, etc. Minor releases are allowed to contain new features, but they are still guaranteed to be backwards-compatible. So even these releases won&rsquo;t break anything on your site. We&rsquo;re still <a href="">figuring out</a> the exact process for minor releases, but they will include similar phases to what we&rsquo;ve seen with D8 core: a beta phase, and release candidates until we&rsquo;re sure there are no more criticals.</p>
+
+<p>What about API changes, and features that would break existing sites? We won&rsquo;t even start developing on those until well into the D8 life cycle. Those changes will belong in the 9.x branch, and will be kept completely separate from anything that could touch your site.</p>
+
+<p>The key take-away here is that D8 updates should never break your site. They may add features, but they will not interfere with whatever you&rsquo;ve already built. We&rsquo;ll continue a regular pace of improving the product in a predictable, scheduled, and backwards-compatible way.</p>
+
+<h2>Where are the best Drupal 8 release parties?</h2>
+
+<p>The Drupal Association is coordinating promotion for official Drupal 8 launch parties. If you want to host one, just <a href="https://assoc.drupal.org/drupal-8-launch-party">fill out their form</a> and they&rsquo;ll help you promote it! So far no one has built a site mapping the parties, but keep an eye out in the #drupal hashtag on twitter!</p>
+
+<h2>Who do I congratulate? Who do I thank?</h2>
+
+<p>Drupal 8 RC 1 is the combined effort of more than 3200 contributors. That is an incredible number. By comparison, Apache, the world&rsquo;s most popular open source webserver, has 118 contributors. MySQL, the database platform which runs an enormous portion of the Internet, has 1320 contributors. So you can basically walk up to anyone at a Drupalcon and thank him or her!</p>
+
+<p>Most of the contributors to Drupal 8 leaned on the support, training, and hand-holding of mentors at Drupal events all over the world. I know I needed a mentor for my first core contributions, and I got to turn around and mentor other people myself. The mentors are the support network that made this level of mass contribution possible.</p>
+
+<p>But the level of effort is definitely not evenly distributed. Most contributors have made fewer than 20 registered contributions. <a href="https://drupal.org/u/dawehner">But</a> <a href="https://drupal.org/u/tim.plunkett">some</a> <a href="https://drupal.org/u/berdir">people</a> <a href="https://drupal.org/u/alexpott">have</a> <a href="https://drupal.org/u/wim-leers">really</a> <a href="https://drupal.org/u/sun">gone</a> <a href="https://drupal.org/u/damiankloip">above</a> <a href="https://drupal.org/u/xjm">and</a> <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">beyond</a> <a href="https://drupal.org/u/larowlan">what</a> <a href="https://drupal.org/u/chx">anyone</a> <a href="https://drupal.org/u/andypost">would</a> <a href="https://drupal.org/u/ameteescu">expect</a>. <a href="https://drupal.org/u/jhodgdon">It&rsquo;s</a> <a href="https://drupal.org/u/yched">no</a> <a href="https://drupal.org/u/joelpittet">exaggeration</a> <a href="https://drupal.org/u/effulgentsia">to</a> <a href="https://drupal.org/u/yesct">say</a> <a href="https://drupal.org/u/swentel">that</a> <a href="https://drupal.org/u/cottser">these</a> <a href="https://drupal.org/u/nod_">people</a> <a href="https://drupal.org/u/vijaycs85">have</a> <a href="https://drupal.org/u/pwolanin">shaped</a> <a href="https://drupal.org/u/aspilicious">the</a> <a href="https://drupal.org/u/tstoeckler">future</a> <a href="https://drupal.org/u/xano">of</a> <a href="https://drupal.org/u/plach">the</a> <a href="https://drupal.org/u/lewisnyman">Internet</a>.</p>
+
+<p>It is easy to concentrate on the number of contributions as the only metric of involvement in the release of D8. But some of the biggest influences on Drupal 8 have been community leaders, whose effort is not counted in commits under their own names. The initiative leads who architected and directed all this contribution: <a href="https://drupal.org/u/heyrocker">heyrocker</a>, <a href="https://drupal.org/u/Senpai">Senpai</a>, <a href="https://drupal.org/u/jlambert">jlambert</a>, <a href="https://drupal.org/u/Crell">Crell</a>, <a href="https://drupal.org/u/dmitrig01">dmitrig01</a>, <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">Gábor Hojtsy</a>, <a href="https://drupal.org/u/jose-reyero">Jose Reyero</a>, <a href="https://drupal.org/u/mitchell">mitchell</a>, <a href="https://drupal.org/u/jenlampton">jenlampton</a>, <a href="https://drupal.org/u/bleen18">bleen18</a>, <a href="https://drupal.org/u/jackalope">jackalope</a>, <a href="https://drupal.org/u/ericduran">ericduran</a>, <a href="https://drupal.org/u/jhood">jhood</a>, <a href="https://drupal.org/u/jacine">jacine</a>, <a href="https://drupal.org/u/shyamala">shyamala</a>, <a href="https://drupal.org/u/rupl">rupl</a>, <a href="https://drupal.org/u/johnalbin">JohnAlbin</a>, <a href="https://drupal.org/u/twom">twom</a>, and <a href="https://drupal.org/u/sofiya">sofiya</a>. Without them, we would have had nothing to commit!</p>
+
+<p>Listing all of those names brings to mind the platform that they all use to contribute and coordinate: <a href="https://drupal.org">drupal.org</a>, maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. It also brings to mind the events, like Drupalcon, Drupalcamps, Dev Days, which everyone attends to collaborate, teach, and learn; also maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. Not to mention the Drupal 8 Accelerate program, which raised $250,000 towards developer grants; also created and maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. The people at the Association have worked tirelessly to support this release.</p>
+
+<p>All of this developer time is extremely valuable, and not all of it came out of the developers&#8217; own free time. Huge swaths of Drupal 8 development have been sponsored by the companies that participate in the community. We&rsquo;ve only been tracking their contributions for a short time, but the information we have is powerful. This release would not have happened without the developer time donated by companies like <a href="https://acquia.com">Acquia</a>, <a href="http://www.md-systems.ch">MD Systems</a>, <a href="http://www.chapterthree.com">Chapter Three</a>, <a href="http://tag1consulting.com">Tag1</a>, and <a href="http://druid.fi">Druid</a>. A quick glance at <a href="https://www.drupal.org/drupal-services">Drupal.org&rsquo;s Drupal Services page</a> shows us that contribution is a normal part of the culture for the biggest Drupal companies. These were the top 5, but almost every major Drupal shop has contributed in some measure. Thank you to these companies for believing in our product and supporting it so generously.</p>
+
+<p>Finally, the people who bear the greatest personal responsibility are definitely the core maintainers. These people don&rsquo;t just deserve your thanks; they deserve lifetime supplies of free beer sent to their homes. I can&rsquo;t offer that on a blog; all I can say is THANK YOU.</p>
+
+<p><a href="https://drupal.org/u/effulgentsia">Alex Bronstein</a></p>
+
+<p><a href="https://drupal.org/u/dries">Dries Buytaert</a></p>
+
+<p><a href="https://drupal.org/u/webchick">Angie &ldquo;webchick&rdquo; Byron</a></p>
+
+<p><a href="https://drupal.org/u/catch">Nat Catchpole</a></p>
+
+<p><a href="https://drupal.org/u/xjm">Jess Myrbo</a></p>
+
+<p><a href="https://drupal.org/u/alexpott">Alex Pott</a></p>
+
+<p>To everyone who contributed, but especially the people I&rsquo;ve listed here: You&rsquo;ve made a new generation of Internet innovation possible. Thank you.</p>
+</div>
   
-  <footer>
-    <a rel="full-article" href="/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">El Capitain Broke My Developer Stuff! Here&#8217;s How to Fix It</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-10-01T12:44:42+02:00" pubdate data-updated="true">Oct 1<span>st</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>Last night I installed OSX’s new “El Capitain” update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
-
-<h2>1) Disable System Integrity Protection</h2>
-
-<p><a href="https://en.wikipedia.org/wiki/System_Integrity_Protection">System Integrity Protection</a> is a new feature of OSX, also called “rootless.” As the nickname suggests, it creates another level of access above your root account. The nerfed root account can’t modify anything in a (broad) list of system files, folders, or processes. This makes sense for most users, who blindly enter their sudo password for any installer that asks. It is not so good for developers, who regularly use these folders. Homebrew is one application that expects access to <em>/usr/local</em>, a protected folder. Other applications that are busted by SIP are OSXFuse, MacGPG, Git… the lis&#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">Read on &rarr;</a>
-  </footer>
 
 
     </article>
@@ -544,16 +991,16 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 <aside class="sidebar">
   
     <section>
-<h1>About</h1>
-<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
-
-<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
-
-<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+  <h1>About Me</h1>
+  <p>A little something about me.</p>
 </section>
 <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Six Months Between the Cracks of Decoupled Drupal</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
@@ -569,10 +1016,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
     
       <li class="post">
         <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/07/29/moving-to-amazee-labs/">Moving to Amazee Labs</a>
       </li>
     
   </ul>
@@ -622,7 +1065,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2016 - Campbell Vertesi (ohthehugemanatee) -
+  Copyright &copy; 2017 - Campbell Vertesi (ohthehugemanatee) -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
