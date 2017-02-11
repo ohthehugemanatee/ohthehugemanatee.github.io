@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, &hellip;">
+  <meta name="description" content="Last night I installed OSX’s new “El Capitain” update, and it broke most of the tools I use in my daily life as a developer, including homebrew and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,13 +22,15 @@
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
-<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
 
   
   <script type="text/javascript">
@@ -48,10 +50,11 @@
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">Oh The Huge Manatee</a></h1>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
   
     <h2>Drupal, Sysadminning, and Tech.</h2>
   
+</div>
 </hgroup>
 
 </header>
@@ -62,12 +65,13 @@
   
 <form action="https://www.duckduckgo.com/" method="get">
   <fieldset role="search">
-    <input type="hidden" name="q" value="site:ohthehugemanatee.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
   </fieldset>
 </form>
   
 <ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
   <li><a href="/">Blog</a></li>
   <li><a href="/blog/archives">Archives</a></li>
 </ul>
@@ -106,119 +110,17 @@
   </header>
 
 
-  <div class="entry-content"><p>Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
+  
+  
+  <div class="entry-content"><p>Last night I installed OSX’s new “El Capitain” update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
 
 <h2>1) Disable System Integrity Protection</h2>
 
-<p><a href="https://en.wikipedia.org/wiki/System_Integrity_Protection">System Integrity Protection</a> is a new feature of OSX, also called &ldquo;rootless.&rdquo; As the nickname suggests, it creates another level of access above your root account. The nerfed root account can&rsquo;t modify anything in a (broad) list of system files, folders, or processes. This makes sense for most users, who blindly enter their sudo password for any installer that asks. It is not so good for developers, who regularly use these folders. Homebrew is one application that expects access to <em>/usr/local</em>, a protected folder. Other applications that are busted by SIP are OSXFuse, MacGPG, Git&hellip; the list goes on. So step one is to disable SIP.</p>
-
-<ul>
-<li>Reboot into recovery mode (hold Command+R on reboot)</li>
-<li>Access the Terminal from the dropdown menus.</li>
-<li>Run <code>csrutil disable</code></li>
-<li>Reboot back into OSX</li>
-</ul>
-
-
-<p>Congratulations, your root account is un-nerfed. If you use OSXFuse, a VPN, or anything else that relies on unsigned KEXTs, you&rsquo;ll have to keep this disabled.</p>
-
-<h2>2) Fix permissions on /usr/local</h2>
-
-<p>Open the terminal and run:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chflags norestricted /usr/local <span class="o">&amp;&amp;</span> sudo chown <span class="k">$(</span>whoami<span class="k">)</span>:admin /usr/local <span class="o">&amp;&amp;</span> sudo chown -R <span class="k">$(</span>whoami<span class="k">)</span>:admin /usr/local
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This fixes the permissions to what homebrew and other applications expect: you own the directory and all its contents. It also changes the flags for SIP, to allow future modifications if you choose to re-enable it.</p>
-
-<h2>3) Fix developer tools</h2>
-
-<p>I also found that every time I tried to run&hellip;. well almost anything, I would get errors like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>Stashing your changes:
-</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>Error: Failure <span class="k">while </span>executing: git stash save --include-untracked --quiet
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To fix this, you have to re-install Xcode developer tools, like so:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcode-select --install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It took 5 minutes to download and install on my system.</p>
-
-<h2>4) Fix homebrew</h2>
-
-<p>To make sure your homebrew install is working again:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#$ brew update</span>
-</span><span class='line'><span class="c">#$ brew doctor</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Follow any instructions the good doctor gives you! Here&rsquo;s what I did:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew link ppl011
-</span><span class='line'>brew install libxml2 onigurama
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Those were probably more to do with how badly I maintain my own homebrew cellar than anything else, but if the doctor gives you instructions, follow them!</p>
-
-<p>Finally, update your brew-installed applications &ndash; many of them have updates for El Capitain.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>5) Fix git</h2>
-
-<p>You&rsquo;re not using the outdated version of git that comes with Xcode developer tools(2.3.8), are you? No, you&rsquo;re using the current release (2.5.3), <a href="http://git-scm.com/download/mac">downloaded from git-scm.com</a>. Whether you had it previously installed, or just installed it now, it lives in /usr/local/git . But the system will still default to using the old Xcode version. Here&rsquo;s how to fix that:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#$ git --version</span>
-</span><span class='line'>git version 2.3.8 <span class="o">(</span>Apple Git-58<span class="o">)</span>
-</span><span class='line'><span class="c">#$ sudo mv /usr/bin/git /usr/bin/git.xcode</span>
-</span><span class='line'>Password:
-</span><span class='line'><span class="c">#$ sudo ln -s /usr/local/git/bin/git /usr/bin/git</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>6) Re-install GPGTools</h2>
-
-<p>The GPGTools team have done a great job of handling the known incompatibility between GPGMAil and El Capitain&rsquo;s version of the Mail application&hellip; but I still had trouble with the other parts of the suite (which I actually use). I found it easiest to just <a href="https://gpgtools.org">download and re-install</a>.</p>
-
-<h2>7) Optional, but recommended: tell me about good Linux laptops</h2>
-
-<p>I understand how SIP is helpful for normal consumers, but developers are not normal consumers. This step by Apple crosses my comfort barrier, so I&rsquo;m officially interested in a linux laptop for the first time in years. I have a while to decide, but if you know of a Linux laptop that can compete with my Macbook Air in terms of convenience, sexiness, and reliability, please post about it in the comments.</p>
-
-<p>That&rsquo;s everything I had to do to get my system back in working order&hellip; for now. I&rsquo;ll update this post if I find more steps!</p>
-</div>
+<p><a href="https://en.wikipedia.org/wiki/System_Integrity_Protection">System Integrity Protection</a> is a new feature of OSX, also called “rootless.” As the nickname suggests, it creates another level of access above your root account. The nerfed root account can’t modify anything in a (broad) list of system files, folders, or processes. This makes sense for most users, who blindly enter their sudo password for any installer that asks. It is not so good for developers, who regularly use these folders. Homebrew is one application that expects access to <em>/usr/local</em>, a protected folder. Other applications that are busted by SIP are OSXFuse, MacGPG, Git… the lis&#8230;</p></div>
   
-  
+  <footer>
+    <a rel="full-article" href="/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -251,22 +153,17 @@
   </header>
 
 
-  <div class="entry-content"><p>Everyone is excited these days about the <a href="https://500ish.com/the-9-bullet-points-of-doom-for-espn-a692d0f48182">death of ESPN</a>, particularly as evidence of the <a href="http://www.thefiscaltimes.com/2015/03/12/Long-Slow-Death-Cable-Just-Reached-Tipping-Point">death of &ldquo;bundle priced&rdquo; Cable TV</a>. Consumers are supposed to be excited that soon they will only have to pay for the content they want. Don&rsquo;t get too excited yet.</p>
-
-<p>Let&rsquo;s remember the basic purpose of bundled cable TV: for content producers, cable company bundles provide an easy, single outlet for their content. It&rsquo;s &ldquo;somebody else&rdquo; who will get the content to their viewers, sell advertising, and collect payment. For consumers, bundles provide a packaged set of channels that&rsquo;s easier to manage (and price) than a bunch of individual contracts.</p>
-
-<p>Apart from whatever level of collusion exists in the TV world, the prices for bundles have reached some sort of equilibrium: basic cable TV with Internet costs about US$45, and &ldquo;channel bundles&rdquo; are $30-40 on top of that. Seems like a great savings for cord cutters, AND they only have to get the content they want, right?</p>
-
-<p>Maybe not. A cord cutter still pays $35/mo for basic Internet. They pay $9/mo for an annual Netflix subscription, but not everything is available on Netflix. The TV and Movie industry use their copyright stranglehold to limit a lot of high demand content to Hulu, for $8/mo. And since the cord-cutter demographic is also the prime demo for Game of Thrones, there&rsquo;s HBO Now for $15/mo. Turns out that if you want to get access to the same content you got in your cable bundle, you&rsquo;re looking at $67/mo, or $71/mo if you include Amazon Prime. And what happens when ESPN opens their live streaming channel?</p>
-
-<p>What happened to our cord-cutter savings? Suddenly it looks like you&rsquo;re paying the same amount of money, just to different people &ndash; plus, you&rsquo;re stuck with the administrative pain of keeping track of what shows are available on which service, and making sure you&rsquo;re subscribed. Of course, the number of services is still growing, so this part of the cost is only going up.</p>
-
-<p>I have a great business idea: I&rsquo;ll handle all the subscriptions for you, and you just pay me one monthly fee. $90 per month, and you can have Internet access with Netflix, Hulu, HBO, and Amazon all together. You get the simplicity of knowing you&rsquo;re subscribed to all the most popular services, without having to track every one or handle the payments. I call it &ldquo;bundling&rdquo;. See what I did there?</p>
-
-<p>There is a market niche for bundled services in any multi-channel environment. It sure seems like cable is dead, and bundle pricing with it. But the truth is it&rsquo;s just in transition. We&rsquo;ll still pay basically the same amount, for the same things we did before; we just get a new delivery mechanism.</p>
-</div>
   
   
+  <div class="entry-content"><p>Everyone is excited these days about the <a href="https://500ish.com/the-9-bullet-points-of-doom-for-espn-a692d0f48182">death of ESPN</a>, particularly as evidence of the <a href="http://www.thefiscaltimes.com/2015/03/12/Long-Slow-Death-Cable-Just-Reached-Tipping-Point">death of “bundle priced” Cable TV</a>. Consumers are supposed to be excited that soon they will only have to pay for the content they want. Don’t get too excited yet.</p>
+
+<p>Let’s remember the basic purpose of bundled cable TV: for content producers, cable company bundles provide an easy, single outlet for their content. It’s “somebody else” who will get the content to their viewers, sell advertising, and collect payment. For consumers, bundles provide a packaged set of channels that’s easier to manage (and price) than a bunch of individual contracts.</p>
+
+<p>Apart from whatever level of collusion exists in the TV world, the prices for bundles have reached some sort of equilibrium: basic cable TV with Internet costs a&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2015/07/17/meet-the-new-bundled-tv-pricing/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -299,20 +196,15 @@
   </header>
 
 
+  
+  
   <div class="entry-content"><p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
 
-<p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: &ldquo;I don&rsquo;t know PHP. I&rsquo;m a Drupal developer.&rdquo; On the other side, our platform&rsquo;s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code. The more Drupal built up its&#8217; separate API and library of unique concepts like hooks and theme functions, the further we separated from everyone else in our programming language. This movement wasn&rsquo;t unique to Drupal; as a group PHP developers were building on many, very different frameworks. The PHP World conference was a segregated affair; projects like Zend, PHPBB, and Wordpress kept to themselves.</p>
-
-<p>This changed in 2010. Facebook had invested tremendous resources into their own brand of PHP, &ldquo;HipHop&rdquo;, and in many ways sparked a wave of renewed interest in the language. The PHP community spawned the Framework Interoperability Group (FIG), an initiative dedicated to standardized practices in PHP that could bring the various frameworks together. Drupal 8 was designed to align with the FIG goals, using current practices and components like Composer, PSR-4 namespacing, and dependency injection. Large parts of Drupal&rsquo;s core functionality are provided by Symfony components; the system is now a recognizable contemporary PHP project. In the FIG era, PHP developers are rediscovering the enterprise class CMS in their midst.</p>
-
-<p>I was surprised to learn about Drupal&rsquo;s poor reputation among the more hardcore PHP developers. Many of them had had a bad experience with Drupal 5 or 6, and never looked back. Some had tried Drupal 7, and were bewildered by the slew of Drupal-specific concepts and structures they needed to learn for even the simplest modifications. Many people I spoke with thought of Drupal as a pile of procedural code, packed with confusing work-arounds and anachronisms that made it not worth adopting. Few had heard of Drupal 8&rsquo;s move to contemporary, object-oriented coding practices. Many were dismissive of even the concept of an application framework like ours.</p>
-
-<p>At the same time, the developers at this conference were just as fun and happy to help each other as at the best Drupal events. I learned a tremendous amount about working with Drupal&rsquo;s new object-oriented tool kit, and grew a lot as a programmer. Once I explained the differences with Drupal 8, most people were curious to see just how it worked. And just like at my favorite Drupal events, even the most well-known developers were interested to help. I complained about my frustrations with the PHPUnit testing suite, and was introduced to the original author and maintainer. I had a question about the relative performance of PHP 5.6, 7, and HHVM, and got to talk about it with the release manager for the whole PHP project. This kind of openness and interest in collaboration convinced me more than anything else, that Drupal should integrate more with the mainstream PHP.</p>
-
-<p>Drupal 8 RC1 is just around the corner, and Drupal developers all over the world are learning the new programming concepts that have reshaped our product. It is time for us to break out of our insular community, and learn from the rest of the PHP world. They&rsquo;re friendly, they have a lot to teach us &ndash; and they can help take Drupal as a project to the next level.</p>
-</div>
+<p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: “I don’t know PHP. I’m a Drupal developer.” On the other side, our platform’s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code&#8230;</p></div>
   
-  
+  <footer>
+    <a rel="full-article" href="/blog/2015/06/27/dutch-php-conference-2015/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -345,71 +237,21 @@
   </header>
 
 
-  <div class="entry-content"><p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
-
-<p><img class="center" src="/images/error-505.jpg" title="&#34;Error 505&#34;" alt="&#34;Error 505&#34;"></p>
-
-<p>This error message means precisely nothing. It means &ldquo;something went wrong during installation, and we&rsquo;re not telling you what.&rdquo; This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
-
-<p>Your device is not going to give you more information on its own. Instead, you need to install ADB, the &ldquo;Android Debug Bridge&rdquo; which lets you type commands directly to your Android device over a USB connection. It&rsquo;s not hard to install, so <a href="https://duckduckgo.com/?q=how+to+install+adb">go and set that up now</a>.</p>
-
-<p>Next, you will have to make sure your Android device permits you to use ADB. On the phone, go to Settings > About Phone, and scroll down to where you see &ldquo;Build Number&rdquo; listed. Tap on &ldquo;Build Number&rdquo; until you see a popup telling you that you are now a &ldquo;developer&rdquo;. Then go back to Settings, and tap on the new &ldquo;Developer Options&rdquo; menu item near the bottom. Enable the &ldquo;USB Debugging&rdquo; option there.</p>
-
-<p>Now plug your phone into your computer via USB, and open up your Terminal. Windows users, use the Console &ndash; it&rsquo;s the same thing. First, we&rsquo;ll see if our Android device is even visible to ADB.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb devices
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You should see a list of devices attached, with (probably) only one listing. If not, check to make sure that your phone is really in USB Debugging mode.</p>
-
-<p>Now, we&rsquo;re going to try to install that same troublesome application over ADB. In order to do this, you&rsquo;ll have to download the application&rsquo;s installer (APK) file on your computer. Google makes this hard to do directly, you&rsquo;ll have to use a <a href="http://apps.evozi.com/apk-downloader/">third-party website</a> or a <a href="https://addons.mozilla.org/en-us/firefox/addon/apk-downloader/?src=search">browser extension</a> to find your download link. Download that APK file and save it somewhere safe on your computer. Remember the path to that file! I saved mine in <em>~/Downloads</em>.</p>
-
-<p>With that APK file in hand, let&rsquo;s try installing your application over ADB. My problematic app was the Deutsche Bahn Navigator app, but obviously you should substitute the filename to your APK here.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb install ~/Downloads/de.hafas.android.db.apk
-</span><span class='line'>5051 KB/s <span class="o">(</span>5991578 bytes in 1.158s<span class="o">)</span>
-</span><span class='line'>  pkg: /data/local/tmp/de.hafas.android.db.apk
-</span><span class='line'>Failure <span class="o">[</span>INSTALL_FAILED_DUPLICATE_PERMISSION <span class="nv">perm</span><span class="o">=</span>de.dbnavigator.permission.list <span class="nv">pkg</span><span class="o">=</span>de.bahn.dbtickets<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Full disclosure: that is not the exact permission and package I had, I foolishly closed the terminal window before recording it. But the error and the format are correct, which is what&rsquo;s important here.)</p>
-
-<p>NOW we have something to work with! We get an error message, and some information that might explain what&rsquo;s going on. In this case, the installation failed because of a duplicate permission, whatever that means. But it tells me the name of the permission, and &ndash; even better &ndash; the package that controls it. Notice that com.dbtickets is not the application I was trying to install. It&rsquo;s something else, a separate app I had, called &ldquo;DB Tickets&rdquo;. This tells me that if I uninstall that other application, it should solve this problem. You can do that from ADB as well:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb uninstall de.bahn.dbtickets
-</span><span class='line'>Success
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now I can try installing the original app again, and it should work. I can do that from the Play Store application, or directly from ADB with the command we tried above. At this point, I&rsquo;m way more likely to try it through ADB just to make sure I get an error message if it breaks!</p>
-
-<p>You can follow this process to get further information about any error -505 you may receive. You can do all sorts of things through ADB to resolve this kind of problem. Check the <a href="https://developer.android.com/tools/help/adb.html#commandsummary">complete list of commands</a> for more information.</p>
-
-<h2>Postlude</h2>
-
-<p>This experience pointed out two large Ux failures on the part of Google:</p>
-
-<p>First, is one of the most frustrating Ux concepts out there, which I call: &ldquo;never present the user with useful information.&rdquo; I understand that 99% of the time, users do not want or need to see technical information about what&rsquo;s going on. Even <em>I</em> want my systems to seem like they &ldquo;just work.&rdquo; But the 1% of the time when we DO want technical information, is in our error messages. The sensible Ux policy to adopt here, is &ldquo;make every error message easy to google for more information&rdquo;.</p>
-
-<p>Second, enabling developer mode. Here are the official instructions:</p>
-
-<blockquote><p>&hellip;go to Settings > About phone and tap Build number seven times. Return to the previous screen to find Developer options at the bottom.</p></blockquote>
-
-<p>&hellip; what? This is 2015. You don&rsquo;t have to hide your &ldquo;Developer mode&rdquo; behind some obscure Easter Egg behavior. I don&rsquo;t know if it&rsquo;s standard, but on my phone you&rsquo;re asked right at the start what level of settings you want to see: simple or advanced. Adding a third level for &ldquo;developer&rdquo; would make a lot more sense.</p>
-
-<p>But hey, at least we can always get what we want from the terminal.</p>
-</div>
   
   
+  <div class="entry-content"><p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google’s Play Store downloads the app successfully, then presents me with “Unknown Error -505”.</p>
+
+<p><img class="center" src="/images/error-505.jpg" title='"Error 505"' alt='"Error 505"'></p>
+
+<p>This error message means precisely nothing. It means “something went wrong during installation, and we’re not telling you what.” This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
+
+<p>Your device is not going to give you more information on its own. Instead, you need to install ADB, the “Android Debug Bridge” which lets you type commands directly to your Android device over a USB connection. It’s not hard to install, so <a href="https://duckduckgo.com/?q=how+to+install+adb">go and set that up now</a>.</p>
+
+<p>Next, you will have to make sure your Android device permits you to use ADB. On the phone, go to Settings &gt; About Phone, and scroll down to where you see “Build Number” listed. Tap on “Build Number” until you see a popup telling you that you are now a “developer”. Then go back to Settings, and tap on the new “Developer Opt&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -442,361 +284,15 @@
   </header>
 
 
+  
+  
   <div class="entry-content"><p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
 
-<p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of &ldquo;source&rdquo;, &ldquo;destination&rdquo;, and &ldquo;migration&rdquo; classes so that even the most convoluted migration is 90% written for you. To create a migration in Drupal 7, you create a custom module, declare your migrations in a hook_info, and then extend the built in &ldquo;migration&rdquo; class. You instantiate one of the given classes for the source material (is it a CSV? JSON? Direct connection to a custom DB?), then one of the classes for the destination (is it a content type? Taxonomy term?). Then you add one simple line of code mapping each field from source to destination. If you know what you&rsquo;re doing, the task I had in mind shouldn&rsquo;t take more than 15 minutes per source.</p>
-
-<p>It&rsquo;s not quite so easy in Drupal 8. First of all, with Migrate in core, we had to greatly simplify the goals for the module. The version of Migrate that is really functional and stable is specifically and <em>only</em> the basic framework. There is a separate migrate_drupal module to provide everything you need for migrating from Drupal 6 or 7. This has been a laser-tight focus on just the essentials, which means there&rsquo;s no UI, very little drush support, and definitely no nice extras like the ability to read non-Drupal sources.</p>
-
-<p>My task this week became to write the first CSV source for Drupal 8 Migrate.</p>
-
-<h1>Drupal 8 Migrate Overview</h1>
-
-<p>Drupal 8 Migrations, when you&rsquo;re using classes that already exist, are actually even easier than Migrate 7. All you do is write a single YAML file for each kind of data you&rsquo;re transferring, and put it in a custom module&rsquo;s <em>config/install</em> directory. Your YAML file gives your migration a name and a group, tells us what the source is for data, maps source fields to destination fields, and tells us what the destination objects are. Here&rsquo;s an example Migration definition file from core. See if you can understand what&rsquo;s being migrated here.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">d6_system_site</span>
-</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Drupal 6 site configuration</span>
-</span><span class='line'><span class="l-Scalar-Plain">migration_groups</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Drupal 6</span>
-</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">variable</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">variables</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_name</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_mail</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_slogan</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_frontpage</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_403</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_404</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">drupal_weight_select_max</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">admin_compact_mode</span>
-</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_name</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">mail</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_mail</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">slogan</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_slogan</span>
-</span><span class='line'>  <span class="s">&#39;page/front&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_frontpage</span>
-</span><span class='line'>  <span class="s">&#39;page/403&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_403</span>
-</span><span class='line'>  <span class="s">&#39;page/404&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_404</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">weight_select_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">drupal_weight_select_max</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">admin_compact_mode</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">admin_compact_mode</span>
-</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">config</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">config_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">system.site</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You probably figured it out: this migration takes the system settings (variables) from a Drupal 6 site, and puts them into the Drupal 7 configuration. Not terribly hard, right? You can even do data transformations from the source field value to the destination.</p>
-
-<p>Unfortunately, the only sources we have so far are for Drupal 6 and 7 sites, pulling directly from the database. If you want to use Migrate 8 the way we used Migrate 7, as an easy way to pull in data from arbitrary sources, you&rsquo;ll have to contribute.</p>
-
-<h1>Writing a source plugin in Migrate_plus</h1>
-
-<p>Enter <a href="https://www.drupal.org/sandbox/mikeryan/migrate_plus">Migrate Plus module</a>. This is the place in contrib, where we can fill out all the rest of the behavior we want from Migrate, that&rsquo;s not necessarily a core requirement. This is where we&rsquo;ll be writing our source plugin.</p>
-
-<p>To add a source plugin, just create a .php file in migrate_plus/src/Plugins/migrate/source . Drupal will discover the new plugin automatically the next time you rebuild the cache. The filename has to be the same as the name of the class, so choose carefully! My file is called CSV.php . Here&rsquo;s the top of the file you need for a basic :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * @file</span>
-</span><span class='line'><span class="sd"> * Contains \Drupal\migrate_plus\Plugin\migrate\source\csv.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">namespace</span> <span class="nx">Drupal\migrate_plus\Plugin\migrate\source</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">use</span> <span class="nx">Drupal\migrate\Plugin\migrate\source\SourcePluginBase</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Source for CSV files.</span>
-</span><span class='line'><span class="sd"> *</span>
-</span><span class='line'><span class="sd"> * @MigrateSource(</span>
-</span><span class='line'><span class="sd"> *   id = &quot;csv&quot;</span>
-</span><span class='line'><span class="sd"> * )</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">CSV</span> <span class="k">extends</span> <span class="nx">SourcePluginBase</span> <span class="p">{</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;m calling this out separately because for newbies to Drupal 8, this is the hard part. This is all the information that Drupal needs to be able to find your class when it needs it. The @file comment is important. That and the namespace below have to match the actual location of the .php file.</p>
-
-<p>Then you declare any other classes that you need, with their full namespace. To start with all you need is SourcePluginBase.</p>
-
-<p>Finally you have to annotate the class with that @MigrateSource(id=&ldquo;csv&rdquo;). This is how Migrate module knows that this is a MigrateSource, and the name of your Plugin. Don&rsquo;t miss it!</p>
-
-<p>Inside the class, you must have the following methods. I&rsquo;ll explain a bit more about each afterwards.</p>
-
-<ul>
-<li>initializeIterator() : Should return a valid Iterator object.</li>
-<li>getIds() : Should return an array that defines the unique identifiers of your data source.</li>
-<li>__toString() : Should return a simple, string representation of the source.</li>
-<li>fields() : Should return a definitive list of fields in the source.</li>
-<li>__construct() : You don&rsquo;t NEED this method, but you probably will end up using it.</li>
-</ul>
-
-
-<h2>initializeIterator()</h2>
-
-<p>An Iterator is a complicated sounding word for an Object that contains everything you need to read from a data source, and go through it one line at a time. Maybe you&rsquo;re used to fopen(&lsquo;path/to/file&rsquo;, &lsquo;r&rsquo;) to open a file, and then you write code for every possible operation with that file. An iterator takes care of all that for you. In the case of most file-based sources, you can just use the SplFileObject class that comes with PHP.</p>
-
-<p>Any arguments that were passed in the source: section of the YAML file will be available under $this->configuration. So if my YAML looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">csv</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="s">&#39;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>My initializeIterator( ) method can look like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">initializeIterator</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// File handler using our custom header-rows-respecting extension of SPLFileObject.</span>
-</span><span class='line'>  <span class="nv">$file</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplFileObject</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]);</span>
-</span><span class='line'>  <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">setFlags</span><span class="p">(</span><span class="nx">SplFileObject</span><span class="o">::</span><span class="na">READ_CSV</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$file</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Not too complicated, right? This method is called right at the beginning of the migration, the first time Migrate wants to get any information out of your source. The iterator will be stored in $this->iterator.</p>
-
-<h2>getIds()</h2>
-
-<p>This method should return an array of all the unique keys for your source. A unique key is some value that&rsquo;s unique for that row in the source material. Sometimes there&rsquo;s more than one, which is why this is an array. Each key field name is also an array, with a child &ldquo;type&rdquo; declaration. This is hard to explain in English, but easy to show in code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">getIDs</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nv">$ids</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$key</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$ids</span><span class="p">[</span><span class="nv">$key</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;string&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$ids</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We rely on the YAML author to tell us the key fields in the CSV, and we just reformat them accordingly. Type can be &lsquo;string&rsquo;, &lsquo;float&rsquo;, &lsquo;integer&rsquo;, whatever makes sense.</p>
-
-<h2>__toString()</h2>
-
-<p>This method has to return a simple string explanation of the source query. In the case of a file-based source, it makes sense to print the path to the file, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>fields()</h2>
-
-<p>This method returns an array of available fields on the source. The keys should be the machine names, the values are descriptive, human-readable names. In the case of the CSV source, we look for headers at the top of the CSV file and build the array that way.</p>
-
-<h2>__construct()</h2>
-
-<p>The constructor method is called whenever a class is instantiated. You don&rsquo;t technically HAVE to have a constructor on your source class, but you&rsquo;ll find it helpful. For the CSV source, I used the constructor to make sure we have all the configuration that we need. Then I try and set sane values for fields, based on any header in the file.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$plugin_id</span><span class="p">,</span> <span class="nv">$plugin_definition</span><span class="p">,</span> <span class="nx">MigrationInterface</span> <span class="nv">$migration</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">parent</span><span class="o">::</span><span class="na">__construct</span><span class="p">(</span><span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$plugin_id</span><span class="p">,</span> <span class="nv">$plugin_definition</span><span class="p">,</span> <span class="nv">$migration</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Path is required.</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nx">MigrateException</span><span class="p">(</span><span class="s1">&#39;You must declare the &quot;path&quot; to the source CSV file in your source settings.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Key field(s) are required</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nx">MigrateException</span><span class="p">(</span><span class="s1">&#39;You must declare the &quot;keys&quot; the source CSV file in your source settings.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Set header rows from the migrate configuration.</span>
-</span><span class='line'>  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">=</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;header_rows&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;header_rows&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Figure out what CSV columns we have.</span>
-</span><span class='line'>  <span class="c1">// One can either pass in an explicit list of column names to use, or if we have</span>
-</span><span class='line'>  <span class="c1">// a header row we can use the names from that</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">&amp;&amp;</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">csvColumns</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Skip all but the last header</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$row</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$row</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$header</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$header</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
-</span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span><span class="p">[]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nv">$header</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">elseif</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Profit!</h2>
-
-<p>That&rsquo;s it! Four simple methods, and you have a new source type for Drupal 8 Migrate. Of course, you will probably find complications that require a bit more work. For CSV, supporting a header row turned out to be a real pain. Any time Migrate tried to &ldquo;rewind&rdquo; the source back to the first line, it would try and migrate the header row! I ended up extending SplFileObject just to handle this issue.</p>
-
-<p>Here&rsquo;s the YAML file I used to test this, importing a list of states from some US Census data.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">states</span>
-</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">States</span>
-</span><span class='line'><span class="l-Scalar-Plain">migration_groups</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">US Census</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">csv</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="s">&#39;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&#39;</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">header_rows</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Id2</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Geography</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">keys</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Id2</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Geography</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">vid</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">state</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity:taxonomy_term</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can see my CSV source and Iterator in the <a href="https://www.drupal.org/node/2458003">issue queue for migrate_plus</a>. Good luck, and happy migrating!</p>
-
-<h2>Thanks</h2>
-
-<p>I learned a lot this week. Big thanks to the <a href="https://www.drupal.org/node/2127611">Migrate Documentation</a>, but especially to <a href="https://www.drupal.org/u/chx">chx</a>, <a href="https://www.drupal.org/u/mikeryan">mikeryan</a>, and the other good folks in #drupal-migrate who helped set me straight.</p>
-</div>
+<p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of “source”, “destination”, and “migration” classes so that even the most convolut&#8230;</p></div>
   
-  
+  <footer>
+    <a rel="full-article" href="/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -829,88 +325,15 @@
   </header>
 
 
-  <div class="entry-content"><p>If you have a Samsung Android phone, and you use Samsung&rsquo;s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
-
-<p>But for everyone who uses a custom ROM like <a href="http://cyanogenmod.org">Cyanogenmod</a>, <a href="http://www.paranoidandroid.co/">ParanoidAndroid</a>, or <a href="http://www.aokp.co/">AOKP</a>, sit up and pay attention: you&rsquo;re missing some key updates for your phone, and it&rsquo;s probably the reason you have trouble with cellular signal or battery life. I only learned this myself because my beloved Samsung S4 I-9505 has been having a hell of a time keeping signal lately. Over the last 6 months or so, it&rsquo;s picked up a quirk where it randomly drops the signal and starts to overheat in my pocket. Only toggling in and out of airplane mode to restart the connection solves the problem.</p>
-
-<p>Turns out that just as Android gets regular updates, there are updates to the firmware of the cellular modem inside your phone. In any other device, I would expect the firmware to remain extremely stable, and new versions of the OS to include equally stable drivers. In the mobile phone world however, when Google updates Android, manufacturers update their firmware along with it. Mostly these are incremental updates to improve stability or battery life. Over time however, if you&rsquo;re updating your OS but not your firmware, your cellular modem is getting gradually more and more out of sync with what the driver in the OS expects of it.</p>
-
-<p>In my case, I had a recent build of Cyanogenmod based on Android 4.4.4, last updated in March 2015, and a modem firmware that was based on 4.2.2, last updated in May 2013. So my phone was acting up. Maybe yours is doing the same.</p>
-
-<p>Updating your modem firmware doesn&rsquo;t touch the rest of the operating system, and it doesn&rsquo;t touch your data. It&rsquo;s always a good idea to take a backup, but this is not a high risk operation for your data. If you&rsquo;re not careful you might make your signal situation even worse, but at least your photos and contacts will be OK!</p>
-
-<p>Before I go any further, a word about vocabulary: the modem firmware can reasonably be called your &ldquo;baseband&rdquo;, and sometimes people use &ldquo;firmware update&rdquo; to refer to the combined updates to OS <em>and</em> modem firmware that get shipped out by manufacturers. I will only use &ldquo;firmware&rdquo; to describe the part that drives the modem, because that&rsquo;s what we&rsquo;re dealing with in this article. On other blog posts or forum posts people will not be so consistent, so read carefully!</p>
-
-<p>In order to update your modem firmware, The first thing to do is to find out the Android version that you&rsquo;re using on your particular ROM. On most ROMs you can find out under &ldquo;Settings&rdquo;, &ldquo;About this phone&rdquo;. Look for the line that says &ldquo;Android Version&rdquo;.</p>
-
-<p>Next, you have to find out the version of the most recent modem firmware release for your device, built for the same version of Android you&rsquo;re running. <a href="http://www.sammobile.com/devices/">SamMobile</a> has a fantastic catalog of devices with specifications and build histories for each one. Note that each carrier handles their own updates, so they package their own modem firmwares with slightly different serial numbers. There shouldn&rsquo;t be any significant difference, but check which one comes from your country and provider just in case, using their <a href="http://www.sammobile.com/firmwares/">Firmware lookup</a>. Note that if you want to download from SamMobile, you have to sign up for their download platform. I didn&rsquo;t &ndash; instead, I hunted for the right download with Google, and eventually found it on the great <a href="http://forum.xda-developers.com">xda developers</a> forum. There are a bunch of posts like <a href="http://forum.xda-developers.com/showpost.php?p=50965837">this one</a> with download links to tons of different firmwares. Make sure you look yours up, first!</p>
-
-<p>If there isn&rsquo;t a build for exactly the same version of Android that you have, it&rsquo;s OK to use one a little bit behind. <em>Do not</em> take a modem firmware build that&rsquo;s newer than your Android build. That could leave you in a situation like this;</p>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/gVx4OOcIRXg" frameborder="0" allowfullscreen></iframe>
-
-
-<p>If your phone is a GT-I9505 from T-Mobile Germany, you can shortcut this process and get the same download I did](<a href="http://forum.xda-developers.com/showthread.php?t=2192025&amp;page=503">http://forum.xda-developers.com/showthread.php?t=2192025&amp;page=503</a>). If you have any other device or are from any other region or phone company, <em>find the right firmware for your own phone</em>. Double check it, you can really mess up your phone if you do this wrong.</p>
-
-<p>The updated firmware file is a .tar file, which contains two .bin files: modem.bin for the 3g modem in your phone, and NON-HLOS.bin for the LTE modem in your phone. You&rsquo;ll need both. Apparently if you&rsquo;re on Windows you can use <a href="http://www.downloadodin.info/">Odin</a> which will let you send both those .bin files at once by choosing the combined .tar file. I&rsquo;m on a Mac so I don&rsquo;t know about that. I used the excellent, open source, cross-platform tool <a href="http://glassechidna.com.au/heimdall/">Heimdall</a>, which has a great, easy command line interface. Download and install, and unpack that .tar file somewhere convenient.</p>
-
-<p>Then get your phone into &ldquo;Download mode&rdquo;. For the Samsung Galaxy S4, this means:</p>
-
-<p>1) Power off by holding the power button.
-2) Simultaneously hold the home, volume down, and power keys until the phone comes on and asks you if you&rsquo;re SURE you want to go into Download mode. You are sure, so press volume up to continue.
-3) Plug the phone into your computer.</p>
-
-<p>Then in the Terminal, run:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>~<span class="nv">$ </span>heimdall detect
-</span><span class='line'>Device detected
-</span><span class='line'>
-</span><span class='line'>~<span class="nv">$ </span>heimdall flash --APNHLOS ~/Downloads/Modem_GNG8_FULL/NON-HLOS.bin --MDM ~/Downloads/Modem_GNG8_FULL/modem.bin
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(do not include the ~$ in your typing! It&rsquo;s just an indicator to show you what you type, and what comes back from the system)</p>
-
-<p>&ldquo;heimdall detect&rdquo; tells heimdall to find your phone attached via USB. &ldquo;heimdall flash&rdquo; tells it to blow away the LTE modem firmware you have now with the file NON-HLOS.bin, and the 3G modem firmware you have now with the file modem.bin.</p>
-
-<p>If all goes well, the phone will reset itself and boot back up normally. You can check to see that your flash worked by looking for the new serial number in your phone Settings.</p>
-
-<p>Or perhaps you&rsquo;ll find the same problem I did: something else on my computer had already &ldquo;claimed&rdquo; this phone, so Heimdall errored out with &ldquo;libusbx: error [darwin_claim_interface] USBInterfaceOpen: another process has device opened for exclusive access. ERROR: Claiming interface failed!&rdquo; If you encounter this problem, you can solve it by manually shutting down that other software:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>~<span class="nv">$ </span>sudo kextstat |grep -v apple
-</span><span class='line'>Index Refs Address            Size       Wired      Name <span class="o">(</span>Version<span class="o">)</span> &lt;Linked Against&gt;
-</span><span class='line'>  134    0 0xffffff7f80eca000 0x4000     0x4000     com.devguru.driver.SamsungComposite <span class="o">(</span>1.4.25<span class="o">)</span> &lt;38 4 3&gt;
-</span><span class='line'>  136    0 0xffffff7f80ec3000 0x3000     0x3000     com.devguru.driver.SamsungACMControl <span class="o">(</span>1.4.25<span class="o">)</span> &lt;38 4 3&gt;
-</span><span class='line'>  138    0 0xffffff7f80ead000 0xc000     0xc000     com.devguru.driver.SamsungACMData <span class="o">(</span>1.4.25<span class="o">)</span> &lt;84 38 5 4 3&gt;
-</span><span class='line'>  141    0 0xffffff7f829fa000 0x6000     0x6000     net.tunnelblick.tun <span class="o">(</span>1.0<span class="o">)</span> &lt;7 5 4 1&gt;
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note the lines that say Samsung in them. Those are the Samsung drivers that are blocking Heimdall. Now I hate Kies even <em>more</em>! We can shut them down one at a time like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>~<span class="nv">$ </span>sudo kextunload -b com.devguru.driver.SamsungComposite
-</span><span class='line'>~<span class="nv">$ </span>sudo kextunload -b com.devguru.driver.SamsungACMControl
-</span><span class='line'>~<span class="nv">$ </span>sudo kextunload -b com.devguru.driver.SamsungACMData
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then try the heimdall commands again. For my phone, I found greatly improved signal&hellip; and because it wasn&rsquo;t spinning extra cycles without signal, greatly improved battery life, too. So we know: every time you update your ROM, do a modem firmware update, too.</p>
-</div>
   
   
+  <div class="entry-content"><p>If you have a Samsung Android phone, and you use Samsung’s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
+
+<p>But for everyone who uses a custom ROM like <a href="http://cyanogenmod.org">Cyanogenmod</a>, <a href="http://www.paranoidandroid.co/">ParanoidAndroid</a>, or <a href="http://www.aokp.co/">AOKP</a>, sit up and pay attention: you’re missing some key updates for your phone, and &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -943,60 +366,18 @@
   </header>
 
 
-  <div class="entry-content"><p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
-
-
-
-
-<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project &ndash; particularly the large and complex ones like Drupal! In this case it was the result of a choice in the database abstraction layer to use emulated prepared statements. There&rsquo;s a great dissection of the whole vulnerability at <a href="http://blog.ircmaxell.com/2014/10/a-lesson-in-security.html">ircmaxell</a>, but the point here is that it was an intentional decision. We were aware of a theoretical security risk, just as we are in making lots of decisions. But theoretical risks don&rsquo;t mean much compared with real, measurable losses from the available alternatives. As I said before, this can happen to any software project, and Drupal is a relatively responsible, well written one. What&rsquo;s interesting now, is the response.</p>
-
-
-
-
-<p>First of all, I am amazed to read responses from many Drupal users who are panicked at having to run a diff of their sites, because they don&rsquo;t have appropriate tools in place. If you are developing without a VCS and automated backups, you are doing more harm than good. Just stop. Take a week to learn the basic requirements of a development environment, and start employing them. End of story.</p>
-
-
-
-
-<p>I&rsquo;m not concerned for those people &ndash; their sites were disasters waiting for an excuse anyway. What&rsquo;s frightening about this particular situation is that even if you are working with backups and a VCS, even if you patch critical security vulnerabilities on an aggressive schedule, it still wasn&rsquo;t good enough.</p>
-
-
-
-
-<p>All of my Drupal 7 sites are affected by this PSA. I work for a large, well-respected agency, with access to leading-edge workflows and tools. We follow best practices. All of my sites are secured well beyond PCI requirements. But PCI requirements say that critical security patches have to be applied within 30 days of release. Our best practices include patch review from the tech lead, and validating patches on test environments before pushing them live. With only 7 hours between patch release and exploits in the wild, there isn&rsquo;t time for any of that.</p>
-
-
-
-
-<p>I&rsquo;ve heard people complain that it&rsquo;s too difficult to update Drupal. &ldquo;drush up &mdash;security-only&rdquo; seems pretty simple to me, or at least simple enough that
- further simplification won&rsquo;t address the real problem. That&rsquo;s because the real problem isn&rsquo;t that it&rsquo;s difficult to apply updates &ndash; it&rsquo;s that a human be
-ing has to initiate them. I live in the Central European timezone, GMT+6. The patch was released at 10PM for me, and bots were exploiting it by 5AM the following morning. I went to work that day and initiated the patching process, so that my patches could be &ldquo;responsibly&rdquo; deployed to live with 24-48 hours of client validation time on my dev and staging environments. Despite being relatively on top of patches and responding relatively quickly, the fact that I&rsquo;m human, and my clients are human, meant we never stood a chance of patching this issue fast enough. Even if we skipped validation, and even if the update process was just one button (rather than two commands), we would still have failed to update in time. I find myself reminded of the Battlestar Galactica pilot, where the Cylon robots are chasing the humans. After each hyperspace jump, the humans have 33 minutes to complete the calculations for another jump before the machines catch up with them. After 130 hours and 237 jumps, it becomes apparent that the humans&#8217; need for sleep is a critical vulnerability.</p>
-
-
-
-
-<p>The only solution is automated patching. It&rsquo;s hard to figure out a workflow that allows it; indeed you&rsquo;re forced into post-hoc testing, which means engineering an easy rollback solution. The truth is that 99% of security patches will not affect any of the functionality you&rsquo;ve customized or upon which you rely, so hopefully this will be an edge case. But it&rsquo;s a problem that actually has to be addressed. Here&rsquo;s how I&rsquo;m adapting my own projects over the coming weeks:</p>
-
-
-
-
-<p>Every wednesday, every hour, my Jenkins instance runs a script which checks modules and core for each project for security updates. When an update is available, it automatically creates a branch off of Stable (my staging branch), applies the updates, and pushes the result up to the server. My git scripts already create a new subdirectory environment for every pushed branch. Once the environment is ready, Jenkins runs all available behat tests against the new branch. If all tests pass, the branch is automatically merged back into Master, Stage, and Live, and pushed. This push operation triggers a normal Jenkins deployment, which takes a backup anyway. An email is generated to the project administrator advising them which security updates were automatically applied, and linking to the relevant changefiles.</p>
-
-
-
-
-<p>I&rsquo;m excited about implementing this new layer of automation, because it builds on the best practice workflows I already like (test driven development, git flow VCS organization, automated deployment and backups&hellip;) to produce a tangible time savings and security improvement for my sites. At the same time, I can&rsquo;t say that this is something I recommend for EVERYONE, precisely because it requires such a high level of environment maintenance. When you&rsquo;re a one-person development shop, it&rsquo;s hard to afford the time to set up the perfect development environment. It&rsquo;s hard to convince those bottom-of-the-food-chain clients to pay for things like automated testing and deployment. And certainly once you have those things set up, you don&rsquo;t get paid for maintaining them!</p>
-
-
-
-
-<p>I&rsquo;m going to be keeping my eyes open for better solutions that can be applied by the &ldquo;developer on the street.&rdquo; Something relatively easy, but which allows the same kind of automated, fast response time for security patches. I&rsquo;m interested in any ideas you want to post in the comments!</p>
-
-
-
-</div>
   
   
+  <div class="entry-content"><p>Last week’s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so – it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that’s never happened to the Drupal community before, and it is extremely serious. In some way it’s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
+
+
+
+
+<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project – particularly the large and compl&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -1029,75 +410,23 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   </header>
 
 
-  <div class="entry-content"><p>Dries made <a href="http://buytaert.net/w3c-declares-html5-standard-final">an interesting post about the new HTML5 standard</a> the other day. OK, the post itself is more of an announcement, but the meat (as far as I&rsquo;m concerned) is near the end, where he says that &ldquo;The trend in development seems to be towards native mobile applications rather than mobile websites.&rdquo; He links to the excellent <a href="http://a16z.com/2014/10/28/mobile-is-eating-the-world/">Mobile is Eating the World</a> presentation by Benedict Evans as evidence.</p>
-
-
-
-
-<p>Really? Because while I agree with Evans that mobile in general is the future, I don&rsquo;t see it as evidence that mobile <em>apps</em>, specifically, are the future. In fact I believe the contrary: mobile apps are just a phase. <em>Mobile web</em> is going to eat the world, and it&rsquo;s because of the capacity for a single source to provide machine-readable, machine-reformattable content.</p>
-
-
-
-
-<p>What do I mean by machine-readable and machine-reformattable? Technologists will understand what I mean when I say &ldquo;responsive&rdquo;, and they may even understand that responsive and accessible go hand in hand. I am avoiding those terms because they are more specific than what I&rsquo;m getting at.</p>
-
-
-
-
-<p>For the uninitiated, remember that what you see in your web browser is actually an interpretation of code, and all the machines see is the code. It is possible to structure your code in a way that makes it relatively easy for a computer to understand what is the title of a page, what is the main menu, what is main content, and what is secondary. You can even include suggestions for what to do when encountering certain sizes of screen (&ldquo;responsive&rdquo; behavior), and offer a version of your content that has no layout, just the text. If you are careful, your website can be easy for a machine to read and understand. It can also be easy for browsers to reformat in a reasonable way, no matter what shape or size their screen. This is what I mean by machine-readable and machine-reformattable.</p>
-
-
-
-
-<p>There is simply so much pressure/incentive for building machine-reformattable, machine-readable content on the web, that I believe it will absolutely take over for per-platform applications.</p>
-
-
-
-
-<ul>
-<li><p>Legislated accessibility requirements for web and related content. All over the world &ldquo;section 508 compliance&rdquo; style directives are being strengthened, both legally and technologically. More big brands are sued every year for insufficiently accessible content. At the same time, never has it been so easy to make websites that meet accessibility needs. In fact, if you&rsquo;re clever about it, <a href="https://www.youtube.com/watch?v=RjcV-hmD2ZM">designing accessibility is very close to designing responsiveness</a>. Because of this trend, websites increasingly have to create reasonably machine-readable, machine-reformattable content <em>anyway</em>.</p></li>
-<li><p>Platform diversification. If you want real universal coverage for your app, you presently have to build for iOS, Android, FirefoxOS, Windows, Sailfish, Tizen, Ubuntu, and probably more. You can decide that it&rsquo;s not worth developing for some of those, that you can trade off market share for a cheaper development cost. But no matter what happens with their app stores or market shares, all of these devices have to include web browsers as a basic feature. A machine-readable, machine-reformattable web experience supports all platforms automatically.</p></li>
-<li><p>Device diversification. People are consuming content on an ever-expanding array of devices: phones of varying shapes, tablets, mini-tablets, laptops, touchtops, TV sticks, GGlass, smartwatches, and more. If your product can only be consumed with a special application, you have an extremely large development and support problem. But again, no matter what the device, it has to include an interface to the web as a basic feature. A machine-readable, machine-reformattable web experience supports all devices automatically.</p></li>
-<li><p>Machine-curated content. Increasingly our information worlds are shaped by computer algorithms attempting to decide what content we want to see. Whether it&rsquo;s google interpreting a search or facebook filtering your feed, it is critically important for brands to create truly machine-readable content. If you don&rsquo;t, the machines won&rsquo;t know when you&rsquo;re relevant, and you won&rsquo;t be recommended.</p></li>
-</ul>
-
-
-
-
-<p>These factors are enough for us to see the decision that organizations face. There are two options to provide a branded, controlled digital experience:</p>
-
-
-
-
-<p>1) Develop a minimally machine-readable, machine-reformattable website for legal and SEO requirements, and develop separate apps for each possible combination of OS and device. That&rsquo;s 19 apps at my count. Maybe 24, depending on Ubuntu&rsquo;s hardware compatibility.</p>
-
-
-
-
-<p>2) Develop a single, truly machine-readable, machine-reformattable web application.</p>
-
-
-
-
-<p>That&rsquo;s a pretty significant cost and efficiency pressure towards machine-readable, machine-reformattable web apps, especially in the medium/long term. It doesn&rsquo;t cover everyone, though. There are some organizations for whom it will continue to make sense to develop and maintain standalone apps. Some of these are:</p>
-
-
-
-
-<ul>
-<li><p>very large organizations. The budget and staffing requirements are simply too expensive for a small or medium sized organization. It may cost $1 million to develop an application for all 25 devices, and $300,000 to develop that application in truly machine-readable HTML. Some organizations are simply big enough that this amount of waste can go unnoticed.</p></li>
-<li><p>organizations with special requirements. For example, a bank may need extra layers of security that are difficult to do in HTMLX in order for you to deposit checks by picture.</p></li>
-<li><p>extremely personal brands. Mobile devices are extremely personal, and persistence there is more intimate than a bookmark or a website. Facebook is one such example; in fact most social networks probably fall under this category.</p></li>
-</ul>
-
-
-
-
-<p>For the other 99% of organizations out there, I expect that unique snowflake apps will give way to standardized, truly responsive and machine readable, web interfaces. I believe that in the next decade or so, most websites will be machine-readable and machine-reformattable. This shift will mean legibility and engagement for everyone: from Google&rsquo;s spiders to visual assistive devices, from TV pluggables to smart watches. And it will mean that the &ldquo;apposphere&rdquo; will largely evaporate away.</p>
-
-</div>
   
   
+  <div class="entry-content"><p>Dries made <a href="http://buytaert.net/w3c-declares-html5-standard-final">an interesting post about the new HTML5 standard</a> the other day. OK, the post itself is more of an announcement, but the meat (as far as I’m concerned) is near the end, where he says that “The trend in development seems to be towards native mobile applications rather than mobile websites.” He links to the excellent <a href="http://a16z.com/2014/10/28/mobile-is-eating-the-world/">Mobile is Eating the World</a> presentation by Benedict Evans as evidence.</p>
+
+
+
+
+<p>Really? Because while I agree with Evans that mobile in general is the future, I don’t see it as evidence that mobile <em>apps</em>, specifically, are the future. In fact I believe the contrary: mobile apps are just a phase. <em>Mobile web</em> is going to eat the world, and it’s because of the capacity for a single source to provide machine-readable, machine-reformattable content.</p>
+
+
+
+
+<p>What do I mean by machine-readable and machine-reformattable? Technologists will understand what I mean when I say “responsive”, and they may even understand that responsive and accessible go hand in hand. I am avoiding those terms because they are more specific &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/10/29/mobile-apps-are-a-temporary-phase/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -1130,16 +459,23 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   </header>
 
 
-  <div class="entry-content"><p>A quick one for myself to come back to. I can never find this one liner when I need it! It&rsquo;s simple enough:</p>
+  
+  
+  <div class="entry-content"><p>A quick one for myself to come back to. I can never find this one liner when I need it! It’s simple enough:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>watch 'php -r '"'"'$m=new Memcache;$m-&gt;connect("127.0.0.1", 11211);print_r($m-&gt;getstats());'"'"</span></code></pre></td></tr></table></div></figure>
+<figure class="code"><div class="highlight"><table><tr>
+<td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td>
+<td class="code"><pre><code class=""><span class="line">watch 'php -r '"'"'$m=new Memcache;$m-&gt;connect("127.0.0.1", 11211);print_r($m-&gt;getstats());'"'"</span></code></pre></td>
+</tr></table></div></figure>
 
 
-<p>Next time I need to get memcached stats, I&rsquo;ll check back here.</p>
+<p>Next time I need to get memcached stats, I’ll check back here.</p>
 </div>
   
-  
+  <footer>
+    <a rel="full-article" href="/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -1172,14 +508,18 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   </header>
 
 
-  <div class="entry-content"><p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal&rsquo;s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
+  
+  
+  <div class="entry-content"><p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal’s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
 
-<p>For now, the only solution is a slow one &ndash; we clear static entity caches when we generate multilingual titles. That&rsquo;s not an awesome fix, but it&rsquo;s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
+<p>For now, the only solution is a slow one – we clear static entity caches when we generate multilingual titles. That’s not an awesome fix, but it’s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
 
-<p>And for those of you keeping score, this is a good example of how to file a bug report for a really complex issue in a really popular module&hellip; and follow up until you resolve it.</p>
+<p>And for those of you keeping score, this is a good example of how to file a bug report for a really complex issue in a really popular module… and follow up until you resolve it.</p>
 </div>
   
-  
+  <footer>
+    <a rel="full-article" href="/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/">Read on &rarr;</a>
+  </footer>
 
 
     </article>
@@ -1197,8 +537,12 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 <aside class="sidebar">
   
     <section>
-  <h1>About Me</h1>
-  <p>A little something about me.</p>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
 </section>
 <section>
   <h1>Recent Posts</h1>
