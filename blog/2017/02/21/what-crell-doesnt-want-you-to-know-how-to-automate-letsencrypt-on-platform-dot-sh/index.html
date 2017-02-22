@@ -1,0 +1,476 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="If you believe the docs and the twitters, there is no way to automate letsencrypt certificates updates on platform.sh. You have to create the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-21T22:33:08+01:00" pubdate data-updated="true">Feb 21<span>st</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
+
+<p>But as readers of this blog know, the docs are only the start of the story. I&rsquo;ve really enjoyed working with platform.sh with one of my private clients, and I couldn&rsquo;t believe that with all the flexibility &ndash; all the POWER &ndash; letsencrypt was really out of reach. I found a few attempts to script it, and one really great <a href="https://gitlab.com/snippets/27467">snippet on gitlab</a>. But no one had ever really synthesized this stuff into an easy howto. So here we go.</p>
+
+<h3>1) Add some writeable directories where platform.sh CLI and letsencrypt need them.</h3>
+
+<p>Normally when Platform deploys your application, it puts it all in a read-only filesystem. We&rsquo;re going to mount some special directories read-write so all the letsencrypt/platform magic can work.</p>
+
+<p>Edit your application&rsquo;s <code>.platform.app.yaml</code> file, and find the <code>mounts:</code> section. At the bottom, add these three lines. Make sure to match the indents with everything else under the <code>mounts:</code> section!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"/web/.well-known": "shared:files/.well-known"
+</span><span class='line'>"/keys": "shared:files/keys"
+</span><span class='line'>"/.platformsh": "shared:files/.platformsh"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s walk through each of these:</p>
+
+<ul>
+<li>/web/.well-known: In order to confirm that you actually control example.com, letsencrypt drops a file somewhere on your website, and then tries to fetch it. This directory is where it&rsquo;s going to do the drop and fetch. My webroot is <code>web</code>, you should change this to match your own environment. You might use <code>public</code> or <code>www</code> or something.</li>
+<li>/keys: You have to store your keyfiles SOMEWHERE. This is that place.</li>
+<li>/.platformsh: Your master environment needs a bit of configuration to be able to login to platform and update the certs on your account. This is where that will go.</li>
+</ul>
+
+
+<h3>2) Expose the .well-known directory to the Internet</h3>
+
+<p>I mentioned above that letsencrypt test your control over a domain by creating a file which it tries to fetch over the Internet. We already created the writeable directory where the scripts can drop the file, but platform.sh (wisely) defaults to hide your directories from the Internet. We&rsquo;re going to add some configuration to the &ldquo;web&rdquo; app section to expose this .well-known directory. Find the <code>web:</code> section of your <code>.platform.app.yaml</code> file, and the <code>locations:</code> section under that. At the bottom of that section, add this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  '/.well-known':
+</span><span class='line'>        # Allow access to all files in the public files directory.
+</span><span class='line'>        allow: true
+</span><span class='line'>        expires: 5m
+</span><span class='line'>        passthru: false
+</span><span class='line'>        root: 'web/.well-known'
+</span><span class='line'>        # Do not execute PHP scripts.
+</span><span class='line'>        scripts: false</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Make sure you match the indents of the other location entries! In my (default) <code>.platform.app.yaml</code> file, I have 8 spaces before that <code>'/.well-known':</code> line. Also note that the <code>root:</code> parameter there also uses my webroot directory, so adjust that to fit your environment.</p>
+
+<h3>3) Download the binaries you need during the application &ldquo;build&rdquo; phase</h3>
+
+<p>In order to do this, we&rsquo;re going to need to have the platform.sh CLI tool, and a let&rsquo;s encrypt CLI tool called lego. We&rsquo;ll download them during the &ldquo;build&rdquo; phase of your application. Still in the <code>platform.app.yaml</code> file, find the <code>hooks:</code> section, and the <code>build:</code> section under that. Add these steps to the bottom of the build:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  cd ~
+</span><span class='line'>  curl -sL https://github.com/xenolf/lego/releases/download/v0.3.1/lego_linux_amd64.tar.xz | tar -C .global/bin -xJ --strip-components=1 lego/lego
+</span><span class='line'>  curl -sfSL -o .global/bin/platform.phar https://github.com/platformsh/platformsh-cli/releases/download/v3.12.1/platform.phar</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re just downloading reasonably recent releases of our two tools. If anyone has a better way to get the latest release of either tool, please let me know. Otherwise we&rsquo;re stuck keeping this up to date manually.</p>
+
+<h3>4) Configure the platform.sh CLI</h3>
+
+<p>In order to configure the platform.sh CLI on your server, we have to deploy the changes from steps 1-3. Go ahead and do that now. I&rsquo;ll wait.</p>
+
+<p>Now connect to your platform environment via SSH (<code>platform ssh -e master</code> for most of us). First we&rsquo;ll add a config file for platform. Edit a file in <code>.platformsh/config.yaml</code> with the editor of choice. You don&rsquo;t have to use vi, but it will win you some points with me. Here are the contents for that file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>updates:
+</span><span class='line'>    check: false
+</span><span class='line'>api:
+</span><span class='line'>    token_file: token</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty straightforward: this tells platform not to bother updating the CLI tool automatically (it can&rsquo;t &ndash; read-only filesystem, remember?). It then tells it to login using an API token, which it can find in the file <code>.platformsh/token</code>. Let&rsquo;s create that file next.</p>
+
+<p>Log into the platform.sh web UI (you can launch it with <code>platform web</code> if you&rsquo;re feeling sassy), and navigate to your account settings > api tokens. That&rsquo;s at <code>https://accounts.platform.sh/user/12345/api-tokens</code> (with your own user ID of course). Add an API token, and copy its value into <code>.platformsh/token</code> on the environment we&rsquo;re working on. The token should be the only contents of that file.</p>
+
+<p>Now let&rsquo;s test it by running <code>php /app/.global/bin/platform.phar auth:info</code>. If you see your account information, congratulations! You have a working platform.sh CLI installed.</p>
+
+<h3>5) Request your first certificate by hand</h3>
+
+<p>Still SSH&#8217;ed into that environment, let&rsquo;s see if everything works.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lego --email="support@example.com" --domains="www.example.com" --webroot=/app/public/ --path=/app/keys/ -a run
+</span><span class='line'>csplit -f /app/keys/certificates/www.example.com.crt- /app/keys/certificates/www.example.com.crt '/-----BEGIN CERTIFICATE-----/' '{1}' -z -s
+</span><span class='line'>php /app/.global/bin/platform.phar domain:update -p $PLATFORM_PROJECT --no-wait --yes --cert /app/keys/certificates/www.example.com.crt-00 --chain /app/keys/certificates/www.example.com.crt-01 --key /app/keys/certificates/www.example.com.key example.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is three commands: register the cert with letsencrypt, then split the resulting file into it&rsquo;s components, then register those components with platform.sh. If you didn&rsquo;t get any errors, go ahead and test your site &ndash; it&rsquo;s got a certificate! (yay)</p>
+
+<h3>6) Set up automatic renewals on cron</h3>
+
+<p>Back to <code>.platform.app.yaml</code>, look for the <code>crons:</code> section. If you&rsquo;re running drupal, you probably have a drupal cronjob in there already. Add this one at the bottom, matching indents as always.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>letsencrypt:
+</span><span class='line'>    spec: '0 0 1 * *'
+</span><span class='line'>    cmd: '/bin/sh /app/scripts/letsencrypt.sh'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s create the script. Add the file <code>scripts/letsencrypt.sh</code> to your repo, with this content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Checks and updates the letsencrypt HTTPS cert.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">set</span> -e
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$PLATFORM_ENVIRONMENT&quot;</span> <span class="o">=</span> <span class="s2">&quot;master-7rqtwti&quot;</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">then</span>
+</span><span class='line'>    <span class="c"># Renew the certificate</span>
+</span><span class='line'>    lego --email<span class="o">=</span><span class="s2">&quot;example@example.org&quot;</span> --domains<span class="o">=</span><span class="s2">&quot;example.org&quot;</span> --webroot<span class="o">=</span>/app/web/ --path<span class="o">=</span>/app/keys/ -a renew
+</span><span class='line'>    <span class="c"># Split the certificate from any intermediate chain</span>
+</span><span class='line'>    csplit -f /app/keys/certificates/example.org.crt- /app/keys/certificates/example.org.crt <span class="s1">&#39;/-----BEGIN CERTIFICATE-----/&#39;</span> <span class="s1">&#39;{1}&#39;</span> -z -s
+</span><span class='line'>    <span class="c"># Update the certificates on the domain</span>
+</span><span class='line'>    php /app/.global/bin/platform.phar domain:update -p <span class="nv">$PLATFORM_PROJECT</span> --no-wait --yes --cert /app/keys/certificates/example.org.crt-00 --chain /app/keys/certificates/example.org.crt-01 --key /app/keys/certificates/example.org.key example.org
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Obviously you should replace all those <code>example.org</code>s and email addresses with your own domain. Make the file executable with <code>chmod u+x scripts/letsencrypt.sh</code>, commit it, and push it up to your platform.sh environment.</p>
+
+<h3>7) Send a bragging email to Crell</h3>
+
+<p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
+
+<p><img class="center" src="/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
+
+<p>Good luck!</p>
+
+<p>PS &ndash; I&rsquo;m just gonna link one more time to the guy whose snippet made this all possible: <a href="https://www.drupal.org/u/hanoii">Ariel Barreiro</a> did the hardest part of this. I&rsquo;m grateful that he made his notes public!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-02-21T22:33:08+01:00" pubdate data-updated="true">Feb 21<span>st</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/hosting/'>hosting</a>, <a class='category' href='/blog/categories/letsencrypt/'>letsencrypt</a>, <a class='category' href='/blog/categories/sysadmin/'>sysadmin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/" title="Previous Post: Between the cracks of decoupled (Drupal) architecture">&laquo; Between the cracks of decoupled (Drupal) architecture</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/">What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/">Developer Options for Replacing Your Old MacBook Pro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Perfect Linux Mint on My Macbook Pro 9,2</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

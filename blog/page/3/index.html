@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="A quick note to all the Drupalists in the DC general area – Forum One is trying to put together a D8 core sprint in their DC office space. They’re &hellip;">
+  <meta name="description" content="This is an important one to note: If you use the popular Automatic Entity Label module on a multilingual site, it will break your paths because of an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/">Bug: Multilingual Auto Label Will Break Your Entity Static Cache</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T17:00:45+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal’s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
+
+<p>For now, the only solution is a slow one – we clear static entity caches when we generate multilingual titles. That’s not an awesome fix, but it’s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
+
+<p>And for those of you keeping score, this is a good example of how to file a bug report for a really complex issue in a really popular module… and follow up until you resolve it.</p>
+</div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -471,49 +515,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/03/29/drupal-dev-days-szeged-2014/">Drupal Dev Days Szeged, or: Why You Should Attend Every Camp You Can</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-29T15:27:50+01:00" pubdate data-updated="true">Mar 29<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>Today is the last day of <a href="http://szeged2014.drupaldays.org/">Drupal Dev Days</a> in Szeged, Hungary, and I’ve never been more full of the “Drupal spirit!”</p>
-
-<p>One of Drupal’s greatest strengths is the closness of its’ community, how friendly and accepting they can be. Drupalcons are highlight events for many, not because of the learning as much as because of the social track: the chance to see old friends and make new ones. Even more important is the chance to experience in person this incredibly friendly community. I always loved the cons because you could approach really anybody, say “hi”, and ask them about their work with the platform. Seriously, anybody. From a new user to Dries himself.</p>
-
-<p>That’s become harder and harder as Drupal has grown more popular. In a convention of more than 3,000 people, you lose that feeling of being able to approach anybody. Instead, people silo into groups. In a best case it’s a group that shares an interest in a sub-system (Rules junkies, Panels proselytizers, Features fans…), but in most cases it’s because of shared connections outside the community. Y&#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2014/03/29/drupal-dev-days-szeged-2014/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/4/">&larr; Older</a>
@@ -539,6 +540,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/">What Crell Doesn&#8217;t Want You to Know: How to Automate Letsencrypt on platform.sh</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
       </li>
     
@@ -552,10 +557,6 @@
     
       <li class="post">
         <a href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Perfect Linux Mint on My Macbook Pro 9,2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
       </li>
     
   </ul>

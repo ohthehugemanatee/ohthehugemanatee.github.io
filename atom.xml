@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-02-11T12:43:01+01:00</updated>
+  <updated>2017-02-22T17:42:02+01:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,173 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
+    <updated>2017-02-21T22:33:08+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
+    <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
+
+<p>But as readers of this blog know, the docs are only the start of the story. I&rsquo;ve really enjoyed working with platform.sh with one of my private clients, and I couldn&rsquo;t believe that with all the flexibility &ndash; all the POWER &ndash; letsencrypt was really out of reach. I found a few attempts to script it, and one really great <a href="https://gitlab.com/snippets/27467">snippet on gitlab</a>. But no one had ever really synthesized this stuff into an easy howto. So here we go.</p>
+
+<h3>1) Add some writeable directories where platform.sh CLI and letsencrypt need them.</h3>
+
+<p>Normally when Platform deploys your application, it puts it all in a read-only filesystem. We&rsquo;re going to mount some special directories read-write so all the letsencrypt/platform magic can work.</p>
+
+<p>Edit your application&rsquo;s <code>.platform.app.yaml</code> file, and find the <code>mounts:</code> section. At the bottom, add these three lines. Make sure to match the indents with everything else under the <code>mounts:</code> section!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"/web/.well-known": "shared:files/.well-known"
+</span><span class='line'>"/keys": "shared:files/keys"
+</span><span class='line'>"/.platformsh": "shared:files/.platformsh"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Let&rsquo;s walk through each of these:</p>
+
+<ul>
+<li>/web/.well-known: In order to confirm that you actually control example.com, letsencrypt drops a file somewhere on your website, and then tries to fetch it. This directory is where it&rsquo;s going to do the drop and fetch. My webroot is <code>web</code>, you should change this to match your own environment. You might use <code>public</code> or <code>www</code> or something.</li>
+<li>/keys: You have to store your keyfiles SOMEWHERE. This is that place.</li>
+<li>/.platformsh: Your master environment needs a bit of configuration to be able to login to platform and update the certs on your account. This is where that will go.</li>
+</ul>
+
+
+<h3>2) Expose the .well-known directory to the Internet</h3>
+
+<p>I mentioned above that letsencrypt test your control over a domain by creating a file which it tries to fetch over the Internet. We already created the writeable directory where the scripts can drop the file, but platform.sh (wisely) defaults to hide your directories from the Internet. We&rsquo;re going to add some configuration to the &ldquo;web&rdquo; app section to expose this .well-known directory. Find the <code>web:</code> section of your <code>.platform.app.yaml</code> file, and the <code>locations:</code> section under that. At the bottom of that section, add this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  '/.well-known':
+</span><span class='line'>        # Allow access to all files in the public files directory.
+</span><span class='line'>        allow: true
+</span><span class='line'>        expires: 5m
+</span><span class='line'>        passthru: false
+</span><span class='line'>        root: 'web/.well-known'
+</span><span class='line'>        # Do not execute PHP scripts.
+</span><span class='line'>        scripts: false</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Make sure you match the indents of the other location entries! In my (default) <code>.platform.app.yaml</code> file, I have 8 spaces before that <code>'/.well-known':</code> line. Also note that the <code>root:</code> parameter there also uses my webroot directory, so adjust that to fit your environment.</p>
+
+<h3>3) Download the binaries you need during the application &ldquo;build&rdquo; phase</h3>
+
+<p>In order to do this, we&rsquo;re going to need to have the platform.sh CLI tool, and a let&rsquo;s encrypt CLI tool called lego. We&rsquo;ll download them during the &ldquo;build&rdquo; phase of your application. Still in the <code>platform.app.yaml</code> file, find the <code>hooks:</code> section, and the <code>build:</code> section under that. Add these steps to the bottom of the build:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  cd ~
+</span><span class='line'>  curl -sL https://github.com/xenolf/lego/releases/download/v0.3.1/lego_linux_amd64.tar.xz | tar -C .global/bin -xJ --strip-components=1 lego/lego
+</span><span class='line'>  curl -sfSL -o .global/bin/platform.phar https://github.com/platformsh/platformsh-cli/releases/download/v3.12.1/platform.phar</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re just downloading reasonably recent releases of our two tools. If anyone has a better way to get the latest release of either tool, please let me know. Otherwise we&rsquo;re stuck keeping this up to date manually.</p>
+
+<h3>4) Configure the platform.sh CLI</h3>
+
+<p>In order to configure the platform.sh CLI on your server, we have to deploy the changes from steps 1-3. Go ahead and do that now. I&rsquo;ll wait.</p>
+
+<p>Now connect to your platform environment via SSH (<code>platform ssh -e master</code> for most of us). First we&rsquo;ll add a config file for platform. Edit a file in <code>.platformsh/config.yaml</code> with the editor of choice. You don&rsquo;t have to use vi, but it will win you some points with me. Here are the contents for that file:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>updates:
+</span><span class='line'>    check: false
+</span><span class='line'>api:
+</span><span class='line'>    token_file: token</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Pretty straightforward: this tells platform not to bother updating the CLI tool automatically (it can&rsquo;t &ndash; read-only filesystem, remember?). It then tells it to login using an API token, which it can find in the file <code>.platformsh/token</code>. Let&rsquo;s create that file next.</p>
+
+<p>Log into the platform.sh web UI (you can launch it with <code>platform web</code> if you&rsquo;re feeling sassy), and navigate to your account settings > api tokens. That&rsquo;s at <code>https://accounts.platform.sh/user/12345/api-tokens</code> (with your own user ID of course). Add an API token, and copy its value into <code>.platformsh/token</code> on the environment we&rsquo;re working on. The token should be the only contents of that file.</p>
+
+<p>Now let&rsquo;s test it by running <code>php /app/.global/bin/platform.phar auth:info</code>. If you see your account information, congratulations! You have a working platform.sh CLI installed.</p>
+
+<h3>5) Request your first certificate by hand</h3>
+
+<p>Still SSH&#8217;ed into that environment, let&rsquo;s see if everything works.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lego --email="support@example.com" --domains="www.example.com" --webroot=/app/public/ --path=/app/keys/ -a run
+</span><span class='line'>csplit -f /app/keys/certificates/www.example.com.crt- /app/keys/certificates/www.example.com.crt '/-----BEGIN CERTIFICATE-----/' '{1}' -z -s
+</span><span class='line'>php /app/.global/bin/platform.phar domain:update -p $PLATFORM_PROJECT --no-wait --yes --cert /app/keys/certificates/www.example.com.crt-00 --chain /app/keys/certificates/www.example.com.crt-01 --key /app/keys/certificates/www.example.com.key example.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is three commands: register the cert with letsencrypt, then split the resulting file into it&rsquo;s components, then register those components with platform.sh. If you didn&rsquo;t get any errors, go ahead and test your site &ndash; it&rsquo;s got a certificate! (yay)</p>
+
+<h3>6) Set up automatic renewals on cron</h3>
+
+<p>Back to <code>.platform.app.yaml</code>, look for the <code>crons:</code> section. If you&rsquo;re running drupal, you probably have a drupal cronjob in there already. Add this one at the bottom, matching indents as always.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>letsencrypt:
+</span><span class='line'>    spec: '0 0 1 * *'
+</span><span class='line'>    cmd: '/bin/sh /app/scripts/letsencrypt.sh'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now let&rsquo;s create the script. Add the file <code>scripts/letsencrypt.sh</code> to your repo, with this content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#!/usr/bin/env bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="c"># Checks and updates the letsencrypt HTTPS cert.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">set</span> -e
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="o">[</span> <span class="s2">&quot;$PLATFORM_ENVIRONMENT&quot;</span> <span class="o">=</span> <span class="s2">&quot;master-7rqtwti&quot;</span> <span class="o">]</span>
+</span><span class='line'>  <span class="k">then</span>
+</span><span class='line'>    <span class="c"># Renew the certificate</span>
+</span><span class='line'>    lego --email<span class="o">=</span><span class="s2">&quot;example@example.org&quot;</span> --domains<span class="o">=</span><span class="s2">&quot;example.org&quot;</span> --webroot<span class="o">=</span>/app/web/ --path<span class="o">=</span>/app/keys/ -a renew
+</span><span class='line'>    <span class="c"># Split the certificate from any intermediate chain</span>
+</span><span class='line'>    csplit -f /app/keys/certificates/example.org.crt- /app/keys/certificates/example.org.crt <span class="s1">&#39;/-----BEGIN CERTIFICATE-----/&#39;</span> <span class="s1">&#39;{1}&#39;</span> -z -s
+</span><span class='line'>    <span class="c"># Update the certificates on the domain</span>
+</span><span class='line'>    php /app/.global/bin/platform.phar domain:update -p <span class="nv">$PLATFORM_PROJECT</span> --no-wait --yes --cert /app/keys/certificates/example.org.crt-00 --chain /app/keys/certificates/example.org.crt-01 --key /app/keys/certificates/example.org.key example.org
+</span><span class='line'><span class="k">fi</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Obviously you should replace all those <code>example.org</code>s and email addresses with your own domain. Make the file executable with <code>chmod u+x scripts/letsencrypt.sh</code>, commit it, and push it up to your platform.sh environment.</p>
+
+<h3>7) Send a bragging email to Crell</h3>
+
+<p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
+
+<p>Good luck!</p>
+
+<p>PS &ndash; I&rsquo;m just gonna link one more time to the guy whose snippet made this all possible: <a href="https://www.drupal.org/u/hanoii">Ariel Barreiro</a> did the hardest part of this. I&rsquo;m grateful that he made his notes public!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
@@ -1465,19 +1632,6 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 
 
 <p>Next time I need to get memcached stats, I&rsquo;ll check back here.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bug: Multilingual Auto Label Will Break Your Entity Static Cache]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/"/>
-    <updated>2014-07-01T17:00:45+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache</id>
-    <content type="html"><![CDATA[<p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal&rsquo;s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
-
-<p>For now, the only solution is a slow one &ndash; we clear static entity caches when we generate multilingual titles. That&rsquo;s not an awesome fix, but it&rsquo;s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
-
-<p>And for those of you keeping score, this is a good example of how to file a bug report for a really complex issue in a really popular module&hellip; and follow up until you resolve it.</p>
 ]]></content>
   </entry>
   

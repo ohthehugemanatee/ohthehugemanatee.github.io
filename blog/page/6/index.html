@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Ouch, Sony. Hot on the heels of the last 4 hacks have come another two in a row. Sony BMG Greece was hacked on Monday, and now Sony BMG Japan.Though &hellip;">
+  <meta name="description" content="I’m a big fan of the new Entities model for Drupal. I’ve been working a lot with it lately, and it makes a lot of sense… but my favorite part is how &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/on-drupal-entities-or-how-organic.html">On Drupal Entities, or How Organic Groups and Taxonomy Are the Same Thing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-03-25T12:58:00+02:00" pubdate data-updated="true">Mar 25<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I’m a big fan of the new Entities model for Drupal. I’ve been working a lot with it lately, and it makes a lot of sense… but my favorite part is how it keeps blowing away my old assumptions, inherited from 7 years of Drupal experience. <br><br>Here’s a big one that got me recently: Organic Groups is useless, because it’s basically Taxonomy with a couple of neat add-ons. Or Organic Groups is incredibly useful, however you choose to think about it. <br><br>Let’s think ab&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2012/03/on-drupal-entities-or-how-organic.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -483,49 +526,6 @@ No one else seems to have documented this anywhere, so I’m gonna do it here.<b
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/04/multiple-ssl-sites-on-one-aws-instance.html">Multiple SSL Sites on One AWS Instance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-04-29T13:44:00+02:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-It’s a familiar problem - you can’t really host multiple SSL sites on a single IP address.  There’s a fancy workaround if you get a pricey multi-domain certificate, of course.  But separate sites, with separate certificates just won’t work.  The reason is simple - put yourself in Apache’s shoes.<br><br>When you’re using name based virtualhosts, Apache uses the request headers to determine which vhost should get the request.  But HTTPS headers are encrypted!  So there’s no way for Apache to tell which virtual host should get this message, without decrypting it furst.  But it can’t decrypt without knowing the correct virtual host…<br><br>There’s a great workaround for this with Amazon, using their Elastic Load Balancer (ELB) system.  You simply set up a load balancer, and forward port 443 to, say port 8443 on your instance, and have Apache listen on 8443 for SSL connections.  Recently Amazon rolled out the ability to terminate SSL on &#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/04/multiple-ssl-sites-on-one-aws-instance.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -551,6 +551,10 @@ It’s a familiar problem - you can’t really host multiple SSL sites on a sing
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/">What Crell Doesn&#8217;t Want You to Know: How to Automate Letsencrypt on platform.sh</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
       </li>
     
@@ -564,10 +568,6 @@ It’s a familiar problem - you can’t really host multiple SSL sites on a sing
     
       <li class="post">
         <a href="/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/">Perfect Linux Mint on My Macbook Pro 9,2</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/08/13/getting-my-notes-out-of-evernote/">Getting My Notes Out of Evernote</a>
       </li>
     
   </ul>
