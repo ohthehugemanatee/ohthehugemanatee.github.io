@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Howto | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-03-30T13:37:32+02:00</updated>
+  <updated>2017-03-30T13:43:39+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -816,31 +816,69 @@ core = 7.x</p>
 
 <p>The first prerequisite is to make absolutely certain that you can&rsquo;t do this using any of the built in Conditions, and something this unique definitely qualifies there. So let&rsquo;s get to the implementation in our custom module. The module will be called CCC for Custom Context Condition.</p>
 
-<p>{% include_code ccc.info lang:ini modules/ccc/ccc.info %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ccc.info  (ccc.info)</span> <a href='/downloads/code/modules/ccc/ccc.info'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">name</span> <span class="o">=</span> <span class="s">CCC (Custom Context Condition) Example Module</span>
+</span><span class='line'><span class="na">description</span> <span class="o">=</span> <span class="s">Provides a custom Context Condition</span>
+</span><span class='line'><span class="na">core</span> <span class="o">=</span> <span class="s">7.x</span>
+</span><span class='line'><span class="na">version</span> <span class="o">=</span> <span class="s">7.x-1.x</span>
+</span><span class='line'><span class="na">package</span> <span class="o">=</span> <span class="s">Custom</span>
+</span><span class='line'>
+</span><span class='line'><span class="na">dependencies[]</span> <span class="o">=</span> <span class="s">entityreference</span>
+</span><span class='line'><span class="na">dependencies[]</span> <span class="o">=</span> <span class="s">context</span>
+</span><span class='line'><span class="na">dependencies[]</span> <span class="o">=</span> <span class="s">og</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>That&rsquo;s a totally normal .info file, with logical dependencies on OG, EntityReference, and Context modules. Let&rsquo;s have a look at the .module file. This is probably a lot simpler than you expected.</p>
 
-<p>{% codeblock lang:php ccc.module %}
-/<em>*
- * Impelements hook_context_plugins().
- </em>/
-function ccc_context_plugins() {
-  $plugins = array(</p>
-
-<pre><code>'ccc_condition_og_special_node' =&gt; array(
-  'handler' =&gt; array(
-    'path' =&gt; drupal_get_path('module', 'ccc') . '/plugins/context',
-    'file' =&gt; 'ccc_condition_og_special_node.inc',
-    'class' =&gt; 'ccc_condition_og_special_node',
-    'parent' =&gt; 'context_condition',
-  ),
-),
-</code></pre>
-
-<p>  );
-  return $plugins;
-}
-{%endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ccc.module </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">/&lt;</span><span class="nx">em</span><span class="o">&gt;*</span>
+</span><span class='line'> <span class="o">*</span> <span class="nx">Impelements</span> <span class="nx">hook_context_plugins</span><span class="p">()</span><span class="o">.</span>
+</span><span class='line'> <span class="o">&lt;/</span><span class="nx">em</span><span class="o">&gt;/</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">ccc_context_plugins</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$plugins</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="s1">&#39;ccc_condition_og_special_node&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>  <span class="s1">&#39;handler&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;path&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">drupal_get_path</span><span class="p">(</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="s1">&#39;ccc&#39;</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/plugins/context&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;file&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="s1">&#39;ccc_condition_og_special_node.inc&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;class&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="s1">&#39;ccc_condition_og_special_node&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;parent&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="s1">&#39;context_condition&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">),</span>
+</span><span class='line'><span class="p">),</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nv">$plugins</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>First we implement <em>hook_context_plugins()</em>, to declare our new condition plugin to Context. This function should return an array of plugins, keyed by plugin name (in our case, ccc_condition_og_special_node). For each plugin, you have to explain to Context some basic information about the handler you&rsquo;re going to write.</p>
 
@@ -854,58 +892,210 @@ function ccc_context_plugins() {
 
 <p>Now that Context knows about your plugin, you have to declare it to the UI in order to use it! For this we implement <em>hook_context_registry</em>. This function returns an array keyed by plugin type&mdash;in this case, &ldquo;conditions&rdquo;. For each condition (keyed by condition name), we need title, description, and plugin.</p>
 
-<p>{% codeblock lang:php ccc.module %}
-/<em>*
- * Implements hook_context_registry().
- </em>/
-function ccc_context_registry() {
-  $registry = array(</p>
-
-<pre><code>'conditions' =&gt; array(
-  'ccc_condition_og_special_node' =&gt; array(
-    'title' =&gt; t('OG Special Node'),
-    'description' =&gt; t('Set this context based on whether or not the node is the "Special Node" entityreferenced in the parent OG.'),
-    'plugin' =&gt; 'ccc_condition_og_special_node',
-  ),
-),
-</code></pre>
-
-<p>  );
-  return $registry;
-}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ccc.module </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">/&lt;</span><span class="nx">em</span><span class="o">&gt;*</span>
+</span><span class='line'> <span class="o">*</span> <span class="k">Implements</span> <span class="nx">hook_context_registry</span><span class="p">()</span><span class="o">.</span>
+</span><span class='line'> <span class="o">&lt;/</span><span class="nx">em</span><span class="o">&gt;/</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">ccc_context_registry</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$registry</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="s1">&#39;conditions&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>  <span class="s1">&#39;ccc_condition_og_special_node&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>    <span class="s1">&#39;title&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;OG Special Node&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="s1">&#39;description&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Set this context based on whether or not the node is the &quot;Special Node&quot; entityreferenced in the parent OG.&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="s1">&#39;plugin&#39;</span> <span class="o">=&amp;</span><span class="nx">gt</span><span class="p">;</span> <span class="s1">&#39;ccc_condition_og_special_node&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">),</span>
+</span><span class='line'><span class="p">),</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nv">$registry</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>Now Context module knows everything it needs to know about your plugin and condition, we have to tell Drupal when to evaluate your condition. You can implement whatever hook make sense for you here, the important part is that you execute your plugin. Since our condition only makes sense after everything else has fired (ie when the OG context is well and firmly set), we&rsquo;ll implement <em>hook_context_page_reaction()</em>.</p>
 
-<p>{% codeblock lang:php ccc.module %}
-/<em>*
- * Implements hook_context_page_reaction().
- *
- * Executes our OG Special Node Context Condition.
- * Gotta run on context_page_reaction, so Views and OG have a chance to
- * set/modify Group context.
- </em>/
-function ccc_context_page_reaction() {
-  $group = og_context();
-  // Only execute the group node context condition if there is a group node
-  // in context.
-  if ($group) {</p>
-
-<pre><code>$plugin = context_get_plugin('condition', 'ccc_condition_og_special_node');
-if ($plugin) {
-  $plugin-&gt;execute($group);
-}
-</code></pre>
-
-<p>  }
-}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span>ccc.module </span></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">/&lt;</span><span class="nx">em</span><span class="o">&gt;*</span>
+</span><span class='line'> <span class="o">*</span> <span class="k">Implements</span> <span class="nx">hook_context_page_reaction</span><span class="p">()</span><span class="o">.</span>
+</span><span class='line'> <span class="o">*</span>
+</span><span class='line'> <span class="o">*</span> <span class="nx">Executes</span> <span class="nx">our</span> <span class="nx">OG</span> <span class="nx">Special</span> <span class="nx">Node</span> <span class="nx">Context</span> <span class="nx">Condition</span><span class="o">.</span>
+</span><span class='line'> <span class="o">*</span> <span class="nx">Gotta</span> <span class="nx">run</span> <span class="nx">on</span> <span class="nx">context_page_reaction</span><span class="p">,</span> <span class="nx">so</span> <span class="nx">Views</span> <span class="k">and</span> <span class="nx">OG</span> <span class="nx">have</span> <span class="nx">a</span> <span class="nx">chance</span> <span class="nx">to</span>
+</span><span class='line'> <span class="o">*</span> <span class="nx">set</span><span class="o">/</span><span class="nx">modify</span> <span class="nx">Group</span> <span class="nx">context</span><span class="o">.</span>
+</span><span class='line'> <span class="o">&lt;/</span><span class="nx">em</span><span class="o">&gt;/</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">ccc_context_page_reaction</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$group</span> <span class="o">=</span> <span class="nx">og_context</span><span class="p">();</span>
+</span><span class='line'>  <span class="c1">// Only execute the group node context condition if there is a group node</span>
+</span><span class='line'>  <span class="c1">// in context.</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$group</span><span class="p">)</span> <span class="p">{</span><span class="o">&lt;/</span><span class="nx">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">pre</span><span class="o">&gt;&lt;</span><span class="nx">code</span><span class="o">&gt;</span><span class="nv">$plugin</span> <span class="o">=</span> <span class="nx">context_get_plugin</span><span class="p">(</span><span class="s1">&#39;condition&#39;</span><span class="p">,</span> <span class="s1">&#39;ccc_condition_og_special_node&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nv">$plugin</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$plugin</span><span class="o">-&amp;</span><span class="nx">gt</span><span class="p">;</span><span class="nx">execute</span><span class="p">(</span><span class="nv">$group</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="o">&lt;/</span><span class="nx">code</span><span class="o">&gt;&lt;/</span><span class="nx">pre</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>That&rsquo;s it for your module file. Just declare the plugin to Context and its UI, and find a place to actually execute the plugin. Now we&rsquo;ll write the actual handler class.</p>
 
 <p>Create your plugin file in the place you promised Context to find it in your <em>hook_context_plugins()</em> implementation. In our case, this is plugins/context/ccc_condition_og_special_node.inc . We&rsquo;re going to extend Context&rsquo;s basic Condition Class to provide our own functionality. Here are the contents of my ccc_condition_og_special_node.inc file:</p>
 
-<p>{% include_code lang:php modules/ccc/plugins/context/ccc_condition_og_special_node.inc %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'><figcaption><span> (ccc_condition_og_special_node.inc)</span> <a href='/downloads/code/modules/ccc/plugins/context/ccc_condition_og_special_node.inc'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="sd">/**</span>
+</span><span class='line'><span class="sd"> * Expose Web Area Contact Form as a Context condition.</span>
+</span><span class='line'><span class="sd"> */</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">ccc_condition_og_special_node</span> <span class="k">extends</span> <span class="nx">context_condition</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">function</span> <span class="nf">condition_values</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+</span><span class='line'>      <span class="s1">&#39;TRUE&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Node is an OG special node&#39;</span><span class="p">),</span>
+</span><span class='line'>      <span class="s1">&#39;FALSE&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Node is not an OG special node&#39;</span><span class="p">),</span>
+</span><span class='line'>    <span class="p">);</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">function</span> <span class="nf">condition_form</span><span class="p">(</span><span class="nv">$context</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">condition_form</span><span class="p">(</span><span class="nv">$context</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;radios&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">])){</span>
+</span><span class='line'>      <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">{</span>
+</span><span class='line'>      <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">current</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="sd">/**</span>
+</span><span class='line'><span class="sd">   * Condition form submit handler.</span>
+</span><span class='line'><span class="sd">   *</span>
+</span><span class='line'><span class="sd">   * Storing values in an array since that&#39;s what Context prefers</span>
+</span><span class='line'><span class="sd">   */</span>
+</span><span class='line'>  <span class="k">function</span> <span class="nf">condition_form_submit</span><span class="p">(</span><span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nb">array_filter</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$values</span> <span class="o">=&gt;</span> <span class="nv">$values</span><span class="p">));</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">$group</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$group</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$group</span><span class="p">[</span><span class="s1">&#39;group_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nv">$group_node</span> <span class="o">=</span> <span class="nx">entity_load_single</span><span class="p">(</span><span class="nv">$group</span><span class="p">[</span><span class="s1">&#39;group_type&#39;</span><span class="p">],</span> <span class="nv">$group</span><span class="p">[</span><span class="s1">&#39;gid&#39;</span><span class="p">]);</span>
+</span><span class='line'>      <span class="nv">$group_wrapper</span> <span class="o">=</span> <span class="nx">entity_metadata_wrapper</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="nv">$group_node</span><span class="p">);</span>
+</span><span class='line'>      <span class="nv">$special_nid</span> <span class="o">=</span> <span class="nv">$group_wrapper</span><span class="o">-&gt;</span><span class="na">field_special_node</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get_contexts</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$context</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$values</span><span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">fetch_from_context</span><span class="p">(</span><span class="nv">$context</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="nv">$contact_nid</span><span class="o">-&gt;</span><span class="na">nid</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;TRUE&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>          <span class="c1">// This is a special node, and the condition is set to match special </span>
+</span><span class='line'>          <span class="c1">// nodes.</span>
+</span><span class='line'>          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">condition_met</span><span class="p">(</span><span class="nv">$context</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="nv">$contact_nid</span><span class="o">-&gt;</span><span class="na">nid</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;FALSE&#39;</span><span class="p">]))</span> <span class="p">{</span>
+</span><span class='line'>          <span class="c1">// This is not a special node, and the condition is set to match</span>
+</span><span class='line'>          <span class="c1">// non-special nodes.</span>
+</span><span class='line'>          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">condition_met</span><span class="p">(</span><span class="nv">$context</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div></p>
 
 <p>The trickiest part of this is in the Condition settings form and values. Context assumes that your settings form will be a series of checkboxes, and does a lot of internal processing based on that assumption. We don&rsquo;t want to mess any of that up, so there&rsquo;s a bit of dancing around the requirement here.</p>
 
