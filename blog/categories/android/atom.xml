@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-02-22T17:42:02+01:00</updated>
+  <updated>2017-03-30T13:37:32+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -20,7 +20,7 @@
     <id>http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
     <content type="html"><![CDATA[<p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
 
-<p><img class="center" src="/images/error-505.jpg" title="&ldquo;Error 505&rdquo;" ></p>
+<p>{% img center /images/error-505.jpg &ldquo;Error 505&rdquo; %}</p>
 
 <p>This error message means precisely nothing. It means &ldquo;something went wrong during installation, and we&rsquo;re not telling you what.&rdquo; This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
 

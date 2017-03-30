@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-02-22T17:42:02+01:00</updated>
+  <updated>2017-03-30T13:37:32+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -161,7 +161,7 @@ php /app/.global/bin/platform.phar domain:update -p $PLATFORM_PROJECT --no-wait 
 
 <p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
 
-<p><img class="center" src="/images/larry-garfield.jpg" title="&ldquo;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&rdquo;" ></p>
+<p>{% img center /images/larry-garfield.jpg &ldquo;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&rdquo; %}</p>
 
 <p>Good luck!</p>
 

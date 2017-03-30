@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Caching | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/caching/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-02-22T17:42:02+01:00</updated>
+  <updated>2017-03-30T13:37:32+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -68,7 +68,7 @@ Now your site is prepared to deliver cached content to authenticated users. Now 
 
 <p>As we proceed, you will notice a little red button which has appeared in the top left corner of your browser window.</p>
 
-<p><img class="left" src="/images/authcache-debug.png" width="300" title="&lsquo;authcache debug&rsquo; &lsquo;the authcache debug block&rsquo;" ></p>
+<p>{% img left /images/authcache-debug.png 300 &lsquo;authcache debug&rsquo; &lsquo;the authcache debug block&rsquo; %}</p>
 
 <p>This is Authcache Debug: a helpful little block which tells you if the page was delivered from cache, or if an element on there is still preventing the page from being cached. If you&rsquo;re logged in as admin, you&rsquo;ll notice that it says the page has been excluded of cache, because &ldquo;Caching disabled for superuser&rdquo;. So in order to test this properly, you&rsquo;ll have to create another user account to keep open in a separate browser window. Go ahead and do that now.</p>
 
@@ -88,7 +88,7 @@ Now your site is prepared to deliver cached content to authenticated users. Now 
 
 <p>Working from the top of the page downwards, first we&rsquo;ll deal with that &ldquo;Your posts&rdquo; quicktab. Edit the View which generates that block, at admin/structure/views/view/posts/edit/block_2 . If you expand the &ldquo;Advanced&rdquo; section on the right, you&rsquo;ll see that we have an &ldquo;Authcache&rdquo; section now! Open it up, and enable the &ldquo;authcache&rdquo; checkbox which appears. Now you have a wealth of options for caching just this View.</p>
 
-<p><img class="center" src="/images/authcache-views.png" title="&lsquo;authcache views&rsquo; &lsquo;the authcache views interface&rsquo;" ></p>
+<p>{% img center /images/authcache-views.png &lsquo;authcache views&rsquo; &lsquo;the authcache views interface&rsquo; %}</p>
 
 <p>Note that just because it&rsquo;s customized per user doesn&rsquo;t mean it shouldn&rsquo;t be cached! We can cache this fragment for about an hour before running that query again. Once we save the View and clear caches, if you return to the frontpage you&rsquo;ll find that each user gets their own &ldquo;Your posts&rdquo; block. Success!</p>
 
@@ -98,11 +98,11 @@ Now your site is prepared to deliver cached content to authenticated users. Now 
 
 <p>You can find it in the Panels Content admin screen (thanks, authcache_panels!).</p>
 
-<p><img class="center" src="/images/authcache-panels.png" title="&lsquo;authcache panels&rsquo; &lsquo;the authcache panels interface&rsquo;" ></p>
+<p>{% img center /images/authcache-panels.png &lsquo;authcache panels&rsquo; &lsquo;the authcache panels interface&rsquo; %}</p>
 
 <p>You can find it on the Block configuration page (thanks, authcache_block!).</p>
 
-<p><img class="center" src="/images/authcache-block.png" title="&lsquo;authcache block&rsquo; &lsquo;the authcache block interface&rsquo;" ></p>
+<p>{% img center /images/authcache-block.png &lsquo;authcache block&rsquo; &lsquo;the authcache block interface&rsquo; %}</p>
 
 <p>(note: on the Demo site these are not positioned as blocks; they are positioned by panels. That means they don&rsquo;t go through blocks' normal render process, which means that authcache_block would be useless here!</p>
 
@@ -135,7 +135,7 @@ $conf[&lsquo;cache_class_cache_page&rsquo;] = &lsquo;MemCacheDrupal&rsquo;;
 
 <p>That&rsquo;s normal. There are all sorts of situations in which you would not want to cache a page. If one of your test users creates a node and then visits that new node, you will notice just such a red light.</p>
 
-<p><img class="center" src="/images/authcache-red.png" title="&lsquo;authcache red&rsquo; &lsquo;authcache cancels caching on a page&rsquo;" ></p>
+<p>{% img center /images/authcache-red.png &lsquo;authcache red&rsquo; &lsquo;authcache cancels caching on a page&rsquo; %}</p>
 
 <p>Authcache Debug is your best friend here. Sometimes this is something simple, like in this example. All we need to do is enable authcache_menu, and this will turn green. Other times the problem is deeper. Perhaps there is a page element which needs a caching mechanism defined. Or perhaps a fragment that you have set to use ESI, isn&rsquo;t visible for the ESI tags to be evaluated.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-02-22T17:42:02+01:00</updated>
+  <updated>2017-03-30T13:37:01+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Stay for Community]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
+    <updated>2017-03-30T12:22:11+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
+    <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
+
+<p><img class="center /images/drupalcon-la.jpg 12 years of writing code, and" src="singing/dancing" title="the Drupalcon song with Dries and Larry is one of my favorite moments." ></p>
+
+<p><strong>Why?</strong> For those who don&rsquo;t know, I&rsquo;m one of the authors of the <a href="https://www.youtube.com/playlist?list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4">DrupalCon Prenote</a>, the &ldquo;pre-keynote&rdquo; show that kicks off DrupalCon right before Dries&#8217; keynote. The organizer (and my officemate), Jeffrey A. &ldquo;jam&rdquo; McGuire and I have been living our own special version of the crisis (<strong>Read Jam&rsquo;s post about taking sides on this <a href="https://medium.com/@horncologne/drupal-im-taking-sides-f46194122a05">here</a></strong>). Our friend Larry Garfield has been an enthusiastic part of the Prenote ever since his first appearance as &ldquo;Lord Over-Engineering&rdquo; <a href="https://www.youtube.com/watch?v=i5bW41KYUE0&amp;list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4&amp;index=20">at Drupalcon Austin</a>. Dries has often played a special guest role, too. With Drupalcon Baltimore looming on the horizon, everything seems to be coming together in one awful moment full of painful reminders &ndash; and it&rsquo;s just when we&rsquo;re supposed to be cheering for &ldquo;community.&rdquo; That awful conjunction is what makes this next Prenote in Baltimore more important than ever.</p>
+
+<p>I have a tremendous respect for how painful this whole situation is for everyone involved. This very public meltdown, which has already done tremendous material damage, is made even more painful by the personal friendships of the key people involved. Klaus, Dries, and Larry have been colleagues for more than a decade. Even if this was only a private falling out, it would have been a painful one. And this is a public explosion. I can&rsquo;t imagine the emotional strain that each of them is under right now. Internet mob outrage is a terrible experience, made much worse when it comes from your friends and colleagues, directed at your friends and colleagues.</p>
+
+<p><strong>And this is exactly why we need a Prenote right now.</strong> Because this is terrible shit that we&rsquo;re wading through, and the Prenote exists to remind us of why we should keep going. The Drupal community &ndash; not the specific leadership, but the agglomeration of people, practices, code, and rules &ndash; has a lot that&rsquo;s worth fighting for. We are the largest open source software community in the world, with a uniquely personal connection to its members. An incredible diversity of contributors from every culture imaginable who, for the most part, manage to work very well together.</p>
+
+<p><strong>The Drupal community is on the leading edge of how a community of this size and diversity can work.</strong>  No one has ever done this before. Things like our <a href="https://www.drupal.org/dcoc">Code of Conduct</a>, <a href="https://www.drupal.org/governance/community-working-group">Community Working Group</a>, and <a href="https://www.drupal.org/conflict-resolution">conflict resolution process</a>, can seem like established and unassailable systems. They aren&rsquo;t. Go read the version history of those links; we just get a group of people together at a Drupalcon or on video conference to try to figure out how to handle this stuff, and then codify it in writing. We take models from other kinds of communities and try to adapt them, we suggest crazy new ideas and directions. <strong>As a community, Drupal actively and aggressively tries to figure out how to make itself more diverse, and less conflict prone.</strong> Humanity has never done collaborative communities on this scale before, and the Drupal Community is on the bleeding edge of it all.</p>
+
+<p>The cost of the bleeding edge is that we make mistakes. We set off conflicts, we discover new kinds of obstacles. We muddle through every time, and then in retrospect try to find a better way forward for next time. I don&rsquo;t mean to diminish the size or importance of any of these conflicts. They can be serious, existential crises.</p>
+
+<ul>
+<li><a href="http://buytaert.net/acquia-my-drupal-startup">When Acquia first formed</a> and started to hold outsize influence, it was an existential crisis. We had to figure out how to handle a conflict of interest in our leadership, and what to do about a (then) totally asymmetrical services market. Acquia is now just one large player of several in the Drupal marketplace, and Dries found a compromise between his interests that has lasted almost a decade.</li>
+<li>When <a href="http://www.jenlampton.com/blog/introducing-backdrop-cms-drupal-fork">Nate and Jenn forked Drupal</a> into <a href="https://backdropcms.org/">Backdrop CMS</a>, it presented another existential crisis for our community. We had never had such a credible fork from such key community members before. It was the apex of a crisis in the development direction for the whole project. We had to figure out how to address developer experience, how to work with a forked project, and even how to continue working with the forkers themselves. Backdrop is now a normal part of the ecosystem; Jenn and Nate remain important and welcomed Drupal community leaders almost four years later.</li>
+<li>We have had critical tensions, messy relationships, and fallings out with some of our most appreciated developers and community leaders. Whether it&rsquo;s offense taken at <a href="https://web-beta.archive.org/web/20151105173458/http://morten.dk/blog/language-twitter-misunderstanding-drupal-community">Morten</a>, or outbursts from <a href="https://www.reddit.com/r/drupal/comments/5e8dcd/a_fundamental_cultural_shift_in_drupal_or_my/">Chx</a>, these have divided our community and forced us to solve diversity problems that no one else has ever had to deal with.</li>
+</ul>
+
+
+<p>I could go on. The point is: With each crucible, we the Drupal community must try to learn and build better systems for the next time.</p>
+
+<p>So right now, in the midst of all this anger, this prejudice, and these accusations, I&rsquo;m here to say: <strong>we will learn from this, too.</strong> The Drupal community is extraordinary, but we must adapt in order to survive. Losing Larry is a big hit to our community in almost every dimension. This public explosion has been a big hit to us in almost every other dimension. The arguments and animosities we&rsquo;ve unleashed feel like they will tear us apart. But we must look forward. We must use this event for introspection and carry on as a better, improved community.</p>
+
+<p><em>Do you think Larry was punished for thoughtcrime?</em> Pitch in and help build a system where the next Larry can&rsquo;t be treated that way. <em>Do you think Dries and the DA deserve our trust in their decision?</em> Join up and help make sure the next iteration preserves the strength of independent leadership.</p>
+
+<p>The prenote is about why we are here, why we&rsquo;ve stayed here all these years. Because it&rsquo;s fun, because it&rsquo;s supportive, because we love it. Sometimes the best way to start addressing your pain is through humor &ndash; and we desperately need to start addressing this.</p>
+
+<p>However you feel about the Crellpocalypse, please don&rsquo;t leave. Not yet. Stay, and help the community improve. Don&rsquo;t stay for your job. Don&rsquo;t stay for Dries, or the DA, or Larry. Stay for the community.</p>
+
+<p><strong><a href="https://events.drupal.org/baltimore2017/balti-more-prenote-balti-most-fun-drupalcon">I&rsquo;ll see you at the Prenote.</a></strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
@@ -1617,21 +1657,6 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 
 <p>For the other 99% of organizations out there, I expect that unique snowflake apps will give way to standardized, truly responsive and machine readable, web interfaces. I believe that in the next decade or so, most websites will be machine-readable and machine-reformattable. This shift will mean legibility and engagement for everyone: from Google&rsquo;s spiders to visual assistive devices, from TV pluggables to smart watches. And it will mean that the &ldquo;apposphere&rdquo; will largely evaporate away.</p>
 
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Get Memcache Statistics From the Command Line in One Easy Command]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/"/>
-    <updated>2014-07-22T15:43:30+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command</id>
-    <content type="html"><![CDATA[<p>A quick one for myself to come back to. I can never find this one liner when I need it! It&rsquo;s simple enough:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>watch 'php -r '"'"'$m=new Memcache;$m-&gt;connect("127.0.0.1", 11211);print_r($m-&gt;getstats());'"'"</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Next time I need to get memcached stats, I&rsquo;ll check back here.</p>
 ]]></content>
   </entry>
   
