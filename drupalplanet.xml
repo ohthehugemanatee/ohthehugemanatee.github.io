@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee - Drupal]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-03-30T21:34:45+02:00</updated>
+  <updated>2017-06-07T18:18:30-07:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,9 +14,583 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <updated>2017-06-06T21:33:24-07:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
+
+<p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
+
+<blockquote><p>It&#8217;s not ready yet, but we are brainstorming about what would be the best way forward. Want to help us? Fill in our survey.<br/>If you decide to use it, don&#8217;t be mad if we break it later.</p></blockquote>
+
+
+<p></p>
+
+<p>This does not inspire confidence.</p>
+
+<p>The next great candidate is <a href="https://www.drupal.org/docs/8/core/modules/aggregator/overview">Aggregator</a> module (in core). Unfortunately, Aggregator gives you no control over the kind of entity to create, let alone any kind of field mapping. It imports content into its own Aggregated Content entity, with everything in one field, and linking offsite. I suppose you could extend it to choose you own entity type, map fields etc, but that seems like a lot of work for such a simple feature.</p>
+
+<p>Frustrating, right?</p>
+
+<p><strong>What if I told you that Drupal 8 can do everything Feeds 7 can?</strong></p>
+
+<p>What if I told you that it&rsquo;s even better: instead of clicking through endless menus and configuration links, waiting for things to load, missing problems, and banging your head against the mouse, you can set this up with one simple piece of text. You can copy and paste it directly from this blog post into Drupal&rsquo;s admin interface.</p>
+
+<h2>What? How?</h2>
+
+<p>Drupal 8 can do all the Feedsy stuff you like with <a href="https://www.drupal.org/docs/8/api/migrate-api/migrate-api-overview">Migrate</a> module. Migrate in D8 core already contains all the elements you need to build a regular importer of ANYTHING into D8. Add a couple of contrib modules to provide specific plugins for XML sources and convenience drush functions, and <em>baby you&rsquo;ve got a stew goin&#8217;!</em></p>
+
+<p>Here&rsquo;s the short version Howto:</p>
+
+<p><strong>1) Download and enable <a href="https://drupal.org/project/migrate_plus">migrate_plus</a> and <a href="https://drupal.org/project/migrate_tools">migrate_tools</a> modules.</strong> You should be doing this with composer, but I won&rsquo;t judge. Just get them into your codebase and enable them. Migrate Plus provides plugins for core Migrate, so you can parse remote XML, JSON, CSV, or even arbitrary spreadsheet data. Migrate Tools gives us drush commands for running migrations.</p>
+
+<p><strong>2) Write your Migration configuration in text</strong>, and paste it into the configuration import admin page (<code>admin/config/development/configuration/single/import</code>), or import it another way. I&rsquo;ve included a starter YAML just below, you should be able to copypasta, change a few values, and be done in time for tea.</p>
+
+<p><strong>3) Add a line to your system cron</strong> to run <code>drush migrate -y my_rss_importer</code> at whatever interval you like.</p>
+
+<p>That&rsquo;s it. One YAML file, most of which is copypasta. One cronjob. All done!</p>
+
+<p>Here&rsquo;s my RSS importer config for your copy and pasting pleasure. If you&rsquo;re already comfortable with migration YAMLs and XPaths, just add the names of your RSS fields as selectors in the source section, map them to drupal fields in the process section, and you&rsquo;re all done!</p>
+
+<p>If you aren&rsquo;t familiar with this stuff yet, don&rsquo;t worry! We&rsquo;ll dissect this together, below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_importer</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Import</span><span class="nv"> </span><span class="s">my</span><span class="nv"> </span><span class="s">RSS</span><span class="nv"> </span><span class="s">feed&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">url</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_fetcher_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">urls</span><span class="p-Indicator">:</span> <span class="s">&#39;https://example.com/feed.rss&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_parser_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">simple_xml</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">item_selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/rss/channel/item</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">GUID</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Publication</span><span class="nv"> </span><span class="s">date&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pubDate</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Origin</span><span class="nv"> </span><span class="s">link&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:summary&#39;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:image[</span><span class="se">&#39;&#39;</span><span class="s">href</span><span class="se">&#39;&#39;</span><span class="s">]&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">ids</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">guid</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="s">&#39;entity:node&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">field_remote_url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">created</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">format_date</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">from_format</span><span class="p-Indicator">:</span> <span class="s">&#39;D,</span><span class="nv"> </span><span class="s">d</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">Y</span><span class="nv"> </span><span class="s">H:i:s</span><span class="nv"> </span><span class="s">O&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">to_format</span><span class="p-Indicator">:</span> <span class="s">&#39;U&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">podcast_episode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some of you can just stop here. If you&rsquo;re familiar with the format and the structures involved, this example is probably all you need to set up your easy RSS importer.</p>
+
+<p>In the interest of good examples for Migrate module though, I&rsquo;m going to continue. Read on if you want to learn more about how this config works, and how you can use Migrate to do even more amazing things&hellip;</p>
+
+<h2>Anatomy of a migration YAML</h2>
+
+<p>Let&rsquo;s dive into that YAML a bit. Migrate is one of the most powerful components of Drupal 8 core, and this configuration is your gateway to it.</p>
+
+<p>That YAML looks like a lot, but it&rsquo;s really just 4 sections. They can appear in any order, but we need all 4: General information, source, destination, and data processing. This isn&rsquo;t rocket science after all! Let&rsquo;s look at these sections one at a time.</p>
+
+<p><strong>General information</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_importer</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;My</span><span class="nv"> </span><span class="s">RSS</span><span class="nv"> </span><span class="s">feed</span><span class="nv"> </span><span class="s">importer&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the basic stuff about the migration configuration. At a minimum it needs a unique machine-readable ID, a human-readable label, and <code>status: true</code> so it&rsquo;s enabled. There are other keys you can include here for fun extra features, like module dependencies, groupings (so you can run several imports together!), tags, and language. These are the critical ones, though.</p>
+
+<p><strong>Source</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">url</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_fetcher_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">file</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">urls</span><span class="p-Indicator">:</span> <span class="s">&#39;https://example.com/feed.rss&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_parser_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">simple_xml</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">item_selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/rss/channel/item</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">GUID</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Item Title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Publication</span><span class="nv"> </span><span class="s">date&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pubDate</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Origin</span><span class="nv"> </span><span class="s">link&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:summary&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">ids</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">guid</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the one that intimidates most people: it&rsquo;s where you describe the RSS source. Migrate module is even more flexible than Feeds was, so there&rsquo;s a lot to specify here&hellip; but it all makes sense if you take it in small pieces.</p>
+
+<p>First: we want to use a remote file, so we&rsquo;ll use the Url plugin (there are others, but none that we care about right now). All the rest of the settings belong to the Url plugin, even though they aren&rsquo;t indented or anything.</p>
+
+<p>There are two possibilities for Url&rsquo;s data_fetcher setting: file and http. <code>file</code> is for anything you could pass to PHP&rsquo;s <a href="https://secure.php.net/manual/en/function.file-get-contents.php">file_get_contents</a>, including remote URLs. There are some great performance tricks in there, so it&rsquo;s a good option for most use cases. We&rsquo;ll be using <code>file</code> for our example. <code>http</code> is specifically for remote files accessed over HTTP, and lets you use the full power of the HTTP spec to get your file. Think authentication headers, cache rules, etc.</p>
+
+<p>Next we declare which plugin will read (parse) the data from that remote URL. We can read JSON, SOAP, arbitrary XML&hellip; in our use case this is an RSS feed, so we&rsquo;ll use one of the XML plugins. SimpleXML is just what it sounds like: a simple way to get data out of XML. In extreme use cases you might use XML instead, but I haven&rsquo;t encountered that yet (ever, anywhere, in any of my projects). TL;DR: SimpleXML is great. Use it.</p>
+
+<p>Third, we have to tell the source where it can find the actual items to import. XML is freeform, so there&rsquo;s no way for Migrate to know where the future &ldquo;nodes&rdquo; are in the document. So you have to give it the XPath to the items. RSS feeds have a standardized path: <code>/rss/channel/item</code>.</p>
+
+<p>Next we have to identify the &ldquo;fields&rdquo; in the source. You see, migrate module is built around the idea that you&rsquo;ll map source fields to destination fields. That&rsquo;s core to how it thinks about the whole process. Since XML (and by extension RSS) is an unstructured format &ndash; it doesn&rsquo;t think of itself as having &ldquo;fields&rdquo; at all. So we&rsquo;ll have to give our source plugin XPaths for the data we want out of the feed, assigning each path to a virtual &ldquo;field&rdquo;. These &ldquo;fake fields&rdquo; let Migrate treat this source just like any other.</p>
+
+<p>If you haven&rsquo;t worked with XPaths before, the example YAML in this post gives you most of what you need to know. It&rsquo;s just a simple text system for specifying a tag within an unstructured XML document. Not too complicated when you get into it. You may want to <a href="https://duckduckgo.com/?q=xpath+basics">find a good tutorial</a> to learn some of the tricks.</p>
+
+<p>Let&rsquo;s look at one of these &ldquo;fake fields&rdquo;:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:summary&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>name</em> is how we&rsquo;ll address this field in the rest of the migration. It&rsquo;s the source &ldquo;field name&rdquo;. <em>label</em> is the human readable name for the field. <em>selector</em> is the XPath inside the item. Most items are flat &ndash; certainly in RSS &ndash; so it&rsquo;s basically just the tag that surrounds the data you want. There, was that so hard?</p>
+
+<p>As a side note, you can see that my RSS feeds tend to be for iTunes. Sometimes the world eats an apple, sometimes an apple eats the world. Buy me a beer at Drupalcon and we can argue about standards.</p>
+
+<p>Fifth and finally, we identify which &ldquo;field&rdquo; in the source contains a unique identifier. Migrate module keeps track of the association between the source and destination objects, so it can handle updates, rollbacks, and more. The example YAML relies on the very common (but technically optional) <code>&lt;guid&gt;</code> tag as a unique identifier.</p>
+
+<p><strong>Destination</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="s">&#39;entity:node&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yep, it&rsquo;s that simple. This is where you declare what Drupal entity type will receive the data. Actually, you could write any sort of destination plugin for this &ndash; if you want Drupal to migrate data into some crazy exotic system, you can do it! But in 99.9% of cases you&rsquo;re migrating into Drupal entities, so you&rsquo;ll want <code>entity:something</code> here. Don&rsquo;t worry about bundles (content types) here; that&rsquo;s something we take care of in field mapping.</p>
+
+<p><strong>Process</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">field_remote_url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">created</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">format_date</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">from_format</span><span class="p-Indicator">:</span> <span class="s">&#39;D,</span><span class="nv"> </span><span class="s">d</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">Y</span><span class="nv"> </span><span class="s">H:i:s</span><span class="nv"> </span><span class="s">O&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">to_format</span><span class="p-Indicator">:</span> <span class="s">&#39;U&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">podcast_episode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is where the action happens: the process section describes how destination fields should get their data from the source. It&rsquo;s the &ldquo;field mapping&rdquo;, and more. Each key is a destination field, each value describes where the data comes from.</p>
+
+<p>If you don&rsquo;t want to migrate the whole field exactly as it&rsquo;s presented in the source, you can put individual fields through <a href="https://www.drupal.org/docs/8/api/migrate-api/migrate-process-plugins">Migrate plugins</a>. These plugins apply all sorts of changes to the source content, to get it into the shape Drupal needs for a field value. If you want to take a substring from the source, explode it into an array, extract one array value and make sure it&rsquo;s a valid Drupal machine name, you can do that here. I won&rsquo;t do it in my example because that sort of thing isn&rsquo;t common for RSS feeds, but it&rsquo;s definitely possible.</p>
+
+<p>The examples of plugins that you see here are simple ones. <code>status</code> and <code>type</code> show you how to set a fixed field value. There are other ways, but the <code>default_value</code> plugin is the best way to keep your sanity.</p>
+
+<p>The <code>created</code> field is a bit more interesting. The Drupal field is a unix timestamp of the time a node was authored. The source RSS uses a string time format, though. We&rsquo;ll use the <code>format_date</code> plugin to convert between the two. Neat, eh?</p>
+
+<p>Don&rsquo;t forget to map values into Drupal&rsquo;s <code>status</code> and <code>type</code> fields! <code>type</code> is especially important: that&rsquo;s what determines the content type, and nodes can&rsquo;t be saved without it!</p>
+
+<h2>That&rsquo;s it?</h2>
+
+<p>Yes, that&rsquo;s it. You now have a migrator that pulls from any kind of remote source, and creates Drupal entities out of the items it finds. Your system cron entry makes sure this runs on a regular schedule, rather than overloading Drupal&rsquo;s cron.</p>
+
+<p>More importantly, if you&rsquo;re this comfortable with Migrate module, you&rsquo;ve just gained a <em>lot</em> of new power. This is a framework for getting data from anywhere, to anywhere, with a lot of convenience functionality in between.</p>
+
+<p>Happy feeding!</p>
+
+<h2>Tips and tricks</h2>
+
+<p>OK I lied, there is way more to say about Migrate. It&rsquo;s a wonderful, extensible framework, and that means there are lots of options for you. Here are some of the obstacles and solutions I&rsquo;ve found helpful.</p>
+
+<p><strong>Importing files</strong></p>
+
+<p>Did you notice that I didn&rsquo;t map the images into Drupal fields in my example? That&rsquo;s because it&rsquo;s a bit confusing. We actually have an image URL that we need to download, then we have to create a file entity based on the downloaded file, and then we add the File ID to the node&rsquo;s field as a value. That&rsquo;s more complicated than I wanted to get into in the general example.</p>
+
+<p>To do this, we have to create a pipeline of plugins that will operate in sequence, to create the value we want to stick in our field_image.  It looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">field_image</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">download</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">constants/destination_uri</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">rename</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity_generate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looking at that download plugin, <em>image</em> seems clear. That&rsquo;s the source URL we got out of the RSS feed. But what is <em>constants/destination_uri</em>, I hear you cry? I&rsquo;m glad you asked. It&rsquo;s a constant, which I added in the source section and didn&rsquo;t tell you about. You can add any arbitrary keys to the source section, and they&rsquo;ll be available like this in processing. It is good practice to lump all your constants together into one key, to keep the namespace clean. This is what it looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">... usual source stuff here ...</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">constants</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">destination_uri</span><span class="p-Indicator">:</span> <span class="s">&#39;public://my_rss_feed/post.jpg&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Before you ask, yes this is exactly the same as using the <code>default_value</code> plugin. Still, <code>default_value</code> is preferred for readability wherever possible. In this case it isn&rsquo;t really possible.</p>
+
+<p>Also, note that the download plugin lets me set <code>rename: true</code>. This means that in case of a name conflict, a <em>0, </em>1, <em>2, </em>3 etc will be added to the end of the filename.</p>
+
+<p>You can see the whole structure here, of one plugin passing its result to the next. You can chain unlimited plugins together this way&hellip;</p>
+
+<p><strong>Multiple interrelated migrations</strong></p>
+
+<p>One of the coolest tricks that Migrate can do is to manage interdependencies between migrations. Maybe you don&rsquo;t want those images just as File entities, you actually want them in Paragraphs, which should appear in the imported node. Easy-peasy.</p>
+
+<p>First, you have to create a second migration for the Paragraph. Technically you should have a separate Migration YAML for each destination entity type. (yes, <code>entity_generate</code> is a dirty way to get around it, use it sparingly). So we create our second migration just for the paragraph, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_images_importer</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Import</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">images</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">my</span><span class="nv"> </span><span class="s">RSS</span><span class="nv"> </span><span class="s">feed&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">url</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_fetcher_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">urls</span><span class="p-Indicator">:</span> <span class="s">&#39;https://example.com/feed.rss&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_parser_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">simple_xml</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">item_selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/rss/channel/item</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">GUID</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:image[</span><span class="se">&#39;&#39;</span><span class="s">href</span><span class="se">&#39;&#39;</span><span class="s">]&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">ids</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">guid</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">constants</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">destination_uri</span><span class="p-Indicator">:</span> <span class="s">&#39;public://my_rss_feed/post.jpg&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="s">&#39;entity:paragraph&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">podcast_image</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">field_image</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">download</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">constants/destination_uri</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">rename</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity_generate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you look at that closely, you&rsquo;ll see it&rsquo;s a simpler version of the node migration we did at first. I did the copy pasting myself! Here are the differences:</p>
+
+<ul>
+<li>Different ID and label (duh)</li>
+<li>We only care about two &ldquo;fields&rdquo; on the source: GUID and the image URL.</li>
+<li>The destination is a paragraph instead of a node.</li>
+<li>We&rsquo;re doing the image trick I just mentioned.</li>
+</ul>
+
+
+<p>Now, in the node migration, we can add our paragraphs field to the &ldquo;process&rdquo; section like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">field_paragraphs</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">migration_lookup</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">migration</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_images_importer</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re using the <code>migration_lookup</code> plugin. This plugin takes the value of the field given in <code>source</code>, and looks it up in <code>my_rss_images_importer</code> to see if anything with that source ID was migrated. Remember where we configured the source plugin to know that <code>guid</code> was the unique identifier for each item in this feed? That comes in handy here.</p>
+
+<p>So we pass the guid to <code>migration_lookup</code>, and it returns the id of the paragraph which was created for that guid. It finds out what Drupal entity ID corresponds to that source ID, and returns the Drupal entity ID to use as a field value. You can use this trick to associate content migrated from separate feeds, totally separate data sources, or whatever.</p>
+
+<p>You should also add a dependency on <code>my_rss_images_importer</code> at the bottom of your YAML file, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">migration_dependencies</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">required</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">my_rss_images_importer</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will ensure that <code>my_rss_images_importer</code> will always run before <code>my_rss_importer</code>.</p>
+
+<p>(NB: in Drupal &lt; 8.3, this plugin is called <code>migration</code>)</p>
+
+<p><strong>Formatting dates</strong></p>
+
+<p>Very often you will receive dates in a format other than what Drupal wants to accept as a valid field value. In this case the <code>format_date</code> process plugin comes in very handy, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">field_published_date</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">format_date</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">from_format</span><span class="p-Indicator">:</span> <span class="s">&#39;D,</span><span class="nv"> </span><span class="s">d</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">Y</span><span class="nv"> </span><span class="s">H:i:s</span><span class="nv"> </span><span class="s">O&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">to_format</span><span class="p-Indicator">:</span> <span class="s">&#39;Y-m-d\TH:i:s&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This one is pretty self-explanatory: from format, to format, and source. This is important when migrating from Drupal 6, whose date fields store dates differently from 8. It&rsquo;s also sometimes handy for RSS feeds. :)</p>
+
+<p><strong>Drush commands</strong></p>
+
+<p>Very important for testing, and the whole reason we have <code>migrate_plus</code> module installed! Here are some handy drush commands for interacting with your migration:</p>
+
+<ul>
+<li><code>drush ms</code>: Gives you the status of all known migrations. How many items are there to import? How many have been imported? Is the import running?</li>
+<li><code>drush migrate-rollback</code>: Rolls back one or more migrations, deleting all the imported content.</li>
+<li><code>drush migrate-messages</code>: Get logged messages for a particular migration.</li>
+<li><code>drush mi</code>: Runs a migration. use <code>--all</code> to run them all. Don&rsquo;t worry, Migrate will sort out any dependencies you&rsquo;ve declared and run them in the right order. Also worth noting: <code>--limit=10</code> does a limited run of 10 items, and <code>--feedback=10</code> gives you an in-progress status line every 10 items (otherwise you get nothing until it&rsquo;s finished!).</li>
+</ul>
+
+
+<p>Okay, now that&rsquo;s really it. Happy feeding!</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Stay for Community]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
-    <updated>2017-03-30T12:22:11+02:00</updated>
+    <updated>2017-03-30T03:22:11-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
     <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
 
@@ -58,7 +632,7 @@
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
-    <updated>2017-02-21T22:33:08+01:00</updated>
+    <updated>2017-02-21T13:33:08-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
@@ -225,7 +799,7 @@
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
-    <updated>2017-02-11T11:18:44+01:00</updated>
+    <updated>2017-02-11T02:18:44-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 
@@ -250,7 +824,7 @@
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
-    <updated>2016-11-05T12:05:50+01:00</updated>
+    <updated>2016-11-05T04:05:50-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
@@ -279,7 +853,7 @@
   <entry>
     <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
-    <updated>2015-10-08T11:16:02+02:00</updated>
+    <updated>2015-10-08T02:16:02-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
     <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
@@ -364,7 +938,7 @@
   <entry>
     <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
-    <updated>2015-05-02T16:10:36+02:00</updated>
+    <updated>2015-05-02T07:10:36-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
     <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
 
@@ -724,7 +1298,7 @@
   <entry>
     <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
-    <updated>2014-11-03T17:30:32+01:00</updated>
+    <updated>2014-11-03T08:30:32-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
     <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
 
@@ -783,7 +1357,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Bug: Multilingual Auto Label Will Break Your Entity Static Cache]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/"/>
-    <updated>2014-07-01T17:00:45+02:00</updated>
+    <updated>2014-07-01T08:00:45-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache</id>
     <content type="html"><![CDATA[<p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal&rsquo;s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
 
@@ -796,7 +1370,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[D8 Core Sprint in DC]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc/"/>
-    <updated>2014-07-01T16:27:17+02:00</updated>
+    <updated>2014-07-01T07:27:17-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc</id>
     <content type="html"><![CDATA[<p>A quick note to all the Drupalists in the DC general area &ndash; Forum One is trying to put together a D8 core sprint in their DC office space. They&rsquo;re coordinating with the DC Meetup group to try and spread the word to as many community members as possible!</p>
 
@@ -809,7 +1383,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Authenticated User Caching Concepts in Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
-    <updated>2014-06-09T22:21:01+02:00</updated>
+    <updated>2014-06-09T13:21:01-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
     <content type="html"><![CDATA[<p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
 
@@ -874,7 +1448,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drupal Superheroes: ASSEMBLE!]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble/"/>
-    <updated>2014-05-28T12:44:01+02:00</updated>
+    <updated>2014-05-28T03:44:01-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble</id>
     <content type="html"><![CDATA[<p><img alt="Drop Signal" src="http://ohthehugemanatee.github.io/images/dropsignal.jpg" align=left> Regular Drupalcon attendees know that the opening pre-keynote session is one of the highlights of the con. That&rsquo;s the session where we welcome everyone to the con with stupid jokes, some well known Drupalists, and a lot of fun. This year is going to be especially good &ndash; and we need your help!</p>
 
@@ -891,7 +1465,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drupalcamp Helsinki Takes on the World]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/"/>
-    <updated>2014-05-26T15:14:58+02:00</updated>
+    <updated>2014-05-26T06:14:58-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world</id>
     <content type="html"><![CDATA[<p>Last weekend I got to keynote <a href="http://drupalcamp.fi">Drupalcamp Helsinki</a> with my friend and often-collaborator, <a href="http://twitter.com/adamjurantenor">scaragucc</a> &ndash; and what a great camp it was! Organizer <a href="https://twitter.com/laurii1">Lauri Eskola</a> deserves tremendous credit for taking this camp to the next level. They doubled their attendance from last year, attracted positive attention from some great notables in the global Drupal world, and got their local community energized to engage more. At all the various after parties there were frequent toasts of &ldquo;one of the best Drupalcamps in the world!&rdquo;</p>
 
@@ -904,7 +1478,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Coder vs. Themer Ultimate Grudge Match Smackdown Fight to the Death]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/"/>
-    <updated>2014-05-01T17:15:31+02:00</updated>
+    <updated>2014-05-01T08:15:31-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death</id>
     <content type="html"><![CDATA[<p>I&rsquo;m really excited about a new session that I&rsquo;ve been doing with my friend and colleague, <a href="https://twitter.com/adamjurantenor">Adam Juran aka scaragucc</a>: the Coder vs Themer Ultimate Grudge Match Smackdown Fight to the Death! The basic premise: we both start with the same wireframe of a front page to build. But <em>I&rsquo;m only allowed to use the module layer, and Adam is only allowed to use the theme layer</em>. It&rsquo;s a really fun and entertaining way to play with the blurry lines between &ldquo;coder&rdquo; and &ldquo;themer&rdquo;. We get the audience pretty pumped up, which is impressive for a session that&rsquo;s basically about watching other people code!</p>
 
@@ -920,7 +1494,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[How to Create a Custom Display Suite Field]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field/"/>
-    <updated>2014-04-02T17:12:13+02:00</updated>
+    <updated>2014-04-02T08:12:13-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field</id>
     <content type="html"><![CDATA[<p>A few months ago I posted about <a href="https://ohthehugemanatee.org/blog/2014/01/03/how-to-create-a-custom-panels-pane">how to create a custom Panels pane</a>, a critical reference for anyone who uses Panels layouts. The other part of the toolkit for quick and awesome layouts is the <a href="https://drupal.org/projects/ds">Display Suite</a> module. With DS you can create new &ldquo;Display modes&rdquo; for your content, to be reused around the site. For example, on one recent site I had four standard ways to display my nodes: Full, Teaser, Mini-Teaser, and Search Result. DS made this configuration a cinch.</p>
 
@@ -1007,7 +1581,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drupal Dev Days Szeged, or: Why You Should Attend Every Camp You Can]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014/"/>
-    <updated>2014-03-29T15:27:50+01:00</updated>
+    <updated>2014-03-29T07:27:50-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014</id>
     <content type="html"><![CDATA[<p>Today is the last day of <a href="http://szeged2014.drupaldays.org/">Drupal Dev Days</a> in Szeged, Hungary, and I&rsquo;ve never been more full of the &ldquo;Drupal spirit!&rdquo;</p>
 
@@ -1026,7 +1600,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drush Self Aliases]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
-    <updated>2014-01-10T09:22:01+01:00</updated>
+    <updated>2014-01-10T00:22:01-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
     <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
 
@@ -1106,7 +1680,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[How to Remove a Drupal Install Profile]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/"/>
-    <updated>2014-01-07T13:23:45+01:00</updated>
+    <updated>2014-01-07T04:23:45-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile</id>
     <content type="html"><![CDATA[<p><a href="https://drupal.org/project/install_profile_api">Install profiles</a> are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for setting up a site really quickly. What you did after the site was installed was your own business! But in Drupal 7 profiles are much more integrated with core. The assumption is that when you use an install profile, you want to rely on the profile&rsquo;s maintainer for all your updates. This is not always the case.</p>
 
@@ -1217,7 +1791,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[How to Create a Custom Panels Pane]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/"/>
-    <updated>2014-01-03T13:09:11+01:00</updated>
+    <updated>2014-01-03T04:09:11-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane</id>
     <content type="html"><![CDATA[<p>Lots of sites are now built with the &ldquo;Panels everywhere&rdquo; method, using <a href="https://www.drupal.org/project/panels">Panels</a> and <a href="https://www.drupal.org/project/panelizer">Panelizer</a> to configure modular layouts in the Drupal GUI. These modules come with lots of great default Panes, and create even more defaults based on your existing Blocks and Views. But there&rsquo;s always a case for a custom Pane.</p>
 
@@ -1472,7 +2046,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[44,497 People Are Wrong: How to NEVER Need Views PHP.]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/"/>
-    <updated>2013-12-26T12:01:44+01:00</updated>
+    <updated>2013-12-26T03:01:44-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php</id>
     <content type="html"><![CDATA[<p>You&rsquo;re building a View, but you can&rsquo;t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data in a custom table that you want to include in the View. So you look for a contributed module, and <a href="https://www.drupal.org/project/views_php">Views PHP</a> looks like the answer to your problem! Until you read the module page, where it says:</p>
 
@@ -1830,299 +2404,6 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 <p>If there&rsquo;s one thing I want you to take away from this blog post, it&rsquo;s that <strong>the Views API is actually really easy</strong>. And if you can&rsquo;t find something online, take a moment to actually look at the <a href="https://api.drupal.org/api/views/views.api.php/">API documentation included with the module</a>. It&rsquo;s <em>very</em> thorough, and easy to read. If you feel like you understand how this works, but the doco doesn&rsquo;t quite cover what you&rsquo;re trying to do, look for examples in the Views module itself! There are 169 handlers for every concievable kind of case, just within Views. Find something reasonable and build off of that!</p>
 
 <p>With this in mind, it&rsquo;s only 24 lines of simple code to provide your own handler for an existing field. After that 24 lines, you&rsquo;re doing the same things you were planning to do in views_php&hellip; but now you&rsquo;re doing them in a real coding environment, with a revisioning system, and where it&rsquo;s easy to track down and fix errors that could otherwise crash your site. 24 lines of array definition can save you a world of hurt. I hope to see those views_php installation numbers dropping soon.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Custom Context Conditions]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2013/12/02/custom-context-conditions/"/>
-    <updated>2013-12-02T15:06:49+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2013/12/02/custom-context-conditions</id>
-    <content type="html"><![CDATA[<p>One of the big advantages to using the <a href="https://drupal.org/project/context" title="Context Module on drupal.org">Context module</a> is how totally extensible it is. Not only can you use and re-use the built in conditions, you can write your own. This brings all the power of the custom PHP evaluation method of block placement, but in a structure that makes your code re-usable, contributable, versioned, and standards-based. Writing a custom Context Condition is also a great template for how to integrate custom behaviors in many of the more complex Drupal modules such as Views and Search_API. We&rsquo;ll see this pattern again and again, and this is about the most basic one to demonstrate with.</p>
-
-<p>My task was to determine if the displayed node was entity-referenced as being the &ldquo;special&rdquo; node from it&rsquo;s parent organic group. It&rsquo;s a weird requirement (which is exactly why a custom Condition makes sense here), so let me explain that again. On a site with Organic Groups, the Group node has an entityreference field, which marks one of the Group member nodes as special. When the user is viewing this special node, our Rules condition should evaluate to positive.</p>
-
-<p>The first prerequisite is to make absolutely certain that you can&rsquo;t do this using any of the built in Conditions, and something this unique definitely qualifies there. So let&rsquo;s get to the implementation in our custom module. The module will be called CCC for Custom Context Condition.</p>
-
-<figure class='code'><figcaption><span>ccc.info  (ccc.info)</span> <a href='http://ohthehugemanatee.github.io/downloads/code/modules/ccc/ccc.info'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">name</span> <span class="o">=</span> <span class="s">CCC (Custom Context Condition) Example Module</span>
-</span><span class='line'><span class="na">description</span> <span class="o">=</span> <span class="s">Provides a custom Context Condition</span>
-</span><span class='line'><span class="na">core</span> <span class="o">=</span> <span class="s">7.x</span>
-</span><span class='line'><span class="na">version</span> <span class="o">=</span> <span class="s">7.x-1.x</span>
-</span><span class='line'><span class="na">package</span> <span class="o">=</span> <span class="s">Custom</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">dependencies[]</span> <span class="o">=</span> <span class="s">entityreference</span>
-</span><span class='line'><span class="na">dependencies[]</span> <span class="o">=</span> <span class="s">context</span>
-</span><span class='line'><span class="na">dependencies[]</span> <span class="o">=</span> <span class="s">og</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s a totally normal .info file, with logical dependencies on OG, EntityReference, and Context modules. Let&rsquo;s have a look at the .module file. This is probably a lot simpler than you expected.</p>
-
-<figure class='code'><figcaption><span>ccc.module </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Impelements hook_context_plugins().</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">ccc_context_plugins</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nv">$plugins</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="s1">&#39;ccc_condition_og_special_node&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;path&#39;</span> <span class="o">=&gt;</span> <span class="nx">drupal_get_path</span><span class="p">(</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="s1">&#39;ccc&#39;</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/plugins/context&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;file&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ccc_condition_og_special_node.inc&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ccc_condition_og_special_node&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;parent&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;context_condition&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>  <span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$plugins</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>First we implement <em>hook_context_plugins()</em>, to declare our new condition plugin to Context. This function should return an array of plugins, keyed by plugin name (in our case, ccc_condition_og_special_node). For each plugin, you have to explain to Context some basic information about the handler you&rsquo;re going to write.</p>
-
-<ul>
-<li><strong>path</strong> The path to the plugin file. By convention you should put it in your module&rsquo;s directory, under /plugins/context.</li>
-<li><strong>file</strong> The filename to look for. Keep yourself sane, and name it after the plugin you&rsquo;re writing.</li>
-<li><strong>class</strong> The name of the Class you&rsquo;re about to write. If you&rsquo;ve never written a PHP class before, this is good practice for D8 and object oriented code in general. Think of it like a function name, and again: name it after the plugin you&rsquo;re writing.</li>
-<li><strong>parent</strong> The Class you are extending to create your condition. If you don&rsquo;t know what to put here, just enter &lsquo;context_condition&rsquo;.</li>
-</ul>
-
-
-<p>Now that Context knows about your plugin, you have to declare it to the UI in order to use it! For this we implement <em>hook_context_registry</em>. This function returns an array keyed by plugin type&mdash;in this case, &ldquo;conditions&rdquo;. For each condition (keyed by condition name), we need title, description, and plugin.</p>
-
-<figure class='code'><figcaption><span>ccc.module </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Implements hook_context_registry().</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">ccc_context_registry</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nv">$registry</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="s1">&#39;conditions&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;ccc_condition_og_special_node&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;OG Special Node&#39;</span><span class="p">),</span>
-</span><span class='line'>        <span class="s1">&#39;description&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Set this context based on whether or not the node is the &quot;Special Node&quot; entityreferenced in the parent OG.&#39;</span><span class="p">),</span>
-</span><span class='line'>        <span class="s1">&#39;plugin&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;ccc_condition_og_special_node&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>  <span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$registry</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now Context module knows everything it needs to know about your plugin and condition, we have to tell Drupal when to evaluate your condition. You can implement whatever hook make sense for you here, the important part is that you execute your plugin. Since our condition only makes sense after everything else has fired (ie when the OG context is well and firmly set), we&rsquo;ll implement <em>hook_context_page_reaction()</em>.</p>
-
-<figure class='code'><figcaption><span>ccc.module </span></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Implements hook_context_page_reaction().</span>
-</span><span class='line'><span class="sd"> *</span>
-</span><span class='line'><span class="sd"> * Executes our OG Special Node Context Condition. </span>
-</span><span class='line'><span class="sd"> * Gotta run on context_page_reaction, so Views and OG have a chance to</span>
-</span><span class='line'><span class="sd"> * set/modify Group context. </span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">ccc_context_page_reaction</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nv">$group</span> <span class="o">=</span> <span class="nx">og_context</span><span class="p">();</span>
-</span><span class='line'>  <span class="c1">// Only execute the group node context condition if there is a group node</span>
-</span><span class='line'>  <span class="c1">// in context.</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$group</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$plugin</span> <span class="o">=</span> <span class="nx">context_get_plugin</span><span class="p">(</span><span class="s1">&#39;condition&#39;</span><span class="p">,</span> <span class="s1">&#39;ccc_condition_og_special_node&#39;</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$plugin</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$plugin</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">(</span><span class="nv">$group</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s it for your module file. Just declare the plugin to Context and its UI, and find a place to actually execute the plugin. Now we&rsquo;ll write the actual handler class.</p>
-
-<p>Create your plugin file in the place you promised Context to find it in your <em>hook_context_plugins()</em> implementation. In our case, this is plugins/context/ccc_condition_og_special_node.inc . We&rsquo;re going to extend Context&rsquo;s basic Condition Class to provide our own functionality. Here are the contents of my ccc_condition_og_special_node.inc file:</p>
-
-<figure class='code'><figcaption><span> (ccc_condition_og_special_node.inc)</span> <a href='http://ohthehugemanatee.github.io/downloads/code/modules/ccc/plugins/context/ccc_condition_og_special_node.inc'>download</a></figcaption>
-<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
-<span class='line-number'>55</span>
-<span class='line-number'>56</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Expose Web Area Contact Form as a Context condition.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">ccc_condition_og_special_node</span> <span class="k">extends</span> <span class="nx">context_condition</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">function</span> <span class="nf">condition_values</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;TRUE&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Node is an OG special node&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;FALSE&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Node is not an OG special node&#39;</span><span class="p">),</span>
-</span><span class='line'>    <span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">function</span> <span class="nf">condition_form</span><span class="p">(</span><span class="nv">$context</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$form</span> <span class="o">=</span> <span class="k">parent</span><span class="o">::</span><span class="na">condition_form</span><span class="p">(</span><span class="nv">$context</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;radios&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">if</span><span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">])){</span>
-</span><span class='line'>      <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;TRUE&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">else</span><span class="p">{</span>
-</span><span class='line'>      <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">current</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;#default_value&#39;</span><span class="p">]);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="sd">/**</span>
-</span><span class='line'><span class="sd">   * Condition form submit handler.</span>
-</span><span class='line'><span class="sd">   *</span>
-</span><span class='line'><span class="sd">   * Storing values in an array since that&#39;s what Context prefers</span>
-</span><span class='line'><span class="sd">   */</span>
-</span><span class='line'>  <span class="k">function</span> <span class="nf">condition_form_submit</span><span class="p">(</span><span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nb">array_filter</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$values</span> <span class="o">=&gt;</span> <span class="nv">$values</span><span class="p">));</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">$group</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$group</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nv">$group</span><span class="p">[</span><span class="s1">&#39;group_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$group_node</span> <span class="o">=</span> <span class="nx">entity_load_single</span><span class="p">(</span><span class="nv">$group</span><span class="p">[</span><span class="s1">&#39;group_type&#39;</span><span class="p">],</span> <span class="nv">$group</span><span class="p">[</span><span class="s1">&#39;gid&#39;</span><span class="p">]);</span>
-</span><span class='line'>      <span class="nv">$group_wrapper</span> <span class="o">=</span> <span class="nx">entity_metadata_wrapper</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">,</span> <span class="nv">$group_node</span><span class="p">);</span>
-</span><span class='line'>      <span class="nv">$special_nid</span> <span class="o">=</span> <span class="nv">$group_wrapper</span><span class="o">-&gt;</span><span class="na">field_special_node</span><span class="o">-&gt;</span><span class="na">value</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>      <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get_contexts</span><span class="p">()</span> <span class="k">as</span> <span class="nv">$context</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nv">$values</span><span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">fetch_from_context</span><span class="p">(</span><span class="nv">$context</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">);</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">arg</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;node&#39;</span> <span class="o">&amp;&amp;</span> <span class="nx">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="nv">$contact_nid</span><span class="o">-&gt;</span><span class="na">nid</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;TRUE&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>          <span class="c1">// This is a special node, and the condition is set to match special </span>
-</span><span class='line'>          <span class="c1">// nodes.</span>
-</span><span class='line'>          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">condition_met</span><span class="p">(</span><span class="nv">$context</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="nx">arg</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="nv">$contact_nid</span><span class="o">-&gt;</span><span class="na">nid</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$values</span><span class="p">[</span><span class="s1">&#39;FALSE&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>          <span class="c1">// This is not a special node, and the condition is set to match</span>
-</span><span class='line'>          <span class="c1">// non-special nodes.</span>
-</span><span class='line'>          <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">condition_met</span><span class="p">(</span><span class="nv">$context</span><span class="p">);</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The trickiest part of this is in the Condition settings form and values. Context assumes that your settings form will be a series of checkboxes, and does a lot of internal processing based on that assumption. We don&rsquo;t want to mess any of that up, so there&rsquo;s a bit of dancing around the requirement here.</p>
-
-<p>First we provide the function condition_values. Context needs to know in advance what the possible values are for the Condition&rsquo;s settings form, and this is where you return them. Based on this return, Context will build a settings form of checkboxes for you.</p>
-
-<p>Then we override the settings form with condition_form(). I change the type of the form element to radio boxes, and set a default value.</p>
-
-<p>Then I add my own submit handler, which merely takes the result of the radio box and puts it into an array, just like it would be if this was a checkbox.</p>
-
-<p>Finally, we get to the good part: the execute function. If you recall, this is what we called in <em>ccc_content_page_reaction()</em>. Here we load the Group node, and use <em>entity_metadata_wrapper</em> to extract the value of the field_special_node entityreference field on that node. Then we test the current NID from the URL. Note that you never have to explicitly return FALSE; Context is only watching for TRUE returns.</p>
-
-<p>When I learned how to do this, I found it surprisingly easy. The hardest part is wrestling with the Condition class to get exactly the behavior you like. Everyone ends up doing <em>some</em> dancing around here, so don&rsquo;t feel bad about it. Context&rsquo;s own Conditions are great examples. Have a look at the classes provided in context/plugins/context_condition_*.inc to get ideas for how to do this.</p>
 ]]></content>
   </entry>
   

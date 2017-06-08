@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hacking | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/hacking/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-03-30T21:34:45+02:00</updated>
+  <updated>2017-06-07T18:18:30-07:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How and Why to Update the Modem/baseband Firmware on a Samsung Android Phone]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/"/>
-    <updated>2015-04-04T14:09:47+02:00</updated>
+    <updated>2015-04-04T05:09:47-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone</id>
     <content type="html"><![CDATA[<p>If you have a Samsung Android phone, and you use Samsung&rsquo;s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
 
@@ -88,7 +88,7 @@ Note the lines that say Samsung in them. Those are the Samsung drivers that are 
   <entry>
     <title type="html"><![CDATA[How to Recover Photos and Data From a Keylocked Android Phone]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/"/>
-    <updated>2014-05-18T18:55:31+02:00</updated>
+    <updated>2014-05-18T09:55:31-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone</id>
     <content type="html"><![CDATA[<p>Recently a good friend of mine passed away suddenly. Her family asked me to recover her photos and videos from her computer and android phone. The computer was easy enough, but the android phone posed a real problem. It had a keylock enabled, and USB debugging disabled. There was no external SD card to pull out, which meant that all the photos were stored on the internal memory. The phone was a totally stock Samsung Galaxy S3 mini. With a lot of reading, I worked out a way to get a data dump from her phone without having to bypass the keylock.</p>
 

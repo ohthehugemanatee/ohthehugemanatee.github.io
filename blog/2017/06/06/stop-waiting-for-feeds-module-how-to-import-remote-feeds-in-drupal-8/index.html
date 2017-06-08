@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Stop Waiting for Feeds Module: How to Import RSS in Drupal 8 - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the Feeds module. Feeds 7 made it easy (-ish) to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-06T21:33:24-07:00" pubdate data-updated="true">Jun 6<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
+
+<p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
+
+<blockquote><p>It&#8217;s not ready yet, but we are brainstorming about what would be the best way forward. Want to help us? Fill in our survey.<br/>If you decide to use it, don&#8217;t be mad if we break it later.</p></blockquote>
+
+
+<p></p>
+
+<p>This does not inspire confidence.</p>
+
+<p>The next great candidate is <a href="https://www.drupal.org/docs/8/core/modules/aggregator/overview">Aggregator</a> module (in core). Unfortunately, Aggregator gives you no control over the kind of entity to create, let alone any kind of field mapping. It imports content into its own Aggregated Content entity, with everything in one field, and linking offsite. I suppose you could extend it to choose you own entity type, map fields etc, but that seems like a lot of work for such a simple feature.</p>
+
+<p>Frustrating, right?</p>
+
+<p><strong>What if I told you that Drupal 8 can do everything Feeds 7 can?</strong></p>
+
+<p>What if I told you that it&rsquo;s even better: instead of clicking through endless menus and configuration links, waiting for things to load, missing problems, and banging your head against the mouse, you can set this up with one simple piece of text. You can copy and paste it directly from this blog post into Drupal&rsquo;s admin interface.</p>
+
+<h2>What? How?</h2>
+
+<p>Drupal 8 can do all the Feedsy stuff you like with <a href="https://www.drupal.org/docs/8/api/migrate-api/migrate-api-overview">Migrate</a> module. Migrate in D8 core already contains all the elements you need to build a regular importer of ANYTHING into D8. Add a couple of contrib modules to provide specific plugins for XML sources and convenience drush functions, and <em>baby you&rsquo;ve got a stew goin&#8217;!</em></p>
+
+<p>Here&rsquo;s the short version Howto:</p>
+
+<p><strong>1) Download and enable <a href="https://drupal.org/project/migrate_plus">migrate_plus</a> and <a href="https://drupal.org/project/migrate_tools">migrate_tools</a> modules.</strong> You should be doing this with composer, but I won&rsquo;t judge. Just get them into your codebase and enable them. Migrate Plus provides plugins for core Migrate, so you can parse remote XML, JSON, CSV, or even arbitrary spreadsheet data. Migrate Tools gives us drush commands for running migrations.</p>
+
+<p><strong>2) Write your Migration configuration in text</strong>, and paste it into the configuration import admin page (<code>admin/config/development/configuration/single/import</code>), or import it another way. I&rsquo;ve included a starter YAML just below, you should be able to copypasta, change a few values, and be done in time for tea.</p>
+
+<p><strong>3) Add a line to your system cron</strong> to run <code>drush migrate -y my_rss_importer</code> at whatever interval you like.</p>
+
+<p>That&rsquo;s it. One YAML file, most of which is copypasta. One cronjob. All done!</p>
+
+<p>Here&rsquo;s my RSS importer config for your copy and pasting pleasure. If you&rsquo;re already comfortable with migration YAMLs and XPaths, just add the names of your RSS fields as selectors in the source section, map them to drupal fields in the process section, and you&rsquo;re all done!</p>
+
+<p>If you aren&rsquo;t familiar with this stuff yet, don&rsquo;t worry! We&rsquo;ll dissect this together, below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_importer</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Import</span><span class="nv"> </span><span class="s">my</span><span class="nv"> </span><span class="s">RSS</span><span class="nv"> </span><span class="s">feed&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">url</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_fetcher_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">urls</span><span class="p-Indicator">:</span> <span class="s">&#39;https://example.com/feed.rss&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_parser_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">simple_xml</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">item_selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/rss/channel/item</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">GUID</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Publication</span><span class="nv"> </span><span class="s">date&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pubDate</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Origin</span><span class="nv"> </span><span class="s">link&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:summary&#39;</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:image[</span><span class="se">&#39;&#39;</span><span class="s">href</span><span class="se">&#39;&#39;</span><span class="s">]&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">ids</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">guid</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="s">&#39;entity:node&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">field_remote_url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">created</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">format_date</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">from_format</span><span class="p-Indicator">:</span> <span class="s">&#39;D,</span><span class="nv"> </span><span class="s">d</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">Y</span><span class="nv"> </span><span class="s">H:i:s</span><span class="nv"> </span><span class="s">O&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">to_format</span><span class="p-Indicator">:</span> <span class="s">&#39;U&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">podcast_episode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Some of you can just stop here. If you&rsquo;re familiar with the format and the structures involved, this example is probably all you need to set up your easy RSS importer.</p>
+
+<p>In the interest of good examples for Migrate module though, I&rsquo;m going to continue. Read on if you want to learn more about how this config works, and how you can use Migrate to do even more amazing things&hellip;</p>
+
+<h2>Anatomy of a migration YAML</h2>
+
+<p>Let&rsquo;s dive into that YAML a bit. Migrate is one of the most powerful components of Drupal 8 core, and this configuration is your gateway to it.</p>
+
+<p>That YAML looks like a lot, but it&rsquo;s really just 4 sections. They can appear in any order, but we need all 4: General information, source, destination, and data processing. This isn&rsquo;t rocket science after all! Let&rsquo;s look at these sections one at a time.</p>
+
+<p><strong>General information</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_importer</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;My</span><span class="nv"> </span><span class="s">RSS</span><span class="nv"> </span><span class="s">feed</span><span class="nv"> </span><span class="s">importer&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the basic stuff about the migration configuration. At a minimum it needs a unique machine-readable ID, a human-readable label, and <code>status: true</code> so it&rsquo;s enabled. There are other keys you can include here for fun extra features, like module dependencies, groupings (so you can run several imports together!), tags, and language. These are the critical ones, though.</p>
+
+<p><strong>Source</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">url</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_fetcher_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">file</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">urls</span><span class="p-Indicator">:</span> <span class="s">&#39;https://example.com/feed.rss&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_parser_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">simple_xml</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">item_selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/rss/channel/item</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">GUID</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Item Title</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Publication</span><span class="nv"> </span><span class="s">date&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pubDate</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Origin</span><span class="nv"> </span><span class="s">link&#39;</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Summary</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:summary&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">ids</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">guid</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is the one that intimidates most people: it&rsquo;s where you describe the RSS source. Migrate module is even more flexible than Feeds was, so there&rsquo;s a lot to specify here&hellip; but it all makes sense if you take it in small pieces.</p>
+
+<p>First: we want to use a remote file, so we&rsquo;ll use the Url plugin (there are others, but none that we care about right now). All the rest of the settings belong to the Url plugin, even though they aren&rsquo;t indented or anything.</p>
+
+<p>There are two possibilities for Url&rsquo;s data_fetcher setting: file and http. <code>file</code> is for anything you could pass to PHP&rsquo;s <a href="https://secure.php.net/manual/en/function.file-get-contents.php">file_get_contents</a>, including remote URLs. There are some great performance tricks in there, so it&rsquo;s a good option for most use cases. We&rsquo;ll be using <code>file</code> for our example. <code>http</code> is specifically for remote files accessed over HTTP, and lets you use the full power of the HTTP spec to get your file. Think authentication headers, cache rules, etc.</p>
+
+<p>Next we declare which plugin will read (parse) the data from that remote URL. We can read JSON, SOAP, arbitrary XML&hellip; in our use case this is an RSS feed, so we&rsquo;ll use one of the XML plugins. SimpleXML is just what it sounds like: a simple way to get data out of XML. In extreme use cases you might use XML instead, but I haven&rsquo;t encountered that yet (ever, anywhere, in any of my projects). TL;DR: SimpleXML is great. Use it.</p>
+
+<p>Third, we have to tell the source where it can find the actual items to import. XML is freeform, so there&rsquo;s no way for Migrate to know where the future &ldquo;nodes&rdquo; are in the document. So you have to give it the XPath to the items. RSS feeds have a standardized path: <code>/rss/channel/item</code>.</p>
+
+<p>Next we have to identify the &ldquo;fields&rdquo; in the source. You see, migrate module is built around the idea that you&rsquo;ll map source fields to destination fields. That&rsquo;s core to how it thinks about the whole process. Since XML (and by extension RSS) is an unstructured format &ndash; it doesn&rsquo;t think of itself as having &ldquo;fields&rdquo; at all. So we&rsquo;ll have to give our source plugin XPaths for the data we want out of the feed, assigning each path to a virtual &ldquo;field&rdquo;. These &ldquo;fake fields&rdquo; let Migrate treat this source just like any other.</p>
+
+<p>If you haven&rsquo;t worked with XPaths before, the example YAML in this post gives you most of what you need to know. It&rsquo;s just a simple text system for specifying a tag within an unstructured XML document. Not too complicated when you get into it. You may want to <a href="https://duckduckgo.com/?q=xpath+basics">find a good tutorial</a> to learn some of the tricks.</p>
+
+<p>Let&rsquo;s look at one of these &ldquo;fake fields&rdquo;:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:summary&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>name</em> is how we&rsquo;ll address this field in the rest of the migration. It&rsquo;s the source &ldquo;field name&rdquo;. <em>label</em> is the human readable name for the field. <em>selector</em> is the XPath inside the item. Most items are flat &ndash; certainly in RSS &ndash; so it&rsquo;s basically just the tag that surrounds the data you want. There, was that so hard?</p>
+
+<p>As a side note, you can see that my RSS feeds tend to be for iTunes. Sometimes the world eats an apple, sometimes an apple eats the world. Buy me a beer at Drupalcon and we can argue about standards.</p>
+
+<p>Fifth and finally, we identify which &ldquo;field&rdquo; in the source contains a unique identifier. Migrate module keeps track of the association between the source and destination objects, so it can handle updates, rollbacks, and more. The example YAML relies on the very common (but technically optional) <code>&lt;guid&gt;</code> tag as a unique identifier.</p>
+
+<p><strong>Destination</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="s">&#39;entity:node&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Yep, it&rsquo;s that simple. This is where you declare what Drupal entity type will receive the data. Actually, you could write any sort of destination plugin for this &ndash; if you want Drupal to migrate data into some crazy exotic system, you can do it! But in 99.9% of cases you&rsquo;re migrating into Drupal entities, so you&rsquo;ll want <code>entity:something</code> here. Don&rsquo;t worry about bundles (content types) here; that&rsquo;s something we take care of in field mapping.</p>
+
+<p><strong>Process</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">title</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">title</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">field_remote_url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">link</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">body</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">summary</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">created</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">format_date</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">from_format</span><span class="p-Indicator">:</span> <span class="s">&#39;D,</span><span class="nv"> </span><span class="s">d</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">Y</span><span class="nv"> </span><span class="s">H:i:s</span><span class="nv"> </span><span class="s">O&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">to_format</span><span class="p-Indicator">:</span> <span class="s">&#39;U&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">podcast_episode</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is where the action happens: the process section describes how destination fields should get their data from the source. It&rsquo;s the &ldquo;field mapping&rdquo;, and more. Each key is a destination field, each value describes where the data comes from.</p>
+
+<p>If you don&rsquo;t want to migrate the whole field exactly as it&rsquo;s presented in the source, you can put individual fields through <a href="https://www.drupal.org/docs/8/api/migrate-api/migrate-process-plugins">Migrate plugins</a>. These plugins apply all sorts of changes to the source content, to get it into the shape Drupal needs for a field value. If you want to take a substring from the source, explode it into an array, extract one array value and make sure it&rsquo;s a valid Drupal machine name, you can do that here. I won&rsquo;t do it in my example because that sort of thing isn&rsquo;t common for RSS feeds, but it&rsquo;s definitely possible.</p>
+
+<p>The examples of plugins that you see here are simple ones. <code>status</code> and <code>type</code> show you how to set a fixed field value. There are other ways, but the <code>default_value</code> plugin is the best way to keep your sanity.</p>
+
+<p>The <code>created</code> field is a bit more interesting. The Drupal field is a unix timestamp of the time a node was authored. The source RSS uses a string time format, though. We&rsquo;ll use the <code>format_date</code> plugin to convert between the two. Neat, eh?</p>
+
+<p>Don&rsquo;t forget to map values into Drupal&rsquo;s <code>status</code> and <code>type</code> fields! <code>type</code> is especially important: that&rsquo;s what determines the content type, and nodes can&rsquo;t be saved without it!</p>
+
+<h2>That&rsquo;s it?</h2>
+
+<p>Yes, that&rsquo;s it. You now have a migrator that pulls from any kind of remote source, and creates Drupal entities out of the items it finds. Your system cron entry makes sure this runs on a regular schedule, rather than overloading Drupal&rsquo;s cron.</p>
+
+<p>More importantly, if you&rsquo;re this comfortable with Migrate module, you&rsquo;ve just gained a <em>lot</em> of new power. This is a framework for getting data from anywhere, to anywhere, with a lot of convenience functionality in between.</p>
+
+<p>Happy feeding!</p>
+
+<h2>Tips and tricks</h2>
+
+<p>OK I lied, there is way more to say about Migrate. It&rsquo;s a wonderful, extensible framework, and that means there are lots of options for you. Here are some of the obstacles and solutions I&rsquo;ve found helpful.</p>
+
+<p><strong>Importing files</strong></p>
+
+<p>Did you notice that I didn&rsquo;t map the images into Drupal fields in my example? That&rsquo;s because it&rsquo;s a bit confusing. We actually have an image URL that we need to download, then we have to create a file entity based on the downloaded file, and then we add the File ID to the node&rsquo;s field as a value. That&rsquo;s more complicated than I wanted to get into in the general example.</p>
+
+<p>To do this, we have to create a pipeline of plugins that will operate in sequence, to create the value we want to stick in our field_image.  It looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">field_image</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">download</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">constants/destination_uri</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">rename</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity_generate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Looking at that download plugin, <em>image</em> seems clear. That&rsquo;s the source URL we got out of the RSS feed. But what is <em>constants/destination_uri</em>, I hear you cry? I&rsquo;m glad you asked. It&rsquo;s a constant, which I added in the source section and didn&rsquo;t tell you about. You can add any arbitrary keys to the source section, and they&rsquo;ll be available like this in processing. It is good practice to lump all your constants together into one key, to keep the namespace clean. This is what it looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">... usual source stuff here ...</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">constants</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">destination_uri</span><span class="p-Indicator">:</span> <span class="s">&#39;public://my_rss_feed/post.jpg&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Before you ask, yes this is exactly the same as using the <code>default_value</code> plugin. Still, <code>default_value</code> is preferred for readability wherever possible. In this case it isn&rsquo;t really possible.</p>
+
+<p>Also, note that the download plugin lets me set <code>rename: true</code>. This means that in case of a name conflict, a <em>0, </em>1, <em>2, </em>3 etc will be added to the end of the filename.</p>
+
+<p>You can see the whole structure here, of one plugin passing its result to the next. You can chain unlimited plugins together this way&hellip;</p>
+
+<p><strong>Multiple interrelated migrations</strong></p>
+
+<p>One of the coolest tricks that Migrate can do is to manage interdependencies between migrations. Maybe you don&rsquo;t want those images just as File entities, you actually want them in Paragraphs, which should appear in the imported node. Easy-peasy.</p>
+
+<p>First, you have to create a second migration for the Paragraph. Technically you should have a separate Migration YAML for each destination entity type. (yes, <code>entity_generate</code> is a dirty way to get around it, use it sparingly). So we create our second migration just for the paragraph, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_images_importer</span>
+</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="s">&#39;Import</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">images</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">my</span><span class="nv"> </span><span class="s">RSS</span><span class="nv"> </span><span class="s">feed&#39;</span>
+</span><span class='line'><span class="l-Scalar-Plain">status</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">url</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_fetcher_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">urls</span><span class="p-Indicator">:</span> <span class="s">&#39;https://example.com/feed.rss&#39;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">data_parser_plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">simple_xml</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">item_selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/rss/channel/item</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">GUID</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Image</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span> <span class="s">&#39;itunes:image[</span><span class="se">&#39;&#39;</span><span class="s">href</span><span class="se">&#39;&#39;</span><span class="s">]&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="l-Scalar-Plain">ids</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">guid</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">constants</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">destination_uri</span><span class="p-Indicator">:</span> <span class="s">&#39;public://my_rss_feed/post.jpg&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="s">&#39;entity:paragraph&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">podcast_image</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">field_image</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">download</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">image</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">constants/destination_uri</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">rename</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</span><span class='line'>    <span class="p-Indicator">-</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity_generate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you look at that closely, you&rsquo;ll see it&rsquo;s a simpler version of the node migration we did at first. I did the copy pasting myself! Here are the differences:</p>
+
+<ul>
+<li>Different ID and label (duh)</li>
+<li>We only care about two &ldquo;fields&rdquo; on the source: GUID and the image URL.</li>
+<li>The destination is a paragraph instead of a node.</li>
+<li>We&rsquo;re doing the image trick I just mentioned.</li>
+</ul>
+
+
+<p>Now, in the node migration, we can add our paragraphs field to the &ldquo;process&rdquo; section like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">field_paragraphs</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">migration_lookup</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">migration</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">my_rss_images_importer</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">guid</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We&rsquo;re using the <code>migration_lookup</code> plugin. This plugin takes the value of the field given in <code>source</code>, and looks it up in <code>my_rss_images_importer</code> to see if anything with that source ID was migrated. Remember where we configured the source plugin to know that <code>guid</code> was the unique identifier for each item in this feed? That comes in handy here.</p>
+
+<p>So we pass the guid to <code>migration_lookup</code>, and it returns the id of the paragraph which was created for that guid. It finds out what Drupal entity ID corresponds to that source ID, and returns the Drupal entity ID to use as a field value. You can use this trick to associate content migrated from separate feeds, totally separate data sources, or whatever.</p>
+
+<p>You should also add a dependency on <code>my_rss_images_importer</code> at the bottom of your YAML file, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">migration_dependencies</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">required</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">my_rss_images_importer</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will ensure that <code>my_rss_images_importer</code> will always run before <code>my_rss_importer</code>.</p>
+
+<p>(NB: in Drupal &lt; 8.3, this plugin is called <code>migration</code>)</p>
+
+<p><strong>Formatting dates</strong></p>
+
+<p>Very often you will receive dates in a format other than what Drupal wants to accept as a valid field value. In this case the <code>format_date</code> process plugin comes in very handy, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'>  <span class="l-Scalar-Plain">field_published_date</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">format_date</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">from_format</span><span class="p-Indicator">:</span> <span class="s">&#39;D,</span><span class="nv"> </span><span class="s">d</span><span class="nv"> </span><span class="s">M</span><span class="nv"> </span><span class="s">Y</span><span class="nv"> </span><span class="s">H:i:s</span><span class="nv"> </span><span class="s">O&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">to_format</span><span class="p-Indicator">:</span> <span class="s">&#39;Y-m-d\TH:i:s&#39;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">pub_date</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This one is pretty self-explanatory: from format, to format, and source. This is important when migrating from Drupal 6, whose date fields store dates differently from 8. It&rsquo;s also sometimes handy for RSS feeds. :)</p>
+
+<p><strong>Drush commands</strong></p>
+
+<p>Very important for testing, and the whole reason we have <code>migrate_plus</code> module installed! Here are some handy drush commands for interacting with your migration:</p>
+
+<ul>
+<li><code>drush ms</code>: Gives you the status of all known migrations. How many items are there to import? How many have been imported? Is the import running?</li>
+<li><code>drush migrate-rollback</code>: Rolls back one or more migrations, deleting all the imported content.</li>
+<li><code>drush migrate-messages</code>: Get logged messages for a particular migration.</li>
+<li><code>drush mi</code>: Runs a migration. use <code>--all</code> to run them all. Don&rsquo;t worry, Migrate will sort out any dependencies you&rsquo;ve declared and run them in the right order. Also worth noting: <code>--limit=10</code> does a limited run of 10 items, and <code>--feedback=10</code> gives you an in-progress status line every 10 items (otherwise you get nothing until it&rsquo;s finished!).</li>
+</ul>
+
+
+<p>Okay, now that&rsquo;s really it. Happy feeding!</p>
+
+<p><img class="center" src="/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-06T21:33:24-07:00" pubdate data-updated="true">Jun 6<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/drupal/'>drupal</a>, <a class='category' href='/blog/categories/drupal-8/'>drupal 8</a>, <a class='category' href='/blog/categories/drupalplanet/'>drupalplanet</a>, <a class='category' href='/blog/categories/howto/'>howto</a>, <a class='category' href='/blog/categories/migrate/'>migrate</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/03/30/stay-for-community/" title="Previous Post: Stay for community">&laquo; Stay for community</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 11 years, and I presently work as a Drupal Architect for <a href="https://amazeelabs.com" title="Amazee Labs">Amazee Labs</a>, where I get to work on some of the most cutting edge projects with brilliant people.
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/30/stay-for-community/">Stay for Community</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/">What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

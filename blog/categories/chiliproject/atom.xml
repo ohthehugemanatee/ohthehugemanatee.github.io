@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Chiliproject | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/chiliproject/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-03-30T21:34:45+02:00</updated>
+  <updated>2017-06-07T18:18:30-07:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Another Cryptic Ruby Message]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message/"/>
-    <updated>2014-01-10T21:20:55+01:00</updated>
+    <updated>2014-01-10T12:20:55-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message</id>
     <content type="html"><![CDATA[<p>Ruby on Rails drives me nuts, and today I found another example of why: the cryptic error messages. After a server update, my chiliproject/redmine site refused to start. The error message was</p>
 

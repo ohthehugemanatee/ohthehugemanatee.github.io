@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Drupalplanet | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/drupalplanet/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-03-30T21:34:45+02:00</updated>
+  <updated>2017-06-07T18:18:30-07:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How to Configure Authcache on Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/"/>
-    <updated>2014-06-14T16:15:40+02:00</updated>
+    <updated>2014-06-14T07:15:40-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7</id>
     <content type="html"><![CDATA[<p>So you have authenticated user traffic you want to cache? Good &ndash; you&rsquo;re on the right post. This post is a walk through for caching content for authenticated users in Drupal 7. We will be using the Authcache suite of modules. If you haven&rsquo;t read it yet, I strongly recommend you check out my last post, <a href="https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/">Authenticated User Caching Concepts in Drupal 7</a>.</p>
 

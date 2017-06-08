@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-03-30T21:34:45+02:00</updated>
+  <updated>2017-06-07T18:18:30-07:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
-    <updated>2017-02-21T22:33:08+01:00</updated>
+    <updated>2017-02-21T13:33:08-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
@@ -172,7 +172,7 @@ php /app/.global/bin/platform.phar domain:update -p $PLATFORM_PROJECT --no-wait 
   <entry>
     <title type="html"><![CDATA[Drush Self Aliases]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
-    <updated>2014-01-10T09:22:01+01:00</updated>
+    <updated>2014-01-10T00:22:01-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
     <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
 
@@ -237,7 +237,7 @@ $aliases[&lsquo;localdev&rsquo;] = array(
   <entry>
     <title type="html"><![CDATA[SSH Lifehacks to Make Your SSH Life Easy]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/"/>
-    <updated>2013-12-20T16:29:27+01:00</updated>
+    <updated>2013-12-20T07:29:27-08:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy</id>
     <content type="html"><![CDATA[<p>If you use SSH every day, or even every other day, this post is for you. We&rsquo;re going to walk through some of the more convenient options available to you in your global SSH configuration to make your life easier and faster.</p>
 
@@ -307,7 +307,7 @@ ForwardAgent yes
   <entry>
     <title type="html"><![CDATA[SSL Certificates Demystified]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified/"/>
-    <updated>2013-06-20T00:00:00+02:00</updated>
+    <updated>2013-06-20T00:00:00-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified</id>
     <content type="html"><![CDATA[<p>It seems like any time anyone has to configure a server for SSL/TLS, they treat it like some kind of voodoo magic. And I guess it can seem that way: if you get your certificates in the right formats from your certificate authority, you basically just drop them into Apache/NGINX/whatever and let it go.&nbsp;</p>
 
@@ -427,7 +427,7 @@ ForwardAgent yes
   <entry>
     <title type="html"><![CDATA[How to Set Up Apache Solr Multicore for Drupal]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/"/>
-    <updated>2013-04-18T00:00:00+02:00</updated>
+    <updated>2013-04-18T00:00:00-07:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal</id>
     <content type="html"><![CDATA[<p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal's <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It's easy enough to set up a single site installation of solr on your own, but if you're serious about building Drupal sites with solr you will be building more than one site. Solr includes a "<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>" mode, which lets you serve multiple search cores to separate sites from a single installation. Each core looks, feels, and acts like a totally separate Solr install, so you can develop as many solr sites as you like. Each core has its own configuration, data directory... the works. One core can support extensive custom geo data, and another can be completely location blind. The best part: with Solr multicore, adding a new search core to your existing stack is a trivial 5 minute installation.</p>
 
