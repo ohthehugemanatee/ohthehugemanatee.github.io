@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Drupal 8 | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/drupal-8/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,10 +14,38 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <updated>2017-06-15T17:19:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
+
+<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p><strong>Do you like PHP 7?</strong> We want to hear about the technicalities of types, throwing all the things, and your favorite operators (mine is null coalesce, but full respect for you spaceship operator fans).</p>
+
+<p><strong>Have you seen the light of functional programming?</strong> Tell us why we should love higher orders with lambda functions and closures. Let&rsquo;s hear the finer points of first class functions.</p>
+
+<p><strong>Do your tests bring all the bugs to the yard?</strong> We want to talk about it. Every method is a promise, and your tests make sure you keep your promises. We want sessions about test driven development in a drupal context, choosing the right test framework and scope, and how your real-world tests are saving you real-world time.</p>
+
+<p><strong>Have you written a composer library wrapper module yet?</strong> Submit a session about how composer is saving you lines of code.</p>
+
+<p><strong>Is your development environment fine-tuned for drupal excellence?</strong> Tell us how, and why.</p>
+
+<p>We have only two weeks left until session submissions close! Get your session in now and help us make Drupal code something to be proud of.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
-    <updated>2017-06-06T21:33:24-07:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <updated>2017-06-07T06:33:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -457,7 +485,7 @@ source: pub_date
   <entry>
     <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
-    <updated>2015-05-02T07:10:36-07:00</updated>
+    <updated>2015-05-02T16:10:36+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
     <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,10 +14,38 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <updated>2017-06-15T17:19:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
+
+<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p><strong>Do you like PHP 7?</strong> We want to hear about the technicalities of types, throwing all the things, and your favorite operators (mine is null coalesce, but full respect for you spaceship operator fans).</p>
+
+<p><strong>Have you seen the light of functional programming?</strong> Tell us why we should love higher orders with lambda functions and closures. Let&rsquo;s hear the finer points of first class functions.</p>
+
+<p><strong>Do your tests bring all the bugs to the yard?</strong> We want to talk about it. Every method is a promise, and your tests make sure you keep your promises. We want sessions about test driven development in a drupal context, choosing the right test framework and scope, and how your real-world tests are saving you real-world time.</p>
+
+<p><strong>Have you written a composer library wrapper module yet?</strong> Submit a session about how composer is saving you lines of code.</p>
+
+<p><strong>Is your development environment fine-tuned for drupal excellence?</strong> Tell us how, and why.</p>
+
+<p>We have only two weeks left until session submissions close! Get your session in now and help us make Drupal code something to be proud of.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
-    <updated>2017-06-06T21:33:24-07:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <updated>2017-06-07T06:33:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -590,7 +618,7 @@
   <entry>
     <title type="html"><![CDATA[Stay for Community]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
-    <updated>2017-03-30T03:22:11-07:00</updated>
+    <updated>2017-03-30T12:22:11+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
     <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
 
@@ -632,7 +660,7 @@
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
-    <updated>2017-02-21T13:33:08-08:00</updated>
+    <updated>2017-02-21T22:33:08+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
@@ -799,7 +827,7 @@
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
-    <updated>2017-02-11T02:18:44-08:00</updated>
+    <updated>2017-02-11T11:18:44+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 
@@ -824,7 +852,7 @@
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
-    <updated>2016-11-05T04:05:50-07:00</updated>
+    <updated>2016-11-05T12:05:50+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
@@ -853,7 +881,7 @@
   <entry>
     <title type="html"><![CDATA[Developer Options for Replacing Your Old MacBook Pro]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/"/>
-    <updated>2016-10-31T01:05:07-07:00</updated>
+    <updated>2016-10-31T09:05:07+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro</id>
     <content type="html"><![CDATA[<p>The developer world is abuzz with criticism of the new Macbook Pro. After 4 years of waiting for an update, what we got has <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">two less ports, slower memory and a worse GPU</a>, is <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">a vanity project that the core demographic of Apple’s customers probably won’t even use</a>, in the final balance: <a href="https://petersphilo.org/2016/10/29/open-letter-to-tim-cook/">merely consumer-level</a>. It&rsquo;s slammed as <a href="https://macperformanceguide.com/blog/2016/20161029_1016-Apple2016MacBookPro-compatibility.html">incompatible</a>, <a href="https://twitter.com/lapcatsoftware/status/791760906678067200">absurd</a>, and <a href="http://cdm.link/2016/10/apples-computer-vision-looks-backward-others-look-forward/">for pros&hellip; actually an insult</a>.</p>
 
@@ -926,7 +954,7 @@
   <entry>
     <title type="html"><![CDATA[Perfect Linux Mint on My Macbook Pro 9,2]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
-    <updated>2016-10-15T09:44:40-07:00</updated>
+    <updated>2016-10-15T18:44:40+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
     <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
 
@@ -1020,7 +1048,7 @@
   <entry>
     <title type="html"><![CDATA[Getting My Notes Out of Evernote]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
-    <updated>2016-08-13T07:44:40-07:00</updated>
+    <updated>2016-08-13T16:44:40+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
     <content type="html"><![CDATA[<h2>The Why</h2>
 
@@ -1081,7 +1109,7 @@
   <entry>
     <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/"/>
-    <updated>2016-07-29T04:14:06-07:00</updated>
+    <updated>2016-07-29T13:14:06+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs</id>
     <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
 
@@ -1098,7 +1126,7 @@
   <entry>
     <title type="html"><![CDATA[Some Git Log Magic]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic/"/>
-    <updated>2016-04-15T04:12:41-07:00</updated>
+    <updated>2016-04-15T13:12:41+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic</id>
     <content type="html"><![CDATA[<p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
 
@@ -1274,7 +1302,7 @@
   <entry>
     <title type="html"><![CDATA[An Open Letter to Wired Magazine]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine/"/>
-    <updated>2016-02-09T05:10:31-08:00</updated>
+    <updated>2016-02-09T14:10:31+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine</id>
     <content type="html"><![CDATA[<p>Dear Wired &ndash;
 I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/">post about the changes in ad blocker policy</a> on your site. Thanks for writing in such an open and respectful tone; it&rsquo;s clear you care about your readers and want to find a reasonable way forward.</p>
@@ -1315,7 +1343,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[How Drupal Should Handle Client-side Framework Obsolescence]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/"/>
-    <updated>2015-12-08T03:06:02-08:00</updated>
+    <updated>2015-12-08T12:06:02+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence</id>
     <content type="html"><![CDATA[<p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he&rsquo;s still mulling it over. I couldn&rsquo;t resist adding to the storm.</p>
 
@@ -1346,7 +1374,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
-    <updated>2015-10-08T02:16:02-07:00</updated>
+    <updated>2015-10-08T11:16:02+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
     <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
@@ -1431,7 +1459,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[El Capitain Broke My Developer Stuff! Here's How to Fix It]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/"/>
-    <updated>2015-10-01T03:44:42-07:00</updated>
+    <updated>2015-10-01T12:44:42+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools</id>
     <content type="html"><![CDATA[<p>Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
 
@@ -1549,7 +1577,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[Bundled TV Pricing Will Come Back From the Dead]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing/"/>
-    <updated>2015-07-17T02:27:29-07:00</updated>
+    <updated>2015-07-17T11:27:29+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing</id>
     <content type="html"><![CDATA[<p>Everyone is excited these days about the <a href="https://500ish.com/the-9-bullet-points-of-doom-for-espn-a692d0f48182">death of ESPN</a>, particularly as evidence of the <a href="http://www.thefiscaltimes.com/2015/03/12/Long-Slow-Death-Cable-Just-Reached-Tipping-Point">death of &ldquo;bundle priced&rdquo; Cable TV</a>. Consumers are supposed to be excited that soon they will only have to pay for the content they want. Don&rsquo;t get too excited yet.</p>
 
@@ -1570,7 +1598,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[How the World Sees Drupal - the Dutch PHP Conference 2015]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015/"/>
-    <updated>2015-06-27T03:04:52-07:00</updated>
+    <updated>2015-06-27T12:04:52+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015</id>
     <content type="html"><![CDATA[<p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
 
@@ -1589,7 +1617,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[Troubleshooting Android Error -505 From Google Play]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/"/>
-    <updated>2015-05-29T03:20:33-07:00</updated>
+    <updated>2015-05-29T12:20:33+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
     <content type="html"><![CDATA[<p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
 
@@ -1659,7 +1687,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
-    <updated>2015-05-02T07:10:36-07:00</updated>
+    <updated>2015-05-02T16:10:36+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
     <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
 
@@ -2019,7 +2047,7 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   <entry>
     <title type="html"><![CDATA[How and Why to Update the Modem/baseband Firmware on a Samsung Android Phone]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/"/>
-    <updated>2015-04-04T05:09:47-07:00</updated>
+    <updated>2015-04-04T14:09:47+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone</id>
     <content type="html"><![CDATA[<p>If you have a Samsung Android phone, and you use Samsung&rsquo;s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
 
@@ -2100,65 +2128,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 
 
 <p>Then try the heimdall commands again. For my phone, I found greatly improved signal&hellip; and because it wasn&rsquo;t spinning extra cycles without signal, greatly improved battery life, too. So we know: every time you update your ROM, do a modem firmware update, too.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
-    <updated>2014-11-03T08:30:32-08:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
-    <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
-
-
-
-
-<p>This issue should not reflect badly on the Drupal community, or the Drupal product at all. Vulnerabilities happen to every software project &ndash; particularly the large and complex ones like Drupal! In this case it was the result of a choice in the database abstraction layer to use emulated prepared statements. There&rsquo;s a great dissection of the whole vulnerability at <a href="http://blog.ircmaxell.com/2014/10/a-lesson-in-security.html">ircmaxell</a>, but the point here is that it was an intentional decision. We were aware of a theoretical security risk, just as we are in making lots of decisions. But theoretical risks don&rsquo;t mean much compared with real, measurable losses from the available alternatives. As I said before, this can happen to any software project, and Drupal is a relatively responsible, well written one. What&rsquo;s interesting now, is the response.</p>
-
-
-
-
-<p>First of all, I am amazed to read responses from many Drupal users who are panicked at having to run a diff of their sites, because they don&rsquo;t have appropriate tools in place. If you are developing without a VCS and automated backups, you are doing more harm than good. Just stop. Take a week to learn the basic requirements of a development environment, and start employing them. End of story.</p>
-
-
-
-
-<p>I&rsquo;m not concerned for those people &ndash; their sites were disasters waiting for an excuse anyway. What&rsquo;s frightening about this particular situation is that even if you are working with backups and a VCS, even if you patch critical security vulnerabilities on an aggressive schedule, it still wasn&rsquo;t good enough.</p>
-
-
-
-
-<p>All of my Drupal 7 sites are affected by this PSA. I work for a large, well-respected agency, with access to leading-edge workflows and tools. We follow best practices. All of my sites are secured well beyond PCI requirements. But PCI requirements say that critical security patches have to be applied within 30 days of release. Our best practices include patch review from the tech lead, and validating patches on test environments before pushing them live. With only 7 hours between patch release and exploits in the wild, there isn&rsquo;t time for any of that.</p>
-
-
-
-
-<p>I&rsquo;ve heard people complain that it&rsquo;s too difficult to update Drupal. &ldquo;drush up &mdash;security-only&rdquo; seems pretty simple to me, or at least simple enough that
- further simplification won&rsquo;t address the real problem. That&rsquo;s because the real problem isn&rsquo;t that it&rsquo;s difficult to apply updates &ndash; it&rsquo;s that a human be
-ing has to initiate them. I live in the Central European timezone, GMT+6. The patch was released at 10PM for me, and bots were exploiting it by 5AM the following morning. I went to work that day and initiated the patching process, so that my patches could be &ldquo;responsibly&rdquo; deployed to live with 24-48 hours of client validation time on my dev and staging environments. Despite being relatively on top of patches and responding relatively quickly, the fact that I&rsquo;m human, and my clients are human, meant we never stood a chance of patching this issue fast enough. Even if we skipped validation, and even if the update process was just one button (rather than two commands), we would still have failed to update in time. I find myself reminded of the Battlestar Galactica pilot, where the Cylon robots are chasing the humans. After each hyperspace jump, the humans have 33 minutes to complete the calculations for another jump before the machines catch up with them. After 130 hours and 237 jumps, it becomes apparent that the humans&#8217; need for sleep is a critical vulnerability.</p>
-
-
-
-
-<p>The only solution is automated patching. It&rsquo;s hard to figure out a workflow that allows it; indeed you&rsquo;re forced into post-hoc testing, which means engineering an easy rollback solution. The truth is that 99% of security patches will not affect any of the functionality you&rsquo;ve customized or upon which you rely, so hopefully this will be an edge case. But it&rsquo;s a problem that actually has to be addressed. Here&rsquo;s how I&rsquo;m adapting my own projects over the coming weeks:</p>
-
-
-
-
-<p>Every wednesday, every hour, my Jenkins instance runs a script which checks modules and core for each project for security updates. When an update is available, it automatically creates a branch off of Stable (my staging branch), applies the updates, and pushes the result up to the server. My git scripts already create a new subdirectory environment for every pushed branch. Once the environment is ready, Jenkins runs all available behat tests against the new branch. If all tests pass, the branch is automatically merged back into Master, Stage, and Live, and pushed. This push operation triggers a normal Jenkins deployment, which takes a backup anyway. An email is generated to the project administrator advising them which security updates were automatically applied, and linking to the relevant changefiles.</p>
-
-
-
-
-<p>I&rsquo;m excited about implementing this new layer of automation, because it builds on the best practice workflows I already like (test driven development, git flow VCS organization, automated deployment and backups&hellip;) to produce a tangible time savings and security improvement for my sites. At the same time, I can&rsquo;t say that this is something I recommend for EVERYONE, precisely because it requires such a high level of environment maintenance. When you&rsquo;re a one-person development shop, it&rsquo;s hard to afford the time to set up the perfect development environment. It&rsquo;s hard to convince those bottom-of-the-food-chain clients to pay for things like automated testing and deployment. And certainly once you have those things set up, you don&rsquo;t get paid for maintaining them!</p>
-
-
-
-
-<p>I&rsquo;m going to be keeping my eyes open for better solutions that can be applied by the &ldquo;developer on the street.&rdquo; Something relatively easy, but which allows the same kind of automated, fast response time for security patches. I&rsquo;m interested in any ideas you want to post in the comments!</p>
-
-
-
 ]]></content>
   </entry>
   

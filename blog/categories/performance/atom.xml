@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Performance | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/performance/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Authenticated User Caching Concepts in Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
-    <updated>2014-06-09T13:21:01-07:00</updated>
+    <updated>2014-06-09T22:21:01+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
     <content type="html"><![CDATA[<p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
 

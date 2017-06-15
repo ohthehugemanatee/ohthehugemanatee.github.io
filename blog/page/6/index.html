@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Ah, it’s nice to be done with the basic structure stuff. At this point, I’m going to assume that you know the basics of how to administer a Drupal &hellip;">
+  <meta name="description" content="Drupal is big and complex, and no matter how good you are, you will need to debug. Before you get started coding for a Drupal site, you should &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,56 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/2012/06/drupal-developers-toolkit-handy-tools.html">Drupal Developers&#8217; Toolkit: Handy Tools and Functions to Make Your Life Easier</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-06-08T17:23:00+02:00" pubdate data-updated="true">Jun 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Drupal is big and complex, and no matter how good you are, you will need to debug. Before you get started coding for a Drupal site, you should download and enable the very useful <a href="http://drupal.org/project/devel">devel</a> module on your dev site. Go ahead, I’ll wait.<br><br>This primer covers all the tools that I’ll use in later tutorials on this blog. In the real world I end up using 5-6 of these guys regularly. Learn them. They help.<br><h3>    drupal_set_message()</h3>
+<div>Printing a message is the basic tool of any debugging, and you need to know this core function. This lets you print a message to the page, Drupal-style. Usage: drupal_set_message($message, $severity).</div>
+<div><br></div>
+<div>
+<code>drupal_set_message(t('Hello %name!', array('%name' =&gt; 'John Doe')), 'warning');</code> </div>
+<div><br></div>
+<div>Note that I use the t() function to process text in drupal_set_message. This is partly because the function itself doesn’t do any text sanitizing, so it’s good practice to insert a layer there. It’s also because&#8230;</div>
+</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2012/06/drupal-developers-toolkit-handy-tools.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/2012/04/drupal-quick-learning-guides-custom.html">Drupal Quick Learning Guides: Custom Modules</a></h1>
     
     
@@ -105,7 +155,7 @@
 
 
   
-<time datetime="2012-04-23T16:17:00-07:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2012</time>
+<time datetime="2012-04-23T16:17:00+02:00" pubdate data-updated="true">Apr 23<span>rd</span>, 2012</time>
         
       </p>
     
@@ -148,7 +198,7 @@ Ah, it’s nice to be done with the basic structure stuff. At this point, I’m 
 
 
   
-<time datetime="2012-04-16T14:01:00-07:00" pubdate data-updated="true">Apr 16<span>th</span>, 2012</time>
+<time datetime="2012-04-16T14:01:00+02:00" pubdate data-updated="true">Apr 16<span>th</span>, 2012</time>
         
       </p>
     
@@ -191,7 +241,7 @@ I’ve been lax about posting lately, and to make this easier on myself I think 
 
 
   
-<time datetime="2012-03-25T12:58:00-07:00" pubdate data-updated="true">Mar 25<span>th</span>, 2012</time>
+<time datetime="2012-03-25T12:58:00+02:00" pubdate data-updated="true">Mar 25<span>th</span>, 2012</time>
         
       </p>
     
@@ -234,7 +284,7 @@ I’m a big fan of the new Entities model for Drupal. I’ve been working a lot 
 
 
   
-<time datetime="2011-05-24T23:37:00-07:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
+<time datetime="2011-05-24T23:37:00+02:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
         
       </p>
     
@@ -278,7 +328,7 @@ Ouch, Sony.  Hot on the heels of the last 4 hacks have come another two in a row
 
 
   
-<time datetime="2011-05-22T21:07:00-07:00" pubdate data-updated="true">May 22<span>nd</span>, 2011</time>
+<time datetime="2011-05-22T21:07:00+02:00" pubdate data-updated="true">May 22<span>nd</span>, 2011</time>
         
       </p>
     
@@ -322,7 +372,7 @@ Varnish is a fantastic caching proxy, commonly used for CMSes.  It’s not uncom
 
 
   
-<time datetime="2011-05-21T00:04:00-07:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
+<time datetime="2011-05-21T00:04:00+02:00" pubdate data-updated="true">May 21<span>st</span>, 2011</time>
         
       </p>
     
@@ -365,7 +415,7 @@ I wouldn’t want to be a Sony sysadmin right now. <a href="http://www.f-secure.
 
 
   
-<time datetime="2011-05-20T20:37:00-07:00" pubdate data-updated="true">May 20<span>th</span>, 2011</time>
+<time datetime="2011-05-20T20:37:00+02:00" pubdate data-updated="true">May 20<span>th</span>, 2011</time>
         
       </p>
     
@@ -409,7 +459,7 @@ I got called in for an interesting issue on one of the servers I co-maintain tod
 
 
   
-<time datetime="2011-05-16T13:17:00-07:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
+<time datetime="2011-05-16T13:17:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
         
       </p>
     
@@ -453,7 +503,7 @@ I got called in for an interesting issue on one of the servers I co-maintain tod
 
 
   
-<time datetime="2011-05-13T21:58:00-07:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
+<time datetime="2011-05-13T21:58:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
         
       </p>
     
@@ -468,49 +518,6 @@ LDAP is one of the Elder Gods of the UNIX world.  It had it’s beginnings in D
   
   <footer>
     <a rel="full-article" href="/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/updating-kernels-for-amazon-aws.html">Updating Kernels for Amazon (AWS) Instances</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-05-09T17:27:00-07:00" pubdate data-updated="true">May 9<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-Lately I’ve been getting hit by an odd kernel bug on one of the servers I maintain.  It’s discussed in some depth on <a href="https://bugs.launchpad.net/ubuntu/+source/linux-ec2/+bug/614853">Launchpad</a>, but the gist is that when trying to find an idle cpu for a new thread, the scheduler divides by cpu_power.  On EC2 instances, it’s possible for cpu_power to be 0, which causes a divide by zero kernel crash.  <u>Why</u> cpu_power is 0 is still an unknown; this should never be the case.  But in the meantime, there’s a patch committed to ec2 kernel 2.6.32-313.26 which adds a check before running this division.  If cpu_power is 0, it waits a bit and tries again.  I believe it also adds a kernel yell, to help with tracking down the underlying problem.  In the meantime, this bug was crashing one of my instances.<br><br>So it’s time to update the kernel.  This should be easy, right?  apt-get dist-upgrade seems to do it… but if you reboot, uname -r will tell you you&#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/05/updating-kernels-for-amazon-aws.html">Read on &rarr;</a>
   </footer>
 
 
@@ -541,7 +548,11 @@ Lately I’ve been getting hit by an odd kernel bug on one of the servers I main
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
+        <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
       </li>
     
       <li class="post">
@@ -554,10 +565,6 @@ Lately I’ve been getting hit by an odd kernel bug on one of the servers I main
     
       <li class="post">
         <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
       </li>
     
   </ul>

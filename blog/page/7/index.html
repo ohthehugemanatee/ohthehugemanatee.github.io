@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Are you just getting started with Amazon Web Services?  It’s a great service, but it faces some reliability challenges.  This post explains how to &hellip;">
+  <meta name="description" content="Lately I’ve been getting hit by an odd kernel bug on one of the servers I maintain.  It’s discussed in some depth on Launchpad, but the gist is that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -87,6 +87,49 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/2011/05/updating-kernels-for-amazon-aws.html">Updating Kernels for Amazon (AWS) Instances</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-09T17:27:00+02:00" pubdate data-updated="true">May 9<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Lately I’ve been getting hit by an odd kernel bug on one of the servers I maintain.  It’s discussed in some depth on <a href="https://bugs.launchpad.net/ubuntu/+source/linux-ec2/+bug/614853">Launchpad</a>, but the gist is that when trying to find an idle cpu for a new thread, the scheduler divides by cpu_power.  On EC2 instances, it’s possible for cpu_power to be 0, which causes a divide by zero kernel crash.  <u>Why</u> cpu_power is 0 is still an unknown; this should never be the case.  But in the meantime, there’s a patch committed to ec2 kernel 2.6.32-313.26 which adds a check before running this division.  If cpu_power is 0, it waits a bit and tries again.  I believe it also adds a kernel yell, to help with tracking down the underlying problem.  In the meantime, this bug was crashing one of my instances.<br><br>So it’s time to update the kernel.  This should be easy, right?  apt-get dist-upgrade seems to do it… but if you reboot, uname -r will tell you you&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/updating-kernels-for-amazon-aws.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/2011/04/simple-aws-backups-with-snapshots-and.html">Simple AWS Backups With Snapshots and AMIs</a></h1>
     
     
@@ -105,7 +148,7 @@
 
 
   
-<time datetime="2011-04-30T15:26:00-07:00" pubdate data-updated="true">Apr 30<span>th</span>, 2011</time>
+<time datetime="2011-04-30T15:26:00+02:00" pubdate data-updated="true">Apr 30<span>th</span>, 2011</time>
         
       </p>
     
@@ -158,7 +201,7 @@ Are you just getting started with Amazon Web Services?  It’s a great service,
 
 
   
-<time datetime="2011-04-29T13:58:00-07:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
+<time datetime="2011-04-29T13:58:00+02:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
         
       </p>
     
@@ -201,7 +244,7 @@ No one else seems to have documented this anywhere, so I’m gonna do it here.<b
 
 
   
-<time datetime="2011-04-29T13:44:00-07:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
+<time datetime="2011-04-29T13:44:00+02:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
         
       </p>
     
@@ -244,7 +287,7 @@ It’s a familiar problem - you can’t really host multiple SSL sites on a sing
 
 
   
-<time datetime="2011-04-24T12:24:00-07:00" pubdate data-updated="true">Apr 24<span>th</span>, 2011</time>
+<time datetime="2011-04-24T12:24:00+02:00" pubdate data-updated="true">Apr 24<span>th</span>, 2011</time>
         
       </p>
     
@@ -287,7 +330,7 @@ Now a quickie - one of my favorite tools: awk.  Some of you will probably think
 
 
   
-<time datetime="2011-04-14T02:21:00-07:00" pubdate data-updated="true">Apr 14<span>th</span>, 2011</time>
+<time datetime="2011-04-14T02:21:00+02:00" pubdate data-updated="true">Apr 14<span>th</span>, 2011</time>
         
       </p>
     
@@ -330,7 +373,7 @@ About a month ago, I picked up my first Android phone: the HTC Inspire 4g, from 
 
 
   
-<time datetime="2011-03-24T12:19:00-07:00" pubdate data-updated="true">Mar 24<span>th</span>, 2011</time>
+<time datetime="2011-03-24T12:19:00+01:00" pubdate data-updated="true">Mar 24<span>th</span>, 2011</time>
         
       </p>
     
@@ -373,7 +416,7 @@ The damnedest thing happened - I went out of town.  I went out of town, and dis
 
 
   
-<time datetime="2011-01-21T21:47:00-08:00" pubdate data-updated="true">Jan 21<span>st</span>, 2011</time>
+<time datetime="2011-01-21T21:47:00+01:00" pubdate data-updated="true">Jan 21<span>st</span>, 2011</time>
         
       </p>
     
@@ -426,7 +469,7 @@ I run an XBMC mediacenter at home, on my old Compaq C765 laptop (the laptop I us
 
 
   
-<time datetime="2010-12-22T00:50:00-08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2010</time>
+<time datetime="2010-12-22T00:50:00+01:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2010</time>
         
       </p>
     
@@ -469,7 +512,7 @@ I know no one reads this blog but me, but I may as well put this up here.  Net 
 
 
   
-<time datetime="2010-12-22T00:45:00-08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2010</time>
+<time datetime="2010-12-22T00:45:00+01:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2010</time>
         
       </p>
     
@@ -484,51 +527,6 @@ After my evening spent <a href="http://swearingatcomputers.blogspot.com/2010/12/
   
   <footer>
     <a rel="full-article" href="/2010/12/more-dd-wrt-linksys-wrt54g.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html">DD-WRT, Versioning, and the Linksys WRT54G Wireless Router</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2010-12-20T12:47:00-08:00" pubdate data-updated="true">Dec 20<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-I have had all sorts of trouble with the wireless situation in my apartment.  The layout of the place is such that the kitchen sits in between the two major rooms (living room and bedroom), and I swear those kitchen walls must be made of lead.  No wireless signal seems to get through.  I have phone jacks for ADSL in the living room and bedroom, nothing in between.<div><br></div>
-<div>So I hooked up my Orange Livebox (with wifi) in one room, and my <a href="http://en.wikipedia.org/wiki/Linksys_WRT54G_series">Linksys WRT54G (v.4)</a> in the other, to act as a repeated wifi network.  I was already using the badass <a href="http://www.dd-wrt.com/site/index">DD-WRT firmware</a> so I could use the Linksys router as a wifi adapter for my wired desktop (in&#8230;</div>
-</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html">Read on &rarr;</a>
   </footer>
 
 
@@ -559,7 +557,11 @@ I have had all sorts of trouble with the wireless situation in my apartment.  T
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
+        <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
       </li>
     
       <li class="post">
@@ -572,10 +574,6 @@ I have had all sorts of trouble with the wireless situation in my apartment.  T
     
       <li class="post">
         <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/">Writing Drupal 8 Code for Drupal 7</a>
       </li>
     
   </ul>

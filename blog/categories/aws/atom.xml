@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Aws | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/aws/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Simple AWS Backups With Snapshots and AMIs]]></title>
     <link href="http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html"/>
-    <updated>2011-04-30T15:26:00-07:00</updated>
+    <updated>2011-04-30T15:26:00+02:00</updated>
     <id>http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and</id>
     <content type="html"><![CDATA[<p></p>
 
@@ -32,7 +32,7 @@ Are you just getting started with Amazon Web Services? &nbsp;It's a great servic
   <entry>
     <title type="html"><![CDATA[AWS Load Balancer SSL Limitations]]></title>
     <link href="http://ohthehugemanatee.github.io/2011/04/aws-load-balancer-ssl-limitations.html"/>
-    <updated>2011-04-29T13:58:00-07:00</updated>
+    <updated>2011-04-29T13:58:00+02:00</updated>
     <id>http://ohthehugemanatee.github.io/2011/04/aws-load-balancer-ssl-limitations</id>
     <content type="html"><![CDATA[<p></p>
 
@@ -48,7 +48,7 @@ No one else seems to have documented this anywhere, so I'm gonna do it here.<br 
   <entry>
     <title type="html"><![CDATA[Multiple SSL Sites on One AWS Instance]]></title>
     <link href="http://ohthehugemanatee.github.io/2011/04/multiple-ssl-sites-on-one-aws-instance.html"/>
-    <updated>2011-04-29T13:44:00-07:00</updated>
+    <updated>2011-04-29T13:44:00+02:00</updated>
     <id>http://ohthehugemanatee.github.io/2011/04/multiple-ssl-sites-on-one-aws-instance</id>
     <content type="html"><![CDATA[<p></p>
 

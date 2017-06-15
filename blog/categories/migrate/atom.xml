@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Migrate | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/migrate/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
-    <updated>2017-06-06T21:33:24-07:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <updated>2017-06-07T06:33:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -457,7 +457,7 @@ source: pub_date
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
-    <updated>2017-02-11T02:18:44-08:00</updated>
+    <updated>2017-02-11T11:18:44+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 

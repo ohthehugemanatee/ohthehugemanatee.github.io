@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Drush | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/drush/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Drush Self Aliases]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
-    <updated>2014-01-10T00:22:01-08:00</updated>
+    <updated>2014-01-10T09:22:01+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
     <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
 

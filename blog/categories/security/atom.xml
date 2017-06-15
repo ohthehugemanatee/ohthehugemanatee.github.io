@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Security | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/security/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[SSL Certificates Demystified]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified/"/>
-    <updated>2013-06-20T00:00:00-07:00</updated>
+    <updated>2013-06-20T00:00:00+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified</id>
     <content type="html"><![CDATA[<p>It seems like any time anyone has to configure a server for SSL/TLS, they treat it like some kind of voodoo magic. And I guess it can seem that way: if you get your certificates in the right formats from your certificate authority, you basically just drop them into Apache/NGINX/whatever and let it go.&nbsp;</p>
 
@@ -136,7 +136,7 @@
   <entry>
     <title type="html"><![CDATA[What the Sony Hacks Tell Us About Their Sysadmins and Management]]></title>
     <link href="http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their.html"/>
-    <updated>2011-05-21T00:04:00-07:00</updated>
+    <updated>2011-05-21T00:04:00+02:00</updated>
     <id>http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their</id>
     <content type="html"><![CDATA[<p></p>
 

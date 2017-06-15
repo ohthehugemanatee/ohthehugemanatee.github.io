@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee - Drupal]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-06-07T18:18:30-07:00</updated>
+  <updated>2017-06-15T17:19:47+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,10 +14,38 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <updated>2017-06-15T17:19:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
+
+<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p><strong>Do you like PHP 7?</strong> We want to hear about the technicalities of types, throwing all the things, and your favorite operators (mine is null coalesce, but full respect for you spaceship operator fans).</p>
+
+<p><strong>Have you seen the light of functional programming?</strong> Tell us why we should love higher orders with lambda functions and closures. Let&rsquo;s hear the finer points of first class functions.</p>
+
+<p><strong>Do your tests bring all the bugs to the yard?</strong> We want to talk about it. Every method is a promise, and your tests make sure you keep your promises. We want sessions about test driven development in a drupal context, choosing the right test framework and scope, and how your real-world tests are saving you real-world time.</p>
+
+<p><strong>Have you written a composer library wrapper module yet?</strong> Submit a session about how composer is saving you lines of code.</p>
+
+<p><strong>Is your development environment fine-tuned for drupal excellence?</strong> Tell us how, and why.</p>
+
+<p>We have only two weeks left until session submissions close! Get your session in now and help us make Drupal code something to be proud of.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
-    <updated>2017-06-06T21:33:24-07:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/06/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <updated>2017-06-07T06:33:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -590,7 +618,7 @@
   <entry>
     <title type="html"><![CDATA[Stay for Community]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
-    <updated>2017-03-30T03:22:11-07:00</updated>
+    <updated>2017-03-30T12:22:11+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
     <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
 
@@ -632,7 +660,7 @@
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
-    <updated>2017-02-21T13:33:08-08:00</updated>
+    <updated>2017-02-21T22:33:08+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
@@ -799,7 +827,7 @@
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
-    <updated>2017-02-11T02:18:44-08:00</updated>
+    <updated>2017-02-11T11:18:44+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 
@@ -824,7 +852,7 @@
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
-    <updated>2016-11-05T04:05:50-07:00</updated>
+    <updated>2016-11-05T12:05:50+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
@@ -853,7 +881,7 @@
   <entry>
     <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
-    <updated>2015-10-08T02:16:02-07:00</updated>
+    <updated>2015-10-08T11:16:02+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
     <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
@@ -938,7 +966,7 @@
   <entry>
     <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
-    <updated>2015-05-02T07:10:36-07:00</updated>
+    <updated>2015-05-02T16:10:36+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
     <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
 
@@ -1298,7 +1326,7 @@
   <entry>
     <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
-    <updated>2014-11-03T08:30:32-08:00</updated>
+    <updated>2014-11-03T17:30:32+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
     <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
 
@@ -1357,7 +1385,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Bug: Multilingual Auto Label Will Break Your Entity Static Cache]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/"/>
-    <updated>2014-07-01T08:00:45-07:00</updated>
+    <updated>2014-07-01T17:00:45+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache</id>
     <content type="html"><![CDATA[<p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal&rsquo;s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
 
@@ -1370,7 +1398,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[D8 Core Sprint in DC]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc/"/>
-    <updated>2014-07-01T07:27:17-07:00</updated>
+    <updated>2014-07-01T16:27:17+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc</id>
     <content type="html"><![CDATA[<p>A quick note to all the Drupalists in the DC general area &ndash; Forum One is trying to put together a D8 core sprint in their DC office space. They&rsquo;re coordinating with the DC Meetup group to try and spread the word to as many community members as possible!</p>
 
@@ -1383,7 +1411,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Authenticated User Caching Concepts in Drupal 7]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
-    <updated>2014-06-09T13:21:01-07:00</updated>
+    <updated>2014-06-09T22:21:01+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
     <content type="html"><![CDATA[<p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
 
@@ -1448,7 +1476,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drupal Superheroes: ASSEMBLE!]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble/"/>
-    <updated>2014-05-28T03:44:01-07:00</updated>
+    <updated>2014-05-28T12:44:01+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble</id>
     <content type="html"><![CDATA[<p><img alt="Drop Signal" src="http://ohthehugemanatee.github.io/images/dropsignal.jpg" align=left> Regular Drupalcon attendees know that the opening pre-keynote session is one of the highlights of the con. That&rsquo;s the session where we welcome everyone to the con with stupid jokes, some well known Drupalists, and a lot of fun. This year is going to be especially good &ndash; and we need your help!</p>
 
@@ -1465,7 +1493,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drupalcamp Helsinki Takes on the World]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/"/>
-    <updated>2014-05-26T06:14:58-07:00</updated>
+    <updated>2014-05-26T15:14:58+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world</id>
     <content type="html"><![CDATA[<p>Last weekend I got to keynote <a href="http://drupalcamp.fi">Drupalcamp Helsinki</a> with my friend and often-collaborator, <a href="http://twitter.com/adamjurantenor">scaragucc</a> &ndash; and what a great camp it was! Organizer <a href="https://twitter.com/laurii1">Lauri Eskola</a> deserves tremendous credit for taking this camp to the next level. They doubled their attendance from last year, attracted positive attention from some great notables in the global Drupal world, and got their local community energized to engage more. At all the various after parties there were frequent toasts of &ldquo;one of the best Drupalcamps in the world!&rdquo;</p>
 
@@ -1478,7 +1506,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Coder vs. Themer Ultimate Grudge Match Smackdown Fight to the Death]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/"/>
-    <updated>2014-05-01T08:15:31-07:00</updated>
+    <updated>2014-05-01T17:15:31+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death</id>
     <content type="html"><![CDATA[<p>I&rsquo;m really excited about a new session that I&rsquo;ve been doing with my friend and colleague, <a href="https://twitter.com/adamjurantenor">Adam Juran aka scaragucc</a>: the Coder vs Themer Ultimate Grudge Match Smackdown Fight to the Death! The basic premise: we both start with the same wireframe of a front page to build. But <em>I&rsquo;m only allowed to use the module layer, and Adam is only allowed to use the theme layer</em>. It&rsquo;s a really fun and entertaining way to play with the blurry lines between &ldquo;coder&rdquo; and &ldquo;themer&rdquo;. We get the audience pretty pumped up, which is impressive for a session that&rsquo;s basically about watching other people code!</p>
 
@@ -1494,7 +1522,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[How to Create a Custom Display Suite Field]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field/"/>
-    <updated>2014-04-02T08:12:13-07:00</updated>
+    <updated>2014-04-02T17:12:13+02:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field</id>
     <content type="html"><![CDATA[<p>A few months ago I posted about <a href="https://ohthehugemanatee.org/blog/2014/01/03/how-to-create-a-custom-panels-pane">how to create a custom Panels pane</a>, a critical reference for anyone who uses Panels layouts. The other part of the toolkit for quick and awesome layouts is the <a href="https://drupal.org/projects/ds">Display Suite</a> module. With DS you can create new &ldquo;Display modes&rdquo; for your content, to be reused around the site. For example, on one recent site I had four standard ways to display my nodes: Full, Teaser, Mini-Teaser, and Search Result. DS made this configuration a cinch.</p>
 
@@ -1581,7 +1609,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drupal Dev Days Szeged, or: Why You Should Attend Every Camp You Can]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014/"/>
-    <updated>2014-03-29T07:27:50-07:00</updated>
+    <updated>2014-03-29T15:27:50+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014</id>
     <content type="html"><![CDATA[<p>Today is the last day of <a href="http://szeged2014.drupaldays.org/">Drupal Dev Days</a> in Szeged, Hungary, and I&rsquo;ve never been more full of the &ldquo;Drupal spirit!&rdquo;</p>
 
@@ -1600,7 +1628,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[Drush Self Aliases]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
-    <updated>2014-01-10T00:22:01-08:00</updated>
+    <updated>2014-01-10T09:22:01+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
     <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
 
@@ -1680,7 +1708,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[How to Remove a Drupal Install Profile]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/"/>
-    <updated>2014-01-07T04:23:45-08:00</updated>
+    <updated>2014-01-07T13:23:45+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile</id>
     <content type="html"><![CDATA[<p><a href="https://drupal.org/project/install_profile_api">Install profiles</a> are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for setting up a site really quickly. What you did after the site was installed was your own business! But in Drupal 7 profiles are much more integrated with core. The assumption is that when you use an install profile, you want to rely on the profile&rsquo;s maintainer for all your updates. This is not always the case.</p>
 
@@ -1791,7 +1819,7 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   <entry>
     <title type="html"><![CDATA[How to Create a Custom Panels Pane]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/"/>
-    <updated>2014-01-03T04:09:11-08:00</updated>
+    <updated>2014-01-03T13:09:11+01:00</updated>
     <id>http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane</id>
     <content type="html"><![CDATA[<p>Lots of sites are now built with the &ldquo;Panels everywhere&rdquo; method, using <a href="https://www.drupal.org/project/panels">Panels</a> and <a href="https://www.drupal.org/project/panelizer">Panelizer</a> to configure modular layouts in the Drupal GUI. These modules come with lots of great default Panes, and create even more defaults based on your existing Blocks and Views. But there&rsquo;s always a case for a custom Pane.</p>
 
@@ -2040,370 +2068,6 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 <p>Anyone who&rsquo;s worked with me knows that I&rsquo;m not a huge fan of the panels everywhere approach. But I use it often, simply because it makes custom layouts and totally custom page pieces so easy to do. Duplicating even this very simple functionality in a block is actually harder than this. You&rsquo;re still using about 3 functions, but you&rsquo;d have to determine in advance where that TID will come from. It would certainly come out less flexible, and actually probably harder to maintain. With Ctools all your related code sits in one place, and your module structure actually helps you see what&rsquo;s going on where.</p>
 
 <p>If you learn how to do elements like this, you&rsquo;ll find Panels creeping into more and more of your builds. And rightfully so.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[44,497 People Are Wrong: How to NEVER Need Views PHP.]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/"/>
-    <updated>2013-12-26T03:01:44-08:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php</id>
-    <content type="html"><![CDATA[<p>You&rsquo;re building a View, but you can&rsquo;t get that field to display the way you want it to. Or filter, or sort. Or maybe you have some data in a custom table that you want to include in the View. So you look for a contributed module, and <a href="https://www.drupal.org/project/views_php">Views PHP</a> looks like the answer to your problem! Until you read the module page, where it says:</p>
-
-<blockquote><p>&ldquo;&hellip;it is highly advisable to use regular handlers and plugins when available (or even to create one yourself). Take note that filtering and sorting a view using PHP always has a considerable perfomance impact.&rdquo;</p></blockquote>
-
-<p>As of this writing, <em>44,497</em> site maintainers have read that warning and chosen to ignore it. <strong>They&rsquo;ve chosen to put their PHP into a non-revisioned, difficult-to-access place, and to enable PHP input in a module that was never designed for security. They&rsquo;ve left their site at risk of a very difficult to diagnose and even harder to fix WSOD</strong>.</p>
-
-<p>I&rsquo;m going to go out on a limb here, and suggest that in many of these cases, the decision was made because someone had the impression that writing a Views handler or Plugin was difficult. I&rsquo;m here to tell you that&rsquo;s not so: it&rsquo;s actually quite easy.</p>
-
-<h2>What we&rsquo;re doing </h2>
-
-<p>We&rsquo;re going to tell Views about the structure of the data we want to display, filter, or sort &ndash; even if there&rsquo;s not actually a new data source involved, that&rsquo;s how you do it &ndash; and then we&rsquo;ll write the function that actually does the filter/sort/etc by improving an existing field display/filter/sort that Views already includes.</p>
-
-<p>This process will work for:</p>
-
-<ul>
-<li>Defining a new data source for Views, ie something your module keeps in the DB.</li>
-<li>Creating multiple field displays/filters/sorts for an existing field.</li>
-<li>Creating a completely computed field display/filter/sort, with nothing in the DB.</li>
-</ul>
-
-
-<p>I know that in 99% of use cases for Views PHP, you don&rsquo;t need to define a new data source, table, adn fields. Trust me that this is the easiest way to learn it, though. I promise we&rsquo;ll get to your use case before the end of the post.</p>
-
-<h1>How to</h1>
-
-<p>I&rsquo;ll assume you have a custom module built, with a .info and .module file, but nothing in there yet. We&rsquo;ll call our module &ldquo;mymodule&rdquo; for the example.</p>
-
-<h2>1) Tell Views about your module</h2>
-
-<p>We implement <em><a href="https://api.drupal.org/api/views/views.api.php/function/hook_views_api/7">hook_views_api</a></em> to let Views know that our module provides some code for Views, and what version of the Views API we&rsquo;re using.</p>
-
-<figure class='code'><figcaption><span>mymodule.module</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Implements hook_views_api().</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_views_api</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="s1">&#39;api&#39;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">,</span>
-</span><span class='line'>    <span class="s1">&#39;path&#39;</span> <span class="o">=&gt;</span> <span class="nx">drupal_get_path</span><span class="p">(</span><span class="s1">&#39;module&#39;</span><span class="p">,</span> <span class="s1">&#39;mymodule&#39;</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39;/views&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Couldn&rsquo;t be simpler. We declare that we&rsquo;re using Views API 3, and that our Views code will all live in the <em>/views</em> subdirectory of our module.</p>
-
-<h2>2) Tell Views about your custom code</h2>
-
-<p>Now that Views knows to look in our <em>/views</em> directory, we should populate it. Views will look for a file called <em>modulename.views.inc</em> in that directory, so this is where we will put our Views hooks. There are lots of Views interventions you can do in this file, but we&rsquo;re only interested in one: <em><a href="https://api.drupal.org/api/views/views.api.php/function/hook_views_data/7">hook_views_data</a></em>.</p>
-
-<p>This hook lets you define new data sources to Views, and for each one show how to render a field, how to Filter results, and how to Sort results based on your new data source. I promised you three use cases up there though, and here&rsquo;s the trick: you don&rsquo;t have to have an actual data source. You can define a filter for a database field that&rsquo;s already described elsewhere.</p>
-
-<p>First let&rsquo;s look at a real field definiton though, because it&rsquo;s simpler. Here&rsquo;s how we would define a real DB table as a data source. The table looks like this:</p>
-
-<table style="border-collapse:collapse;">
-<tr><th>naid</th><th>name</th></tr>
-<tr><td>1</td><td>Frank Sinatra</td></tr> 
-<tr><td>2</td><td>Dean Martin</td></tr>
-<tr><td>3</td><td>Sammy Davis, Jr.</td></tr> 
-<tr><td>4</td><td>Peter Lawford</td></tr>
-<tr><td>5</td><td>Joey Bishop</td></tr>
-</table>
-
-
-<p>So here&rsquo;s our implementation of <em>hook_views_data</em>:</p>
-
-<figure class='code'><figcaption><span>views/mymodule.views.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Implements hook_views_data().</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_views_data</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// Build an array named after each DB table you&#39;re describing. In our case,</span>
-</span><span class='line'>  <span class="c1">// just mymodule_table.</span>
-</span><span class='line'>  <span class="nv">$data</span><span class="p">[</span><span class="s1">&#39;mymodule_table&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>    <span class="c1">// First give some general information about the table as a data source.</span>
-</span><span class='line'>    <span class="s1">&#39;table&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="c1">// The grouping for this field/filter/sort in the Views UI.</span>
-</span><span class='line'>      <span class="s1">&#39;group&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Example Views Stuff&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;base&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;naid&#39;</span><span class="p">,</span> <span class="c1">// This is the identifier field for the view.</span>
-</span><span class='line'>        <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Example Views API Data&#39;</span><span class="p">),</span>
-</span><span class='line'>        <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Names provided by the Mymodule module.&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>    <span class="c1">// Now we describe each field that Views needs to know about, starting </span>
-</span><span class='line'>    <span class="c1">// with the identifier field.</span>
-</span><span class='line'>    <span class="s1">&#39;naid&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name ID&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The unique Name ID.&quot;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_field_numeric&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;sort&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_sort&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;filter&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_filter_numeric&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>    <span class="c1">// Now the name field.</span>
-</span><span class='line'>    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The Name.&quot;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_field&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;sort&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_sort&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;filter&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;views_handler_filter_string&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>  <span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$data</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is a pretty simple example, and I think the array structure speaks for itself. First you provide some general information about the table, then you create a sub-array for each field on the table. Each field&rsquo;s array should be named after the field, and provide at least title. Of course it wouldn&rsquo;t be useful if you didn&rsquo;t describe the handlers for any field/sort/filter operations you want to expose. For each one of these you just provide the name of the handler. In this example I used all built-in filters that come with Views, but it&rsquo;s easy enough to provide a custom handler.</p>
-
-<p>Many added behaviors in Views start with <em>hook_views_data</em>; this only covers the basics. You can also open fields up as arguments or relationships, or even add built-in relationships. For example, if our table also contained an NID field, we could define a relationship so that node fields are always available when listing names, and vice versa. This stuff is all surprisingly easy to do, it&rsquo;s just not the focus of this post.</p>
-
-<h2>3) Write your custom handler</h2>
-
-<p>Let&rsquo;s say we want to provide our own field handler for the name field. Maybe we want it to automatically separate first names. This is easy, too! You simply decide on a name for your new handler &ndash; by convention it should begin with <em>modulename_handler_type_</em>, so we&rsquo;ll use <em>mymodule_handler_field_firstname</em>. Here&rsquo;s the relevant part of that <em>$data</em> array from before:</p>
-
-<figure class='code'><figcaption><span>/views/mymodule.views.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">...</span>
-</span><span class='line'>    <span class="c1">// Now the name field.</span>
-</span><span class='line'>    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The Name.&quot;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_firstname&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'><span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Not exactly rocket science, is it?</p>
-
-<p>Now we create a file named after the handler, also in the <em>/views</em> subdirectory. Though you could write your own handler class from scratch, you&rsquo;ll almost never have to. It&rsquo;s much easier to just extend an existing class.</p>
-
-<figure class='code'><figcaption><span>/views/mymodule_handler_field_firstname.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * @file</span>
-</span><span class='line'><span class="sd"> * Definition of mymodule_handler_field_firstname.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Provide the first name only from the name field.</span>
-</span><span class='line'><span class="sd"> *</span>
-</span><span class='line'><span class="sd"> * @ingroup views_filter_handlers</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">mymodule_handler_field_firstname</span> <span class="k">extends</span> <span class="nx">views_handler_field</span> <span class="p">{</span>
-</span><span class='line'>  <span class="sd">/**</span>
-</span><span class='line'><span class="sd">  * Render the name field.</span>
-</span><span class='line'><span class="sd">  */</span>
-</span><span class='line'>  <span class="k">public</span> <span class="k">function</span> <span class="nf">render</span><span class="p">(</span><span class="nv">$values</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get_value</span><span class="p">(</span><span class="nv">$values</span><span class="p">);</span>
-</span><span class='line'>    <span class="nv">$return</span> <span class="o">=</span> <span class="nb">explode</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nv">$value</span><span class="p">);</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s1">&#39;First name: &#39;</span> <span class="o">.</span> <span class="nv">$return</span><span class="p">[</span><span class="s1">&#39;0&#39;</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You see the pattern we&rsquo;re following: just name a handler, then extend an existing Views handler class to do what you want. You can override options forms, the admin summary&hellip; really any aspect of the way Views handles this data. And the pattern is the same for fields, sorts, filters, and arguments.</p>
-
-<p>Once you&rsquo;ve created your handler&rsquo;s <em>.inc</em> file, you have to make sure your module loads it. So edit your module&rsquo;s <em>.info</em> file thusly:</p>
-
-<figure class='code'><figcaption><span>/mymodule.info</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">name</span> <span class="o">=</span> <span class="s">My Module</span>
-</span><span class='line'><span class="na">description</span> <span class="o">=</span> <span class="s">Demo module from ohthehugemanatee.org</span>
-</span><span class='line'><span class="na">core</span> <span class="o">=</span> <span class="s">7.x</span>
-</span><span class='line'>
-</span><span class='line'><span class="na">files[]</span> <span class="o">=</span> <span class="s">views/mymodule_handler_field_firstname.inc</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>4) Multiple filters for one field</h2>
-
-<p>We all understand how this works for data that you&rsquo;re declaring for the first time in Views. But what if you want to provide multiple handlers for a single field? Maybe there are several different ways to filter or sort it. For most use cases, you should just follow the pattern above, and simply override the Views options form in your handler class. But occasionally you really do need multiple handlers.</p>
-
-<p>So let&rsquo;s add a second and third field handler for our <em>name</em> field:</p>
-
-<figure class='code'><figcaption><span>/views/mymodule.views.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">...</span>
-</span><span class='line'>    <span class="c1">// Now the name field. This is the first, and &#39;real&#39; definition for this field.</span>
-</span><span class='line'>    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Name&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s2">&quot;The Name.&quot;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_firstname&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>    <span class="s1">&#39;name_last&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Last name&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The Last name, extracted from the Name field&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;real field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_lastname&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'>    <span class="p">),</span>
-</span><span class='line'>    <span class="s1">&#39;name_backwards&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>      <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Evil Genius Name&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The name, reversed so it sounds like the name of an evil genius.&#39;</span><span class="p">),</span>
-</span><span class='line'>      <span class="s1">&#39;real field&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;name&#39;</span><span class="p">,</span>
-</span><span class='line'>      <span class="s1">&#39;field&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>        <span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_handler_field_evil&#39;</span><span class="p">,</span>
-</span><span class='line'>        <span class="s1">&#39;click sortable&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>        <span class="p">),</span>
-</span><span class='line'>      <span class="p">),</span>
-</span><span class='line'><span class="o">...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Can you spot the difference? All you have to do is add a variable for <em>real field</em>, which tells Views the field name to use for the source value, and that&rsquo;s it. Everything else is totally identical to a normal field. By custom we prefix the &ldquo;virtual&rdquo; field&rsquo;s name with the name of the real field, but that&rsquo;s as complicated as it gets.</p>
-
-<h1>Conclusion</h1>
-
-<p>If there&rsquo;s one thing I want you to take away from this blog post, it&rsquo;s that <strong>the Views API is actually really easy</strong>. And if you can&rsquo;t find something online, take a moment to actually look at the <a href="https://api.drupal.org/api/views/views.api.php/">API documentation included with the module</a>. It&rsquo;s <em>very</em> thorough, and easy to read. If you feel like you understand how this works, but the doco doesn&rsquo;t quite cover what you&rsquo;re trying to do, look for examples in the Views module itself! There are 169 handlers for every concievable kind of case, just within Views. Find something reasonable and build off of that!</p>
-
-<p>With this in mind, it&rsquo;s only 24 lines of simple code to provide your own handler for an existing field. After that 24 lines, you&rsquo;re doing the same things you were planning to do in views_php&hellip; but now you&rsquo;re doing them in a real coding environment, with a revisioning system, and where it&rsquo;s easy to track down and fix errors that could otherwise crash your site. 24 lines of array definition can save you a world of hurt. I hope to see those views_php installation numbers dropping soon.</p>
 ]]></content>
   </entry>
   
