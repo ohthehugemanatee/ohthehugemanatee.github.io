@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>That Time I Resurrected My Linux MacBook Pro - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="In the airport last week, my laptop stopped booting. I have a 2012 Macbook Pro &ndash; yes, that coveted &ldquo;last good model&rdquo; &ndash; and it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">That Time I Resurrected My Linux MacBook Pro</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-17T23:06:02+02:00" pubdate data-updated="true">Jun 17<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>In the airport last week, my laptop stopped booting.</p>
+
+<p>I have a 2012 Macbook Pro &ndash; yes, that coveted &ldquo;last good model&rdquo; &ndash; and it runs Ubuntu Linux. It&rsquo;s my roving office as I travel the world to conferences, performances, and job sites. So when I started it up at JFK airport this week and got a gray screen of death, I was a little concerned.</p>
+
+<p>I tried starting into Startup Manager by holding the &ldquo;Option&rdquo; key. No bootable options appeared. Just an unhopeful file folder with a question mark. This was Not A Good Sign.</p>
+
+<p><img class="center" src="/images/folder-questionmark.jpg" title="When this is all your computer does, it is Not A Good Sign." ></p>
+
+<p>Generally this icon means that EFI couldn&rsquo;t find a valid startup device. This is not the first time I&rsquo;ve seen this &ndash; I&rsquo;ve played with my boot options enough to mess this up for myself a few times! I breathed a heavy sigh and tried starting onto the recovery partition by holding &ldquo;Command+R&rdquo;. I hadn&rsquo;t done anything in particular with Grub recently, but I had done some kernel updates, and you never know&hellip; But the recovery boot just got me a circle with a line through it, the universal &ldquo;no&rdquo; sign. This was an even worse sign.</p>
+
+<p><img class="center" src="/images/mac-no-sign.png" title="This is an Even Worse Sign." ></p>
+
+<p>This immediately threw the issue out of the realm of &ldquo;something I messed up myself&rdquo;, and into the less-entertaining realm of &ldquo;hardware failure.&rdquo;</p>
+
+<p>At home I have some tools for diagnosing this sort of issue, but in the airport I had limited options &ndash; and unlimited time. So I started into Apple&rsquo;s built in Diagnostic Test mode by holding &ldquo;D&rdquo;. A lesser-known feature of the Apple boot manager, is that if it doesn&rsquo;t have a device to boot from, it can download an image from the Internet, load it into RAM, and boot from there. I had never had the chance to try it out before, but that didn&rsquo;t give much satisfaction as I grimly waited for it to work it&rsquo;s magic.</p>
+
+<p>The diagnostic report looked fine, everything in tip-top shape! That is, until I went to the hard drive diagnostic page &ndash; there wasn&rsquo;t one. Not just no hard drive diagnostic, but completely no page for SATA diagnostics at all.</p>
+
+<p>At this point it was clear that a catastrophic hard disk failure was my best-case scenario. Maybe it just skipped the drive diagnostic because no devices reported back, I hoped. There&rsquo;s something zen in that moment, when you find yourself <em>hoping</em> that you&rsquo;ve <em>only</em> lost your entire hard drive. All my work is backed up and relatively accessible, after all; I could stare digital death in the eye with only a hundred-Euro bill for a new drive. A motherboard failure, though &ndash; I tried not to think of it.</p>
+
+<p>When I got home, I pulled out my toolkit. I opened up my mac to look for signs of burnout or other damage. Nothing. No smell, no scorches, no scratches. Not even any capacitor whine. I have a lot of respect for the engineers who designed a system that, even after 5 years of hard abuse, still retained it&rsquo;s &ldquo;new motherboard smell.&rdquo; I optimistically tried re-seating the SATA cable for my drive, but wasn&rsquo;t surprised when that didn&rsquo;t work.</p>
+
+<p>I opened my desktop gaming computer, and plugged my laptop hard disk in there. I got the worst result possible from this test: the drive worked fine. It booted into my beautifully customized Linux desktop, dutifully selecting a random background image from the Internet &ndash; as luck would have it, a man screaming at his laptop in frustration. Though everyone knows that the silicon gods have a strong sense of irony.</p>
+
+<p>I did a couple of follow up tests to confirm the diagnosis, but it was clear: the hard drive was fine, it was the SATA controller on my Macbook that had died. Everything else seemed intact; I could boot from a USB stick just fine, with a reasonable performance degradation (there&rsquo;s a ~33% speed difference between SATA3 and USB3 interfaces). But it couldn&rsquo;t detect anything connected internally.</p>
+
+<p>The first goal was to get myself a computer for work. I&rsquo;m a contractor, which means that I don&rsquo;t take days off if I can help it. So I threw together a nice looking machine from spare parts I had laying around the house, and used my ex-laptop hard drive as a primary. When it first booted, I confess to a very satisfying &ldquo;I told you those parts would come in handy someday&rdquo; jab to my wife. She was very impressed, I could tell from the way she rolled her eyes at me. :)</p>
+
+<p>My immediate need of a working machine for the office satisfied, the second priority was to buy a new laptop. I&rsquo;m on the road <strong>a lot</strong>. A desktop working environment &ndash; even one that lets me cheerfully tease my partner a little &ndash; is a band-aid at best. In fact, my next onsite was in Zürich in two weeks! I briefly considered taking my tower carry-on, before buckling down to find a computer.</p>
+
+<p>My local electronics shop was a bust. They had plenty of beautiful looking machines that would run Linux perfectly nicely &ndash; those Lenovos are really coming along! &ndash; but they all had one fatal flaw: I can&rsquo;t work on a German keyboard.</p>
+
+<p>I&rsquo;ve lived in Germany for 6 years now; I&rsquo;m comfortable in the language and culture, and I can complain about the bureaucracy with the best of them. But I just can&rsquo;t handle their terrible keyboard layout. QWERTZ might be fine for writing the language, but code and the *nix terminal are very QWERTY-centric. No, there was no way I would put up with a QWERTZ laptop for my next 5 years.</p>
+
+<p>So I bought one of the popular Dell XPS 13 &ldquo;developer edition&rdquo; laptops, with Ubuntu pre-installed. I excitedly checked my order status right away, and saw the shipping date&hellip; was the day after I leave for Zürich. Shit.</p>
+
+<p>So my old laptop is back in service, limping along for one last hurrah. The black box on the back looks like some impressive hardware hack, but it&rsquo;s just the old internal drive connected by USB.</p>
+
+<p><img class="center" src="/images/me-and-my-busted-laptop.jpg" title="It's only a flesh wound!" ></p>
+
+<p>Yes, I had to do the GRUB dance pretty extensively to get it booting. boot-repair is a wonderful tool, but nothing seems to handle elegantly switching between BIOS and EFI boot modes. I ended up having to copy EFI files from my USB stick by hand. As every Linux desktop user ever has said: &ldquo;if it&rsquo;s working I won&rsquo;t ask any questions.&rdquo;</p>
+
+<p>Yes, I will take this computer into a board room in two weeks.</p>
+
+<p>No, I am not ashamed. I&rsquo;m actually pretty satisfied with myself. It&rsquo;s been years since I&rsquo;ve built a computer myself, let alone rigged one up with duct tape and spare parts. It&rsquo;s been ages since I&rsquo;ve had to dig around in the Linux boot process (greatly improved since 2005, Linus be praised). And it&rsquo;s been a long time since I&rsquo;ve sported duct tape on my computer.</p>
+
+<p>In a couple weeks I&rsquo;ll find out just how much special sauce Dell has put into their default Ubuntu setup to make it run. My setup is&hellip; not very default.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-06-17T23:06:02+02:00" pubdate data-updated="true">Jun 17<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/hacking/'>hacking</a>, <a class='category' href='/blog/categories/linux/'>linux</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/06/15/better-php-better-drupalists/" title="Previous Post: Better PHP === Better Drupalists: the PHP track at Drupalcon Vienna">&laquo; Better PHP === Better Drupalists: the PHP track at Drupalcon Vienna</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 12 years, a Linux admin for 17, and now I'm a freelance full-stack web developer. 
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/">That Time I Resurrected My Linux MacBook Pro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/03/30/stay-for-community/">Stay for Community</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/">What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

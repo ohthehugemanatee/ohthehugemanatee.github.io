@@ -405,8 +405,14 @@
         <lastmod>2017-06-15T17:23:33+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/archives/</loc>
-        <lastmod>2017-06-15T17:23:33+02:00</lastmod>
+        <loc>
+            http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/
+        </loc>
+        <lastmod>2017-07-21T13:06:13+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ohthehugemanatee.github.io/about-me.html</loc>
+        <lastmod>2017-06-15T18:35:37+02:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/drupalplanet.xml</loc>
@@ -414,14 +420,14 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/</loc>
-        <lastmod>2017-06-15T17:23:33+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/about-me.html</loc>
-        <lastmod>2017-06-15T18:35:37+02:00</lastmod>
+        <lastmod>2017-07-21T13:06:13+02:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/robots.txt</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ohthehugemanatee.github.io/blog/archives/</loc>
+        <lastmod>2017-07-21T13:06:13+02:00</lastmod>
     </url>
 </urlset>

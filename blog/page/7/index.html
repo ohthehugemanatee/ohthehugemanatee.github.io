@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Lately I’ve been getting hit by an odd kernel bug on one of the servers I maintain.  It’s discussed in some depth on Launchpad, but the gist is that &hellip;">
+  <meta name="description" content="LDAP is one of the Elder Gods of the UNIX world.  It had it’s beginnings in DAP, the first Directory Access Protocol, in 1988.  Within a decade DAP &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,49 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html">Setting Up Secure LDAP on Ubuntu 10.04 - the Idiot&#8217;s Guide to SSL, TLS, and SLAPD</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-13T21:58:00+02:00" pubdate data-updated="true">May 13<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+LDAP is one of the Elder Gods of the UNIX world.  It had it’s beginnings in DAP, the first Directory Access Protocol, in 1988.  Within a decade DAP was more or less discarded in favor of the Lightweight Directory Access Protocol.  And it has stayed in basically the same format ever since.<br><br>LDAP is, as you might have guessed, a directory protocol.  It was developed in response to X.500, a spec for telephone directories… but personally, I have a hard time thinking about LDAP structure in terms of a phone book.  The structure is really a lot more like directories on a drive.  The idea is to store and retrieve information in a hierarchical structure.  You can technically put anything in there, but most often&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -489,49 +532,6 @@ I know no one reads this blog but me, but I may as well put this up here.  Net 
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/more-dd-wrt-linksys-wrt54g.html">More DD-WRT / Linksys WRT54G Troubleshooting</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2010-12-22T00:45:00+01:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-After my evening spent <a href="http://swearingatcomputers.blogspot.com/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html">getting my DD-WRT firmware to a stable version</a> (as opposed to the version recommended by the DD-WRT website), I had hoped that I had seen the end of my wireless issues.<br><br>No such luck.<br><br>I have definitely seen an improvement - in a ping flood test, I’m only seeing 0.5% dropped packets now, which is an improvement over the 2% I was seeing before.  But there are still periodic ping spikes where I drop a packet, then get something like an ~1100ms ping, then ~110ms, then back to normal at ~2ms.  I tried leaving a ping running in the background today, and every Skype audio drop was accompanied by a dropped packet.  So I’m going with correlation = causation and assuming that these periodic spikes which are causing my Skype audio drops. <br><br>The first thing to do is understand the natur&#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2010/12/more-dd-wrt-linksys-wrt54g.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -557,6 +557,10 @@ After my evening spent <a href="http://swearingatcomputers.blogspot.com/2010/12/
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/">That Time I Resurrected My Linux MacBook Pro</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
       </li>
     
@@ -570,10 +574,6 @@ After my evening spent <a href="http://swearingatcomputers.blogspot.com/2010/12/
     
       <li class="post">
         <a href="/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/">What Crell Doesn&#8217;t Want You to Know: How to Automate Letsencrypt on platform.sh</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/">Between the Cracks of Decoupled (Drupal) Architecture</a>
       </li>
     
   </ul>
