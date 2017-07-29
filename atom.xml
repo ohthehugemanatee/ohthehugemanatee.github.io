@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-07-21T14:18:18+02:00</updated>
+  <updated>2017-07-29T16:58:17+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon/"/>
+    <updated>2017-07-29T17:01:59+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
+
+<p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
+
+<p>You see, <strong>basically every other PHP conference covers their speakers&#8217; travel and accommodation costs</strong>. Drupalcon doesn&rsquo;t, and never has. Historically it has to do with Drupalcon&rsquo;s identity as a community conference, rather than a professional one. But it means <strong>the best PHP speakers never get to Drupalcon</strong>.</p>
+
+<p>On one hand that&rsquo;s great for our project: our speakers are all passionate volunteers! They&rsquo;re specialists who care deeply about the project. On the other hand, it contributes to isolated, &ldquo;stay on the island&rdquo; thinking. If the only speakers we hear are Drupalists, where do we get new insights? If the only people at the BoF or code sprint table are Drupalists, how do we leverage the strengths of the broader PHP community? How do we contribute back? <em>How do we grow?</em></p>
+
+<p>Every year, the lack of financial support holds back major PHP contributors from speaking at Drupalcon. The maintainers of Composer, PHPUnit, and Guzzle <em>want</em> to come to Drupalcon, but we don&rsquo;t make it possible. <strong>These people built and maintain the cornerstones of Drupal. Why do we hold them at arm&rsquo;s length?</strong></p>
+
+<p>This year, as Drupalcon PHP Track Chair, I&rsquo;m in a position to make some changes. So I invited two notable PHP speakers to come and join us at the con: <strong>Sebastian Bergmann, author of PHPUnit</strong>, and <strong>Michelle Sanver, president of @phpwomen</strong>. Today I&rsquo;m announcing a very special <a href="https://www.gofundme.com/php-at-drupalcon">GoFundMe campaign</a> to pay the travel and accommodation for these two exceptional contributors.</p>
+
+<iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p>I believe that Drupalists want to get off the island.</p>
+
+<p>I believe in the benefits of closer cooperation with the PHP community.</p>
+
+<p>I believe there&rsquo;s a lot we can learn from these people, and a lot we can teach them too.</p>
+
+<p><strong>And I believe that I&rsquo;m not the only one.</strong></p>
+
+<p>We&rsquo;ve estimated costs conservatively; this is not a lot of money. Anything we collect above and beyond their needs will go to the Drupal Association, but let&rsquo;s be honest with ourselves: this campaign isn&rsquo;t just about bringing Sebastian and Michelle to Drupalcon. <strong>Your donation shows the Drupal Association that you want to welcome contributors from other communities.</strong> You prove to them that their constituents <em>want</em> to bring in this kind of speaker. <strong>When you donate, you stand up for the kind of community you believe in.</strong></p>
+
+<p>Please <a href="https://www.gofundme.com/php-at-drupalcon/donate">donate</a>, share, and tweet the campaign today.</p>
+
+<iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p><strong>Because &ldquo;get off the island&rdquo; isn&rsquo;t just about the code. It&rsquo;s about the community.</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[That Time I Resurrected My Linux MacBook Pro]]></title>
@@ -1736,366 +1787,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 <p>&hellip; what? This is 2015. You don&rsquo;t have to hide your &ldquo;Developer mode&rdquo; behind some obscure Easter Egg behavior. I don&rsquo;t know if it&rsquo;s standard, but on my phone you&rsquo;re asked right at the start what level of settings you want to see: simple or advanced. Adding a third level for &ldquo;developer&rdquo; would make a lot more sense.</p>
 
 <p>But hey, at least we can always get what we want from the terminal.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
-    <updated>2015-05-02T16:10:36+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
-    <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
-
-<p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of &ldquo;source&rdquo;, &ldquo;destination&rdquo;, and &ldquo;migration&rdquo; classes so that even the most convoluted migration is 90% written for you. To create a migration in Drupal 7, you create a custom module, declare your migrations in a hook_info, and then extend the built in &ldquo;migration&rdquo; class. You instantiate one of the given classes for the source material (is it a CSV? JSON? Direct connection to a custom DB?), then one of the classes for the destination (is it a content type? Taxonomy term?). Then you add one simple line of code mapping each field from source to destination. If you know what you&rsquo;re doing, the task I had in mind shouldn&rsquo;t take more than 15 minutes per source.</p>
-
-<p>It&rsquo;s not quite so easy in Drupal 8. First of all, with Migrate in core, we had to greatly simplify the goals for the module. The version of Migrate that is really functional and stable is specifically and <em>only</em> the basic framework. There is a separate migrate_drupal module to provide everything you need for migrating from Drupal 6 or 7. This has been a laser-tight focus on just the essentials, which means there&rsquo;s no UI, very little drush support, and definitely no nice extras like the ability to read non-Drupal sources.</p>
-
-<p>My task this week became to write the first CSV source for Drupal 8 Migrate.</p>
-
-<h1>Drupal 8 Migrate Overview</h1>
-
-<p>Drupal 8 Migrations, when you&rsquo;re using classes that already exist, are actually even easier than Migrate 7. All you do is write a single YAML file for each kind of data you&rsquo;re transferring, and put it in a custom module&rsquo;s <em>config/install</em> directory. Your YAML file gives your migration a name and a group, tells us what the source is for data, maps source fields to destination fields, and tells us what the destination objects are. Here&rsquo;s an example Migration definition file from core. See if you can understand what&rsquo;s being migrated here.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">d6_system_site</span>
-</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Drupal 6 site configuration</span>
-</span><span class='line'><span class="l-Scalar-Plain">migration_groups</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Drupal 6</span>
-</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">variable</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">variables</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_name</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_mail</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_slogan</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_frontpage</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_403</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">site_404</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">drupal_weight_select_max</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">admin_compact_mode</span>
-</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_name</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">mail</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_mail</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">slogan</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_slogan</span>
-</span><span class='line'>  <span class="s">&#39;page/front&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_frontpage</span>
-</span><span class='line'>  <span class="s">&#39;page/403&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_403</span>
-</span><span class='line'>  <span class="s">&#39;page/404&#39;</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">site_404</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">weight_select_max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">drupal_weight_select_max</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">admin_compact_mode</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">admin_compact_mode</span>
-</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">config</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">config_name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">system.site</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You probably figured it out: this migration takes the system settings (variables) from a Drupal 6 site, and puts them into the Drupal 7 configuration. Not terribly hard, right? You can even do data transformations from the source field value to the destination.</p>
-
-<p>Unfortunately, the only sources we have so far are for Drupal 6 and 7 sites, pulling directly from the database. If you want to use Migrate 8 the way we used Migrate 7, as an easy way to pull in data from arbitrary sources, you&rsquo;ll have to contribute.</p>
-
-<h1>Writing a source plugin in Migrate_plus</h1>
-
-<p>Enter <a href="https://www.drupal.org/sandbox/mikeryan/migrate_plus">Migrate Plus module</a>. This is the place in contrib, where we can fill out all the rest of the behavior we want from Migrate, that&rsquo;s not necessarily a core requirement. This is where we&rsquo;ll be writing our source plugin.</p>
-
-<p>To add a source plugin, just create a .php file in migrate_plus/src/Plugins/migrate/source . Drupal will discover the new plugin automatically the next time you rebuild the cache. The filename has to be the same as the name of the class, so choose carefully! My file is called CSV.php . Here&rsquo;s the top of the file you need for a basic :</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * @file</span>
-</span><span class='line'><span class="sd"> * Contains \Drupal\migrate_plus\Plugin\migrate\source\csv.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">namespace</span> <span class="nx">Drupal\migrate_plus\Plugin\migrate\source</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">use</span> <span class="nx">Drupal\migrate\Plugin\migrate\source\SourcePluginBase</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Source for CSV files.</span>
-</span><span class='line'><span class="sd"> *</span>
-</span><span class='line'><span class="sd"> * @MigrateSource(</span>
-</span><span class='line'><span class="sd"> *   id = &quot;csv&quot;</span>
-</span><span class='line'><span class="sd"> * )</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">class</span> <span class="nc">CSV</span> <span class="k">extends</span> <span class="nx">SourcePluginBase</span> <span class="p">{</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;m calling this out separately because for newbies to Drupal 8, this is the hard part. This is all the information that Drupal needs to be able to find your class when it needs it. The @file comment is important. That and the namespace below have to match the actual location of the .php file.</p>
-
-<p>Then you declare any other classes that you need, with their full namespace. To start with all you need is SourcePluginBase.</p>
-
-<p>Finally you have to annotate the class with that @MigrateSource(id=&ldquo;csv&rdquo;). This is how Migrate module knows that this is a MigrateSource, and the name of your Plugin. Don&rsquo;t miss it!</p>
-
-<p>Inside the class, you must have the following methods. I&rsquo;ll explain a bit more about each afterwards.</p>
-
-<ul>
-<li>initializeIterator() : Should return a valid Iterator object.</li>
-<li>getIds() : Should return an array that defines the unique identifiers of your data source.</li>
-<li>__toString() : Should return a simple, string representation of the source.</li>
-<li>fields() : Should return a definitive list of fields in the source.</li>
-<li>__construct() : You don&rsquo;t NEED this method, but you probably will end up using it.</li>
-</ul>
-
-
-<h2>initializeIterator()</h2>
-
-<p>An Iterator is a complicated sounding word for an Object that contains everything you need to read from a data source, and go through it one line at a time. Maybe you&rsquo;re used to fopen(&lsquo;path/to/file&rsquo;, &lsquo;r&rsquo;) to open a file, and then you write code for every possible operation with that file. An iterator takes care of all that for you. In the case of most file-based sources, you can just use the SplFileObject class that comes with PHP.</p>
-
-<p>Any arguments that were passed in the source: section of the YAML file will be available under $this->configuration. So if my YAML looks like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">csv</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="s">&#39;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>My initializeIterator( ) method can look like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">initializeIterator</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="c1">// File handler using our custom header-rows-respecting extension of SPLFileObject.</span>
-</span><span class='line'>  <span class="nv">$file</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SplFileObject</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]);</span>
-</span><span class='line'>  <span class="nv">$file</span><span class="o">-&gt;</span><span class="na">setFlags</span><span class="p">(</span><span class="nx">SplFileObject</span><span class="o">::</span><span class="na">READ_CSV</span><span class="p">);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$file</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Not too complicated, right? This method is called right at the beginning of the migration, the first time Migrate wants to get any information out of your source. The iterator will be stored in $this->iterator.</p>
-
-<h2>getIds()</h2>
-
-<p>This method should return an array of all the unique keys for your source. A unique key is some value that&rsquo;s unique for that row in the source material. Sometimes there&rsquo;s more than one, which is why this is an array. Each key field name is also an array, with a child &ldquo;type&rdquo; declaration. This is hard to explain in English, but easy to show in code:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">getIDs</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nv">$ids</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">foreach</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$key</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$ids</span><span class="p">[</span><span class="nv">$key</span><span class="p">][</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;string&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$ids</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We rely on the YAML author to tell us the key fields in the CSV, and we just reformat them accordingly. Type can be &lsquo;string&rsquo;, &lsquo;float&rsquo;, &lsquo;integer&rsquo;, whatever makes sense.</p>
-
-<h2>__toString()</h2>
-
-<p>This method has to return a simple string explanation of the source query. In the case of a file-based source, it makes sense to print the path to the file, like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">__toString</span><span class="p">()</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">return</span> <span class="p">(</span><span class="nx">string</span><span class="p">)</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">query</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>fields()</h2>
-
-<p>This method returns an array of available fields on the source. The keys should be the machine names, the values are descriptive, human-readable names. In the case of the CSV source, we look for headers at the top of the CSV file and build the array that way.</p>
-
-<h2>__construct()</h2>
-
-<p>The constructor method is called whenever a class is instantiated. You don&rsquo;t technically HAVE to have a constructor on your source class, but you&rsquo;ll find it helpful. For the CSV source, I used the constructor to make sure we have all the configuration that we need. Then I try and set sane values for fields, based on any header in the file.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$plugin_id</span><span class="p">,</span> <span class="nv">$plugin_definition</span><span class="p">,</span> <span class="nx">MigrationInterface</span> <span class="nv">$migration</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">parent</span><span class="o">::</span><span class="na">__construct</span><span class="p">(</span><span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$plugin_id</span><span class="p">,</span> <span class="nv">$plugin_definition</span><span class="p">,</span> <span class="nv">$migration</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Path is required.</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nx">MigrateException</span><span class="p">(</span><span class="s1">&#39;You must declare the &quot;path&quot; to the source CSV file in your source settings.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Key field(s) are required</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;keys&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="k">new</span> <span class="nx">MigrateException</span><span class="p">(</span><span class="s1">&#39;You must declare the &quot;keys&quot; the source CSV file in your source settings.&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Set header rows from the migrate configuration.</span>
-</span><span class='line'>  <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">=</span> <span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;header_rows&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;header_rows&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Figure out what CSV columns we have.</span>
-</span><span class='line'>  <span class="c1">// One can either pass in an explicit list of column names to use, or if we have</span>
-</span><span class='line'>  <span class="c1">// a header row we can use the names from that</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">&amp;&amp;</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">csvColumns</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="c1">// Skip all but the last header</span>
-</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">headerRows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$row</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
-</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$row</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$header</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$header</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
-</span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span><span class="p">[]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nv">$header</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="k">elseif</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">])</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">configuration</span><span class="p">[</span><span class="s1">&#39;csvColumns&#39;</span><span class="p">];</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Profit!</h2>
-
-<p>That&rsquo;s it! Four simple methods, and you have a new source type for Drupal 8 Migrate. Of course, you will probably find complications that require a bit more work. For CSV, supporting a header row turned out to be a real pain. Any time Migrate tried to &ldquo;rewind&rdquo; the source back to the first line, it would try and migrate the header row! I ended up extending SplFileObject just to handle this issue.</p>
-
-<p>Here&rsquo;s the YAML file I used to test this, importing a list of states from some US Census data.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">states</span>
-</span><span class='line'><span class="l-Scalar-Plain">label</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">States</span>
-</span><span class='line'><span class="l-Scalar-Plain">migration_groups</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">US Census</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">source</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">csv</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span> <span class="s">&#39;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&#39;</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">header_rows</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Id2</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Geography</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">keys</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Id2</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">process</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Geography</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">vid</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default_value</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">default_value</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">state</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">destination</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">plugin</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity:taxonomy_term</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You can see my CSV source and Iterator in the <a href="https://www.drupal.org/node/2458003">issue queue for migrate_plus</a>. Good luck, and happy migrating!</p>
-
-<h2>Thanks</h2>
-
-<p>I learned a lot this week. Big thanks to the <a href="https://www.drupal.org/node/2127611">Migrate Documentation</a>, but especially to <a href="https://www.drupal.org/u/chx">chx</a>, <a href="https://www.drupal.org/u/mikeryan">mikeryan</a>, and the other good folks in #drupal-migrate who helped set me straight.</p>
 ]]></content>
   </entry>
   

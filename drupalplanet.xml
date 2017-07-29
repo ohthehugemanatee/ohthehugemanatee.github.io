@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee - Drupal]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-07-21T14:18:18+02:00</updated>
+  <updated>2017-07-29T16:58:17+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon/"/>
+    <updated>2017-07-29T17:01:59+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
+
+<p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
+
+<p>You see, <strong>basically every other PHP conference covers their speakers&#8217; travel and accommodation costs</strong>. Drupalcon doesn&rsquo;t, and never has. Historically it has to do with Drupalcon&rsquo;s identity as a community conference, rather than a professional one. But it means <strong>the best PHP speakers never get to Drupalcon</strong>.</p>
+
+<p>On one hand that&rsquo;s great for our project: our speakers are all passionate volunteers! They&rsquo;re specialists who care deeply about the project. On the other hand, it contributes to isolated, &ldquo;stay on the island&rdquo; thinking. If the only speakers we hear are Drupalists, where do we get new insights? If the only people at the BoF or code sprint table are Drupalists, how do we leverage the strengths of the broader PHP community? How do we contribute back? <em>How do we grow?</em></p>
+
+<p>Every year, the lack of financial support holds back major PHP contributors from speaking at Drupalcon. The maintainers of Composer, PHPUnit, and Guzzle <em>want</em> to come to Drupalcon, but we don&rsquo;t make it possible. <strong>These people built and maintain the cornerstones of Drupal. Why do we hold them at arm&rsquo;s length?</strong></p>
+
+<p>This year, as Drupalcon PHP Track Chair, I&rsquo;m in a position to make some changes. So I invited two notable PHP speakers to come and join us at the con: <strong>Sebastian Bergmann, author of PHPUnit</strong>, and <strong>Michelle Sanver, president of @phpwomen</strong>. Today I&rsquo;m announcing a very special <a href="https://www.gofundme.com/php-at-drupalcon">GoFundMe campaign</a> to pay the travel and accommodation for these two exceptional contributors.</p>
+
+<iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p>I believe that Drupalists want to get off the island.</p>
+
+<p>I believe in the benefits of closer cooperation with the PHP community.</p>
+
+<p>I believe there&rsquo;s a lot we can learn from these people, and a lot we can teach them too.</p>
+
+<p><strong>And I believe that I&rsquo;m not the only one.</strong></p>
+
+<p>We&rsquo;ve estimated costs conservatively; this is not a lot of money. Anything we collect above and beyond their needs will go to the Drupal Association, but let&rsquo;s be honest with ourselves: this campaign isn&rsquo;t just about bringing Sebastian and Michelle to Drupalcon. <strong>Your donation shows the Drupal Association that you want to welcome contributors from other communities.</strong> You prove to them that their constituents <em>want</em> to bring in this kind of speaker. <strong>When you donate, you stand up for the kind of community you believe in.</strong></p>
+
+<p>Please <a href="https://www.gofundme.com/php-at-drupalcon/donate">donate</a>, share, and tweet the campaign today.</p>
+
+<iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p><strong>Because &ldquo;get off the island&rdquo; isn&rsquo;t just about the code. It&rsquo;s about the community.</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
@@ -1813,261 +1864,6 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
 <p>That&rsquo;s it &ndash; your site is now officially a vanilla Drupal install. Test by removing the profiles/pushtape directory, clearing caches, and browsing around your site.</p>
 
 <p><em>NOTE: With a more complex install profile I expect to encounter more difficulty. Stay tuned for the post on extricating yourself from Commons later this year!</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Create a Custom Panels Pane]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/"/>
-    <updated>2014-01-03T13:09:11+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane</id>
-    <content type="html"><![CDATA[<p>Lots of sites are now built with the &ldquo;Panels everywhere&rdquo; method, using <a href="https://www.drupal.org/project/panels">Panels</a> and <a href="https://www.drupal.org/project/panelizer">Panelizer</a> to configure modular layouts in the Drupal GUI. These modules come with lots of great default Panes, and create even more defaults based on your existing Blocks and Views. But there&rsquo;s always a case for a custom Pane.</p>
-
-<p>As usual, I&rsquo;ll assume that you have an empty custom module called <em>mymodule</em>, with only a <em>.info</em> and a <em>.module</em> file to its name.</p>
-
-<h2>1) Tell CTools that you have custom code here</h2>
-
-<p>Ctools, like Views, needs a hook to declare the fact that you have custom code. To do this we&rsquo;ll use <em><a href="http://drupalcontrib.org/api/drupal/contributions!ctools!ctools.api.php/function/hook_ctools_plugin_directory/7">hook_ctools_plugin_directory</a></em>. This hook is invoked for all Ctools plugin types, and includes the module name as a variable. This way you can avoid eating up memory for anything except the targeted module. You also have to declare where your custom code will live. So here&rsquo;s the complete content of <em>mymodule.module</em>:</p>
-
-<figure class='code'><figcaption><span>mymodule.module</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>
-</span><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Implements hook_ctools_plugin_directory().</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_ctools_plugin_directory</span><span class="p">(</span><span class="nv">$owner</span><span class="p">,</span> <span class="nv">$plugin_type</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$owner</span> <span class="o">==</span> <span class="s1">&#39;ctools&#39;</span> <span class="o">&amp;&amp;</span> <span class="nv">$plugin_type</span> <span class="o">==</span> <span class="s1">&#39;content_types&#39;</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span> <span class="s1">&#39;plugins/content_types&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Note: <strong>Do not confuse Ctools &ldquo;Content Types&rdquo; with the &ldquo;Content Type&rdquo; entity used elsewhere in Drupal.</strong> This is just confusing naming, but they&rsquo;re totally different things. Actually the most common usage for a Ctools Content Type is a pane, just like what we&rsquo;re doing now. There are other plugin types, but none that interest us in this post.</p>
-
-<h2>2) Add your custom pane</h2>
-
-<p>Oh, did you think this would be more difficult? Now that we&rsquo;ve told Ctools to look for Content Type plugins in our module&rsquo;s <em>plugins/content_types</em> subdirectory, we just add a <em>.inc</em> file for each &ldquo;Content Type&rdquo; (aka Pane) that we want to add. Let&rsquo;s do a simple one, which returns the root term of a given taxonomy term. All the following code will go in <em>plugins/content_types/taxonomy_root_term.inc</em> (a name I chose arbitrarily).</p>
-
-<p>Right at the top of the file, we provide a <em>$plugin</em> array which defines the basic information about our <del>Pane</del> Ctools Content Type. This doesn&rsquo;t go into a function or anything, it just sits at the top of the <em>.inc</em> file:</p>
-
-<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
-</span><span class='line'>
-</span><span class='line'><span class="nv">$plugin</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>  <span class="s1">&#39;single&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'>  <span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Taxonomy root term&#39;</span><span class="p">),</span>
-</span><span class='line'>  <span class="s1">&#39;description&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;a Display of data from the root term of the given TID&#39;</span><span class="p">),</span>
-</span><span class='line'>  <span class="s1">&#39;category&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Custom Panes&#39;</span><span class="p">),</span>
-</span><span class='line'>  <span class="s1">&#39;edit form&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_taxonomy_root_term&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s1">&#39;render callback&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_taxonomy_root_term_render&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s1">&#39;admin info&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;mymodule_taxonomy_root_term_info&#39;</span><span class="p">,</span>
-</span><span class='line'>  <span class="s1">&#39;defaults&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(),</span>
-</span><span class='line'>  <span class="s1">&#39;all contexts&#39;</span> <span class="o">=&gt;</span> <span class="k">TRUE</span><span class="p">,</span>
-</span><span class='line'><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As you can see, this array defines a category, title, and description for the Panels admin interface. It also declares the names of the callbacks which provide the pane&rsquo;s edit form, rendered form, and admin info. &ldquo;Single&rdquo; means that this type has no sub-types. This is the case in every single custom pane I&rsquo;ve ever seen, so it&rsquo;s probably the case for yours as well.</p>
-
-<p>Now we write the callbacks we named in that array. We&rsquo;ll start with the edit form.</p>
-
-<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Edit form.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'> <span class="nv">$conf</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">];</span>
-</span><span class='line'>
-</span><span class='line'> <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>   <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;textfield&#39;</span><span class="p">,</span>
-</span><span class='line'>   <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;Term ID&#39;</span><span class="p">),</span>
-</span><span class='line'>   <span class="s1">&#39;#description&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;The term, from which the root term will be displayed&#39;</span><span class="p">),</span>
-</span><span class='line'>   <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">],</span>
-</span><span class='line'> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">$entity_info</span> <span class="o">=</span> <span class="nx">entity_get_info</span><span class="p">(</span><span class="s1">&#39;taxonomy_term&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">$options</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$entity_info</span><span class="p">[</span><span class="s1">&#39;view modes&#39;</span><span class="p">]))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$entity_info</span><span class="p">[</span><span class="s1">&#39;view modes&#39;</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$mode</span> <span class="o">=&gt;</span> <span class="nv">$settings</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$options</span><span class="p">[</span><span class="nv">$mode</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$settings</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">];</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'> <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
-</span><span class='line'>   <span class="s1">&#39;#type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
-</span><span class='line'>   <span class="s1">&#39;#options&#39;</span> <span class="o">=&gt;</span> <span class="nv">$options</span><span class="p">,</span>
-</span><span class='line'>   <span class="s1">&#39;#title&#39;</span> <span class="o">=&gt;</span> <span class="nx">t</span><span class="p">(</span><span class="s1">&#39;View mode&#39;</span><span class="p">),</span>
-</span><span class='line'>   <span class="s1">&#39;#default_value&#39;</span> <span class="o">=&gt;</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">],</span>
-</span><span class='line'> <span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'> <span class="k">return</span> <span class="nv">$form</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is a fairly standard Drupal form. It also goes through typical form validation and submission functions, so you can provide a pretty complete experience for the administrator. In our case, we just want to get the term ID of the term whose root parent should be displayed. We let the administrator enter the term ID, and the view mode which should be used to display it. We won&rsquo;t worry about form validation in our example. Let&rsquo;s move on to the Submit function:</p>
-
-<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Edit form submit function.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term_submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="o">&amp;</span><span class="nv">$form_state</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">][</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="s1">&#39;term&#39;</span><span class="p">];</span>
-</span><span class='line'>  <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;conf&#39;</span><span class="p">][</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$form_state</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="s1">&#39;view_mode&#39;</span><span class="p">];</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Again, pretty simple stuff. We just make sure that the <em>$form_state[&lsquo;conf&rsquo;]</em> has the values entered. Now, the next callback we defined in <em>$plugin</em> is for rendering the pane:</p>
-
-<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Render the panel.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term_render</span><span class="p">(</span><span class="nv">$subtype</span><span class="p">,</span> <span class="nv">$conf</span><span class="p">,</span> <span class="nv">$args</span><span class="p">,</span> <span class="nv">$contexts</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nv">$context</span><span class="o">-&gt;</span><span class="na">empty</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">return</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>  <span class="c1">// Get full term object for the root term.</span>
-</span><span class='line'>  <span class="nv">$term</span> <span class="o">=</span> <span class="nx">ctools_context_keyword_substitute</span><span class="p">(</span><span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">],</span> <span class="k">array</span><span class="p">(),</span> <span class="nv">$contexts</span><span class="p">);</span>
-</span><span class='line'>  <span class="nv">$parent_array</span> <span class="o">=</span> <span class="nx">taxonomy_get_parents_all</span><span class="p">(</span><span class="nv">$term</span><span class="p">);</span>
-</span><span class='line'>  <span class="nv">$root</span> <span class="o">=</span> <span class="nb">end</span><span class="p">(</span><span class="nv">$parent_array</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">// Render as a block.</span>
-</span><span class='line'>  <span class="nv">$block</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">();</span>
-</span><span class='line'>  <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">module</span> <span class="o">=</span> <span class="s1">&#39;entity&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">delta</span> <span class="o">=</span> <span class="s1">&#39;taxonomy_term-&#39;</span> <span class="o">.</span> <span class="nb">str_replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nv">$entity</span> <span class="o">=</span> <span class="nx">entity_load_single</span><span class="p">(</span><span class="s1">&#39;taxonomy_term&#39;</span><span class="p">,</span> <span class="nv">$root</span><span class="o">-&gt;</span><span class="na">tid</span><span class="p">);</span>
-</span><span class='line'>  <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">content</span> <span class="o">=</span> <span class="nx">entity_view</span><span class="p">(</span><span class="s1">&#39;taxonomy_term&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="nv">$root</span><span class="p">),</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]);</span>
-</span><span class='line'>  <span class="k">return</span> <span class="nv">$block</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>First we make sure there is information &ndash; ie the taxonomy term ID we need &ndash; in the pane&rsquo;s context. Then we get the root term object and render it in the requested display mode. The only requirement for the return here is that it be a <a href="https://drupal.org/node/930760">Drupal render array</a>. So depending on your use case, you can return an image, a field&hellip; whatever you like. In most cases a block is a convenient wrapper for whatever you have to return, which is what I did here.</p>
-
-<p>This is as far as you have to go. The admin info callback isn&rsquo;t actually required, just don&rsquo;t include it in the <em>$plugin</em> array and you&rsquo;ll be fine. But if you want to make your life easier as a site admin, it&rsquo;s definitely a nice to have.</p>
-
-<figure class='code'><figcaption><span>plugins/content_types/taxonomy_root_term.inc</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="sd">/**</span>
-</span><span class='line'><span class="sd"> * Admin info.</span>
-</span><span class='line'><span class="sd"> */</span>
-</span><span class='line'><span class="k">function</span> <span class="nf">mymodule_taxonomy_root_term_info</span><span class="p">(</span><span class="nv">$subtype</span><span class="p">,</span> <span class="nv">$conf</span><span class="p">,</span> <span class="nv">$contexts</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$conf</span><span class="p">))</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nv">$content</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;&lt;b&gt;Term ID:&lt;/b&gt; &#39;</span> <span class="o">.</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;term&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$content</span> <span class="o">=</span> <span class="s1">&#39;&lt;p&gt;&lt;b&gt;View mode:&lt;/b&gt; &#39;</span> <span class="o">.</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;view_mode&#39;</span><span class="p">]</span> <span class="o">.</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>    <span class="nv">$block</span> <span class="o">=</span> <span class="k">new</span> <span class="k">stdClass</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">title</span> <span class="o">=</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;override_title&#39;</span><span class="p">]</span> <span class="o">?</span> <span class="nv">$conf</span><span class="p">[</span><span class="s1">&#39;override_title_text&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-</span><span class='line'>    <span class="nv">$block</span><span class="o">-&gt;</span><span class="na">content</span> <span class="o">=</span> <span class="nv">$content</span><span class="p">;</span>
-</span><span class='line'>    <span class="k">return</span> <span class="nv">$block</span><span class="p">;</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This just provides the administrative summary which you can see in the Panels UI. Again, Panels will be happy with any render array return you throw at it, so I use a block.</p>
-
-<h2>This is why we have nice things</h2>
-
-<p>Anyone who&rsquo;s worked with me knows that I&rsquo;m not a huge fan of the panels everywhere approach. But I use it often, simply because it makes custom layouts and totally custom page pieces so easy to do. Duplicating even this very simple functionality in a block is actually harder than this. You&rsquo;re still using about 3 functions, but you&rsquo;d have to determine in advance where that TID will come from. It would certainly come out less flexible, and actually probably harder to maintain. With Ctools all your related code sits in one place, and your module structure actually helps you see what&rsquo;s going on where.</p>
-
-<p>If you learn how to do elements like this, you&rsquo;ll find Panels creeping into more and more of your builds. And rightfully so.</p>
 ]]></content>
   </entry>
   

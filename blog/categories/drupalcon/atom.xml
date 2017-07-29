@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Drupalcon | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/drupalcon/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-07-21T14:18:18+02:00</updated>
+  <updated>2017-07-29T16:58:17+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon/"/>
+    <updated>2017-07-29T17:01:59+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
+
+<p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
+
+<p>You see, <strong>basically every other PHP conference covers their speakers' travel and accommodation costs</strong>. Drupalcon doesn&rsquo;t, and never has. Historically it has to do with Drupalcon&rsquo;s identity as a community conference, rather than a professional one. But it means <strong>the best PHP speakers never get to Drupalcon</strong>.</p>
+
+<p>On one hand that&rsquo;s great for our project: our speakers are all passionate volunteers! They&rsquo;re specialists who care deeply about the project. On the other hand, it contributes to isolated, &ldquo;stay on the island&rdquo; thinking. If the only speakers we hear are Drupalists, where do we get new insights? If the only people at the BoF or code sprint table are Drupalists, how do we leverage the strengths of the broader PHP community? How do we contribute back? <em>How do we grow?</em></p>
+
+<p>Every year, the lack of financial support holds back major PHP contributors from speaking at Drupalcon. The maintainers of Composer, PHPUnit, and Guzzle <em>want</em> to come to Drupalcon, but we don&rsquo;t make it possible. <strong>These people built and maintain the cornerstones of Drupal. Why do we hold them at arm&rsquo;s length?</strong></p>
+
+<p>This year, as Drupalcon PHP Track Chair, I&rsquo;m in a position to make some changes. So I invited two notable PHP speakers to come and join us at the con: <strong>Sebastian Bergmann, author of PHPUnit</strong>, and <strong>Michelle Sanver, president of @phpwomen</strong>. Today I&rsquo;m announcing a very special <a href="https://www.gofundme.com/php-at-drupalcon">GoFundMe campaign</a> to pay the travel and accommodation for these two exceptional contributors.</p>
+
+<iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p>I believe that Drupalists want to get off the island.</p>
+
+<p>I believe in the benefits of closer cooperation with the PHP community.</p>
+
+<p>I believe there&rsquo;s a lot we can learn from these people, and a lot we can teach them too.</p>
+
+<p><strong>And I believe that I&rsquo;m not the only one.</strong></p>
+
+<p>We&rsquo;ve estimated costs conservatively; this is not a lot of money. Anything we collect above and beyond their needs will go to the Drupal Association, but let&rsquo;s be honest with ourselves: this campaign isn&rsquo;t just about bringing Sebastian and Michelle to Drupalcon. <strong>Your donation shows the Drupal Association that you want to welcome contributors from other communities.</strong> You prove to them that their constituents <em>want</em> to bring in this kind of speaker. <strong>When you donate, you stand up for the kind of community you believe in.</strong></p>
+
+<p>Please <a href="https://www.gofundme.com/php-at-drupalcon/donate">donate</a>, share, and tweet the campaign today.</p>
+
+<iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p><strong>Because &ldquo;get off the island&rdquo; isn&rsquo;t just about the code. It&rsquo;s about the community.</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
