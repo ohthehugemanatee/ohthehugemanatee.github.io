@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="I recently tried the Dolly Drive backup service, and decided it wasn’t for me. Foolishly, I uninstalled it the way you uninstall everything on OSX: &hellip;">
+  <meta name="description" content="Drupal’s Rules module lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,48 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/">Adding Rules to Your Contrib Module (So You Can Reject Half the Tickets in Your Queue)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p><a href="http://drupal.org" target="_blank">Drupal’s</a> <a href="http://drupal.org/project/rules" target="_blank">Rules module</a> lets site builders define complex and custom behaviors without having to code a custom module. That puts a lot of power in the hands of the site builder, and it makes developers (rightly) nervous. But there’s another way to think about it.</p>
+
+
+<p>What’s fantastic about Rules is that it lets everyone who wants your module to behave slightly differently to <em>change the behavior for themselves</em>. In fact, if you build the logic of your module into Rules you get an excuse to reject half the tickets in your contrib module queue on the grounds of “works as intended,” aka “do it yourself.”  To me, this is the quiet brilliance of Commerce module’s dependence &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -479,50 +521,6 @@ I wouldn’t want to be a Sony sysadmin right now. <a href="http://www.f-secure.
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/05/sendmail-return-path-php-and-importance.html">Sendmail Return-path, Php, and the Importance of the Variables You Don&#8217;t Think Of</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-05-20T20:37:00+02:00" pubdate data-updated="true">May 20<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-I got called in for an interesting issue on one of the servers I co-maintain today.  Sites were messing up left right and center, in all sorts of bizarre ways.  CSS wouldn’t be delivered, or half of it would be, or some of the content would disappear… and different on every page load!  It only took me a moment to confirm - the server was out of space on the root device.<br><br>This was readily visible in the logs - any mysql transaction you tried would return “Got error 28 from storage engine”, which typically means the drive is out of space.  And a quick <code>df -ht</code> confirmed:<br><br><blockquote><code><br>root@production:/# df -h<br>Filesystem            Size  Used Avail Use% Mounted on<br>/dev/sda1             9.9G  9.4G  160K 100% /<br>none                  7.3G  128K  7.3G   1% /dev<br>none                  7.6G     0  7.6G   0% /dev/shm<br>none                  7.6G   76K  7.6G   1% /var/r...</code></blockquote>
-</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/05/sendmail-return-path-php-and-importance.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/7/">&larr; Older</a>
@@ -548,7 +546,11 @@ I got called in for an interesting issue on one of the servers I co-maintain tod
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2017/07/29/bring-php-to-drupalcon/">Why No Mainstream PHP Speakers Come to Drupalcon - and How We&#8217;re Changing That</a>
+        <a href="/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/">The 3 Skills You Need to Become a Rock Star Developer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/07/28/bring-php-to-drupalcon/">Why No Mainstream PHP Speakers Come to Drupalcon - and How We&#8217;re Changing That</a>
       </li>
     
       <li class="post">
@@ -561,10 +563,6 @@ I got called in for an interesting issue on one of the servers I co-maintain tod
     
       <li class="post">
         <a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/03/30/stay-for-community/">Stay for Community</a>
       </li>
     
   </ul>

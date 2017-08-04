@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee - Drupal]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-07-29T16:58:17+02:00</updated>
+  <updated>2017-08-04T12:17:04+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon/"/>
-    <updated>2017-07-29T17:01:59+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon</id>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <updated>2017-07-28T17:01:59+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>

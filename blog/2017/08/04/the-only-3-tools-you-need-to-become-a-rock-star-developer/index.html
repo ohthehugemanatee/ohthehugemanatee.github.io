@@ -1,0 +1,377 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The 3 Skills You Need to Become a Rock Star Developer - Oh The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+  
+    <h2>Drupal, Sysadminning, and Tech.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The 3 Skills You Need to Become a Rock Star Developer</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-04T12:03:27+02:00" pubdate data-updated="true">Aug 4<span>th</span>, 2017</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
+
+<h2>1) Know how to explore the source</h2>
+
+<p>For most of us this comes down to knowing how to use your IDE, but other tools are available. It doesn&rsquo;t matter what tool you use, as long as it has these functionalities at a minimum:</p>
+
+<ul>
+<li><strong>Something that lets you explore the object graph.</strong> In my IDE, a hotkey takes you directly from any usage of a function, method, or property, to the definition in use. It respects overrides and understands class inheritance. A different hotkey shows me the descendants of a method/property/class; how it&rsquo;s extended and overridden by it&rsquo;s children. You need to be able to poke around the entire application with enough ease that you can notice common design patterns. Class structure is where some of the most important design patterns live, and you want to learn from and match the rest of your application or framework.</li>
+<li><strong>Something that lets you quickly look up documentation.</strong> One of my favorite things about Drupal is that the documentation standard is in the code itself, which makes this one very easy to satisfy. Most good IDEs will integrate with external documentation systems though. Exact types and example usages should be a hotkey away.</li>
+<li><strong>Something that provides hints as you code.</strong> My IDE pays attention to type hints, and suggests available methods and properties as I type. This is more a speed thing than anything else, but it saves me from having to remember every single corner of the API.</li>
+<li><strong>Fast, robust searching.</strong> Very often you know what you want to do, but you don&rsquo;t know quite how to do it. The rest of your framework is your friend: look for other code that does something similar. Think about how you might do this searching a codebase: simple text matching probably won&rsquo;t do &ndash; you need regex matching, at least. Constraint by location, probably constraints by filename, too. The other day I (really) was looking for an example of custom route access callbacks in Drupal &ndash; something that&rsquo;s awkwardly described in the doco, and it turns out, doesn&rsquo;t exactly work as documented anyway. I needed to search files matching <code>*.services.yml</code> for services with a tag value &ldquo;applies_to&rdquo; that starts with an underscore. The robust search capability of my IDE helped me find my example, and all I had to write was a little regex.</li>
+</ul>
+
+
+<p>These functionalities are standard-issue in any normal IDE. So perhaps we should just reduce this whole point to &ldquo;use an IDE, and learn its hotkeys.&rdquo; This will help you learn by example much faster.</p>
+
+<h2>2) Know how to use your debugger</h2>
+
+<p>There are two kinds of developers in the world: those who use a debugger, and those who piss their time into the wind. Most self-taught developers spend years beating their heads against the wall trying to resolve bugs. It&rsquo;s a major effort to remember everything in state, so they can&rsquo;t write more than 2 lines of code without some visible output to validate what&rsquo;s going on. I understand. I did this too. The PHP debugger (XDebug) seemed complicated to use, and I didn&rsquo;t really understand why it was important. So I avoided it for a long time.</p>
+
+<p><strong>Holy shit, it&rsquo;s important</strong>. A debugger lets you step through your code one line at a time, as it&rsquo;s being executed. You can look at the value of any variable, try out isolated lines of code to see what they return, and modify values as it&rsquo;s running. Honestly half the time, I develop by writing a skeleton of what I want in sloppy, busted code&hellip; then fire up the debugger and do the real writing while I&rsquo;m looking at the actual values involved.</p>
+
+<p>The other really valuable contribution of a debugger to your life, is that you can &ldquo;step into&rdquo; any function or method being called. That means you can jump directly inside the function to see what it does, and inside the functions <em>it</em> uses, and so on and so on. Turns out that it&rsquo;s turtles all the way down: this is the best way to learn really how your framework works. Five and six layers deep you find patterns of abstraction that you simply won&rsquo;t get anywhere else. The kind of understanding you get from walking a complete code path to it&rsquo;s full depth, is impossible to get any other way. It&rsquo;s the kind of understanding that rock stars have.</p>
+
+<p>Debuggers typically offer other useful functionalities, like performance profiling. Those are great when you need them, and I don&rsquo;t want to minimize their importance. Compared to the everyday functionalities though, these are edge cases. You need the basic tool of debugging <em>every time you touch the code.</em> So invest the time to figure out your debugger. It will take you an afternoon to really figure it out on your local environment. Spend that afternoon now. Thank me later.</p>
+
+<h2>3) Know how to write tests</h2>
+
+<p>I&rsquo;ll let you in on a secret: you don&rsquo;t have to be good at writing tests. Being good (generally) means your tests run faster, and cover more edge cases. Those are both Good Things, but the basic value of even amateur, I&rsquo;m-just-figuring-it-out tests is 75% of the point.</p>
+
+<p>The core value of tests is that they run the exact. same. thing. every. damn. time. That&rsquo;s more precise than refreshing your browser, where a hundred factors might come into play before your code fires. Oh, and did I mention that you can trigger your debugger from your tests? Because you can.</p>
+
+<p>A basic test is just firing off one method or function on it&rsquo;s own, with known values as input. You write &ldquo;asserts&rdquo; to check the output. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">testAddition</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$result</span> <span class="o">=</span> <span class="nx">\MathClass</span><span class="o">::</span><span class="na">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">self</span><span class="o">::</span><span class="na">assertEquals</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="nv">$result</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is not the most complicated concept in the world. But this four lines means I can re-run the <code>addition</code> function a thousand times, stepping through it, with the same values every time. For testing a little additon function, this is certainly not necessary. But for testing submitted values entered on a web form, it saves me a ridiculous amount of time copypasting Lipsum text and fighting with form cache. You can also use this for big, integrated tests that require lots of dependencies. For example, Drupal includes base classes for various levels of bootstrap right up to the whole system. If you&rsquo;re writing a complicated migration, it&rsquo;s not crazy to have a test for it. You can determine the exact start state of the system (effectively a db dump), kick off the exact migration scripts in the right order, and validate the result, all in one command, with no clicking or human inaccuracy.</p>
+
+<p>Tests do more than just save you time in coding. They also save time in maintenance, since you can leave your tests in place and know as soon as there&rsquo;s a regression. They also make refactoring possible. Having complete tests that make sure the whole system <em>works</em> means that I never have to worry if my refactor broke something. I know it didn&rsquo;t, because it passes the same tests.</p>
+
+<p>OK, we all get it: testing saves you time. But the important part of test writing for this article, is how much you learn about your framework as you&rsquo;re doing it. You see, the hard part of writing tests is paring down the system you need for the test, to get rid of external factors. For example, technically I could bootstrap all of Symfony to run that example test above&hellip; but it&rsquo;s much faster if I just instantiate the MathClass class and run the function directly. So in my test, I won&rsquo;t bother starting anything from the system around it.</p>
+
+<p>Most of your tests will be somewhere in between this simple example and a behemoth which needs the full weight of your framework to run. You want to only instantiate the bare minimum. So in Symphony, maybe you bootstrap the service container, but you only load up the services you need for the code you&rsquo;re testing. And of those, probably half of them can be &ldquo;dummies&rdquo; that are just there to give a type signature to a constructor. Good testing frameworks (shout out to PHPUnit!) make this easy.</p>
+
+<p>The process of trying to pare down (or build up) dependencies to the minimum you need, <em>is a fantastic way to learn your framework&rsquo;s internals</em>. What REALLY are the dependencies for this function? What subsystems from my framework does it need to run, and what parts of those subsystems? This is a lot like the understanding you get from stepping through an entire request in the debugger: it&rsquo;s rock-star level understanding.</p>
+
+<p>I&rsquo;m not going to write a detailed howto on testing here. There are a thousand of them all over the internet, and it&rsquo;s pretty specific to your individual language. The point is: write tests. It will take a couple of months to get used to it, but after that you&rsquo;ll find you develop faster, refactor faster, experience fewer bugs and regressions&hellip; and you&rsquo;ll find you understand your framework better than any of your peers.</p>
+
+<h2>Being a rock star developer</h2>
+
+<p>These three tools are the fast track to understanding your framework and language on an extremely deep level. That understanding is the definition of a &ldquo;rock star&rdquo; developer. You will still google for solutions sometimes, but more often you&rsquo;ll look directly at the doco, or for other examples in the code. You&rsquo;ll probably still forget exactly which methods to use for obscure corners of the framework, or what parameters they take, but you&rsquo;ll have the tools to rediscover that information readily at hand. Most importantly, you&rsquo;ll understand how your system <em>thinks</em>, which is what being a rock star is all about.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2017-08-04T12:03:27+02:00" pubdate data-updated="true">Aug 4<span>th</span>, 2017</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/code/'>code</a>, <a class='category' href='/blog/categories/development/'>development</a>, <a class='category' href='/blog/categories/php/'>php</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/07/28/bring-php-to-drupalcon/" title="Previous Post: Why no mainstream PHP speakers come to Drupalcon - and how we're changing that">&laquo; Why no mainstream PHP speakers come to Drupalcon - and how we're changing that</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<h1>About</h1>
+<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 12 years, a Linux admin for 17, and now I'm a freelance full-stack web developer. 
+
+<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+
+<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/">The 3 Skills You Need to Become a Rock Star Developer</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/07/28/bring-php-to-drupalcon/">Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/">That Time I Resurrected My Linux MacBook Pro</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2017 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

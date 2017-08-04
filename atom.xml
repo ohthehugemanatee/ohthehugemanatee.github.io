@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-07-29T16:58:17+02:00</updated>
+  <updated>2017-08-04T12:17:04+02:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,10 +14,78 @@
 
   
   <entry>
+    <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
+    <updated>2017-08-04T12:03:27+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
+    <content type="html"><![CDATA[<p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
+
+<h2>1) Know how to explore the source</h2>
+
+<p>For most of us this comes down to knowing how to use your IDE, but other tools are available. It doesn&rsquo;t matter what tool you use, as long as it has these functionalities at a minimum:</p>
+
+<ul>
+<li><strong>Something that lets you explore the object graph.</strong> In my IDE, a hotkey takes you directly from any usage of a function, method, or property, to the definition in use. It respects overrides and understands class inheritance. A different hotkey shows me the descendants of a method/property/class; how it&rsquo;s extended and overridden by it&rsquo;s children. You need to be able to poke around the entire application with enough ease that you can notice common design patterns. Class structure is where some of the most important design patterns live, and you want to learn from and match the rest of your application or framework.</li>
+<li><strong>Something that lets you quickly look up documentation.</strong> One of my favorite things about Drupal is that the documentation standard is in the code itself, which makes this one very easy to satisfy. Most good IDEs will integrate with external documentation systems though. Exact types and example usages should be a hotkey away.</li>
+<li><strong>Something that provides hints as you code.</strong> My IDE pays attention to type hints, and suggests available methods and properties as I type. This is more a speed thing than anything else, but it saves me from having to remember every single corner of the API.</li>
+<li><strong>Fast, robust searching.</strong> Very often you know what you want to do, but you don&rsquo;t know quite how to do it. The rest of your framework is your friend: look for other code that does something similar. Think about how you might do this searching a codebase: simple text matching probably won&rsquo;t do &ndash; you need regex matching, at least. Constraint by location, probably constraints by filename, too. The other day I (really) was looking for an example of custom route access callbacks in Drupal &ndash; something that&rsquo;s awkwardly described in the doco, and it turns out, doesn&rsquo;t exactly work as documented anyway. I needed to search files matching <code>*.services.yml</code> for services with a tag value &ldquo;applies_to&rdquo; that starts with an underscore. The robust search capability of my IDE helped me find my example, and all I had to write was a little regex.</li>
+</ul>
+
+
+<p>These functionalities are standard-issue in any normal IDE. So perhaps we should just reduce this whole point to &ldquo;use an IDE, and learn its hotkeys.&rdquo; This will help you learn by example much faster.</p>
+
+<h2>2) Know how to use your debugger</h2>
+
+<p>There are two kinds of developers in the world: those who use a debugger, and those who piss their time into the wind. Most self-taught developers spend years beating their heads against the wall trying to resolve bugs. It&rsquo;s a major effort to remember everything in state, so they can&rsquo;t write more than 2 lines of code without some visible output to validate what&rsquo;s going on. I understand. I did this too. The PHP debugger (XDebug) seemed complicated to use, and I didn&rsquo;t really understand why it was important. So I avoided it for a long time.</p>
+
+<p><strong>Holy shit, it&rsquo;s important</strong>. A debugger lets you step through your code one line at a time, as it&rsquo;s being executed. You can look at the value of any variable, try out isolated lines of code to see what they return, and modify values as it&rsquo;s running. Honestly half the time, I develop by writing a skeleton of what I want in sloppy, busted code&hellip; then fire up the debugger and do the real writing while I&rsquo;m looking at the actual values involved.</p>
+
+<p>The other really valuable contribution of a debugger to your life, is that you can &ldquo;step into&rdquo; any function or method being called. That means you can jump directly inside the function to see what it does, and inside the functions <em>it</em> uses, and so on and so on. Turns out that it&rsquo;s turtles all the way down: this is the best way to learn really how your framework works. Five and six layers deep you find patterns of abstraction that you simply won&rsquo;t get anywhere else. The kind of understanding you get from walking a complete code path to it&rsquo;s full depth, is impossible to get any other way. It&rsquo;s the kind of understanding that rock stars have.</p>
+
+<p>Debuggers typically offer other useful functionalities, like performance profiling. Those are great when you need them, and I don&rsquo;t want to minimize their importance. Compared to the everyday functionalities though, these are edge cases. You need the basic tool of debugging <em>every time you touch the code.</em> So invest the time to figure out your debugger. It will take you an afternoon to really figure it out on your local environment. Spend that afternoon now. Thank me later.</p>
+
+<h2>3) Know how to write tests</h2>
+
+<p>I&rsquo;ll let you in on a secret: you don&rsquo;t have to be good at writing tests. Being good (generally) means your tests run faster, and cover more edge cases. Those are both Good Things, but the basic value of even amateur, I&rsquo;m-just-figuring-it-out tests is 75% of the point.</p>
+
+<p>The core value of tests is that they run the exact. same. thing. every. damn. time. That&rsquo;s more precise than refreshing your browser, where a hundred factors might come into play before your code fires. Oh, and did I mention that you can trigger your debugger from your tests? Because you can.</p>
+
+<p>A basic test is just firing off one method or function on it&rsquo;s own, with known values as input. You write &ldquo;asserts&rdquo; to check the output. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">testAddition</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nv">$result</span> <span class="o">=</span> <span class="nx">\MathClass</span><span class="o">::</span><span class="na">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">self</span><span class="o">::</span><span class="na">assertEquals</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="nv">$result</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is not the most complicated concept in the world. But this four lines means I can re-run the <code>addition</code> function a thousand times, stepping through it, with the same values every time. For testing a little additon function, this is certainly not necessary. But for testing submitted values entered on a web form, it saves me a ridiculous amount of time copypasting Lipsum text and fighting with form cache. You can also use this for big, integrated tests that require lots of dependencies. For example, Drupal includes base classes for various levels of bootstrap right up to the whole system. If you&rsquo;re writing a complicated migration, it&rsquo;s not crazy to have a test for it. You can determine the exact start state of the system (effectively a db dump), kick off the exact migration scripts in the right order, and validate the result, all in one command, with no clicking or human inaccuracy.</p>
+
+<p>Tests do more than just save you time in coding. They also save time in maintenance, since you can leave your tests in place and know as soon as there&rsquo;s a regression. They also make refactoring possible. Having complete tests that make sure the whole system <em>works</em> means that I never have to worry if my refactor broke something. I know it didn&rsquo;t, because it passes the same tests.</p>
+
+<p>OK, we all get it: testing saves you time. But the important part of test writing for this article, is how much you learn about your framework as you&rsquo;re doing it. You see, the hard part of writing tests is paring down the system you need for the test, to get rid of external factors. For example, technically I could bootstrap all of Symfony to run that example test above&hellip; but it&rsquo;s much faster if I just instantiate the MathClass class and run the function directly. So in my test, I won&rsquo;t bother starting anything from the system around it.</p>
+
+<p>Most of your tests will be somewhere in between this simple example and a behemoth which needs the full weight of your framework to run. You want to only instantiate the bare minimum. So in Symphony, maybe you bootstrap the service container, but you only load up the services you need for the code you&rsquo;re testing. And of those, probably half of them can be &ldquo;dummies&rdquo; that are just there to give a type signature to a constructor. Good testing frameworks (shout out to PHPUnit!) make this easy.</p>
+
+<p>The process of trying to pare down (or build up) dependencies to the minimum you need, <em>is a fantastic way to learn your framework&rsquo;s internals</em>. What REALLY are the dependencies for this function? What subsystems from my framework does it need to run, and what parts of those subsystems? This is a lot like the understanding you get from stepping through an entire request in the debugger: it&rsquo;s rock-star level understanding.</p>
+
+<p>I&rsquo;m not going to write a detailed howto on testing here. There are a thousand of them all over the internet, and it&rsquo;s pretty specific to your individual language. The point is: write tests. It will take a couple of months to get used to it, but after that you&rsquo;ll find you develop faster, refactor faster, experience fewer bugs and regressions&hellip; and you&rsquo;ll find you understand your framework better than any of your peers.</p>
+
+<h2>Being a rock star developer</h2>
+
+<p>These three tools are the fast track to understanding your framework and language on an extremely deep level. That understanding is the definition of a &ldquo;rock star&rdquo; developer. You will still google for solutions sometimes, but more often you&rsquo;ll look directly at the doco, or for other examples in the code. You&rsquo;ll probably still forget exactly which methods to use for obscure corners of the framework, or what parameters they take, but you&rsquo;ll have the tools to rediscover that information readily at hand. Most importantly, you&rsquo;ll understand how your system <em>thinks</em>, which is what being a rock star is all about.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon/"/>
-    <updated>2017-07-29T17:01:59+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/07/29/bring-php-to-drupalcon</id>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <updated>2017-07-28T17:01:59+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
@@ -1717,76 +1785,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 <p>At the same time, the developers at this conference were just as fun and happy to help each other as at the best Drupal events. I learned a tremendous amount about working with Drupal&rsquo;s new object-oriented tool kit, and grew a lot as a programmer. Once I explained the differences with Drupal 8, most people were curious to see just how it worked. And just like at my favorite Drupal events, even the most well-known developers were interested to help. I complained about my frustrations with the PHPUnit testing suite, and was introduced to the original author and maintainer. I had a question about the relative performance of PHP 5.6, 7, and HHVM, and got to talk about it with the release manager for the whole PHP project. This kind of openness and interest in collaboration convinced me more than anything else, that Drupal should integrate more with the mainstream PHP.</p>
 
 <p>Drupal 8 RC1 is just around the corner, and Drupal developers all over the world are learning the new programming concepts that have reshaped our product. It is time for us to break out of our insular community, and learn from the rest of the PHP world. They&rsquo;re friendly, they have a lot to teach us &ndash; and they can help take Drupal as a project to the next level.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Troubleshooting Android Error -505 From Google Play]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/"/>
-    <updated>2015-05-29T12:20:33+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
-    <content type="html"><![CDATA[<p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
-
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/error-505.jpg" title="&#34;Error 505&#34;" alt="&#34;Error 505&#34;"></p>
-
-<p>This error message means precisely nothing. It means &ldquo;something went wrong during installation, and we&rsquo;re not telling you what.&rdquo; This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
-
-<p>Your device is not going to give you more information on its own. Instead, you need to install ADB, the &ldquo;Android Debug Bridge&rdquo; which lets you type commands directly to your Android device over a USB connection. It&rsquo;s not hard to install, so <a href="https://duckduckgo.com/?q=how+to+install+adb">go and set that up now</a>.</p>
-
-<p>Next, you will have to make sure your Android device permits you to use ADB. On the phone, go to Settings > About Phone, and scroll down to where you see &ldquo;Build Number&rdquo; listed. Tap on &ldquo;Build Number&rdquo; until you see a popup telling you that you are now a &ldquo;developer&rdquo;. Then go back to Settings, and tap on the new &ldquo;Developer Options&rdquo; menu item near the bottom. Enable the &ldquo;USB Debugging&rdquo; option there.</p>
-
-<p>Now plug your phone into your computer via USB, and open up your Terminal. Windows users, use the Console &ndash; it&rsquo;s the same thing. First, we&rsquo;ll see if our Android device is even visible to ADB.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb devices
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You should see a list of devices attached, with (probably) only one listing. If not, check to make sure that your phone is really in USB Debugging mode.</p>
-
-<p>Now, we&rsquo;re going to try to install that same troublesome application over ADB. In order to do this, you&rsquo;ll have to download the application&rsquo;s installer (APK) file on your computer. Google makes this hard to do directly, you&rsquo;ll have to use a <a href="http://apps.evozi.com/apk-downloader/">third-party website</a> or a <a href="https://addons.mozilla.org/en-us/firefox/addon/apk-downloader/?src=search">browser extension</a> to find your download link. Download that APK file and save it somewhere safe on your computer. Remember the path to that file! I saved mine in <em>~/Downloads</em>.</p>
-
-<p>With that APK file in hand, let&rsquo;s try installing your application over ADB. My problematic app was the Deutsche Bahn Navigator app, but obviously you should substitute the filename to your APK here.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb install ~/Downloads/de.hafas.android.db.apk
-</span><span class='line'>5051 KB/s <span class="o">(</span>5991578 bytes in 1.158s<span class="o">)</span>
-</span><span class='line'>  pkg: /data/local/tmp/de.hafas.android.db.apk
-</span><span class='line'>Failure <span class="o">[</span>INSTALL_FAILED_DUPLICATE_PERMISSION <span class="nv">perm</span><span class="o">=</span>de.dbnavigator.permission.list <span class="nv">pkg</span><span class="o">=</span>de.bahn.dbtickets<span class="o">]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(Full disclosure: that is not the exact permission and package I had, I foolishly closed the terminal window before recording it. But the error and the format are correct, which is what&rsquo;s important here.)</p>
-
-<p>NOW we have something to work with! We get an error message, and some information that might explain what&rsquo;s going on. In this case, the installation failed because of a duplicate permission, whatever that means. But it tells me the name of the permission, and &ndash; even better &ndash; the package that controls it. Notice that com.dbtickets is not the application I was trying to install. It&rsquo;s something else, a separate app I had, called &ldquo;DB Tickets&rdquo;. This tells me that if I uninstall that other application, it should solve this problem. You can do that from ADB as well:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$&gt;</span> adb uninstall de.bahn.dbtickets
-</span><span class='line'>Success
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now I can try installing the original app again, and it should work. I can do that from the Play Store application, or directly from ADB with the command we tried above. At this point, I&rsquo;m way more likely to try it through ADB just to make sure I get an error message if it breaks!</p>
-
-<p>You can follow this process to get further information about any error -505 you may receive. You can do all sorts of things through ADB to resolve this kind of problem. Check the <a href="https://developer.android.com/tools/help/adb.html#commandsummary">complete list of commands</a> for more information.</p>
-
-<h2>Postlude</h2>
-
-<p>This experience pointed out two large Ux failures on the part of Google:</p>
-
-<p>First, is one of the most frustrating Ux concepts out there, which I call: &ldquo;never present the user with useful information.&rdquo; I understand that 99% of the time, users do not want or need to see technical information about what&rsquo;s going on. Even <em>I</em> want my systems to seem like they &ldquo;just work.&rdquo; But the 1% of the time when we DO want technical information, is in our error messages. The sensible Ux policy to adopt here, is &ldquo;make every error message easy to google for more information&rdquo;.</p>
-
-<p>Second, enabling developer mode. Here are the official instructions:</p>
-
-<blockquote><p>&hellip;go to Settings > About phone and tap Build number seven times. Return to the previous screen to find Developer options at the bottom.</p></blockquote>
-
-<p>&hellip; what? This is 2015. You don&rsquo;t have to hide your &ldquo;Developer mode&rdquo; behind some obscure Easter Egg behavior. I don&rsquo;t know if it&rsquo;s standard, but on my phone you&rsquo;re asked right at the start what level of settings you want to see: simple or advanced. Adding a third level for &ldquo;developer&rdquo; would make a lot more sense.</p>
-
-<p>But hey, at least we can always get what we want from the terminal.</p>
 ]]></content>
   </entry>
   
