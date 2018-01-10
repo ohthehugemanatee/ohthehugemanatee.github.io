@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Open Source | Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/blog/categories/open-source/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:51:09+01:00</updated>
+  <updated>2018-01-10T12:53:54+01:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,10 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[I'm Joining Microsoft, to Do Open Source Right]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-to-do-open-source-right/"/>
+    <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
     <updated>2018-01-08T20:32:50+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-to-do-open-source-right</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
     <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
 
 <p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>
