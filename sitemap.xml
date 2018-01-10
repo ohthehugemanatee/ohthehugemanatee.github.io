@@ -362,6 +362,12 @@
     </url>
     <url>
         <loc>
+            http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/
+        </loc>
+        <lastmod>2018-01-08T16:37:55+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
             http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
@@ -421,8 +427,10 @@
         <lastmod>2017-08-04T12:14:50+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/about-me.html</loc>
-        <lastmod>2017-06-15T18:35:37+02:00</lastmod>
+        <loc>
+            http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-to-do-open-source-right/
+        </loc>
+        <lastmod>2018-01-09T13:51:20+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/drupalplanet.xml</loc>
@@ -430,7 +438,7 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/</loc>
-        <lastmod>2017-08-04T12:14:50+02:00</lastmod>
+        <lastmod>2018-01-09T13:51:20+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/robots.txt</loc>
@@ -438,10 +446,14 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/blog/archives/</loc>
-        <lastmod>2017-08-04T12:14:50+02:00</lastmod>
+        <lastmod>2018-01-09T13:51:20+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.github.io/drafts</loc>
         <lastmod>2017-07-22T00:14:38+02:00</lastmod>
+    </url>
+    <url>
+        <loc>http://ohthehugemanatee.github.io/about-me.html</loc>
+        <lastmod>2018-01-09T13:48:27+01:00</lastmod>
     </url>
 </urlset>

@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Lots of sites are now built with the “Panels everywhere” method, using Panels and Panelizer to configure modular layouts in the Drupal GUI. These &hellip;">
+  <meta name="description" content="I ran into an interesting problem with the drush @self alias today. I wanted to pull a fresh copy of the DB down from a client’s live site to my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -81,6 +81,92 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/10/drush-self-aliases/">Drush Self Aliases</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-10T09:22:01+01:00" pubdate data-updated="true">Jan 10<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client’s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I’ve done this a thousand times before.</p>
+
+<p>And I’ve also ignored the warning message every time before, but today I thought I’d check it out:</p>
+
+<blockquote><p>WARNING:  Using temporary files to store and transfer sql-dump.  It is recommended that you specify —source-dump and —target-dump options on the command line, or set ‘%dump’ or ‘%dump-dir’ in the path-aliases section of your site alias records. This facilitates fast file transfer via rsync.</p></blockquote>
+
+<p>There are actually two possible solutions to this warning (that I&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/01/10/drush-self-aliases/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/01/07/how-to-remove-a-drupal-install-profile/">How to Remove a Drupal Install Profile</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-01-07T13:23:45+01:00" pubdate data-updated="true">Jan 7<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p><a href="https://drupal.org/project/install_profile_api">Install profiles</a> are a great way to throw together a functional Drupal site really quickly. In Drupal 6, an Install Profile was just a blueprint for setting up a site really quickly. What you did after the site was installed was your own business! But in Drupal 7 profiles are much more integrated with core. The assumption is that when you use an install profile, you want to rely on the profile’s maintainer for all your updates. This is not always the case.</p>
+
+<p>Very often your site will diverge from the install profile as it takes on a life of its own, and it will be useful to convert it to “vanilla” Drupal. Today I’ll use a relatively simple example of a musician site which is moving away from the <a href="https://drupal.org/project/pushtape">Pushtape</a> distribution. Later I’ll return to &#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2014/01/07/how-to-remove-a-drupal-install-profile/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -446,87 +532,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/">Review: GeoServer Beginner&#8217;s Guide, by Stefano Iacovella and Brian Youngblood</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-05-21T00:00:00+02:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>Recently we’ve been holding <a href="http://5ringsweb.com/blog/geoserver-beginners-guide-free-copies">a competition</a> to give away free copies of the popular ebook, <a href="http://www.packtpub.com/geoserver-share-edit-geospatial-data-beginners-guide/book">GeoServer Beginner’s Guide</a>. The book’s purpose is to teach through practical examples. Right on the cover, it promises: “Less theory, more results!” This is a tricky balance to strike in a beginner’s guide. You can’t simply jump into coding a map display when the user doesn’t understand the fundamental concepts! But authors Brian Youngblood and Stefano Iacovella find a good middle ground.</p>
-
-
-<p>The first chapter explains totally fundamental GIS concepts, answering basic questions like “what is spatial data?” And “&#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/">How to Set Up Apache Solr Multicore for Drupal</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2013-04-18T00:00:00+02:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal’s <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It’s easy enough to set up a single site installation of solr on your own, but if you’re serious about building Drupal sites with solr you will be building more than one site. Solr includes a ”<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>” mode, which lets you serve multiple search cores to separate site&#8230;</p></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/6/">&larr; Older</a>
@@ -541,15 +546,20 @@
   
     <section>
 <h1>About</h1>
-<p>My name is <a href="http://campbell.vertesi.com/">Campbell Vertesi</a>, and I&rsquo;m an <a href="http://thecastmusic.com/">opera singer</a> and a web developer. I&rsquo;ve been a <a href="https://drupal.org">Drupal</a>ist for 12 years, a Linux admin for 17, and now I&#8217;m a freelance full-stack web developer. 
+<p>My name is <a href="https://campbell.vertesi.com/" title="Campbell Vertesi">Campbell Vertesi</a>. I&#8217;m a technical architect with <a href="https://microsoft.com/" title="Microsoft">Microsoft</a>, and an <a href="https://thecastmusic.com/" title="The Cast - the opera band">opera singer</a>.</p>
 
-<p>This is a technical blog that&rsquo;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&rsquo;m someone who is involved in a lot of different fields and specialties, and it&rsquo;s nice to have it all catalogued somewhere. I&rsquo;ve written this blog on various platforms under different names (swearingatcomputers, mostly), but this is where I&rsquo;m hoping it will stay for awhile.</p>
+<p>I&#8217;ve been working with computers for 21 years, with PHP and Drupal for 13 of those. I started with desktop repair, moved into sysadmin work, and eventually discovered web development. Since then I&#8217;ve been in most roles in the web consultant ecosystem: coder, themer, project manager, information architect, technical lead, CEO, and CTO. I&#8217;ve presented at many conferences, including almost 20 Drupalcons. <a href="/about-me.html" title="More about me">More about me</a>.</p>
 
-<p>I&rsquo;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using this information. Be smart and be careful.</p>
-</section>
-<section>
+<p>This is a technical blog that&#8217;s partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I&#8217;m involved in a lot of different fields and specialties, and it&#8217;s nice to have it all catalogued somewhere. I&#8217;ve written this blog on various platforms under different names, but this is where I&#8217;m hoping it will stay for awhile.</p>
+
+<p>I&#8217;m not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using the information on this blog. Be smart and be careful.</p>
+</section><section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/01/08/im-joining-microsoft-to-do-open-source-right/">I&#8217;m Joining Microsoft, to Do Open Source Right</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/">The 3 Skills You Need to Become a Rock Star Developer</a>
@@ -565,10 +575,6 @@
     
       <li class="post">
         <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a>
       </li>
     
   </ul>
@@ -618,7 +624,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2017 - Campbell Vertesi (ohthehugemanatee) -
+  Copyright &copy; 2018 - Campbell Vertesi (ohthehugemanatee) -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

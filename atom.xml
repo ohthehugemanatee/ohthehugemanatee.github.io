@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2017-08-04T12:17:04+02:00</updated>
+  <updated>2018-01-10T12:45:21+01:00</updated>
   <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,65 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[I'm Joining Microsoft, to Do Open Source Right]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-to-do-open-source-right/"/>
+    <updated>2018-01-08T20:32:50+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-to-do-open-source-right</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
+
+<p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>
+
+<p>I don&rsquo;t need to get exhaustive about this to make my point: <strong>for the first decade of my career (or more), Microsoft was rightly perceived as a villain in the OSS world</strong>. They did real damage and disservice to the open source movement, and ultimately to their own customers. Five years ago I wouldn&rsquo;t have even entertained the thought of working for &ldquo;the evil empire.&rdquo;</p>
+
+<p>Yes, Microsoft has made nice movements towards open source since the new CEO (Satya Nadella) took over in 2014. They open sourced .NET and Visual Studio, they released Typescript, they joined the <a href="https://www.linuxfoundation.org/">Linux Foundation</a> and went platinum with the <a href="https://opensource.org/">Open Source Initiative</a>, but come on. I&rsquo;m an open source warrior, an evangelist, and developer. I could see through the bullshit. Even when Microsoft announced the Linux subsystem on Windows, I was certain that this was just another round of Embrace, Extend, Extinguish.</p>
+
+<p>Then I met <a href="http://www.joshholmes.com/">Josh Holmes</a> at the <a href="https://www.phpconference.nl/">Dutch PHP Conference</a>.</p>
+
+<p>First of all, I was shocked to meet a Microsoft representative at an open source conference. He didn&rsquo;t even have bodyguards. I remember my first question for him was &ldquo;What are you <em>doing</em> here?&rdquo;.</p>
+
+<p>Josh told me a story about visiting startup conferences in Silicon Valley on behalf of Microsoft in 2007, and reporting back to Ballmer&rsquo;s office:</p>
+
+<blockquote><p>&ldquo;The good news is, no one is making jokes about Microsoft anymore. The bad news is, <strong>they aren&rsquo;t even making jokes about Microsoft anymore</strong>.&rdquo;</p></blockquote>
+
+<p>For Josh, this was a big &ldquo;aha&rdquo; moment. The booming tech startup space was focused on Open Source, so if Microsoft wanted to survive there, they had to come to the table.</p>
+
+<p>That revelation led to the creation of the Microsoft Partner Catalyst Team. Here&rsquo;s Josh&rsquo;s explanation of the team and its job, from an <a href="https://www.youtube.com/watch?v=qkTioWRH-Ws">interview</a> at the time I met him:</p>
+
+<blockquote><p>&ldquo;We work with a lot of startups, at the very top edge of the enterprise mix. We look at their toughest problems, and we go solve those problems with open source. We&rsquo;ve got 70 engineers and architects, and we go work with the startups hand in hand. We&rsquo;ll sit down for a little pair programming with them, sometimes it will be a large enough problem that will take it off on our own and we&rsquo;ll work on it for a while, and we&rsquo;ll come back and give them the code. Everything that we do ends up in Github under typically an MIT or Apache license if it&rsquo;s original work that we&rsquo;re doing on our own, or a lot of times we&rsquo;re actually working within other open source projects.&rdquo;</p></blockquote>
+
+<p>Meeting with Josh was a turning point for my understanding of Microsoft. This wasn&rsquo;t just something that I could begrudgingly call &ldquo;OK for open source&rdquo;. This wasn&rsquo;t just lip service. This was a whole department of people that were doing <em>exactly</em> what I believe in. Not only did I like the sound of this; I found that <strong>I actually wanted to work with this group</strong>.</p>
+
+<p>Still, when I considered interviewing with Microsoft, <strong>I knew that my first question had to be about &ldquo;Embrace, Extend, and Extinguish&rdquo;</strong>. Josh is a nice guy, and very smart, but I wasn&rsquo;t going to let the wool be pulled over <em>my</em> eyes.</p>
+
+<p>Over the next months, I would speak with five different people doing exactly this kind of work at Microsoft. I  I did my research, I plumbed all my back-channel resources for dirt. And everything I came back with said <strong>I was wrong</strong>.</p>
+
+<p>Microsoft really <em>is</em> undergoing a fundamental shift towards Open Source.</p>
+
+<p>CEO Sadya Nadella is frank that <strong>closed-source licensing as a profit model is a dead-end</strong>. Since 2014, Microsoft has been transitioning their core business from licensed software to platform services. After all, why sell a license once, when you can rent it out monthly? So they move all the licensed products they can online, and rent, instead of selling them. Then they rent out the infrastructure itself, too &ndash; hence Azure. Suddenly flexibility is at a premium. As one CTO put it, <strong>for Azure to be Windows-only would be a liability</strong>.</p>
+
+<p>This shift is old news for most of the world. As much as the Hacker News crowd still bitches about it as FUD, this strategic direction has been in and out of the financial pages for years now. Microsoft has pivoted to platform services. Look at their profits by product over the last 8 years:</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
+
+<p>The trend is obvious: <strong>server and platform services are the place to invest</strong>. Office only remains at the top of the heap because it transitioned to SaaS. Even Windows license profits are declining. This means focusing on interoperability. Make sure <em>everything</em> can run on your platform, because anything else is to handicap the source of your biggest short- and medium-term profit. In fact, <strong>remaining adversarial to Open Source would kill the golden goose</strong>. Microsoft <em>has</em> to change its values in order to make this shift.</p>
+
+<p>So much for financial and strategic direction; but this is a hundred-thousand-person company. That ship doesn&rsquo;t turn on a dime, no matter what the press releases tell you. So <strong>my second interview question became &ldquo;How is the transition going?&rdquo;</strong> This sort of question makes people uncomfortable: the answer is either transparently unrealistic, or critical of your environment and colleagues. Over and over again, I heard the right answer: It&rsquo;s freakin&#8217; hard.</p>
+
+<p>MS has more than 40 years of proprietary development experience and institutional momentum. All of their culture and systems &ndash; from hiring, to code reviews, to legal authorizations &ndash; have been organized around that model. That&rsquo;s very hard to change! I heard horror stories about the beginning of the transition, having to pass every line of contribution past the Legal department. I heard about managers feeling lost, or losing a sense of authority over their own team. I heard about development teams struggling to understand that their place in an OSS project was on par with some Rando Calrissian contributor from Kansas. And I heard about how the company was helping people with the transition, changing systems and structures to make this cultural shift happen.</p>
+
+<p>The stories I heard were important evidence, which contradicted the old narrative I had in my head. <strong>Embrace, extend, extinguish does not involve leadership challenges, or breaking down of hierarchies</strong>. It does not involve personal struggle and departmental reorganization. The stories I heard evidenced an organization trying a real paradigm shift, for tens of thousands of people around the world. It is not perfect, and it is not finished, but I believe that the transition is real.</p>
+
+<p><strong>When you accept that Microsoft is trying to reorient its own culture to Open Source, suddenly all those &ldquo;transparent&rdquo; PR moves you dismissed get re-framed</strong>. They are accomplishments. It&rsquo;s incredibly difficult to change the culture of one of the biggest companies in the world&hellip; but today, almost half of Azure users run Linux. Microsoft&rsquo;s virtualization work made them the <a href="http://www.techradar.com/news/software/operating-systems/inside-the-linux-kernel-3-0-1035353/2">fifth largest contributor to the 3.x Linux kernel</a>. Microsoft maintains <a href="https://octoverse.github.com/">the biggest project on Github (by contributor count)</a>. They maintain a BSD distribution <em>and</em> a Linux distribution. And a huge part of LXD (the container-based virtualization system for Linux) comes from Microsoft&rsquo;s work with Canonical.</p>
+
+<p>That&rsquo;s impressive for any company. But Microsoft? It boggles the mind. This level of contribution is not lip-service. You don&rsquo;t maintain a 15 thousand person community just for PR. <strong>Microsoft is contributing as much or more to open source than many other major players, who have had this in their culture from the start</strong> (Google, Facebook, Twitter, LinkedIn&hellip;). It&rsquo;s an accomplishment, and it&rsquo;s impressive!</p>
+
+<p>In the group I&rsquo;m entering, a strong commitment to Open Source is built into the project structure, the team responsibilities, and the budgeting practice. Every project has time specifically set aside for contribution; developers&#8217; connections to their communities are respected and encouraged. After a decade of working with companies who try to engage with open source responsibly, I can say that <strong>this is the strongest institutional commitment to &ldquo;giving back&rdquo; that I have ever seen</strong>. It&rsquo;s a stronger support for contribution than I&rsquo;ve ever been able to offer in any of my roles, from sole proprietor to CTO.</p>
+
+<p>So yes, I want to be a part of that. Sign me up. From the outside at least, <strong>this is what it looks like to do enterprise Open Source The Right Way</strong>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
@@ -1220,6 +1279,27 @@
   </entry>
   
   <entry>
+    <title type="html"><![CDATA[301 Redirects Are the Herpes of the Internet]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
+    <updated>2016-08-15T11:46:10+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
+    <content type="html"><![CDATA[<p>My client bought a domain name based on her favorite username when she was young. Like any teenager, she didn&rsquo;t choose the best name. But SpongeBobLover16 (name changed to preserve her anonymity) wanted to exert her online independence. She decided she would give her real name domain to SpongeBobLover16.com in a 301 redirect. Her parents told her she should always use a 302, but she ignored their advice. &ldquo;I remember it felt so good,&rdquo; she says today, &ldquo;but now I have to live with that mistake every day.&rdquo; 5 years later, her real name domain, SusanExample.com, still redirects to that old username on Google. Old friends and family can only see her domain as SpongeBobLover16.com. They say it doesn&rsquo;t bother them, that they love her anyway, but Susan feels marked for life.</p>
+
+<p>Susan&rsquo;s mistake is incredibly common: if you&rsquo;ve been a web developer for very long, chances are you have at least one case of a bad 301 in your history. And yet I still see young developers throwing caution to the wind, failing to protect themselves adequately.</p>
+
+<p>The <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.2">HTTP RFC</a> is clear that the intention of a 301 is &ldquo;permanent&rdquo; moves. A 301 is therefore cacheable forever unless otherwise specified. Most browsers and search engines do just that: they cache the response <em>permanently</em>.</p>
+
+<p>In fact, it&rsquo;s a bit deceptive to use &ldquo;Cache&rdquo; to describe this behavior at all. &ldquo;Cache&rdquo; implies that the record can be cleared, or will otherwise eventually expire. This is not the case for 301 redirects: They are cached <em>forever</em> and <em>irrevocably</em>. There is no &ldquo;changing your mind&rdquo;. There is no &ldquo;circumstances have changed&rdquo;, or &ldquo;my god that was 15 years ago.&rdquo; When you create a 301, you create it for ever. It&rsquo;s true that most browsers and search engines clear this cache very occasionally &ndash; meaning on reinstall, or once every couple of years. But in clearing it even this infrequently, they are technically <em>violating the spec</em> by not treating it as a permanent record. This is not behavior you should count on.</p>
+
+<p>So I am constantly surprised by how often I see 301 as a <em>default</em> redirect method in software, particularly without a cache expiry header alongside it. This is at its worst with path redirects. A path redirect is temporary almost by definition, at least in the sense of &ldquo;someday in 5 years I may want to use this path for something else.&rdquo; It&rsquo;s terrible when we talk about domains for a similar reason: very, very few digital decisions are really <em>permanent</em>, as in &ldquo;will survive as long as the Internet&rdquo; kind of permanent. Users <em>always</em> expect that there&rsquo;s some way to go back, to change the decision someday in the future. But a 301 redirect is a consequence that technically, stays with you for life.</p>
+
+<p>I don&rsquo;t think there&rsquo;s anything wrong with the RFC; as a <em>capability</em> the 301 redirect makes perfect sense. But it should be accompanied by dire warnings. I <em>do</em> think it&rsquo;s reckless and irresponsible for search engines to encourage this behavior with <a href="https://moz.com/learn/seo/redirection">documents like this</a>. If you&rsquo;re going to encourage 301s, then encourage them with explicit expiry. And if you suspect for even a moment that you&rsquo;re dealing with a web newbie, don&rsquo;t penalize them for being safe and using a 302 &ldquo;just in case.&rdquo;</p>
+
+<p>Tell your children: always use a 302. Because 301s are forever.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Getting My Notes Out of Evernote]]></title>
     <link href="http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
     <updated>2016-08-13T16:44:40+02:00</updated>
@@ -1745,46 +1825,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 <p>I understand how SIP is helpful for normal consumers, but developers are not normal consumers. This step by Apple crosses my comfort barrier, so I&rsquo;m officially interested in a linux laptop for the first time in years. I have a while to decide, but if you know of a Linux laptop that can compete with my Macbook Air in terms of convenience, sexiness, and reliability, please post about it in the comments.</p>
 
 <p>That&rsquo;s everything I had to do to get my system back in working order&hellip; for now. I&rsquo;ll update this post if I find more steps!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Bundled TV Pricing Will Come Back From the Dead]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing/"/>
-    <updated>2015-07-17T11:27:29+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing</id>
-    <content type="html"><![CDATA[<p>Everyone is excited these days about the <a href="https://500ish.com/the-9-bullet-points-of-doom-for-espn-a692d0f48182">death of ESPN</a>, particularly as evidence of the <a href="http://www.thefiscaltimes.com/2015/03/12/Long-Slow-Death-Cable-Just-Reached-Tipping-Point">death of &ldquo;bundle priced&rdquo; Cable TV</a>. Consumers are supposed to be excited that soon they will only have to pay for the content they want. Don&rsquo;t get too excited yet.</p>
-
-<p>Let&rsquo;s remember the basic purpose of bundled cable TV: for content producers, cable company bundles provide an easy, single outlet for their content. It&rsquo;s &ldquo;somebody else&rdquo; who will get the content to their viewers, sell advertising, and collect payment. For consumers, bundles provide a packaged set of channels that&rsquo;s easier to manage (and price) than a bunch of individual contracts.</p>
-
-<p>Apart from whatever level of collusion exists in the TV world, the prices for bundles have reached some sort of equilibrium: basic cable TV with Internet costs about US$45, and &ldquo;channel bundles&rdquo; are $30-40 on top of that. Seems like a great savings for cord cutters, AND they only have to get the content they want, right?</p>
-
-<p>Maybe not. A cord cutter still pays $35/mo for basic Internet. They pay $9/mo for an annual Netflix subscription, but not everything is available on Netflix. The TV and Movie industry use their copyright stranglehold to limit a lot of high demand content to Hulu, for $8/mo. And since the cord-cutter demographic is also the prime demo for Game of Thrones, there&rsquo;s HBO Now for $15/mo. Turns out that if you want to get access to the same content you got in your cable bundle, you&rsquo;re looking at $67/mo, or $71/mo if you include Amazon Prime. And what happens when ESPN opens their live streaming channel?</p>
-
-<p>What happened to our cord-cutter savings? Suddenly it looks like you&rsquo;re paying the same amount of money, just to different people &ndash; plus, you&rsquo;re stuck with the administrative pain of keeping track of what shows are available on which service, and making sure you&rsquo;re subscribed. Of course, the number of services is still growing, so this part of the cost is only going up.</p>
-
-<p>I have a great business idea: I&rsquo;ll handle all the subscriptions for you, and you just pay me one monthly fee. $90 per month, and you can have Internet access with Netflix, Hulu, HBO, and Amazon all together. You get the simplicity of knowing you&rsquo;re subscribed to all the most popular services, without having to track every one or handle the payments. I call it &ldquo;bundling&rdquo;. See what I did there?</p>
-
-<p>There is a market niche for bundled services in any multi-channel environment. It sure seems like cable is dead, and bundle pricing with it. But the truth is it&rsquo;s just in transition. We&rsquo;ll still pay basically the same amount, for the same things we did before; we just get a new delivery mechanism.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How the World Sees Drupal - the Dutch PHP Conference 2015]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015/"/>
-    <updated>2015-06-27T12:04:52+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015</id>
-    <content type="html"><![CDATA[<p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
-
-<p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: &ldquo;I don&rsquo;t know PHP. I&rsquo;m a Drupal developer.&rdquo; On the other side, our platform&rsquo;s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code. The more Drupal built up its&#8217; separate API and library of unique concepts like hooks and theme functions, the further we separated from everyone else in our programming language. This movement wasn&rsquo;t unique to Drupal; as a group PHP developers were building on many, very different frameworks. The PHP World conference was a segregated affair; projects like Zend, PHPBB, and Wordpress kept to themselves.</p>
-
-<p>This changed in 2010. Facebook had invested tremendous resources into their own brand of PHP, &ldquo;HipHop&rdquo;, and in many ways sparked a wave of renewed interest in the language. The PHP community spawned the Framework Interoperability Group (FIG), an initiative dedicated to standardized practices in PHP that could bring the various frameworks together. Drupal 8 was designed to align with the FIG goals, using current practices and components like Composer, PSR-4 namespacing, and dependency injection. Large parts of Drupal&rsquo;s core functionality are provided by Symfony components; the system is now a recognizable contemporary PHP project. In the FIG era, PHP developers are rediscovering the enterprise class CMS in their midst.</p>
-
-<p>I was surprised to learn about Drupal&rsquo;s poor reputation among the more hardcore PHP developers. Many of them had had a bad experience with Drupal 5 or 6, and never looked back. Some had tried Drupal 7, and were bewildered by the slew of Drupal-specific concepts and structures they needed to learn for even the simplest modifications. Many people I spoke with thought of Drupal as a pile of procedural code, packed with confusing work-arounds and anachronisms that made it not worth adopting. Few had heard of Drupal 8&rsquo;s move to contemporary, object-oriented coding practices. Many were dismissive of even the concept of an application framework like ours.</p>
-
-<p>At the same time, the developers at this conference were just as fun and happy to help each other as at the best Drupal events. I learned a tremendous amount about working with Drupal&rsquo;s new object-oriented tool kit, and grew a lot as a programmer. Once I explained the differences with Drupal 8, most people were curious to see just how it worked. And just like at my favorite Drupal events, even the most well-known developers were interested to help. I complained about my frustrations with the PHPUnit testing suite, and was introduced to the original author and maintainer. I had a question about the relative performance of PHP 5.6, 7, and HHVM, and got to talk about it with the release manager for the whole PHP project. This kind of openness and interest in collaboration convinced me more than anything else, that Drupal should integrate more with the mainstream PHP.</p>
-
-<p>Drupal 8 RC1 is just around the corner, and Drupal developers all over the world are learning the new programming concepts that have reshaped our product. It is time for us to break out of our insular community, and learn from the rest of the PHP world. They&rsquo;re friendly, they have a lot to teach us &ndash; and they can help take Drupal as a project to the next level.</p>
 ]]></content>
   </entry>
   

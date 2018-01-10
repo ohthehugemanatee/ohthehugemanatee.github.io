@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Rant | Oh The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/rant/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-01-10T12:45:21+01:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[301 Redirects Are the Herpes of the Internet]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
+    <updated>2016-08-15T11:46:10+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
+    <content type="html"><![CDATA[<p>My client bought a domain name based on her favorite username when she was young. Like any teenager, she didn&rsquo;t choose the best name. But SpongeBobLover16 (name changed to preserve her anonymity) wanted to exert her online independence. She decided she would give her real name domain to SpongeBobLover16.com in a 301 redirect. Her parents told her she should always use a 302, but she ignored their advice. &ldquo;I remember it felt so good,&rdquo; she says today, &ldquo;but now I have to live with that mistake every day.&rdquo; 5 years later, her real name domain, SusanExample.com, still redirects to that old username on Google. Old friends and family can only see her domain as SpongeBobLover16.com. They say it doesn&rsquo;t bother them, that they love her anyway, but Susan feels marked for life.</p>
+
+<p>Susan&rsquo;s mistake is incredibly common: if you&rsquo;ve been a web developer for very long, chances are you have at least one case of a bad 301 in your history. And yet I still see young developers throwing caution to the wind, failing to protect themselves adequately.</p>
+
+<p>The <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3.2">HTTP RFC</a> is clear that the intention of a 301 is &ldquo;permanent&rdquo; moves. A 301 is therefore cacheable forever unless otherwise specified. Most browsers and search engines do just that: they cache the response <em>permanently</em>.</p>
+
+<p>In fact, it&rsquo;s a bit deceptive to use &ldquo;Cache&rdquo; to describe this behavior at all. &ldquo;Cache&rdquo; implies that the record can be cleared, or will otherwise eventually expire. This is not the case for 301 redirects: They are cached <em>forever</em> and <em>irrevocably</em>. There is no &ldquo;changing your mind&rdquo;. There is no &ldquo;circumstances have changed&rdquo;, or &ldquo;my god that was 15 years ago.&rdquo; When you create a 301, you create it for ever. It&rsquo;s true that most browsers and search engines clear this cache very occasionally &ndash; meaning on reinstall, or once every couple of years. But in clearing it even this infrequently, they are technically <em>violating the spec</em> by not treating it as a permanent record. This is not behavior you should count on.</p>
+
+<p>So I am constantly surprised by how often I see 301 as a <em>default</em> redirect method in software, particularly without a cache expiry header alongside it. This is at its worst with path redirects. A path redirect is temporary almost by definition, at least in the sense of &ldquo;someday in 5 years I may want to use this path for something else.&rdquo; It&rsquo;s terrible when we talk about domains for a similar reason: very, very few digital decisions are really <em>permanent</em>, as in &ldquo;will survive as long as the Internet&rdquo; kind of permanent. Users <em>always</em> expect that there&rsquo;s some way to go back, to change the decision someday in the future. But a 301 redirect is a consequence that technically, stays with you for life.</p>
+
+<p>I don&rsquo;t think there&rsquo;s anything wrong with the RFC; as a <em>capability</em> the 301 redirect makes perfect sense. But it should be accompanied by dire warnings. I <em>do</em> think it&rsquo;s reckless and irresponsible for search engines to encourage this behavior with <a href="https://moz.com/learn/seo/redirection">documents like this</a>. If you&rsquo;re going to encourage 301s, then encourage them with explicit expiry. And if you suspect for even a moment that you&rsquo;re dealing with a web newbie, don&rsquo;t penalize them for being safe and using a 302 &ldquo;just in case.&rdquo;</p>
+
+<p>Tell your children: always use a 302. Because 301s are forever.</p>
+]]></content>
+  </entry>
+  
+</feed>
