@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Apache | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/apache/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/apache/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Redmine in a Subdirectory]]></title>
-    <link href="http://ohthehugemanatee.github.io/2011/05/running-redmine-in-subdirectory.html"/>
+    <link href="https://ohthehugemanatee.org/2011/05/running-redmine-in-subdirectory.html"/>
     <updated>2011-05-16T13:17:00+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/2011/05/running-redmine-in-subdirectory</id>
+    <id>https://ohthehugemanatee.org/2011/05/running-redmine-in-subdirectory</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Git | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/git/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/git/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some Git Log Magic]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic/"/>
     <updated>2016-04-15T13:12:41+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic</id>
+    <id>https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic</id>
     <content type="html"><![CDATA[<p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
 
 <p>There were a few questions I wanted to answer about one particular developer&rsquo;s input. I&rsquo;m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I&rsquo;m trying to break him of the habit. Here are my questions:</p>

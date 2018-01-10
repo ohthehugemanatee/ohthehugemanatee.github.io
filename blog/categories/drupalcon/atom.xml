@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Drupalcon | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/drupalcon/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/drupalcon/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon/"/>
     <updated>2017-07-28T17:01:59+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
+    <id>https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
@@ -33,7 +33,7 @@
 <iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -54,7 +54,7 @@
 <iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -66,9 +66,9 @@
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/"/>
     <updated>2017-06-15T17:19:24+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <id>https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists</id>
     <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
 
 <p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
@@ -94,14 +94,14 @@
   
   <entry>
     <title type="html"><![CDATA[Coder vs. Themer Ultimate Grudge Match Smackdown Fight to the Death]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/"/>
+    <link href="https://ohthehugemanatee.org/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/"/>
     <updated>2014-05-01T17:15:31+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death</id>
+    <id>https://ohthehugemanatee.org/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death</id>
     <content type="html"><![CDATA[<p>I&rsquo;m really excited about a new session that I&rsquo;ve been doing with my friend and colleague, <a href="https://twitter.com/adamjurantenor">Adam Juran aka scaragucc</a>: the Coder vs Themer Ultimate Grudge Match Smackdown Fight to the Death! The basic premise: we both start with the same wireframe of a front page to build. But <em>I&rsquo;m only allowed to use the module layer, and Adam is only allowed to use the theme layer</em>. It&rsquo;s a really fun and entertaining way to play with the blurry lines between &ldquo;coder&rdquo; and &ldquo;themer&rdquo;. We get the audience pretty pumped up, which is impressive for a session that&rsquo;s basically about watching other people code!</p>
 
 <p>If you didn&rsquo;t catch it at <a href="http://szeged2014.drupaldays.org/program/sessions/themer-vs-coder-ultimate-grudge-smackdown-fight-death">Drupal Dev Days in Szeged</a>, or at <a href="https://2014.drupalcamp-frankfurt.de/session/themer-vs-coder-ultimate-grudge-smackdown-fight-death">Drupalcamp Frankfurt</a>, you&rsquo;re probably going to have to wait for Drupalcon Amsterdam to take part! But I do have a video of the session at Frankfurt, just to whet your appetite. :)</p>
 
-<iframe width="768" height="432" src="http://ohthehugemanatee.github.io//www.youtube-nocookie.com/embed/Rly9D3-gc4w" frameborder="0" allowfullscreen></iframe>
+<iframe width="768" height="432" src="https://ohthehugemanatee.org//www.youtube-nocookie.com/embed/Rly9D3-gc4w" frameborder="0" allowfullscreen></iframe>
 
 
 <p>You can consider this a challenge: if any other themers out there want to challenge me to a coder vs themer style battle, I&rsquo;ll be keynoting at <a href="http://drupalcamp.fi">Drupalcamp Helsinki</a> in a few weeks. I&rsquo;ll meet you there!</p>

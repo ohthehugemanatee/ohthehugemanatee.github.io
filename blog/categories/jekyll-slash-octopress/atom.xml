@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Jekyll/Octopress | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/jekyll-slash-octopress/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/jekyll-slash-octopress/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Drupalist Makes the Case for Jekyll/Octopress]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/"/>
+    <link href="https://ohthehugemanatee.org/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/"/>
     <updated>2013-11-26T23:59:05+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress</id>
+    <id>https://ohthehugemanatee.org/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress</id>
     <content type="html"><![CDATA[<p>Today I&rsquo;m launching my new domain, <a href="https://ohthehugemanatee.org">OhTheHugeManatee.org</a>. ORG was the only TLD left, but I&rsquo;m asking after .com . :)</p>
 
 <p>I made the decision to launch it using <a href="http://jekyllrb.com/" title="Jekyll">Jekyll</a> and <a href="http://octopress.org" title="Octopress">Octopress</a>, rather than Drupal. This feels a little funny to a career Drupalist like myself. Why not use Drupal 7, or use it as a testing ground for Drupal 8? Anyone who knows me will know that I complain bitterly about Ruby, and I&rsquo;ve been vocal about the misuse of Jekyll for <a href="http://healthcare.gov" title="Healthcare.gov">healthcare.gov</a> . So I feel that an explanation is due, and probably appropriate for my first post written on the system.</p>

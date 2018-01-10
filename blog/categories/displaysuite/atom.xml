@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Displaysuite | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/displaysuite/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/displaysuite/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Create a Custom Display Suite Field]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field/"/>
+    <link href="https://ohthehugemanatee.org/blog/2014/04/02/how-to-create-a-custom-display-suite-field/"/>
     <updated>2014-04-02T17:12:13+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field</id>
+    <id>https://ohthehugemanatee.org/blog/2014/04/02/how-to-create-a-custom-display-suite-field</id>
     <content type="html"><![CDATA[<p>A few months ago I posted about <a href="https://ohthehugemanatee.org/blog/2014/01/03/how-to-create-a-custom-panels-pane">how to create a custom Panels pane</a>, a critical reference for anyone who uses Panels layouts. The other part of the toolkit for quick and awesome layouts is the <a href="https://drupal.org/projects/ds">Display Suite</a> module. With DS you can create new &ldquo;Display modes&rdquo; for your content, to be reused around the site. For example, on one recent site I had four standard ways to display my nodes: Full, Teaser, Mini-Teaser, and Search Result. DS made this configuration a cinch.</p>
 
 <p>But just as in Panels you sometimes need a pane that isn&rsquo;t provided out of the box, in Display Suite you sometimes want to add a field that isn&rsquo;t really a field on your content. In a recent site build, I used this capability to include information from the Organic Groups a user belongs to on his profile as it appears in search results.</p>

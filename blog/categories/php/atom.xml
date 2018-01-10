@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: PHP | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/php/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/php/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[How the World Sees Drupal - the Dutch PHP Conference 2015]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015/"/>
+    <link href="https://ohthehugemanatee.org/blog/2015/06/27/dutch-php-conference-2015/"/>
     <updated>2015-06-27T12:04:52+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015</id>
+    <id>https://ohthehugemanatee.org/blog/2015/06/27/dutch-php-conference-2015</id>
     <content type="html"><![CDATA[<p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
 
 <p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: &ldquo;I don&rsquo;t know PHP. I&rsquo;m a Drupal developer.&rdquo; On the other side, our platform&rsquo;s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code. The more Drupal built up its' separate API and library of unique concepts like hooks and theme functions, the further we separated from everyone else in our programming language. This movement wasn&rsquo;t unique to Drupal; as a group PHP developers were building on many, very different frameworks. The PHP World conference was a segregated affair; projects like Zend, PHPBB, and Wordpress kept to themselves.</p>

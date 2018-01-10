@@ -1,459 +1,421 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
+        <loc>https://ohthehugemanatee.org/2010/12/unlocking-and-jailbreaking-my-iphone.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2010/12/i-baked-computer-and-it-worked.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
         <loc>
-            http://ohthehugemanatee.github.io/2010/12/unlocking-and-jailbreaking-my-iphone.html
+            https://ohthehugemanatee.org/2010/12/how-to-jailbreak-and-unlock-iphone-3gs.html
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html</loc>
+        <loc>https://ohthehugemanatee.org/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2010/12/more-dd-wrt-linksys-wrt54g.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2010/12/net-neutrality-and-steve-wozniak.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/01/heat-issues-on-my-xbmc-mediacenter.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/03/still-more-wireless-troubleshooting.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/04/working-with-bash-awk.html</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/2010/12/how-to-jailbreak-and-unlock-iphone-3gs.html
+            https://ohthehugemanatee.org/2011/04/multiple-ssl-sites-on-one-aws-instance.html
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
+        <loc>https://ohthehugemanatee.org/2011/04/aws-load-balancer-ssl-limitations.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/04/simple-aws-backups-with-snapshots-and.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/05/updating-kernels-for-amazon-aws.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2011/05/running-redmine-in-subdirectory.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
         <loc>
-            http://ohthehugemanatee.github.io/2010/12/dd-wrt-versioning-and-linksys-wrt54g.html
+            https://ohthehugemanatee.org/2011/05/sendmail-return-path-php-and-importance.html
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/2010/12/more-dd-wrt-linksys-wrt54g.html</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/2010/12/net-neutrality-and-steve-wozniak.html</loc>
+        <loc>https://ohthehugemanatee.org/2011/05/what-sony-hacks-tell-us-about-their.html</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/2011/01/heat-issues-on-my-xbmc-mediacenter.html
+            https://ohthehugemanatee.org/2011/05/complete-drupal-cache-serving-http-and.html
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/03/still-more-wireless-troubleshooting.html
-        </loc>
+        <loc>https://ohthehugemanatee.org/2011/05/ouch-sony.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2012/03/on-drupal-entities-or-how-organic.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2012/04/drupal-quick-learning-guides-drupal.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2012/04/drupal-quick-learning-guides-custom.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2012/06/drupal-developers-toolkit-handy-tools.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2012/06/announcing-resource-conflict-drupal.html</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/2013/03/how-to-uninstall-dolly-drive.html</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/2011/04/working-with-bash-awk.html</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/04/multiple-ssl-sites-on-one-aws-instance.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/04/aws-load-balancer-ssl-limitations.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/04/simple-aws-backups-with-snapshots-and.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/2011/05/updating-kernels-for-amazon-aws.html</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/2011/05/running-redmine-in-subdirectory.html</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/05/sendmail-return-path-php-and-importance.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2011/05/complete-drupal-cache-serving-http-and.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/2011/05/ouch-sony.html</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-drupal.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/2012/04/drupal-quick-learning-guides-custom.html
+            https://ohthehugemanatee.org/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/2012/06/drupal-developers-toolkit-handy-tools.html
+            https://ohthehugemanatee.org/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/2012/06/announcing-resource-conflict-drupal.html
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/2013/03/how-to-uninstall-dolly-drive.html</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2013/04/18/adding-rules-to-your-contrib-module-so-you-can-reject-half-the-tickets-in-your-queue/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/
+            https://ohthehugemanatee.org/blog/2013/05/21/review-geoserver-beginners-guide-by-stefano-iacovella-and-brian-youngblood/
         </loc>
         <lastmod>2013-12-03T21:09:17+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2013/06/20/ssl-certificates-demystified/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2013/06/20/ssl-certificates-demystified/</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2013/09/02/every-feature-a-branch-every-branch-a-dev-environment-without-breaking-the-bank-the-perfect-git-flow-dev-environment-for-small-shops/
+            https://ohthehugemanatee.org/blog/2013/09/02/every-feature-a-branch-every-branch-a-dev-environment-without-breaking-the-bank-the-perfect-git-flow-dev-environment-for-small-shops/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/
+            https://ohthehugemanatee.org/blog/2013/11/26/a-drupalist-makes-the-case-for-jekyll-slash-octopress/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2013/12/02/custom-context-conditions/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2013/12/02/custom-context-conditions/</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2013/12/03/this-is-why-real-star-nix-people-hate-osx/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/
+            https://ohthehugemanatee.org/blog/2013/12/03/this-is-why-real-star-nix-people-hate-osx/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/
+            https://ohthehugemanatee.org/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/01/03/how-to-create-a-custom-panels-pane/
+            https://ohthehugemanatee.org/blog/2013/12/26/44497-people-are-wrong-how-to-never-use-views-php/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/01/07/how-to-remove-a-drupal-install-profile/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message/</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014/</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field/
+            https://ohthehugemanatee.org/blog/2014/01/03/how-to-create-a-custom-panels-pane/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/
+            https://ohthehugemanatee.org/blog/2014/01/07/how-to-remove-a-drupal-install-profile/
+        </loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2014/01/10/drush-self-aliases/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2014/01/10/another-cryptic-ruby-message/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2014/03/29/drupal-dev-days-szeged-2014/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            https://ohthehugemanatee.org/blog/2014/04/02/how-to-create-a-custom-display-suite-field/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/05/12/why-use-an-ide-when-vim-is-so-awesome/
+            https://ohthehugemanatee.org/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/
+            https://ohthehugemanatee.org/blog/2014/05/12/why-use-an-ide-when-vim-is-so-awesome/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble/</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/
+            https://ohthehugemanatee.org/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/
+            https://ohthehugemanatee.org/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2014/05/28/drupal-superheroes-assemble/</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/
+            https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/10/29/mobile-apps-are-a-temporary-phase/
+            https://ohthehugemanatee.org/blog/2014/06/14/how-to-configure-authcache-on-drupal-7/
+        </loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2014/07/01/d8-core-sprint-in-dc/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            https://ohthehugemanatee.org/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/
+            https://ohthehugemanatee.org/blog/2014/07/22/get-memcache-statistics-from-the-command-line-in-one-easy-command/
+        </loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2014/10/29/mobile-apps-are-a-temporary-phase/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            https://ohthehugemanatee.org/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/
+            https://ohthehugemanatee.org/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/
+            https://ohthehugemanatee.org/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/
+            https://ohthehugemanatee.org/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2015/06/27/dutch-php-conference-2015/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2015/06/27/dutch-php-conference-2015/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2015/07/17/meet-the-new-bundled-tv-pricing/</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2015/07/17/meet-the-new-bundled-tv-pricing/
+            https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
+        <loc>https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/
+            https://ohthehugemanatee.org/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/
-        </loc>
+        <loc>https://ohthehugemanatee.org/blog/2016/02/09/an-open-letter-to-wired-magazine/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs/</loc>
+        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
+    </url>
+    <url>
+        <loc>https://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote/</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic/</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/</loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote/
-        </loc>
-        <lastmod>2017-02-11T11:18:35+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/
+            https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/
         </loc>
         <lastmod>2018-01-08T16:37:55+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/
+            https://ohthehugemanatee.org/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/
+            https://ohthehugemanatee.org/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/
+            https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/
         </loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/
+            https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/
         </loc>
         <lastmod>2017-02-11T12:29:31+01:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/
+            https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/
         </loc>
         <lastmod>2017-02-22T17:41:56+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community/</loc>
         <lastmod>2017-03-30T21:34:34+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/
+            https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/
         </loc>
         <lastmod>2017-06-08T03:18:07+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/</loc>
         <lastmod>2017-06-15T17:23:33+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/
+            https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/
         </loc>
         <lastmod>2017-07-21T13:06:13+02:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/</loc>
+        <loc>https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon/</loc>
         <lastmod>2017-08-04T12:12:31+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/
+            https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/
         </loc>
         <lastmod>2017-08-04T12:14:50+02:00</lastmod>
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/
+            https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/
         </loc>
         <lastmod>2018-01-10T12:53:41+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/drupalplanet.xml</loc>
+        <loc>https://ohthehugemanatee.org/drupalplanet.xml</loc>
         <lastmod>2014-01-08T12:25:07+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/</loc>
+        <loc>https://ohthehugemanatee.org/</loc>
         <lastmod>2018-01-10T12:53:41+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/robots.txt</loc>
+        <loc>https://ohthehugemanatee.org/robots.txt</loc>
         <lastmod>2017-02-11T11:18:35+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/blog/archives/</loc>
+        <loc>https://ohthehugemanatee.org/blog/archives/</loc>
         <lastmod>2018-01-10T12:53:41+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/drafts</loc>
-        <lastmod>2017-07-22T00:14:38+02:00</lastmod>
+        <loc>https://ohthehugemanatee.org/drafts</loc>
+        <lastmod>2018-01-10T12:59:07+01:00</lastmod>
     </url>
     <url>
-        <loc>http://ohthehugemanatee.github.io/about-me.html</loc>
+        <loc>https://ohthehugemanatee.org/about-me.html</loc>
         <lastmod>2018-01-09T13:48:27+01:00</lastmod>
     </url>
 </urlset>

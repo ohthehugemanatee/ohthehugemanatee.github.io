@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
+    <link href="https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
     <updated>2018-01-08T20:32:50+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
+    <id>https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
     <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
 
 <p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>
@@ -52,7 +52,7 @@
 
 <p>This shift is old news for most of the world. As much as the Hacker News crowd still bitches about it as FUD, this strategic direction has been in and out of the financial pages for years now. Microsoft has pivoted to platform services. Look at their profits by product over the last 8 years:</p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
 
 <p>The trend is obvious: <strong>server and platform services are the place to invest</strong>. Office only remains at the top of the heap because it transitioned to SaaS. Even Windows license profits are declining. This means focusing on interoperability. Make sure <em>everything</em> can run on your platform, because anything else is to handicap the source of your biggest short- and medium-term profit. In fact, <strong>remaining adversarial to Open Source would kill the golden goose</strong>. Microsoft <em>has</em> to change its values in order to make this shift.</p>
 
@@ -76,9 +76,9 @@
   
   <entry>
     <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
     <updated>2017-08-04T12:03:27+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
+    <id>https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
     <content type="html"><![CDATA[<p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
 
 <h2>1) Know how to explore the source</h2>
@@ -144,9 +144,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon/"/>
     <updated>2017-07-28T17:01:59+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
+    <id>https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
@@ -162,7 +162,7 @@
 <iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -183,7 +183,7 @@
 <iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -195,20 +195,20 @@
   
   <entry>
     <title type="html"><![CDATA[That Time I Resurrected My Linux MacBook Pro]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/"/>
     <updated>2017-06-17T23:06:02+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro</id>
+    <id>https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro</id>
     <content type="html"><![CDATA[<p>In the airport last week, my laptop stopped booting.</p>
 
 <p>I have a 2012 Macbook Pro &ndash; yes, that coveted &ldquo;last good model&rdquo; &ndash; and it runs Ubuntu Linux. It&rsquo;s my roving office as I travel the world to conferences, performances, and job sites. So when I started it up at JFK airport this week and got a gray screen of death, I was a little concerned.</p>
 
 <p>I tried starting into Startup Manager by holding the &ldquo;Option&rdquo; key. No bootable options appeared. Just an unhopeful file folder with a question mark. This was Not A Good Sign.</p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/folder-questionmark.jpg" title="When this is all your computer does, it is Not A Good Sign." ></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/folder-questionmark.jpg" title="When this is all your computer does, it is Not A Good Sign." ></p>
 
 <p>Generally this icon means that EFI couldn&rsquo;t find a valid startup device. This is not the first time I&rsquo;ve seen this &ndash; I&rsquo;ve played with my boot options enough to mess this up for myself a few times! I breathed a heavy sigh and tried starting onto the recovery partition by holding &ldquo;Command+R&rdquo;. I hadn&rsquo;t done anything in particular with Grub recently, but I had done some kernel updates, and you never know&hellip; But the recovery boot just got me a circle with a line through it, the universal &ldquo;no&rdquo; sign. This was an even worse sign.</p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/mac-no-sign.png" title="This is an Even Worse Sign." ></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/mac-no-sign.png" title="This is an Even Worse Sign." ></p>
 
 <p>This immediately threw the issue out of the realm of &ldquo;something I messed up myself&rdquo;, and into the less-entertaining realm of &ldquo;hardware failure.&rdquo;</p>
 
@@ -236,7 +236,7 @@
 
 <p>So my old laptop is back in service, limping along for one last hurrah. The black box on the back looks like some impressive hardware hack, but it&rsquo;s just the old internal drive connected by USB.</p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/me-and-my-busted-laptop.jpg" title="It's only a flesh wound!" ></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/me-and-my-busted-laptop.jpg" title="It's only a flesh wound!" ></p>
 
 <p>Yes, I had to do the GRUB dance pretty extensively to get it booting. boot-repair is a wonderful tool, but nothing seems to handle elegantly switching between BIOS and EFI boot modes. I ended up having to copy EFI files from my USB stick by hand. As every Linux desktop user ever has said: &ldquo;if it&rsquo;s working I won&rsquo;t ask any questions.&rdquo;</p>
 
@@ -250,9 +250,9 @@
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/"/>
     <updated>2017-06-15T17:19:24+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <id>https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists</id>
     <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
 
 <p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
@@ -278,9 +278,9 @@
   
   <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
     <updated>2017-06-07T06:33:24+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <id>https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -846,18 +846,18 @@
 
 <p>Okay, now that&rsquo;s really it. Happy feeding!</p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Stay for Community]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community/"/>
     <updated>2017-03-30T12:22:11+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
+    <id>https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community</id>
     <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/drupalcon-la.jpg" title="Twelve years of code, and singing the Drupalcon song with Dries and Larry is still one of my favorite memories." ></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/drupalcon-la.jpg" title="Twelve years of code, and singing the Drupalcon song with Dries and Larry is still one of my favorite memories." ></p>
 
 <p><strong>Why?</strong> For those who don&rsquo;t know, I&rsquo;m one of the authors of the <a href="https://www.youtube.com/playlist?list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4">DrupalCon Prenote</a>, the &ldquo;pre-keynote&rdquo; show that kicks off DrupalCon right before Dries&#8217; keynote. The organizer (and my officemate), Jeffrey A. &ldquo;jam&rdquo; McGuire and I have been living our own special version of the crisis (<strong>Read Jam&rsquo;s post about taking sides on this <a href="https://medium.com/@horncologne/drupal-im-taking-sides-f46194122a05">here</a></strong>). Our friend Larry Garfield has been an enthusiastic part of the Prenote ever since his first appearance as &ldquo;Lord Over-Engineering&rdquo; <a href="https://www.youtube.com/watch?v=i5bW41KYUE0&amp;list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4&amp;index=20">at Drupalcon Austin</a>. Dries has often played a special guest role, too. With Drupalcon Baltimore looming on the horizon, everything seems to be coming together in one awful moment full of painful reminders &ndash; and it&rsquo;s just when we&rsquo;re supposed to be cheering for &ldquo;community.&rdquo; That awful conjunction is what makes this next Prenote in Baltimore more important than ever.</p>
 
@@ -888,15 +888,15 @@
 
 <p><strong><a href="https://events.drupal.org/baltimore2017/balti-more-prenote-balti-most-fun-drupalcon">I&rsquo;ll see you at the Prenote.</a></strong></p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/DrupalConAsia-2.jpg" title="The Prenote: The most fun you can have at Drupalcon." ></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/DrupalConAsia-2.jpg" title="The Prenote: The most fun you can have at Drupalcon." ></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
     <updated>2017-02-21T22:33:08+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
+    <id>https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
 <p>But as readers of this blog know, the docs are only the start of the story. I&rsquo;ve really enjoyed working with platform.sh with one of my private clients, and I couldn&rsquo;t believe that with all the flexibility &ndash; all the POWER &ndash; letsencrypt was really out of reach. I found a few attempts to script it, and one really great <a href="https://gitlab.com/snippets/27467">snippet on gitlab</a>. But no one had ever really synthesized this stuff into an easy howto. So here we go.</p>
@@ -1051,7 +1051,7 @@
 
 <p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
+<p><img class="center" src="https://ohthehugemanatee.org/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
 
 <p>Good luck!</p>
 
@@ -1061,9 +1061,9 @@
   
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
+    <link href="https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
     <updated>2017-02-11T11:18:44+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
+    <id>https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 
 <p>The cracks are the integration points between the different components. It&rsquo;s not GraphQL as a communication layer; it&rsquo;s that no one thinks to log GraphQL inconsistencies when they occur. It&rsquo;s not &ldquo;what&rsquo;s my development environment&rdquo;, it&rsquo;s &ldquo;how do these three development environments work on my localhost at the same time?&rdquo;. It&rsquo;s the thousand little complexities that you don&rsquo;t think about, basically because they aren&rsquo;t directly associated with a noun. We&rsquo;ve discovered &ldquo;crack&rdquo; problems like this in technical architecture and devops, communication, and even project management. They add up to a lot of unplanned time, and they have presented some serious project risks.</p>
@@ -1086,9 +1086,9 @@
   
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
     <updated>2016-11-05T12:05:50+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
+    <id>https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
 <p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
@@ -1115,9 +1115,9 @@
   
   <entry>
     <title type="html"><![CDATA[Developer Options for Replacing Your Old MacBook Pro]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/"/>
     <updated>2016-10-31T09:05:07+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro</id>
+    <id>https://ohthehugemanatee.org/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro</id>
     <content type="html"><![CDATA[<p>The developer world is abuzz with criticism of the new Macbook Pro. After 4 years of waiting for an update, what we got has <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">two less ports, slower memory and a worse GPU</a>, is <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">a vanity project that the core demographic of Apple’s customers probably won’t even use</a>, in the final balance: <a href="https://petersphilo.org/2016/10/29/open-letter-to-tim-cook/">merely consumer-level</a>. It&rsquo;s slammed as <a href="https://macperformanceguide.com/blog/2016/20161029_1016-Apple2016MacBookPro-compatibility.html">incompatible</a>, <a href="https://twitter.com/lapcatsoftware/status/791760906678067200">absurd</a>, and <a href="http://cdm.link/2016/10/apples-computer-vision-looks-backward-others-look-forward/">for pros&hellip; actually an insult</a>.</p>
 
 <p>If you&rsquo;re a developer in late 2016, and are in the market for a new laptop, there are some great options out there. It&rsquo;s too bad that the latest line of Mac products don&rsquo;t make the cut. I&rsquo;ve been neck deep in this research myself, since it&rsquo;s time to retire my mid-2012 non-retina Macbook Pro anyway. I thought I&rsquo;d share.</p>
@@ -1188,10 +1188,10 @@
   
   <entry>
     <title type="html"><![CDATA[Perfect Linux Mint on My Macbook Pro 9,2]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
     <updated>2016-10-15T18:44:40+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
-    <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
+    <id>https://ohthehugemanatee.org/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
+    <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
 
 <p>This week I read about everyone&rsquo;s problems getting OSX Sierra going, and I decided it was time to take the plunge. Apple, I completely understand the direction you are going with your environment. You&rsquo;ve gotta lock down in order to make peoples&#8217; computers reliable, easy to use appliances. But I don&rsquo;t want an appliance, I want a computer. I disagree with some of your choices about the system, what software I should use, where I may install it from, and how I may use it. I&rsquo;m switching to an OS that lets me make those choices.</p>
 
@@ -1282,9 +1282,9 @@
   
   <entry>
     <title type="html"><![CDATA[301 Redirects Are the Herpes of the Internet]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
     <updated>2016-08-15T11:46:10+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
+    <id>https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
     <content type="html"><![CDATA[<p>My client bought a domain name based on her favorite username when she was young. Like any teenager, she didn&rsquo;t choose the best name. But SpongeBobLover16 (name changed to preserve her anonymity) wanted to exert her online independence. She decided she would give her real name domain to SpongeBobLover16.com in a 301 redirect. Her parents told her she should always use a 302, but she ignored their advice. &ldquo;I remember it felt so good,&rdquo; she says today, &ldquo;but now I have to live with that mistake every day.&rdquo; 5 years later, her real name domain, SusanExample.com, still redirects to that old username on Google. Old friends and family can only see her domain as SpongeBobLover16.com. They say it doesn&rsquo;t bother them, that they love her anyway, but Susan feels marked for life.</p>
 
 <p>Susan&rsquo;s mistake is incredibly common: if you&rsquo;ve been a web developer for very long, chances are you have at least one case of a bad 301 in your history. And yet I still see young developers throwing caution to the wind, failing to protect themselves adequately.</p>
@@ -1303,9 +1303,9 @@
   
   <entry>
     <title type="html"><![CDATA[Getting My Notes Out of Evernote]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
     <updated>2016-08-13T16:44:40+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
+    <id>https://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
     <content type="html"><![CDATA[<h2>The Why</h2>
 
 <p>I&rsquo;m an obsessive note taker. Meetings, ideas, to do lists, grocery lists&hellip; The act of writing really helps me remember, so I&rsquo;ve been writing everything down since I was a teenager.  For years I had a thousand text documents scattered around my computer. In 2008 I discovered that the act of writing isn&rsquo;t nearly as effective as the act of <em>searching</em>, so I resolved to start taking notes in a central, searchable, sync&#8217;ed system. In short, I jumped on the Evernote train.</p>
@@ -1364,9 +1364,9 @@
   
   <entry>
     <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs/"/>
     <updated>2016-07-29T13:14:06+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs</id>
+    <id>https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs</id>
     <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
 
 <p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
@@ -1381,9 +1381,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some Git Log Magic]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic/"/>
     <updated>2016-04-15T13:12:41+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic</id>
+    <id>https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic</id>
     <content type="html"><![CDATA[<p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
 
 <p>There were a few questions I wanted to answer about one particular developer&rsquo;s input. I&rsquo;m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I&rsquo;m trying to break him of the habit. Here are my questions:</p>
@@ -1557,9 +1557,9 @@
   
   <entry>
     <title type="html"><![CDATA[An Open Letter to Wired Magazine]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine/"/>
+    <link href="https://ohthehugemanatee.org/blog/2016/02/09/an-open-letter-to-wired-magazine/"/>
     <updated>2016-02-09T14:10:31+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine</id>
+    <id>https://ohthehugemanatee.org/blog/2016/02/09/an-open-letter-to-wired-magazine</id>
     <content type="html"><![CDATA[<p>Dear Wired &ndash;
 I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/">post about the changes in ad blocker policy</a> on your site. Thanks for writing in such an open and respectful tone; it&rsquo;s clear you care about your readers and want to find a reasonable way forward.</p>
 
@@ -1598,9 +1598,9 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   
   <entry>
     <title type="html"><![CDATA[How Drupal Should Handle Client-side Framework Obsolescence]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/"/>
+    <link href="https://ohthehugemanatee.org/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/"/>
     <updated>2015-12-08T12:06:02+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence</id>
+    <id>https://ohthehugemanatee.org/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence</id>
     <content type="html"><![CDATA[<p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he&rsquo;s still mulling it over. I couldn&rsquo;t resist adding to the storm.</p>
 
 <p>I completely agree that Drupal would benefit from figuring out a standardized approach to decoupled front ends. I think Dries is spot-on in supporting a &ldquo;progressive decoupling&rdquo; model as a great best-of-both-worlds response that can happen within 8.x. I would frame the problem a little differently, though.</p>
@@ -1629,15 +1629,15 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   
   <entry>
     <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
+    <link href="https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
     <updated>2015-10-08T11:16:02+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
+    <id>https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
     <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
 <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
 
 
-<script async src="http://ohthehugemanatee.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="https://ohthehugemanatee.org//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
@@ -1714,9 +1714,9 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
   
   <entry>
     <title type="html"><![CDATA[El Capitain Broke My Developer Stuff! Here's How to Fix It]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/"/>
+    <link href="https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/"/>
     <updated>2015-10-01T12:44:42+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools</id>
+    <id>https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools</id>
     <content type="html"><![CDATA[<p>Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
 
 <h2>1) Disable System Integrity Protection</h2>

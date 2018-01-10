@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ubuntu | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/ubuntu/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/ubuntu/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Setting Up Secure LDAP on Ubuntu 10.04 - the Idiot's Guide to SSL, TLS, and SLAPD]]></title>
-    <link href="http://ohthehugemanatee.github.io/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html"/>
+    <link href="https://ohthehugemanatee.org/2011/05/setting-up-secure-ldap-on-ubuntu-1004.html"/>
     <updated>2011-05-13T21:58:00+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/2011/05/setting-up-secure-ldap-on-ubuntu-1004</id>
+    <id>https://ohthehugemanatee.org/2011/05/setting-up-secure-ldap-on-ubuntu-1004</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">

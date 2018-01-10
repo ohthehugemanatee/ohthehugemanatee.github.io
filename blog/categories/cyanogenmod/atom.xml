@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Cyanogenmod | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/cyanogenmod/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/cyanogenmod/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[HTC Inspire, Cyanogenmod 7, and HSUPA]]></title>
-    <link href="http://ohthehugemanatee.github.io/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html"/>
+    <link href="https://ohthehugemanatee.org/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html"/>
     <updated>2011-04-14T02:21:00+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/2011/04/htc-inspire-cyanogenmod-7-and-hsupa</id>
+    <id>https://ohthehugemanatee.org/2011/04/htc-inspire-cyanogenmod-7-and-hsupa</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">

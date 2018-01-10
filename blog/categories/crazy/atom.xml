@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Crazy | Oh The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/crazy/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-01-10T12:53:54+01:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="https://ohthehugemanatee.org/blog/categories/crazy/atom.xml" rel="self"/>
+  <link href="https://ohthehugemanatee.org/"/>
+  <updated>2018-01-10T13:32:50+01:00</updated>
+  <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[I Baked a Computer (and It Worked!)]]></title>
-    <link href="http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked.html"/>
+    <link href="https://ohthehugemanatee.org/2010/12/i-baked-computer-and-it-worked.html"/>
     <updated>2010-12-20T00:57:00+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/2010/12/i-baked-computer-and-it-worked</id>
+    <id>https://ohthehugemanatee.org/2010/12/i-baked-computer-and-it-worked</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">
