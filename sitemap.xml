@@ -395,12 +395,22 @@
         <lastmod>2018-01-10T12:53:41+01:00</lastmod>
     </url>
     <url>
+        <loc>https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/</loc>
+        <lastmod>2018-02-09T16:31:26+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/
+        </loc>
+        <lastmod>2018-02-09T16:35:59+01:00</lastmod>
+    </url>
+    <url>
         <loc>https://ohthehugemanatee.org/drupalplanet.xml</loc>
         <lastmod>2014-01-08T12:25:07+01:00</lastmod>
     </url>
     <url>
         <loc>https://ohthehugemanatee.org/</loc>
-        <lastmod>2018-01-10T12:53:41+01:00</lastmod>
+        <lastmod>2018-02-09T16:35:59+01:00</lastmod>
     </url>
     <url>
         <loc>https://ohthehugemanatee.org/robots.txt</loc>
@@ -408,7 +418,7 @@
     </url>
     <url>
         <loc>https://ohthehugemanatee.org/blog/archives/</loc>
-        <lastmod>2018-01-10T12:53:41+01:00</lastmod>
+        <lastmod>2018-02-09T16:35:59+01:00</lastmod>
     </url>
     <url>
         <loc>https://ohthehugemanatee.org/drafts</loc>

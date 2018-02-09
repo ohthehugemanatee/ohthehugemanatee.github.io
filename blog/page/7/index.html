@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="Varnish is a fantastic caching proxy, commonly used for CMSes. It’s not uncommon to see benchmarks boasting 300-500 page loads per second - I’ve &hellip;">
+  <meta name="description" content="I’m a big fan of the new Entities model for Drupal. I’ve been working a lot with it lately, and it makes a lot of sense… but my favorite part is how &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,93 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2012/03/on-drupal-entities-or-how-organic.html">On Drupal Entities, or How Organic Groups and Taxonomy Are the Same Thing</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2012-03-25T12:58:00+02:00" pubdate data-updated="true">Mar 25<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+I’m a big fan of the new Entities model for Drupal. I’ve been working a lot with it lately, and it makes a lot of sense… but my favorite part is how it keeps blowing away my old assumptions, inherited from 7 years of Drupal experience. <br><br>Here’s a big one that got me recently: Organic Groups is useless, because it’s basically Taxonomy with a couple of neat add-ons. Or Organic Groups is incredibly useful, however you choose to think about it. <br><br>Let’s think ab&#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2012/03/on-drupal-entities-or-how-organic.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/ouch-sony.html">Sony Hacked AGAIN - Time to Turn Out the Lights?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-24T23:37:00+02:00" pubdate data-updated="true">May 24<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+Ouch, Sony.  Hot on the heels of the last 4 hacks have come another two in a row.  <a href="http://technolog.msnbc.msn.com/_news/2011/05/23/6699560-greek-sony-music-site-hacked-user-data-exposed">Sony BMG Greece was hacked</a> on Monday, and now <a href="http://www.thehackernews.com/2011/05/lulzsec-leak-sonys-japanese-websites.html">Sony BMG Japan</a>.<br><br>Though I stand by my comments from my earlier post (see: <a href="http://swearingatcomputers.blogspot.com/2011/05/what-sony-hacks-tell-us-about-their.html">What the Sony hacks tell us about their Sysadmins and Management</a>), there is another important dimension to this story.  That’s the dimension of a feeding frenzy.<br><br><div class="separator" style="clear: both; text-align: center;"><a href="http://3.bp.blogspot.com/-qJsPK31FLKw/Tdw9PebLojI/AAAAAAAAAAk/rEfQrjhsVeA/s1600/Feeding_Frenzy_Gray_Reef_Sharks_Bahamas_1440x1080.jpeg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="240" src="http://3.bp.blogspot.com/-qJsPK31FLKw/Tdw9PebLojI/AAAAAAAAAAk/rEfQrjhsVeA/s320/Feeding_Frenzy_Gray_Reef_Sharks_Bahamas_1440x1080.jpeg" width="320"></a></div>
+<br>It’s a popular saying that “dogs can smell fear.”  There are similar stories about sharks with blood - actually, even chickens respond to blood with a pecking frenzy of their own.  Anecdotally we all know people who react the same way.  Maybe it’s something in our animal nature, but this is definitely a similar issue.  <br><br>People love to jump on the big guy when he’s down.  After the first big attack on Sony, hackers around the world had their interest piqued.  It was a pretty big security lapse, after all!  Then we found &#8230;</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/ouch-sony.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -455,92 +542,6 @@ No one else seems to have documented this anywhere, so I’m gonna do it here.<b
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/04/multiple-ssl-sites-on-one-aws-instance.html">Multiple SSL Sites on One AWS Instance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-04-29T13:44:00+02:00" pubdate data-updated="true">Apr 29<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-It’s a familiar problem - you can’t really host multiple SSL sites on a single IP address.  There’s a fancy workaround if you get a pricey multi-domain certificate, of course.  But separate sites, with separate certificates just won’t work.  The reason is simple - put yourself in Apache’s shoes.<br><br>When you’re using name based virtualhosts, Apache uses the request headers to determine which vhost should get the request.  But HTTPS headers are encrypted!  So there’s no way for Apache to tell which virtual host should get this message, without decrypting it furst.  But it can’t decrypt without knowing the correct virtual host…<br><br>There’s a great workaround for this with Amazon, using their Elastic Load Balancer (ELB) system.  You simply set up a load balancer, and forward port 443 to, say port 8443 on your instance, and have Apache listen on 8443 for SSL connections.  Recently Amazon rolled out the ability to terminate SSL on &#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/04/multiple-ssl-sites-on-one-aws-instance.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2011/04/working-with-bash-awk.html">Working With Bash - Awk</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2011-04-24T12:24:00+02:00" pubdate data-updated="true">Apr 24<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-Now a quickie - one of my favorite tools: awk.  Some of you will probably think of this as obvious, and that’s great.  But tools like awk are the things that I skipped learning when I got started… and when I finally started using them, my world expanded tremendously.  Here’s hoping I can pay it forward to one other sysadmin out there.  So let’s get going.<br><br><b>Awk</b><br><b><br></b><br>My first handy command is <i>awk</i> . This command lets you set a pattern to hunt for, and then an action to take every time it finds the pattern.  Pattern, action.  And that’s the format on the command line:<br><blockquote>awk pattern {action}</blockquote>If you omit the patter&#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2011/04/working-with-bash-awk.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/8/">&larr; Older</a>
@@ -576,6 +577,14 @@ Now a quickie - one of my favorite tools: awk.  Some of you will probably think
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/25/my-war-on-systemd-resolved/">My War on Systemd-resolved</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/">I&#8217;m Joining Microsoft, Because They&#8217;re Doing Open Source Right</a>
       </li>
     
@@ -585,14 +594,6 @@ Now a quickie - one of my favorite tools: awk.  Some of you will probably think
     
       <li class="post">
         <a href="/blog/2017/07/28/bring-php-to-drupalcon/">Why No Mainstream PHP Speakers Come to Drupalcon - and How We&#8217;re Changing That</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/">That Time I Resurrected My Linux MacBook Pro</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a>
       </li>
     
   </ul>

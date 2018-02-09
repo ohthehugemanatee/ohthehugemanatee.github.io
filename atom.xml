@@ -4,7 +4,7 @@
   <title><![CDATA[Oh The Huge Manatee]]></title>
   <link href="https://ohthehugemanatee.org/atom.xml" rel="self"/>
   <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-01-16T11:06:08+01:00</updated>
+  <updated>2018-02-09T16:36:09+01:00</updated>
   <id>https://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,92 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The #1 Question I Get Asked Working at MS: Why Do You Run Linux?]]></title>
+    <link href="https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/"/>
+    <updated>2018-02-07T16:42:50+01:00</updated>
+    <id>https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve had all of a week working at Microsoft, and so far it&rsquo;s been great. I&rsquo;ve managed to get my Linux daily driver machine working with almost all the MS internal systems (more on that in a separate post), and all the daily use applications have web or Linux versions available. So far, so good!</p>
+
+<p><img class="center" src="https://ohthehugemanatee.org/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
+
+<p>But every time I&rsquo;ve asked for support, or visited IT, or encountered something that didn&rsquo;t work perfectly, I hear the same question: &ldquo;Why do you want to run open source software, anyway?&rdquo;  The question isn&rsquo;t asked with malice or condescention. It&rsquo;s asked with genuine curiosity. This is tremendous progress for Microsoft.</p>
+
+<p>It is an important question, though: Why do I run Linux? Especially when it&rsquo;s not explicitly supported, when it entails more work, or more frustration. Why put myself through that?</p>
+
+<p>First of all, it&rsquo;s none of your business what I run. I get all prickly when a service provider tries to get proscriptive about what I should be able to do <em>on my own computer</em>. On geeky principle, I should run the OS and configuration that suits me best. The service provider should implement standards so they don&rsquo;t have to care what I&rsquo;m running. Almost by definition, a service provider that limits what OS you can use, is Doing It Wrong.</p>
+
+<p>Of course that&rsquo;s not the intent here. Take a deep breath, Cam. Microsoft allows you to run anything you like, as long as it&rsquo;s up to date with security patches. Their IT services only <em>support</em> Windows and OSX, but that&rsquo;s not unreasonable. Anyway, the question has come from all sorts of colleagues, not just IT. Deep breaths.</p>
+
+<p>Once I calm my inner Stallman, here are the real reasons:</p>
+
+<ul>
+<li><p>I believe that either I own my devices, or they own me. I prefer that <em>I</em> make the decisions about how my computer should work &ndash; especially given what a large proportion of my life is spent working with this thing!</p></li>
+<li><p>I trust open source software a lot more than proprietary software. Many eyes make better quality code, and better engineering under the hood.</p></li>
+<li><p>It drives me crazy when something goes wrong with a proprietary product. There&rsquo;s usually no way to figure out the problem, know what I can do to improve it, or even how to report it appropriately. It&rsquo;s a black box of frustration.</p></li>
+<li><p>I believe that open source software exerts a strong equalizing force on the world. I &ldquo;vote with my behavior&rdquo; to support it.</p></li>
+</ul>
+
+
+<p>In general, as more and more of our lives become computer controlled &ndash; today every car, airplane, pacemaker, and TV are computer-controlled &ndash; it becomes increasingly important that software is open. Given the chance, Google hearing aids would inject advertising into your dinner conversation, while Facebook would block sounds from companies that don&rsquo;t pay. Internet providers have recently won the right to tamper with your content, injecting ads, slowing competitors, and prioritizing their own websites. <strong>I believe that the best tools are controlled by their users.</strong> Open source is how we make that happen.</p>
+
+<p>All these points seem pretty abstract, and they are. But they boil down to a very concrete impression for me: I am used to a computing experience where I am in control, and my device is a neutral extension of myself. So when I use a computer with an OS that someone else has dictated, it&rsquo;s very frustrating! I&rsquo;m frustrated by the ads that I can&rsquo;t block, the buttons that seem to be in the wrong place, the capabilities that are disabled because of someone elses priorities. It makes me feel like I&rsquo;m getting screwed. If your computer doesn&rsquo;t let you watch a region-coded DVD (Windows and OSX), you&rsquo;re getting screwed. If your phone doesn&rsquo;t let you block ads (unrooted IOS and Android), you&rsquo;re getting screwed. If your office suite restricts functionality based on what web browser you&rsquo;re using (Google Apps), you&rsquo;re getting screwed. <strong>I don&rsquo;t like to get screwed</strong>.</p>
+
+<p>So, why do I insist on using open source software whenever possible? Because I feel screwed by proprietary consumer software.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[My War on Systemd-resolved]]></title>
+    <link href="https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/"/>
+    <updated>2018-01-25T11:05:31+01:00</updated>
+    <id>https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved</id>
+    <content type="html"><![CDATA[<p>I run ubuntu as the base for my daily driver machine &ndash; heavily customized though it is &ndash; because Canonical&rsquo;s choices are, by definition, mainstream. That makes them easy to support, easy to understand, and generally easy to work with. So what I&rsquo;m about to describe is exceptional in how frustrating it is for me. Seriously, this one issue keeps is enough to drive me into the arms of another distro.</p>
+
+<p>Ubuntu has a built in DNS cache, which it checks first when trying to resolve anything. This Makes Sense For The User in that DNS queries are resolved faster if they come from local cache. It Makes Sense for the network admin, in that repetitive DNS queries don&rsquo;t take up bandwidth. But it really <strong>doesn&rsquo;t</strong> Make Sense for the web developer.</p>
+
+<p>The local DNS cache takes up port 53, which is a problem if you&rsquo;re trying to run any different kind of DNS service locally. For example, the DNS service that practically any integrated docker-based development environment (<a href="https://docksal.io/">docksal</a>, <a href="https://github.com/drud/ddev#ddev">ddev</a>, <a href="https://docs.amazee.io/local_docker_development/pygmy.html">pygmy</a>, etc etc etc) needs. Even my own haproxy-based setup needs to control DNS. Not to mention, <a href="https://superuser.com/questions/1153203/ubuntu-17-04-systemd-resolved-dns-lookups-randomly-fail">the system randomly fails</a> all on its own! So: in order to do my job, I need to disable the Ubuntu DNS proxy. That&rsquo;s where the trouble begins.</p>
+
+<p>There are a hundred variations on <a href="https://askubuntu.com/questions/898605/how-to-disable-systemd-resolved-and-resolve-dns-with-dnsmasq">how to disable systemd-resolvd</a> on askubuntu and stackoverflow. All of them have different suggestions. Partly this is just the flexibility of *nix systems. But it&rsquo;s largely because in the 5 years since Ubuntu introduced the local DNS cache, it&rsquo;s changed which system it&rsquo;s using (twice), how it starts up, how its config is stored, and the overall startup daemon control process. Every year, there are new tricks to learn for how to disable this totally extraneous system. And every time you update, it is magically re-enabled (or enabled in a new way). This is enough that it&rsquo;s kept me from bothering with dist-upgrades for the last year. So I run the latest kernel version, but an old version of the OS, partly because I really hate fighting this problem.</p>
+
+<p>For my own notes, and hopefully to help some others, here is how I disable the local DNS cache on Ubuntu 17.04.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># confirm that it's running
+</span><span class='line'>$ sudo netstat -tulpn |grep 53
+</span><span class='line'>udp        0      0 127.0.0.53:53           0.0.0.0:*                           28168/systemd-resolved
+</span><span class='line'>$ sudo ps -aux |grep resolved
+</span><span class='line'>systemd+ 28168  0.0  0.0  50024  5300 ?        Ss   Jan24   0:01 /lib/systemd/systemd-resolved
+</span><span class='line'># try to kill it.
+</span><span class='line'>$ sudo killall systemd-resolved
+</span><span class='line'>$ ps -aux |grep resolved
+</span><span class='line'>systemd+ 28168  0.0  0.0  50024  5300 ?        Ss   Jan24   0:01 /lib/systemd/systemd-resolved
+</span><span class='line'># roll your eyes, and try to disable it through the normal startup routes.
+</span><span class='line'>$ sudo service resolvconf disable-updates
+</span><span class='line'>$ sudo update-rc.d resolvconf disable
+</span><span class='line'>$ sudo service resolvconf stop
+</span><span class='line'># pray that it survives a reboot.</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>Note that if you do this, you have to manage your own nameservers in /etc/resolved.conf! In my case networkmanager does it for me, but that won&rsquo;t be true for everyone.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
@@ -1624,209 +1710,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 <p>I advise changing the implementation and documentation of backbone in Drupal 8.x to be (more easily) replaceable or augmentable in contrib. I&rsquo;m convinced that we would see an AngularJS contrib module within a year, and probably a ReactJS one as well. The power law predicts that the community will standardize around one framework at a time, which means that we really only have to be concerned about transition periods. Even then, front end frameworks don&rsquo;t have to be exclusive. Site builders could include the ReactJS library as a dependency of module X, the AngularJS library as a dependency of module Y, and backbone from core. The people developing sites where an extra 36kB (the size of AngularJS 1.4.8) of page size matters are also the ones best positioned to fully replace one library with another.</p>
 
 <p><strong>TL;DR: Contrib is a great place to handle the ever-changing, rapid landscape of front end frameworks. All Drupal core has to do is make it easy.</strong></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
-    <updated>2015-10-08T11:16:02+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
-    <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
-
-<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
-
-
-<script async src="https://ohthehugemanatee.org//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-
-<p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
-
-<h2>Are we there yet?</h2>
-
-<p>Despite all the rejoicing on social media, this isn&rsquo;t the final release for Drupal 8 &ndash; it&rsquo;s only the first Release Candidate. This means that we have (officially!) 0 &ldquo;critical&rdquo; bugs left to fix in Drupal 8. That means exactly what it sounds like: there are no critical, world-ending bugs left&hellip; <em>that we know of</em>. Just like any software product, we&rsquo;ll continue to discover critical issues through its entire life cycle. We&rsquo;re still finding occasional critical issues in Drupal 7 almost five years since its first release candidate; that&rsquo;s just a part of supporting a piece of software over the long term. The RC phase means that while Drupal 8 is stable enough to use, we&rsquo;re still discovering critical bugs a little too frequently to recommend it for everyone, in every use case.</p>
-
-<p>&ldquo;A little too frequently&rdquo; means that the rate of critical bugs incoming is still too high to be able to promise the fast respond-and-fix turnaround that we want. Every two weeks we&rsquo;ll create a new Release Candidate version that fixes whatever new criticals have been discovered. Once the core team is confident that they can squash bugs in a timely enough manner, they&rsquo;ll (finally) release Drupal version 8.0.0.</p>
-
-<h2>But when will it REALLY be released?</h2>
-
-<p>&ldquo;When it&rsquo;s ready&rdquo; still applies! But we are very, very close now. To give you a point of reference, Drupal 7 went through four Release Candidates before release (two months). That codebase was a lot more fragile than this one, so it&rsquo;s reasonable to hope that we&rsquo;ll have a very Drupally Christmas season this year. Personally I&rsquo;m betting on January.</p>
-
-<p><img src="https://www.drupal.org/files/christmas-ad.png"></p>
-
-<h2>Can I use it yet?</h2>
-
-<p><span style="font-size: 1.5em"><em>Yes!</em></span> <span style='font-size:0.5em'>Some terms and conditions apply.</span></p>
-
-<p>Just because there are no criticals left, doesn&rsquo;t mean that D8 is completely bug-free! We have <a href="https://www.drupal.org/project/issues/search/drupal?assigned=&amp;submitted=&amp;project_issue_followers=&amp;status[]=1&amp;status[]=13&amp;status[]=8&amp;status[]=14&amp;status[]=4&amp;priorities[]=300&amp;categories[]=1&amp;version[]=8.0.x-dev&amp;issue_tags_op=%3D&amp;issue_tags=">a big pile of known &ldquo;major&rdquo; issues</a> that have been deferred until after 8.0.0, which should impact your decision. You can see at that link that some of them are already ready to be committed. The catch is that during the RC phase, we aren&rsquo;t allowed to commit these fixes. <a href="https://www.drupal.org/core/d8-allowed-changes#rc">We&rsquo;re basically only allowed to work on criticals and documentation</a>. So there are still some serious issues that might be a problem in some use cases.</p>
-
-<p>The biggest issue (that I know of) is <a href="https://www.drupal.org/node/2542868">a potential incompatibility between Drupal 8&rsquo;s new &ldquo;cache tags&rdquo; header and some hosting providers</a>. The problem is that Drupal includes some important caching information on the &ldquo;back of the envelope&rdquo; of its response to a page request, and it&rsquo;s possible to run out of envelope! If the cache tags header gets too long for the web host to handle, it can behave unpredictably. You might get white screens of death, or it might just shorten the cache tags header, removing important information. There&rsquo;s a solution in the works to allow a maximum length setting, but it won&rsquo;t make it in until 8.0.1 (two weeks after 8.0.0). In the meantime you should avoid D8 if you have any very complex pages with many elements. The examples in that ticket are good ones: a news site with very complex layouts, or a single page site with a lot of &ldquo;stuff&rdquo; crammed onto the one, front page.</p>
-
-<p>The other &ldquo;gotcha&rdquo; to bear in mind is that it will take some time for Drupal&rsquo;s contributed modules ecosystem to catch up with the new version. According to <a href="http://www.bluespark.com/status-top-100-contributed-modules-drupal-8">Bluespark&rsquo;s status of the top 100 modules for D8</a> page, so far only 9 of the top 100 D7 modules have a D8 release marked &ldquo;stable.&rdquo; 19 of those top 100 modules are included in D8 core however, so our total count is up to 28. This is enough to give a good foundation for relatively simple sites, especially if you have some PHP skills under your belt. But I wouldn&rsquo;t go building a complex Intranet on it just yet!</p>
-
-<h2>Wait, so it&rsquo;s still busted?</h2>
-
-<p>No! Drupal 8 is a solid platform for most use cases &ndash; that&rsquo;s the point of the RC release! It&rsquo;s time to go ahead and use it for site builds. Just take it easy and use it for simple sites, first. Give the rest of the community a chance to release stable modules, and hold off on that Facebook-buster behemoth website you&rsquo;ve got planned until a few months after launch.</p>
-
-<h2>What happens after 8.0.0?</h2>
-
-<p>After 8.0.0 is released, we will make an enormous, fundamental shift in how Drupal is developed. We will start using <a href="http://semver.org">semantic versioning</a> with a regular release schedule. Every two weeks we&rsquo;ll release a new &ldquo;patch level&#8217; release: 8.0.1, 8.0.2, and so on. Patch level releases will be bug fixes only, and will be backwards-compatible &ndash; that means they won&rsquo;t break anything on your site. Approximately every 6 months, we&rsquo;ll release a new &#8220;minor level&rdquo; release: 8.1.0, 8.2.0, etc. Minor releases are allowed to contain new features, but they are still guaranteed to be backwards-compatible. So even these releases won&rsquo;t break anything on your site. We&rsquo;re still <a href="">figuring out</a> the exact process for minor releases, but they will include similar phases to what we&rsquo;ve seen with D8 core: a beta phase, and release candidates until we&rsquo;re sure there are no more criticals.</p>
-
-<p>What about API changes, and features that would break existing sites? We won&rsquo;t even start developing on those until well into the D8 life cycle. Those changes will belong in the 9.x branch, and will be kept completely separate from anything that could touch your site.</p>
-
-<p>The key take-away here is that D8 updates should never break your site. They may add features, but they will not interfere with whatever you&rsquo;ve already built. We&rsquo;ll continue a regular pace of improving the product in a predictable, scheduled, and backwards-compatible way.</p>
-
-<h2>Where are the best Drupal 8 release parties?</h2>
-
-<p>The Drupal Association is coordinating promotion for official Drupal 8 launch parties. If you want to host one, just <a href="https://assoc.drupal.org/drupal-8-launch-party">fill out their form</a> and they&rsquo;ll help you promote it! So far no one has built a site mapping the parties, but keep an eye out in the #drupal hashtag on twitter!</p>
-
-<h2>Who do I congratulate? Who do I thank?</h2>
-
-<p>Drupal 8 RC 1 is the combined effort of more than 3200 contributors. That is an incredible number. By comparison, Apache, the world&rsquo;s most popular open source webserver, has 118 contributors. MySQL, the database platform which runs an enormous portion of the Internet, has 1320 contributors. So you can basically walk up to anyone at a Drupalcon and thank him or her!</p>
-
-<p>Most of the contributors to Drupal 8 leaned on the support, training, and hand-holding of mentors at Drupal events all over the world. I know I needed a mentor for my first core contributions, and I got to turn around and mentor other people myself. The mentors are the support network that made this level of mass contribution possible.</p>
-
-<p>But the level of effort is definitely not evenly distributed. Most contributors have made fewer than 20 registered contributions. <a href="https://drupal.org/u/dawehner">But</a> <a href="https://drupal.org/u/tim.plunkett">some</a> <a href="https://drupal.org/u/berdir">people</a> <a href="https://drupal.org/u/alexpott">have</a> <a href="https://drupal.org/u/wim-leers">really</a> <a href="https://drupal.org/u/sun">gone</a> <a href="https://drupal.org/u/damiankloip">above</a> <a href="https://drupal.org/u/xjm">and</a> <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">beyond</a> <a href="https://drupal.org/u/larowlan">what</a> <a href="https://drupal.org/u/chx">anyone</a> <a href="https://drupal.org/u/andypost">would</a> <a href="https://drupal.org/u/ameteescu">expect</a>. <a href="https://drupal.org/u/jhodgdon">It&rsquo;s</a> <a href="https://drupal.org/u/yched">no</a> <a href="https://drupal.org/u/joelpittet">exaggeration</a> <a href="https://drupal.org/u/effulgentsia">to</a> <a href="https://drupal.org/u/yesct">say</a> <a href="https://drupal.org/u/swentel">that</a> <a href="https://drupal.org/u/cottser">these</a> <a href="https://drupal.org/u/nod_">people</a> <a href="https://drupal.org/u/vijaycs85">have</a> <a href="https://drupal.org/u/pwolanin">shaped</a> <a href="https://drupal.org/u/aspilicious">the</a> <a href="https://drupal.org/u/tstoeckler">future</a> <a href="https://drupal.org/u/xano">of</a> <a href="https://drupal.org/u/plach">the</a> <a href="https://drupal.org/u/lewisnyman">Internet</a>.</p>
-
-<p>It is easy to concentrate on the number of contributions as the only metric of involvement in the release of D8. But some of the biggest influences on Drupal 8 have been community leaders, whose effort is not counted in commits under their own names. The initiative leads who architected and directed all this contribution: <a href="https://drupal.org/u/heyrocker">heyrocker</a>, <a href="https://drupal.org/u/Senpai">Senpai</a>, <a href="https://drupal.org/u/jlambert">jlambert</a>, <a href="https://drupal.org/u/Crell">Crell</a>, <a href="https://drupal.org/u/dmitrig01">dmitrig01</a>, <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">Gábor Hojtsy</a>, <a href="https://drupal.org/u/jose-reyero">Jose Reyero</a>, <a href="https://drupal.org/u/mitchell">mitchell</a>, <a href="https://drupal.org/u/jenlampton">jenlampton</a>, <a href="https://drupal.org/u/bleen18">bleen18</a>, <a href="https://drupal.org/u/jackalope">jackalope</a>, <a href="https://drupal.org/u/ericduran">ericduran</a>, <a href="https://drupal.org/u/jhood">jhood</a>, <a href="https://drupal.org/u/jacine">jacine</a>, <a href="https://drupal.org/u/shyamala">shyamala</a>, <a href="https://drupal.org/u/rupl">rupl</a>, <a href="https://drupal.org/u/johnalbin">JohnAlbin</a>, <a href="https://drupal.org/u/twom">twom</a>, and <a href="https://drupal.org/u/sofiya">sofiya</a>. Without them, we would have had nothing to commit!</p>
-
-<p>Listing all of those names brings to mind the platform that they all use to contribute and coordinate: <a href="https://drupal.org">drupal.org</a>, maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. It also brings to mind the events, like Drupalcon, Drupalcamps, Dev Days, which everyone attends to collaborate, teach, and learn; also maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. Not to mention the Drupal 8 Accelerate program, which raised $250,000 towards developer grants; also created and maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. The people at the Association have worked tirelessly to support this release.</p>
-
-<p>All of this developer time is extremely valuable, and not all of it came out of the developers&#8217; own free time. Huge swaths of Drupal 8 development have been sponsored by the companies that participate in the community. We&rsquo;ve only been tracking their contributions for a short time, but the information we have is powerful. This release would not have happened without the developer time donated by companies like <a href="https://acquia.com">Acquia</a>, <a href="http://www.md-systems.ch">MD Systems</a>, <a href="http://www.chapterthree.com">Chapter Three</a>, <a href="http://tag1consulting.com">Tag1</a>, and <a href="http://druid.fi">Druid</a>. A quick glance at <a href="https://www.drupal.org/drupal-services">Drupal.org&rsquo;s Drupal Services page</a> shows us that contribution is a normal part of the culture for the biggest Drupal companies. These were the top 5, but almost every major Drupal shop has contributed in some measure. Thank you to these companies for believing in our product and supporting it so generously.</p>
-
-<p>Finally, the people who bear the greatest personal responsibility are definitely the core maintainers. These people don&rsquo;t just deserve your thanks; they deserve lifetime supplies of free beer sent to their homes. I can&rsquo;t offer that on a blog; all I can say is THANK YOU.</p>
-
-<p><a href="https://drupal.org/u/effulgentsia">Alex Bronstein</a></p>
-
-<p><a href="https://drupal.org/u/dries">Dries Buytaert</a></p>
-
-<p><a href="https://drupal.org/u/webchick">Angie &ldquo;webchick&rdquo; Byron</a></p>
-
-<p><a href="https://drupal.org/u/catch">Nat Catchpole</a></p>
-
-<p><a href="https://drupal.org/u/xjm">Jess Myrbo</a></p>
-
-<p><a href="https://drupal.org/u/alexpott">Alex Pott</a></p>
-
-<p>To everyone who contributed, but especially the people I&rsquo;ve listed here: You&rsquo;ve made a new generation of Internet innovation possible. Thank you.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[El Capitain Broke My Developer Stuff! Here's How to Fix It]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/"/>
-    <updated>2015-10-01T12:44:42+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools</id>
-    <content type="html"><![CDATA[<p>Last night I installed OSX&rsquo;s new &ldquo;El Capitain&rdquo; update, and it broke most of the tools I use in my daily life as a developer, including homebrew and git. Here are the steps I had to follow to get everything working again.</p>
-
-<h2>1) Disable System Integrity Protection</h2>
-
-<p><a href="https://en.wikipedia.org/wiki/System_Integrity_Protection">System Integrity Protection</a> is a new feature of OSX, also called &ldquo;rootless.&rdquo; As the nickname suggests, it creates another level of access above your root account. The nerfed root account can&rsquo;t modify anything in a (broad) list of system files, folders, or processes. This makes sense for most users, who blindly enter their sudo password for any installer that asks. It is not so good for developers, who regularly use these folders. Homebrew is one application that expects access to <em>/usr/local</em>, a protected folder. Other applications that are busted by SIP are OSXFuse, MacGPG, Git&hellip; the list goes on. So step one is to disable SIP.</p>
-
-<ul>
-<li>Reboot into recovery mode (hold Command+R on reboot)</li>
-<li>Access the Terminal from the dropdown menus.</li>
-<li>Run <code>csrutil disable</code></li>
-<li>Reboot back into OSX</li>
-</ul>
-
-
-<p>Congratulations, your root account is un-nerfed. If you use OSXFuse, a VPN, or anything else that relies on unsigned KEXTs, you&rsquo;ll have to keep this disabled.</p>
-
-<h2>2) Fix permissions on /usr/local</h2>
-
-<p>Open the terminal and run:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo chflags norestricted /usr/local <span class="o">&amp;&amp;</span> sudo chown <span class="k">$(</span>whoami<span class="k">)</span>:admin /usr/local <span class="o">&amp;&amp;</span> sudo chown -R <span class="k">$(</span>whoami<span class="k">)</span>:admin /usr/local
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This fixes the permissions to what homebrew and other applications expect: you own the directory and all its contents. It also changes the flags for SIP, to allow future modifications if you choose to re-enable it.</p>
-
-<h2>3) Fix developer tools</h2>
-
-<p>I also found that every time I tried to run&hellip;. well almost anything, I would get errors like this:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>Stashing your changes:
-</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>xcrun: error: invalid active developer path <span class="o">(</span>/Library/Developer/CommandLineTools<span class="o">)</span>, missing xcrun at: /Library/Developer/CommandLineTools/usr/bin/xcrun
-</span><span class='line'>Error: Failure <span class="k">while </span>executing: git stash save --include-untracked --quiet
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To fix this, you have to re-install Xcode developer tools, like so:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>xcode-select --install
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>It took 5 minutes to download and install on my system.</p>
-
-<h2>4) Fix homebrew</h2>
-
-<p>To make sure your homebrew install is working again:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#$ brew update</span>
-</span><span class='line'><span class="c">#$ brew doctor</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Follow any instructions the good doctor gives you! Here&rsquo;s what I did:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew link ppl011
-</span><span class='line'>brew install libxml2 onigurama
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Those were probably more to do with how badly I maintain my own homebrew cellar than anything else, but if the doctor gives you instructions, follow them!</p>
-
-<p>Finally, update your brew-installed applications &ndash; many of them have updates for El Capitain.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew upgrade
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>5) Fix git</h2>
-
-<p>You&rsquo;re not using the outdated version of git that comes with Xcode developer tools(2.3.8), are you? No, you&rsquo;re using the current release (2.5.3), <a href="http://git-scm.com/download/mac">downloaded from git-scm.com</a>. Whether you had it previously installed, or just installed it now, it lives in /usr/local/git . But the system will still default to using the old Xcode version. Here&rsquo;s how to fix that:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#$ git --version</span>
-</span><span class='line'>git version 2.3.8 <span class="o">(</span>Apple Git-58<span class="o">)</span>
-</span><span class='line'><span class="c">#$ sudo mv /usr/bin/git /usr/bin/git.xcode</span>
-</span><span class='line'>Password:
-</span><span class='line'><span class="c">#$ sudo ln -s /usr/local/git/bin/git /usr/bin/git</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>6) Re-install GPGTools</h2>
-
-<p>The GPGTools team have done a great job of handling the known incompatibility between GPGMAil and El Capitain&rsquo;s version of the Mail application&hellip; but I still had trouble with the other parts of the suite (which I actually use). I found it easiest to just <a href="https://gpgtools.org">download and re-install</a>.</p>
-
-<h2>7) Optional, but recommended: tell me about good Linux laptops</h2>
-
-<p>I understand how SIP is helpful for normal consumers, but developers are not normal consumers. This step by Apple crosses my comfort barrier, so I&rsquo;m officially interested in a linux laptop for the first time in years. I have a while to decide, but if you know of a Linux laptop that can compete with my Macbook Air in terms of convenience, sexiness, and reliability, please post about it in the comments.</p>
-
-<p>That&rsquo;s everything I had to do to get my system back in working order&hellip; for now. I&rsquo;ll update this post if I find more steps!</p>
 ]]></content>
   </entry>
   
