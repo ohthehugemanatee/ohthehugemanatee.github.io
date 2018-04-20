@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Machine Learning | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/machine-learning/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Drupal Does Face Recognition: Introducing Image Auto Tag Module]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal/"/>
+    <updated>2018-04-19T18:06:51+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal</id>
+    <content type="html"><![CDATA[<p>Last week I wrote a Drupal module that uses face recognition to automatically tag images with the people in them. You can find it on <a href="https://github.com/ohthehugemanatee/image_auto_tag">Github</a>, of course. With this module, you can add an image to a node, and automatically populate an entity_reference field with the names of the people in the image. This isn&rsquo;t such a big deal for individual nodes of course; it&rsquo;s really interesting for bulk use cases, like Digital Asset Management systems.</p>
+
+<p><img class="center" src="/images/image-auto-tag.gif" title="Automatic tags, now in a Gif." ></p>
+
+<p>I had a great time at Drupalcon Nashville, reconnecting with friends, mentors, and colleagues as always. But this time I had some fresh perspective. After 3 months working with Microsoft&rsquo;s (badass) CSE unit &ndash; building cutting edge proofs-of-concept for some of their biggest customers &ndash; the contrast was powerful. The Drupal core development team are famously obsessive about code quality and about optimizing the experience for developers and users. The velocity in the platform is truly amazing. But we&rsquo;re missing out on a lot of the recent stuff that large organizations are building in their more custom applications. You may have noticed the same: all the cool kids are posting about Machine Learning, sentiment analysis, and computer vision. We don&rsquo;t see any of that at Drupalcon.</p>
+
+<p>There&rsquo;s no reason to miss out on this stuff, though. Services like Azure are making it extremely easy to do all of these things, layering simple HTTP-based APIs on top of the complexity. As far as I can tell, the biggest obstacle is that there aren&rsquo;t well defined standards for how to interact with these kinds of services, so it&rsquo;s hard to make a generic module for them. This isn&rsquo;t like the Lucene/Solr/ElasticSearch world, where one set of syntax &ndash; indeed, one model of how to think of content and communicate with a search-specialized service &ndash; has come to dominate. Great modules like search_api depend on these conceptual similarities between backends, and they just don&rsquo;t exist yet for cognitive services.</p>
+
+<p>So I set out to try and explore those problems in a Drupal module.</p>
+
+<p><strong>Image Auto Tag</strong> is my first experiment. It works, and I encourage you to play around with it, but please don&rsquo;t even think of using it in production yet. It&rsquo;s a starting point for how we might build an analog to the great <a href="https://drupal.org/project/search_api">search_api</a> framework, for cognitive services rather than search.</p>
+
+<p>I built it on Azure&rsquo;s Cognitive Services Face API to start. Since the service is free for up to 5000 requests per month, this seemed like a place that most Drupalists would feel comfortable playing. Next up I&rsquo;ll abstract the Azure portion of it into a plugin system, and try to define a common interface that makes sense whether it&rsquo;s referring to Azure cognitive services, or a self-hosted, open source system like <a href="https://cmusatyalab.github.io/openface/">OpenFace</a>. That&rsquo;s the actual &ldquo;hard work&rdquo;.</p>
+
+<p>In the meantime, I&rsquo;ll continue to make this more robust with more tests, an easier UI, asynchronous operations, and so on. At a minimum it&rsquo;ll become a solid &ldquo;Azure Face Detection&rdquo; module for Drupal, but I would love to make it more generally useful than that.</p>
+
+<p>Comments, Issues, and helpful PRs are welcome.</p>
+]]></content>
+  </entry>
+  
+</feed>

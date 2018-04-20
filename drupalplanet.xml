@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Oh The Huge Manatee - Drupal]]></title>
-  <link href="https://ohthehugemanatee.org/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Oh, The Huge Manatee - Drupal]]></title>
+  <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
     <updated>2018-01-08T20:32:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
     <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
 
 <p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>
@@ -52,7 +52,7 @@
 
 <p>This shift is old news for most of the world. As much as the Hacker News crowd still bitches about it as FUD, this strategic direction has been in and out of the financial pages for years now. Microsoft has pivoted to platform services. Look at their profits by product over the last 8 years:</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
 
 <p>The trend is obvious: <strong>server and platform services are the place to invest</strong>. Office only remains at the top of the heap because it transitioned to SaaS. Even Windows license profits are declining. This means focusing on interoperability. Make sure <em>everything</em> can run on your platform, because anything else is to handicap the source of your biggest short- and medium-term profit. In fact, <strong>remaining adversarial to Open Source would kill the golden goose</strong>. Microsoft <em>has</em> to change its values in order to make this shift.</p>
 
@@ -76,9 +76,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
     <updated>2017-07-28T17:01:59+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
@@ -94,7 +94,7 @@
 <iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -115,7 +115,7 @@
 <iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -127,9 +127,9 @@
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
     <updated>2017-06-15T17:19:24+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
     <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
 
 <p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
@@ -155,9 +155,9 @@
   
   <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
     <updated>2017-06-07T06:33:24+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -723,18 +723,18 @@
 
 <p>Okay, now that&rsquo;s really it. Happy feeding!</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Stay for Community]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
     <updated>2017-03-30T12:22:11+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
     <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/drupalcon-la.jpg" title="Twelve years of code, and singing the Drupalcon song with Dries and Larry is still one of my favorite memories." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/drupalcon-la.jpg" title="Twelve years of code, and singing the Drupalcon song with Dries and Larry is still one of my favorite memories." ></p>
 
 <p><strong>Why?</strong> For those who don&rsquo;t know, I&rsquo;m one of the authors of the <a href="https://www.youtube.com/playlist?list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4">DrupalCon Prenote</a>, the &ldquo;pre-keynote&rdquo; show that kicks off DrupalCon right before Dries&#8217; keynote. The organizer (and my officemate), Jeffrey A. &ldquo;jam&rdquo; McGuire and I have been living our own special version of the crisis (<strong>Read Jam&rsquo;s post about taking sides on this <a href="https://medium.com/@horncologne/drupal-im-taking-sides-f46194122a05">here</a></strong>). Our friend Larry Garfield has been an enthusiastic part of the Prenote ever since his first appearance as &ldquo;Lord Over-Engineering&rdquo; <a href="https://www.youtube.com/watch?v=i5bW41KYUE0&amp;list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4&amp;index=20">at Drupalcon Austin</a>. Dries has often played a special guest role, too. With Drupalcon Baltimore looming on the horizon, everything seems to be coming together in one awful moment full of painful reminders &ndash; and it&rsquo;s just when we&rsquo;re supposed to be cheering for &ldquo;community.&rdquo; That awful conjunction is what makes this next Prenote in Baltimore more important than ever.</p>
 
@@ -765,15 +765,15 @@
 
 <p><strong><a href="https://events.drupal.org/baltimore2017/balti-more-prenote-balti-most-fun-drupalcon">I&rsquo;ll see you at the Prenote.</a></strong></p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/DrupalConAsia-2.jpg" title="The Prenote: The most fun you can have at Drupalcon." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/DrupalConAsia-2.jpg" title="The Prenote: The most fun you can have at Drupalcon." ></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
     <updated>2017-02-21T22:33:08+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
 <p>But as readers of this blog know, the docs are only the start of the story. I&rsquo;ve really enjoyed working with platform.sh with one of my private clients, and I couldn&rsquo;t believe that with all the flexibility &ndash; all the POWER &ndash; letsencrypt was really out of reach. I found a few attempts to script it, and one really great <a href="https://gitlab.com/snippets/27467">snippet on gitlab</a>. But no one had ever really synthesized this stuff into an easy howto. So here we go.</p>
@@ -928,7 +928,7 @@
 
 <p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
 
 <p>Good luck!</p>
 
@@ -938,9 +938,9 @@
   
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
     <updated>2017-02-11T11:18:44+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 
 <p>The cracks are the integration points between the different components. It&rsquo;s not GraphQL as a communication layer; it&rsquo;s that no one thinks to log GraphQL inconsistencies when they occur. It&rsquo;s not &ldquo;what&rsquo;s my development environment&rdquo;, it&rsquo;s &ldquo;how do these three development environments work on my localhost at the same time?&rdquo;. It&rsquo;s the thousand little complexities that you don&rsquo;t think about, basically because they aren&rsquo;t directly associated with a noun. We&rsquo;ve discovered &ldquo;crack&rdquo; problems like this in technical architecture and devops, communication, and even project management. They add up to a lot of unplanned time, and they have presented some serious project risks.</p>
@@ -963,9 +963,9 @@
   
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
     <updated>2016-11-05T12:05:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
 <p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
@@ -992,15 +992,15 @@
   
   <entry>
     <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
     <updated>2015-10-08T11:16:02+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
+    <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
     <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
 <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
 
 
-<script async src="https://ohthehugemanatee.org//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="http://ohthehugemanatee.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
@@ -1077,9 +1077,9 @@
   
   <entry>
     <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
     <updated>2015-05-02T16:10:36+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
+    <id>http://ohthehugemanatee.github.io/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
     <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
 
 <p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of &ldquo;source&rdquo;, &ldquo;destination&rdquo;, and &ldquo;migration&rdquo; classes so that even the most convoluted migration is 90% written for you. To create a migration in Drupal 7, you create a custom module, declare your migrations in a hook_info, and then extend the built in &ldquo;migration&rdquo; class. You instantiate one of the given classes for the source material (is it a CSV? JSON? Direct connection to a custom DB?), then one of the classes for the destination (is it a content type? Taxonomy term?). Then you add one simple line of code mapping each field from source to destination. If you know what you&rsquo;re doing, the task I had in mind shouldn&rsquo;t take more than 15 minutes per source.</p>
@@ -1359,7 +1359,7 @@
 </span><span class='line'>
 </span><span class='line'>    <span class="nv">$row</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getNextLine</span><span class="p">();</span>
 </span><span class='line'>    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$row</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$header</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>      <span class="nv">$header</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
+</span><span class='line'>      <span class="nv">$header</span> <span class="o">=</span> <span class="nb">trim</span><span class="p">(</span><span class="nv">$header</span><span class="p">);</span>
 </span><span class='line'>      <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getIterator</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">csvColumns</span><span class="p">[]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="nv">$header</span><span class="p">,</span> <span class="nv">$header</span><span class="p">);</span>
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'>  <span class="p">}</span>
@@ -1437,9 +1437,9 @@
   
   <entry>
     <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
     <updated>2014-11-03T17:30:32+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
     <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
 
 
@@ -1496,9 +1496,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Bug: Multilingual Auto Label Will Break Your Entity Static Cache]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache/"/>
     <updated>2014-07-01T17:00:45+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/07/01/bug-multilingual-auto-label-will-break-your-entity-static-cache</id>
     <content type="html"><![CDATA[<p>This is an important one to note: If you use the popular <a href="https://www.drupal.org/project/auto_entitylabel">Automatic Entity Label</a> module on a multilingual site, <a href="https://www.drupal.org/node/2295325">it will break your paths</a> because of an interaction with Drupal&rsquo;s built in object cache. I looked at this briefly a few months ago and ran out of time, but my (badass) colleague <a href="https://www.drupal.org/u/bburg">bburg</a> figured it out this week.</p>
 
 <p>For now, the only solution is a slow one &ndash; we clear static entity caches when we generate multilingual titles. That&rsquo;s not an awesome fix, but it&rsquo;s hard to think of a better one without any of the D8 cache tagging functionality. Massive kudos to bburg for figuring this out!</p>
@@ -1509,9 +1509,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[D8 Core Sprint in DC]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/07/01/d8-core-sprint-in-dc/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc/"/>
     <updated>2014-07-01T16:27:17+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/07/01/d8-core-sprint-in-dc</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/07/01/d8-core-sprint-in-dc</id>
     <content type="html"><![CDATA[<p>A quick note to all the Drupalists in the DC general area &ndash; Forum One is trying to put together a D8 core sprint in their DC office space. They&rsquo;re coordinating with the DC Meetup group to try and spread the word to as many community members as possible!</p>
 
 <p>If you haven&rsquo;t been to a code sprint before, it&rsquo;s basically a coding party. Developers get together and help each other contribute better and faster by reviewing code on the spot, mentoring each other, and generally working in small ad-hoc groups. It&rsquo;s a lot of fun, and gives a big boost to development of the next generation of Drupal.</p>
@@ -1522,9 +1522,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Authenticated User Caching Concepts in Drupal 7]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
     <updated>2014-06-09T22:21:01+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
     <content type="html"><![CDATA[<p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
 
 <p>But what about authenticated users? You can cache elements of the page using a method like <a href="https://drupal.org/project/rendercache">Render cache</a>, <a href="https://drupal.org/project/entitycache">Entity Cache</a>, or <a href="https://drupal.org/project/views_content_cache">Views Content Cache</a>. But Drupal still has to assemble each page for your users, a relatively heavy operation! If you want to address hundreds or thousands of authenticated users, you&rsquo;re simply SOL by these traditional approaches.</p>
@@ -1587,10 +1587,10 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Drupal Superheroes: ASSEMBLE!]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/05/28/drupal-superheroes-assemble/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble/"/>
     <updated>2014-05-28T12:44:01+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/05/28/drupal-superheroes-assemble</id>
-    <content type="html"><![CDATA[<p><img alt="Drop Signal" src="https://ohthehugemanatee.org/images/dropsignal.jpg" align=left> Regular Drupalcon attendees know that the opening pre-keynote session is one of the highlights of the con. That&rsquo;s the session where we welcome everyone to the con with stupid jokes, some well known Drupalists, and a lot of fun. This year is going to be especially good &ndash; and we need your help!</p>
+    <id>http://ohthehugemanatee.github.io/blog/2014/05/28/drupal-superheroes-assemble</id>
+    <content type="html"><![CDATA[<p><img alt="Drop Signal" src="http://ohthehugemanatee.github.io/images/dropsignal.jpg" align=left> Regular Drupalcon attendees know that the opening pre-keynote session is one of the highlights of the con. That&rsquo;s the session where we welcome everyone to the con with stupid jokes, some well known Drupalists, and a lot of fun. This year is going to be especially good &ndash; and we need your help!</p>
 
 <p>The evil Lord Over Engineering is threatening to delay the release of the CMS, which we need to save the world! The only way to stop him is to assemble the greatest force of Drupal superheroes ever assembled! Can the heroes save the day? Can we manage to make the final git push? You&rsquo;ll have to be there to find out!</p>
 
@@ -1604,9 +1604,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Drupalcamp Helsinki Takes on the World]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world/"/>
     <updated>2014-05-26T15:14:58+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/05/26/drupalcamp-helsinki-takes-on-the-world</id>
     <content type="html"><![CDATA[<p>Last weekend I got to keynote <a href="http://drupalcamp.fi">Drupalcamp Helsinki</a> with my friend and often-collaborator, <a href="http://twitter.com/adamjurantenor">scaragucc</a> &ndash; and what a great camp it was! Organizer <a href="https://twitter.com/laurii1">Lauri Eskola</a> deserves tremendous credit for taking this camp to the next level. They doubled their attendance from last year, attracted positive attention from some great notables in the global Drupal world, and got their local community energized to engage more. At all the various after parties there were frequent toasts of &ldquo;one of the best Drupalcamps in the world!&rdquo;</p>
 
 <p>Lauri and I met at the last <a href="http://szeged2014.drupaldays.org">Drupal Dev Days</a> event, in Szeged. That was also hailed as an example of a hugely successful Drupal event, and he took the lessons from their <a href="https://docs.google.com/file/d/0B6xsrc5BVkagNVpoeEFDZy1RMVk/edit">in-depth report</a> to heart. To be fair, the local volunteers and sponsors also clearly busted their humps getting people registered, and finding good session speakers to work with.</p>
@@ -1617,14 +1617,14 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Coder vs. Themer Ultimate Grudge Match Smackdown Fight to the Death]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death/"/>
     <updated>2014-05-01T17:15:31+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/05/01/coder-vs-themer-ultimate-grudge-match-smackdown-fight-to-the-death</id>
     <content type="html"><![CDATA[<p>I&rsquo;m really excited about a new session that I&rsquo;ve been doing with my friend and colleague, <a href="https://twitter.com/adamjurantenor">Adam Juran aka scaragucc</a>: the Coder vs Themer Ultimate Grudge Match Smackdown Fight to the Death! The basic premise: we both start with the same wireframe of a front page to build. But <em>I&rsquo;m only allowed to use the module layer, and Adam is only allowed to use the theme layer</em>. It&rsquo;s a really fun and entertaining way to play with the blurry lines between &ldquo;coder&rdquo; and &ldquo;themer&rdquo;. We get the audience pretty pumped up, which is impressive for a session that&rsquo;s basically about watching other people code!</p>
 
 <p>If you didn&rsquo;t catch it at <a href="http://szeged2014.drupaldays.org/program/sessions/themer-vs-coder-ultimate-grudge-smackdown-fight-death">Drupal Dev Days in Szeged</a>, or at <a href="https://2014.drupalcamp-frankfurt.de/session/themer-vs-coder-ultimate-grudge-smackdown-fight-death">Drupalcamp Frankfurt</a>, you&rsquo;re probably going to have to wait for Drupalcon Amsterdam to take part! But I do have a video of the session at Frankfurt, just to whet your appetite. :)</p>
 
-<iframe width="768" height="432" src="https://ohthehugemanatee.org//www.youtube-nocookie.com/embed/Rly9D3-gc4w" frameborder="0" allowfullscreen></iframe>
+<iframe width="768" height="432" src="http://ohthehugemanatee.github.io//www.youtube-nocookie.com/embed/Rly9D3-gc4w" frameborder="0" allowfullscreen></iframe>
 
 
 <p>You can consider this a challenge: if any other themers out there want to challenge me to a coder vs themer style battle, I&rsquo;ll be keynoting at <a href="http://drupalcamp.fi">Drupalcamp Helsinki</a> in a few weeks. I&rsquo;ll meet you there!</p>
@@ -1633,9 +1633,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[How to Create a Custom Display Suite Field]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/04/02/how-to-create-a-custom-display-suite-field/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field/"/>
     <updated>2014-04-02T17:12:13+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/04/02/how-to-create-a-custom-display-suite-field</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/04/02/how-to-create-a-custom-display-suite-field</id>
     <content type="html"><![CDATA[<p>A few months ago I posted about <a href="https://ohthehugemanatee.org/blog/2014/01/03/how-to-create-a-custom-panels-pane">how to create a custom Panels pane</a>, a critical reference for anyone who uses Panels layouts. The other part of the toolkit for quick and awesome layouts is the <a href="https://drupal.org/projects/ds">Display Suite</a> module. With DS you can create new &ldquo;Display modes&rdquo; for your content, to be reused around the site. For example, on one recent site I had four standard ways to display my nodes: Full, Teaser, Mini-Teaser, and Search Result. DS made this configuration a cinch.</p>
 
 <p>But just as in Panels you sometimes need a pane that isn&rsquo;t provided out of the box, in Display Suite you sometimes want to add a field that isn&rsquo;t really a field on your content. In a recent site build, I used this capability to include information from the Organic Groups a user belongs to on his profile as it appears in search results.</p>
@@ -1720,9 +1720,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Drupal Dev Days Szeged, or: Why You Should Attend Every Camp You Can]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/03/29/drupal-dev-days-szeged-2014/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014/"/>
     <updated>2014-03-29T15:27:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/03/29/drupal-dev-days-szeged-2014</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/03/29/drupal-dev-days-szeged-2014</id>
     <content type="html"><![CDATA[<p>Today is the last day of <a href="http://szeged2014.drupaldays.org/">Drupal Dev Days</a> in Szeged, Hungary, and I&rsquo;ve never been more full of the &ldquo;Drupal spirit!&rdquo;</p>
 
 <p>One of Drupal&rsquo;s greatest strengths is the closness of its&#8217; community, how friendly and accepting they can be. Drupalcons are highlight events for many, not because of the learning as much as because of the social track: the chance to see old friends and make new ones. Even more important is the chance to experience in person this incredibly friendly community. I always loved the cons because you could approach really anybody, say &ldquo;hi&rdquo;, and ask them about their work with the platform. Seriously, anybody. From a new user to Dries himself.</p>
@@ -1739,9 +1739,9 @@ ing has to initiate them. I live in the Central European timezone, GMT+6. The pa
   
   <entry>
     <title type="html"><![CDATA[Drush Self Aliases]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/01/10/drush-self-aliases/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases/"/>
     <updated>2014-01-10T09:22:01+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/01/10/drush-self-aliases</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/01/10/drush-self-aliases</id>
     <content type="html"><![CDATA[<p>I ran into an interesting problem with the drush <em>@self</em> alias today. I wanted to pull a fresh copy of the DB down from a client&rsquo;s live site to my local development copy. Should be as easy as <em>drush sql-sync @clientsite.live @self</em>, right? I&rsquo;ve done this a thousand times before.</p>
 
 <p>And I&rsquo;ve also ignored the warning message every time before, but today I thought I&rsquo;d check it out:</p>

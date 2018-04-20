@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Drupal 8 | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/drupal-8/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Drupal 8 | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/drupal-8/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -14,732 +14,116 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/"/>
-    <updated>2017-06-15T17:19:24+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists</id>
-    <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
+    <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
+    <updated>2016-11-05T12:05:50+01:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
+    <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
-<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
+<p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
 
-<!-- more -->
+<p>I just mentioned unit testable code as a benefit of the service container. To be honest this is a little tricksy in Drupal 7. For my own custom work I tend to isolate the test environment from the rest of Drupal, so I don&rsquo;t have to deal with everything else. Again, I followed Fabian&rsquo;s example there by looking at how <a href="http://cgit.drupalcode.org/render_cache/tree/tests?h=7.x-2.x">render cache does it&rsquo;s tests</a>. If you do want better integration, there is a good lullabot post that talks about (more) proper PHPUnit integration. <a href="https://www.lullabot.com/articles/write-unit-tests-for-your-drupal-7-code-part-1">https://www.lullabot.com/articles/write-unit-tests-for-your-drupal-7-code-part-1</a> .</p>
 
+<p>Next on my list is Composer-managed dependencies. The Acquia developer blog has a great post about <a href="https://dev.acquia.com/blog/using-composer-manager-get-island-now">using Composer Manager for this in D7</a>. This is a huge win for a lot of custom modules, and very easy.</p>
 
-<p></p>
+<p>Last is plugins. The rest of this list is in no particular order, but I left plugins for last because I think this isn&rsquo;t actually necessary in D7. Personally I use modules' own hooks and just autoload independent classes. You might consider using plugins instead if you&rsquo;re going to write several plugins for the same module. In any case, <a href="https://www.previousnext.com.au/blog/drupal-8-now-object-oriented-plugins-drupal-7">Lee Rowlands has the go-to blog post about this</a>.</p>
 
-<p><strong>Do you like PHP 7?</strong> We want to hear about the technicalities of types, throwing all the things, and your favorite operators (mine is null coalesce, but full respect for you spaceship operator fans).</p>
+<p>All together, you can combine these approaches to write code for D7 with the biggest Dx features of D8: service injection, phpunit testing, composer libraries, and plugins. Note that each of these blog posts assumes different workarounds for all the other functionalities&hellip; but they should help you get an understanding of how to use that particular Dx improvement in 7.</p>
 
-<p><strong>Have you seen the light of functional programming?</strong> Tell us why we should love higher orders with lambda functions and closures. Let&rsquo;s hear the finer points of first class functions.</p>
+<p>When I wrote that session proposal, I thought of this as a good way for D7 developers to learn D8 practices gradually, one at a time. I no longer think that&rsquo;s true. Mostly, there are so few working examples of D7 code using these practices, that it&rsquo;s quite hard to get your stuff working. This is particularly hard when you&rsquo;re just learning about the concept in the first place! Personally, I could mess around with this stuff and make my life harder with it in D7. But I couldn&rsquo;t really get the best advantage out of them until I had better examples. My best learning aids were the examples in D8 core, and the code scaffolding available through Drush and Drupal console.</p>
 
-<p><strong>Do your tests bring all the bugs to the yard?</strong> We want to talk about it. Every method is a promise, and your tests make sure you keep your promises. We want sessions about test driven development in a drupal context, choosing the right test framework and scope, and how your real-world tests are saving you real-world time.</p>
+<p>But now that I&rsquo;m comfortable with the concepts&hellip; I would absolutely use these approaches in D7 work. You know, if I&rsquo;m FORCED to work in the old system. :)</p>
 
-<p><strong>Have you written a composer library wrapper module yet?</strong> Submit a session about how composer is saving you lines of code.</p>
+<p>One last aside here: it is easy to fall into the mindset that Drupal 8 practices are better just because they&rsquo;re newer. This is simply not true. These practices are not handed down from heaven, after all! When you have the rest of the D8 architecture in place, certain kinds of code tasks are much easier. That&rsquo;s why we like developing for it so much more. But other (less common, IMO) tasks are harder. And doing any of this in D7 means you have to put the architecture in place, too. That&rsquo;s a lot of time, and it&rsquo;s only worthwhile if you&rsquo;re going to use the particular strengths of these practices.</p>
 
-<p><strong>Is your development environment fine-tuned for drupal excellence?</strong> Tell us how, and why.</p>
+<p>So if it looks like one of these D8 practices will make your life easier for a particular task in D7, then by all means use these approaches to get there. Composer manager has a particularly low bar &ndash; it&rsquo;s so easy to use, and makes so many tasks easier, it&rsquo;s a good approach to many tasks. But if I ever catch you implementing service container to get two lines of code into a form_alter, I will come to where you work and slap your hands off the keyboard.</p>
 
-<p>We have only two weeks left until session submissions close! <a href="https://events.drupal.org/node/add/session?og_group_ref=14447">Get your session in now</a> and help us make Drupal code something to be proud of.</p>
+<p>Happy coding!</p>
 ]]></content>
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
-    <updated>2017-06-07T06:33:24+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
-    <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
+    <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
+    <updated>2015-10-08T11:16:02+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
+    <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
-<p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
+<blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
 
-<p><blockquote><p>It&rsquo;s not ready yet, but we are brainstorming about what would be the best way forward. Want to help us? Fill in our survey.<br/>If you decide to use it, don&rsquo;t be mad if we break it later.</p></blockquote></p>
 
-<p>This does not inspire confidence.</p>
+<script async src="http://ohthehugemanatee.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-<p>The next great candidate is <a href="https://www.drupal.org/docs/8/core/modules/aggregator/overview">Aggregator</a> module (in core). Unfortunately, Aggregator gives you no control over the kind of entity to create, let alone any kind of field mapping. It imports content into its own Aggregated Content entity, with everything in one field, and linking offsite. I suppose you could extend it to choose you own entity type, map fields etc, but that seems like a lot of work for such a simple feature.</p>
 
-<p>Frustrating, right?</p>
+<p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>
 
-<p><strong>What if I told you that Drupal 8 can do everything Feeds 7 can?</strong></p>
+<h2>Are we there yet?</h2>
 
-<p>What if I told you that it&rsquo;s even better: instead of clicking through endless menus and configuration links, waiting for things to load, missing problems, and banging your head against the mouse, you can set this up with one simple piece of text. You can copy and paste it directly from this blog post into Drupal&rsquo;s admin interface.</p>
+<p>Despite all the rejoicing on social media, this isn&rsquo;t the final release for Drupal 8 &ndash; it&rsquo;s only the first Release Candidate. This means that we have (officially!) 0 &ldquo;critical&rdquo; bugs left to fix in Drupal 8. That means exactly what it sounds like: there are no critical, world-ending bugs left&hellip; <em>that we know of</em>. Just like any software product, we&rsquo;ll continue to discover critical issues through its entire life cycle. We&rsquo;re still finding occasional critical issues in Drupal 7 almost five years since its first release candidate; that&rsquo;s just a part of supporting a piece of software over the long term. The RC phase means that while Drupal 8 is stable enough to use, we&rsquo;re still discovering critical bugs a little too frequently to recommend it for everyone, in every use case.</p>
 
-<h2>What? How?</h2>
+<p>&ldquo;A little too frequently&rdquo; means that the rate of critical bugs incoming is still too high to be able to promise the fast respond-and-fix turnaround that we want. Every two weeks we&rsquo;ll create a new Release Candidate version that fixes whatever new criticals have been discovered. Once the core team is confident that they can squash bugs in a timely enough manner, they&rsquo;ll (finally) release Drupal version 8.0.0.</p>
 
-<p>Drupal 8 can do all the Feedsy stuff you like with <a href="https://www.drupal.org/docs/8/api/migrate-api/migrate-api-overview">Migrate</a> module. Migrate in D8 core already contains all the elements you need to build a regular importer of ANYTHING into D8. Add a couple of contrib modules to provide specific plugins for XML sources and convenience drush functions, and <em>baby you&rsquo;ve got a stew goin'!</em></p>
+<h2>But when will it REALLY be released?</h2>
 
-<p>Here&rsquo;s the short version Howto:</p>
+<p>&ldquo;When it&rsquo;s ready&rdquo; still applies! But we are very, very close now. To give you a point of reference, Drupal 7 went through four Release Candidates before release (two months). That codebase was a lot more fragile than this one, so it&rsquo;s reasonable to hope that we&rsquo;ll have a very Drupally Christmas season this year. Personally I&rsquo;m betting on January.</p>
 
-<p><strong>1) Download and enable <a href="https://drupal.org/project/migrate_plus">migrate_plus</a> and <a href="https://drupal.org/project/migrate_tools">migrate_tools</a> modules.</strong> You should be doing this with composer, but I won&rsquo;t judge. Just get them into your codebase and enable them. Migrate Plus provides plugins for core Migrate, so you can parse remote XML, JSON, CSV, or even arbitrary spreadsheet data. Migrate Tools gives us drush commands for running migrations.</p>
+<p><img src="https://www.drupal.org/files/christmas-ad.png"></p>
 
-<p><strong>2) Write your Migration configuration in text</strong>, and paste it into the configuration import admin page (<code>admin/config/development/configuration/single/import</code>), or import it another way. I&rsquo;ve included a starter YAML just below, you should be able to copypasta, change a few values, and be done in time for tea.</p>
+<h2>Can I use it yet?</h2>
 
-<p><strong>3) Add a line to your system cron</strong> to run <code>drush migrate -y my_rss_importer</code> at whatever interval you like.</p>
+<p><span style="font-size: 1.5em"><em>Yes!</em></span> <span style='font-size:0.5em'>Some terms and conditions apply.</span></p>
 
-<p>That&rsquo;s it. One YAML file, most of which is copypasta. One cronjob. All done!</p>
+<p>Just because there are no criticals left, doesn&rsquo;t mean that D8 is completely bug-free! We have <a href="https://www.drupal.org/project/issues/search/drupal?assigned=&amp;submitted=&amp;project_issue_followers=&amp;status[]=1&amp;status[]=13&amp;status[]=8&amp;status[]=14&amp;status[]=4&amp;priorities[]=300&amp;categories[]=1&amp;version[]=8.0.x-dev&amp;issue_tags_op=%3D&amp;issue_tags=">a big pile of known &ldquo;major&rdquo; issues</a> that have been deferred until after 8.0.0, which should impact your decision. You can see at that link that some of them are already ready to be committed. The catch is that during the RC phase, we aren&rsquo;t allowed to commit these fixes. <a href="https://www.drupal.org/core/d8-allowed-changes#rc">We&rsquo;re basically only allowed to work on criticals and documentation</a>. So there are still some serious issues that might be a problem in some use cases.</p>
 
-<p>Here&rsquo;s my RSS importer config for your copy and pasting pleasure. If you&rsquo;re already comfortable with migration YAMLs and XPaths, just add the names of your RSS fields as selectors in the source section, map them to drupal fields in the process section, and you&rsquo;re all done!</p>
+<p>The biggest issue (that I know of) is <a href="https://www.drupal.org/node/2542868">a potential incompatibility between Drupal 8&rsquo;s new &ldquo;cache tags&rdquo; header and some hosting providers</a>. The problem is that Drupal includes some important caching information on the &ldquo;back of the envelope&rdquo; of its response to a page request, and it&rsquo;s possible to run out of envelope! If the cache tags header gets too long for the web host to handle, it can behave unpredictably. You might get white screens of death, or it might just shorten the cache tags header, removing important information. There&rsquo;s a solution in the works to allow a maximum length setting, but it won&rsquo;t make it in until 8.0.1 (two weeks after 8.0.0). In the meantime you should avoid D8 if you have any very complex pages with many elements. The examples in that ticket are good ones: a news site with very complex layouts, or a single page site with a lot of &ldquo;stuff&rdquo; crammed onto the one, front page.</p>
 
-<p>If you aren&rsquo;t familiar with this stuff yet, don&rsquo;t worry! We&rsquo;ll dissect this together, below.</p>
+<p>The other &ldquo;gotcha&rdquo; to bear in mind is that it will take some time for Drupal&rsquo;s contributed modules ecosystem to catch up with the new version. According to <a href="http://www.bluespark.com/status-top-100-contributed-modules-drupal-8">Bluespark&rsquo;s status of the top 100 modules for D8</a> page, so far only 9 of the top 100 D7 modules have a D8 release marked &ldquo;stable.&rdquo; 19 of those top 100 modules are included in D8 core however, so our total count is up to 28. This is enough to give a good foundation for relatively simple sites, especially if you have some PHP skills under your belt. But I wouldn&rsquo;t go building a complex Intranet on it just yet!</p>
 
-<p>``` yaml
-id: my_rss_importer
-label: &lsquo;Import my RSS feed&rsquo;
-status: true</p>
+<h2>Wait, so it&rsquo;s still busted?</h2>
 
-<p>source:
-  plugin: url
-  data_fetcher_plugin: http
-  urls: &lsquo;<a href="https://example.com/feed.rss">https://example.com/feed.rss</a>&rsquo;
-  data_parser_plugin: simple_xml</p>
+<p>No! Drupal 8 is a solid platform for most use cases &ndash; that&rsquo;s the point of the RC release! It&rsquo;s time to go ahead and use it for site builds. Just take it easy and use it for simple sites, first. Give the rest of the community a chance to release stable modules, and hold off on that Facebook-buster behemoth website you&rsquo;ve got planned until a few months after launch.</p>
 
-<p>  item_selector: /rss/channel/item
-  fields:</p>
+<h2>What happens after 8.0.0?</h2>
 
-<pre><code>-
-  name: guid
-  label: GUID
-  selector: guid
--
-  name: title
-  label: Title
-  selector: title
--
-  name: pub_date
-  label: 'Publication date'
-  selector: pubDate
--
-  name: link
-  label: 'Origin link'
-  selector: link
--
-  name: summary
-  label: Summary
-  selector: 'itunes:summary'
--
-  name: image
-  label: Image
-  selector: 'itunes:image[''href'']'
-</code></pre>
+<p>After 8.0.0 is released, we will make an enormous, fundamental shift in how Drupal is developed. We will start using <a href="http://semver.org">semantic versioning</a> with a regular release schedule. Every two weeks we&rsquo;ll release a new &ldquo;patch level' release: 8.0.1, 8.0.2, and so on. Patch level releases will be bug fixes only, and will be backwards-compatible &ndash; that means they won&rsquo;t break anything on your site. Approximately every 6 months, we&rsquo;ll release a new "minor level&rdquo; release: 8.1.0, 8.2.0, etc. Minor releases are allowed to contain new features, but they are still guaranteed to be backwards-compatible. So even these releases won&rsquo;t break anything on your site. We&rsquo;re still <a href="">figuring out</a> the exact process for minor releases, but they will include similar phases to what we&rsquo;ve seen with D8 core: a beta phase, and release candidates until we&rsquo;re sure there are no more criticals.</p>
 
-<p>  ids:</p>
+<p>What about API changes, and features that would break existing sites? We won&rsquo;t even start developing on those until well into the D8 life cycle. Those changes will belong in the 9.x branch, and will be kept completely separate from anything that could touch your site.</p>
 
-<pre><code>guid:
-  type: string
-</code></pre>
+<p>The key take-away here is that D8 updates should never break your site. They may add features, but they will not interfere with whatever you&rsquo;ve already built. We&rsquo;ll continue a regular pace of improving the product in a predictable, scheduled, and backwards-compatible way.</p>
 
-<p>destination:
-  plugin: &lsquo;entity:node&rsquo;</p>
+<h2>Where are the best Drupal 8 release parties?</h2>
 
-<p>process:
-  title: title
-  field_remote_url: link
-  body: summary
-  created:</p>
+<p>The Drupal Association is coordinating promotion for official Drupal 8 launch parties. If you want to host one, just <a href="https://assoc.drupal.org/drupal-8-launch-party">fill out their form</a> and they&rsquo;ll help you promote it! So far no one has built a site mapping the parties, but keep an eye out in the #drupal hashtag on twitter!</p>
 
-<pre><code>plugin: format_date
-from_format: 'D, d M Y H:i:s O'
-to_format: 'U'
-source: pub_date
-</code></pre>
+<h2>Who do I congratulate? Who do I thank?</h2>
 
-<p>  status:</p>
+<p>Drupal 8 RC 1 is the combined effort of more than 3200 contributors. That is an incredible number. By comparison, Apache, the world&rsquo;s most popular open source webserver, has 118 contributors. MySQL, the database platform which runs an enormous portion of the Internet, has 1320 contributors. So you can basically walk up to anyone at a Drupalcon and thank him or her!</p>
 
-<pre><code>plugin: default_value
-default_value: 1
-</code></pre>
+<p>Most of the contributors to Drupal 8 leaned on the support, training, and hand-holding of mentors at Drupal events all over the world. I know I needed a mentor for my first core contributions, and I got to turn around and mentor other people myself. The mentors are the support network that made this level of mass contribution possible.</p>
 
-<p>  type:</p>
+<p>But the level of effort is definitely not evenly distributed. Most contributors have made fewer than 20 registered contributions. <a href="https://drupal.org/u/dawehner">But</a> <a href="https://drupal.org/u/tim.plunkett">some</a> <a href="https://drupal.org/u/berdir">people</a> <a href="https://drupal.org/u/alexpott">have</a> <a href="https://drupal.org/u/wim-leers">really</a> <a href="https://drupal.org/u/sun">gone</a> <a href="https://drupal.org/u/damiankloip">above</a> <a href="https://drupal.org/u/xjm">and</a> <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">beyond</a> <a href="https://drupal.org/u/larowlan">what</a> <a href="https://drupal.org/u/chx">anyone</a> <a href="https://drupal.org/u/andypost">would</a> <a href="https://drupal.org/u/ameteescu">expect</a>. <a href="https://drupal.org/u/jhodgdon">It&rsquo;s</a> <a href="https://drupal.org/u/yched">no</a> <a href="https://drupal.org/u/joelpittet">exaggeration</a> <a href="https://drupal.org/u/effulgentsia">to</a> <a href="https://drupal.org/u/yesct">say</a> <a href="https://drupal.org/u/swentel">that</a> <a href="https://drupal.org/u/cottser">these</a> <a href="https://drupal.org/u/nod_">people</a> <a href="https://drupal.org/u/vijaycs85">have</a> <a href="https://drupal.org/u/pwolanin">shaped</a> <a href="https://drupal.org/u/aspilicious">the</a> <a href="https://drupal.org/u/tstoeckler">future</a> <a href="https://drupal.org/u/xano">of</a> <a href="https://drupal.org/u/plach">the</a> <a href="https://drupal.org/u/lewisnyman">Internet</a>.</p>
 
-<pre><code>plugin: default_value
-default_value: podcast_episode
-</code></pre>
+<p>It is easy to concentrate on the number of contributions as the only metric of involvement in the release of D8. But some of the biggest influences on Drupal 8 have been community leaders, whose effort is not counted in commits under their own names. The initiative leads who architected and directed all this contribution: <a href="https://drupal.org/u/heyrocker">heyrocker</a>, <a href="https://drupal.org/u/Senpai">Senpai</a>, <a href="https://drupal.org/u/jlambert">jlambert</a>, <a href="https://drupal.org/u/Crell">Crell</a>, <a href="https://drupal.org/u/dmitrig01">dmitrig01</a>, <a href="https://drupal.org/u/g%C3%A1bor-hojtsy">Gábor Hojtsy</a>, <a href="https://drupal.org/u/jose-reyero">Jose Reyero</a>, <a href="https://drupal.org/u/mitchell">mitchell</a>, <a href="https://drupal.org/u/jenlampton">jenlampton</a>, <a href="https://drupal.org/u/bleen18">bleen18</a>, <a href="https://drupal.org/u/jackalope">jackalope</a>, <a href="https://drupal.org/u/ericduran">ericduran</a>, <a href="https://drupal.org/u/jhood">jhood</a>, <a href="https://drupal.org/u/jacine">jacine</a>, <a href="https://drupal.org/u/shyamala">shyamala</a>, <a href="https://drupal.org/u/rupl">rupl</a>, <a href="https://drupal.org/u/johnalbin">JohnAlbin</a>, <a href="https://drupal.org/u/twom">twom</a>, and <a href="https://drupal.org/u/sofiya">sofiya</a>. Without them, we would have had nothing to commit!</p>
 
-<p>```</p>
+<p>Listing all of those names brings to mind the platform that they all use to contribute and coordinate: <a href="https://drupal.org">drupal.org</a>, maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. It also brings to mind the events, like Drupalcon, Drupalcamps, Dev Days, which everyone attends to collaborate, teach, and learn; also maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. Not to mention the Drupal 8 Accelerate program, which raised $250,000 towards developer grants; also created and maintained by the <a href="https://assoc.drupal.org/">Drupal Association</a>. The people at the Association have worked tirelessly to support this release.</p>
 
-<p>Some of you can just stop here. If you&rsquo;re familiar with the format and the structures involved, this example is probably all you need to set up your easy RSS importer.</p>
+<p>All of this developer time is extremely valuable, and not all of it came out of the developers' own free time. Huge swaths of Drupal 8 development have been sponsored by the companies that participate in the community. We&rsquo;ve only been tracking their contributions for a short time, but the information we have is powerful. This release would not have happened without the developer time donated by companies like <a href="https://acquia.com">Acquia</a>, <a href="http://www.md-systems.ch">MD Systems</a>, <a href="http://www.chapterthree.com">Chapter Three</a>, <a href="http://tag1consulting.com">Tag1</a>, and <a href="http://druid.fi">Druid</a>. A quick glance at <a href="https://www.drupal.org/drupal-services">Drupal.org&rsquo;s Drupal Services page</a> shows us that contribution is a normal part of the culture for the biggest Drupal companies. These were the top 5, but almost every major Drupal shop has contributed in some measure. Thank you to these companies for believing in our product and supporting it so generously.</p>
 
-<p>In the interest of good examples for Migrate module though, I&rsquo;m going to continue. Read on if you want to learn more about how this config works, and how you can use Migrate to do even more amazing things&hellip;</p>
+<p>Finally, the people who bear the greatest personal responsibility are definitely the core maintainers. These people don&rsquo;t just deserve your thanks; they deserve lifetime supplies of free beer sent to their homes. I can&rsquo;t offer that on a blog; all I can say is THANK YOU.</p>
 
-<h2>Anatomy of a migration YAML</h2>
+<p><a href="https://drupal.org/u/effulgentsia">Alex Bronstein</a></p>
 
-<p>Let&rsquo;s dive into that YAML a bit. Migrate is one of the most powerful components of Drupal 8 core, and this configuration is your gateway to it.</p>
+<p><a href="https://drupal.org/u/dries">Dries Buytaert</a></p>
 
-<p>That YAML looks like a lot, but it&rsquo;s really just 4 sections. They can appear in any order, but we need all 4: General information, source, destination, and data processing. This isn&rsquo;t rocket science after all! Let&rsquo;s look at these sections one at a time.</p>
+<p><a href="https://drupal.org/u/webchick">Angie &ldquo;webchick&rdquo; Byron</a></p>
 
-<p><strong>General information</strong></p>
+<p><a href="https://drupal.org/u/catch">Nat Catchpole</a></p>
 
-<p><code>yaml
-id: my_rss_importer
-label: 'My RSS feed importer'
-status: true
-</code>
-This is the basic stuff about the migration configuration. At a minimum it needs a unique machine-readable ID, a human-readable label, and <code>status: true</code> so it&rsquo;s enabled. There are other keys you can include here for fun extra features, like module dependencies, groupings (so you can run several imports together!), tags, and language. These are the critical ones, though.</p>
+<p><a href="https://drupal.org/u/xjm">Jess Myrbo</a></p>
 
-<p><strong>Source</strong></p>
+<p><a href="https://drupal.org/u/alexpott">Alex Pott</a></p>
 
-<p>``` yaml
-source:
-  plugin: url
-  data_fetcher_plugin: file
-  urls: &lsquo;<a href="https://example.com/feed.rss">https://example.com/feed.rss</a>&rsquo;
-  data_parser_plugin: simple_xml</p>
-
-<p>  item_selector: /rss/channel/item
-  fields:</p>
-
-<pre><code>-
-  name: guid
-  label: GUID
-  selector: guid
--
-  name: title
-  label: Item Title
-  selector: title
--
-  name: pub_date
-  label: 'Publication date'
-  selector: pubDate
--
-  name: link
-  label: 'Origin link'
-  selector: link
--
-  name: summary
-  label: Summary
-  selector: 'itunes:summary'
-</code></pre>
-
-<p>  ids:</p>
-
-<pre><code>guid:
-  type: string
-</code></pre>
-
-<p>```
-This is the one that intimidates most people: it&rsquo;s where you describe the RSS source. Migrate module is even more flexible than Feeds was, so there&rsquo;s a lot to specify here&hellip; but it all makes sense if you take it in small pieces.</p>
-
-<p>First: we want to use a remote file, so we&rsquo;ll use the Url plugin (there are others, but none that we care about right now). All the rest of the settings belong to the Url plugin, even though they aren&rsquo;t indented or anything.</p>
-
-<p>There are two possibilities for Url&rsquo;s data_fetcher setting: file and http. <code>file</code> is for anything you could pass to PHP&rsquo;s <a href="https://secure.php.net/manual/en/function.file-get-contents.php">file_get_contents</a>, including remote URLs. There are some great performance tricks in there, so it&rsquo;s a good option for most use cases. We&rsquo;ll be using <code>file</code> for our example. <code>http</code> is specifically for remote files accessed over HTTP, and lets you use the full power of the HTTP spec to get your file. Think authentication headers, cache rules, etc.</p>
-
-<p>Next we declare which plugin will read (parse) the data from that remote URL. We can read JSON, SOAP, arbitrary XML&hellip; in our use case this is an RSS feed, so we&rsquo;ll use one of the XML plugins. SimpleXML is just what it sounds like: a simple way to get data out of XML. In extreme use cases you might use XML instead, but I haven&rsquo;t encountered that yet (ever, anywhere, in any of my projects). TL;DR: SimpleXML is great. Use it.</p>
-
-<p>Third, we have to tell the source where it can find the actual items to import. XML is freeform, so there&rsquo;s no way for Migrate to know where the future &ldquo;nodes&rdquo; are in the document. So you have to give it the XPath to the items. RSS feeds have a standardized path: <code>/rss/channel/item</code>.</p>
-
-<p>Next we have to identify the &ldquo;fields&rdquo; in the source. You see, migrate module is built around the idea that you&rsquo;ll map source fields to destination fields. That&rsquo;s core to how it thinks about the whole process. Since XML (and by extension RSS) is an unstructured format &ndash; it doesn&rsquo;t think of itself as having &ldquo;fields&rdquo; at all. So we&rsquo;ll have to give our source plugin XPaths for the data we want out of the feed, assigning each path to a virtual &ldquo;field&rdquo;. These &ldquo;fake fields&rdquo; let Migrate treat this source just like any other.</p>
-
-<p>If you haven&rsquo;t worked with XPaths before, the example YAML in this post gives you most of what you need to know. It&rsquo;s just a simple text system for specifying a tag within an unstructured XML document. Not too complicated when you get into it. You may want to <a href="https://duckduckgo.com/?q=xpath+basics">find a good tutorial</a> to learn some of the tricks.</p>
-
-<p>Let&rsquo;s look at one of these &ldquo;fake fields&rdquo;:</p>
-
-<p>``` yaml</p>
-
-<pre><code>  name: summary
-  label: Summary
-  selector: 'itunes:summary'
-</code></pre>
-
-<p>```
-<em>name</em> is how we&rsquo;ll address this field in the rest of the migration. It&rsquo;s the source &ldquo;field name&rdquo;. <em>label</em> is the human readable name for the field. <em>selector</em> is the XPath inside the item. Most items are flat &ndash; certainly in RSS &ndash; so it&rsquo;s basically just the tag that surrounds the data you want. There, was that so hard?</p>
-
-<p>As a side note, you can see that my RSS feeds tend to be for iTunes. Sometimes the world eats an apple, sometimes an apple eats the world. Buy me a beer at Drupalcon and we can argue about standards.</p>
-
-<p>Fifth and finally, we identify which &ldquo;field&rdquo; in the source contains a unique identifier. Migrate module keeps track of the association between the source and destination objects, so it can handle updates, rollbacks, and more. The example YAML relies on the very common (but technically optional) <code>&lt;guid&gt;</code> tag as a unique identifier.</p>
-
-<p><strong>Destination</strong></p>
-
-<p><code>yaml
-destination:
-  plugin: 'entity:node'
-</code>
-Yep, it&rsquo;s that simple. This is where you declare what Drupal entity type will receive the data. Actually, you could write any sort of destination plugin for this &ndash; if you want Drupal to migrate data into some crazy exotic system, you can do it! But in 99.9% of cases you&rsquo;re migrating into Drupal entities, so you&rsquo;ll want <code>entity:something</code> here. Don&rsquo;t worry about bundles (content types) here; that&rsquo;s something we take care of in field mapping.</p>
-
-<p><strong>Process</strong></p>
-
-<p>``` yaml
-process:
-  title: title
-  field_remote_url: link
-  body: summary
-  created:</p>
-
-<pre><code>plugin: format_date
-from_format: 'D, d M Y H:i:s O'
-to_format: 'U'
-source: pub_date
-</code></pre>
-
-<p>  status:</p>
-
-<pre><code>plugin: default_value
-default_value: 1
-</code></pre>
-
-<p>  type:</p>
-
-<pre><code>plugin: default_value
-default_value: podcast_episode
-</code></pre>
-
-<p>```</p>
-
-<p>This is where the action happens: the process section describes how destination fields should get their data from the source. It&rsquo;s the &ldquo;field mapping&rdquo;, and more. Each key is a destination field, each value describes where the data comes from.</p>
-
-<p>If you don&rsquo;t want to migrate the whole field exactly as it&rsquo;s presented in the source, you can put individual fields through <a href="https://www.drupal.org/docs/8/api/migrate-api/migrate-process-plugins">Migrate plugins</a>. These plugins apply all sorts of changes to the source content, to get it into the shape Drupal needs for a field value. If you want to take a substring from the source, explode it into an array, extract one array value and make sure it&rsquo;s a valid Drupal machine name, you can do that here. I won&rsquo;t do it in my example because that sort of thing isn&rsquo;t common for RSS feeds, but it&rsquo;s definitely possible.</p>
-
-<p>The examples of plugins that you see here are simple ones. <code>status</code> and <code>type</code> show you how to set a fixed field value. There are other ways, but the <code>default_value</code> plugin is the best way to keep your sanity.</p>
-
-<p>The <code>created</code> field is a bit more interesting. The Drupal field is a unix timestamp of the time a node was authored. The source RSS uses a string time format, though. We&rsquo;ll use the <code>format_date</code> plugin to convert between the two. Neat, eh?</p>
-
-<p>Don&rsquo;t forget to map values into Drupal&rsquo;s <code>status</code> and <code>type</code> fields! <code>type</code> is especially important: that&rsquo;s what determines the content type, and nodes can&rsquo;t be saved without it!</p>
-
-<h2>That&rsquo;s it?</h2>
-
-<p>Yes, that&rsquo;s it. You now have a migrator that pulls from any kind of remote source, and creates Drupal entities out of the items it finds. Your system cron entry makes sure this runs on a regular schedule, rather than overloading Drupal&rsquo;s cron.</p>
-
-<p>More importantly, if you&rsquo;re this comfortable with Migrate module, you&rsquo;ve just gained a <em>lot</em> of new power. This is a framework for getting data from anywhere, to anywhere, with a lot of convenience functionality in between.</p>
-
-<p>Happy feeding!</p>
-
-<h2>Tips and tricks</h2>
-
-<p>OK I lied, there is way more to say about Migrate. It&rsquo;s a wonderful, extensible framework, and that means there are lots of options for you. Here are some of the obstacles and solutions I&rsquo;ve found helpful.</p>
-
-<p><strong>Importing files</strong></p>
-
-<p>Did you notice that I didn&rsquo;t map the images into Drupal fields in my example? That&rsquo;s because it&rsquo;s a bit confusing. We actually have an image URL that we need to download, then we have to create a file entity based on the downloaded file, and then we add the File ID to the node&rsquo;s field as a value. That&rsquo;s more complicated than I wanted to get into in the general example.</p>
-
-<p>To do this, we have to create a pipeline of plugins that will operate in sequence, to create the value we want to stick in our field_image.  It looks something like this:</p>
-
-<p>``` yaml
-  field_image:</p>
-
-<pre><code>-
-  plugin: download
-  source:
-    - image
-    - constants/destination_uri
-  rename: true
--
-  plugin: entity_generate
-</code></pre>
-
-<p>```
-Looking at that download plugin, <em>image</em> seems clear. That&rsquo;s the source URL we got out of the RSS feed. But what is <em>constants/destination_uri</em>, I hear you cry? I&rsquo;m glad you asked. It&rsquo;s a constant, which I added in the source section and didn&rsquo;t tell you about. You can add any arbitrary keys to the source section, and they&rsquo;ll be available like this in processing. It is good practice to lump all your constants together into one key, to keep the namespace clean. This is what it looks like:</p>
-
-<p>``` yaml
-source:
-  &hellip; usual source stuff here &hellip;
-  constants:</p>
-
-<pre><code>destination_uri: 'public://my_rss_feed/post.jpg'
-</code></pre>
-
-<p>```</p>
-
-<p>Before you ask, yes this is exactly the same as using the <code>default_value</code> plugin. Still, <code>default_value</code> is preferred for readability wherever possible. In this case it isn&rsquo;t really possible.</p>
-
-<p>Also, note that the download plugin lets me set <code>rename: true</code>. This means that in case of a name conflict, a <em>0, </em>1, <em>2, </em>3 etc will be added to the end of the filename.</p>
-
-<p>You can see the whole structure here, of one plugin passing its result to the next. You can chain unlimited plugins together this way&hellip;</p>
-
-<p><strong>Multiple interrelated migrations</strong></p>
-
-<p>One of the coolest tricks that Migrate can do is to manage interdependencies between migrations. Maybe you don&rsquo;t want those images just as File entities, you actually want them in Paragraphs, which should appear in the imported node. Easy-peasy.</p>
-
-<p>First, you have to create a second migration for the Paragraph. Technically you should have a separate Migration YAML for each destination entity type. (yes, <code>entity_generate</code> is a dirty way to get around it, use it sparingly). So we create our second migration just for the paragraph, like this:</p>
-
-<p>``` yaml
-id: my_rss_images_importer
-label: &lsquo;Import the images from my RSS feed&rsquo;
-status: true</p>
-
-<p>source:
-  plugin: url
-  data_fetcher_plugin: http
-  urls: &lsquo;<a href="https://example.com/feed.rss">https://example.com/feed.rss</a>&rsquo;
-  data_parser_plugin: simple_xml</p>
-
-<p>  item_selector: /rss/channel/item
-  fields:</p>
-
-<pre><code>-
-  name: guid
-  label: GUID
-  selector: guid
--
-  name: image
-  label: Image
-  selector: 'itunes:image[''href'']'
-</code></pre>
-
-<p>  ids:</p>
-
-<pre><code>guid:
-  type: string
-</code></pre>
-
-<p>  constants:</p>
-
-<pre><code>destination_uri: 'public://my_rss_feed/post.jpg'
-</code></pre>
-
-<p>destination:
-  plugin: &lsquo;entity:paragraph&rsquo;</p>
-
-<p>process:
-  type:</p>
-
-<pre><code>plugin: default_value
-default_value: podcast_image
-</code></pre>
-
-<p>  field_image:</p>
-
-<pre><code>-
-  plugin: download
-  source:
-    - image
-    - constants/destination_uri
-  rename: true
--
-  plugin: entity_generate
-</code></pre>
-
-<p>```</p>
-
-<p>If you look at that closely, you&rsquo;ll see it&rsquo;s a simpler version of the node migration we did at first. I did the copy pasting myself! Here are the differences:</p>
-
-<ul>
-<li>Different ID and label (duh)</li>
-<li>We only care about two &ldquo;fields&rdquo; on the source: GUID and the image URL.</li>
-<li>The destination is a paragraph instead of a node.</li>
-<li>We&rsquo;re doing the image trick I just mentioned.</li>
-</ul>
-
-
-<p>Now, in the node migration, we can add our paragraphs field to the &ldquo;process&rdquo; section like this:</p>
-
-<p>``` yaml
-  field_paragraphs:</p>
-
-<pre><code>plugin: migration_lookup
-migration: my_rss_images_importer
-source: guid
-</code></pre>
-
-<p><code>``
-We're using the</code>migration_lookup<code>plugin. This plugin takes the value of the field given in</code>source<code>, and looks it up in</code>my_rss_images_importer<code>to see if anything with that source ID was migrated. Remember where we configured the source plugin to know that</code>guid` was the unique identifier for each item in this feed? That comes in handy here.</p>
-
-<p>So we pass the guid to <code>migration_lookup</code>, and it returns the id of the paragraph which was created for that guid. It finds out what Drupal entity ID corresponds to that source ID, and returns the Drupal entity ID to use as a field value. You can use this trick to associate content migrated from separate feeds, totally separate data sources, or whatever.</p>
-
-<p>You should also add a dependency on <code>my_rss_images_importer</code> at the bottom of your YAML file, like this:</p>
-
-<p>``` yaml
-migration_dependencies:
-  required:</p>
-
-<pre><code>- my_rss_images_importer
-</code></pre>
-
-<p>```</p>
-
-<p>This will ensure that <code>my_rss_images_importer</code> will always run before <code>my_rss_importer</code>.</p>
-
-<p>(NB: in Drupal &lt; 8.3, this plugin is called <code>migration</code>)</p>
-
-<p><strong>Formatting dates</strong></p>
-
-<p>Very often you will receive dates in a format other than what Drupal wants to accept as a valid field value. In this case the <code>format_date</code> process plugin comes in very handy, like this:</p>
-
-<p>```
-  field_published_date:</p>
-
-<pre><code>plugin: format_date
-from_format: 'D, d M Y H:i:s O'
-to_format: 'Y-m-d\TH:i:s'
-source: pub_date
-</code></pre>
-
-<p>```</p>
-
-<p>This one is pretty self-explanatory: from format, to format, and source. This is important when migrating from Drupal 6, whose date fields store dates differently from 8. It&rsquo;s also sometimes handy for RSS feeds. :)</p>
-
-<p><strong>Drush commands</strong></p>
-
-<p>Very important for testing, and the whole reason we have <code>migrate_plus</code> module installed! Here are some handy drush commands for interacting with your migration:</p>
-
-<ul>
-<li><code>drush ms</code>: Gives you the status of all known migrations. How many items are there to import? How many have been imported? Is the import running?</li>
-<li><code>drush migrate-rollback</code>: Rolls back one or more migrations, deleting all the imported content.</li>
-<li><code>drush migrate-messages</code>: Get logged messages for a particular migration.</li>
-<li><code>drush mi</code>: Runs a migration. use <code>--all</code> to run them all. Don&rsquo;t worry, Migrate will sort out any dependencies you&rsquo;ve declared and run them in the right order. Also worth noting: <code>--limit=10</code> does a limited run of 10 items, and <code>--feedback=10</code> gives you an in-progress status line every 10 items (otherwise you get nothing until it&rsquo;s finished!).</li>
-</ul>
-
-
-<p>Okay, now that&rsquo;s really it. Happy feeding!</p>
-
-<p><img class="center" src="/images/feed-me-seymour.gif" title="&ldquo;Feed me, Seymour!&rdquo;" ></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Build a New Source for Drupal Migrate 8]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8/"/>
-    <updated>2015-05-02T16:10:36+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/05/02/how-to-build-a-new-source-for-drupal-migrate-8</id>
-    <content type="html"><![CDATA[<p>This week I wanted to accomplish a task in Drupal 8 that would be simple in Drupal 7: Import several CSV files, each one related to the others by taxonomy terms. Most importantly, I wanted to do it with <a href="https://drupal.org/project/migrate">Migrate module</a>.</p>
-
-<p>Migrate in Drupal 7 is a fantastic piece of code. It is not designed to be used from the GUI, rather, it provides a framework of &ldquo;source&rdquo;, &ldquo;destination&rdquo;, and &ldquo;migration&rdquo; classes so that even the most convoluted migration is 90% written for you. To create a migration in Drupal 7, you create a custom module, declare your migrations in a hook_info, and then extend the built in &ldquo;migration&rdquo; class. You instantiate one of the given classes for the source material (is it a CSV? JSON? Direct connection to a custom DB?), then one of the classes for the destination (is it a content type? Taxonomy term?). Then you add one simple line of code mapping each field from source to destination. If you know what you&rsquo;re doing, the task I had in mind shouldn&rsquo;t take more than 15 minutes per source.</p>
-
-<p>It&rsquo;s not quite so easy in Drupal 8. First of all, with Migrate in core, we had to greatly simplify the goals for the module. The version of Migrate that is really functional and stable is specifically and <em>only</em> the basic framework. There is a separate migrate_drupal module to provide everything you need for migrating from Drupal 6 or 7. This has been a laser-tight focus on just the essentials, which means there&rsquo;s no UI, very little drush support, and definitely no nice extras like the ability to read non-Drupal sources.</p>
-
-<p>My task this week became to write the first CSV source for Drupal 8 Migrate.</p>
-
-<h1>Drupal 8 Migrate Overview</h1>
-
-<p>Drupal 8 Migrations, when you&rsquo;re using classes that already exist, are actually even easier than Migrate 7. All you do is write a single YAML file for each kind of data you&rsquo;re transferring, and put it in a custom module&rsquo;s <em>config/install</em> directory. Your YAML file gives your migration a name and a group, tells us what the source is for data, maps source fields to destination fields, and tells us what the destination objects are. Here&rsquo;s an example Migration definition file from core. See if you can understand what&rsquo;s being migrated here.</p>
-
-<p>``` yaml
-id: d6_system_site
-label: Drupal 6 site configuration
-migration_groups:
-  &ndash; Drupal 6
-source:
-  plugin: variable
-  variables:</p>
-
-<pre><code>- site_name
-- site_mail
-- site_slogan
-- site_frontpage
-- site_403
-- site_404
-- drupal_weight_select_max
-- admin_compact_mode
-</code></pre>
-
-<p>process:
-  name: site_name
-  mail: site_mail
-  slogan: site_slogan
-  &lsquo;page/front&rsquo;: site_frontpage
-  &lsquo;page/403&rsquo;: site_403
-  &lsquo;page/404&rsquo;: site_404
-  weight_select_max: drupal_weight_select_max
-  admin_compact_mode: admin_compact_mode
-destination:
-  plugin: config
-  config_name: system.site
-```</p>
-
-<p>You probably figured it out: this migration takes the system settings (variables) from a Drupal 6 site, and puts them into the Drupal 7 configuration. Not terribly hard, right? You can even do data transformations from the source field value to the destination.</p>
-
-<p>Unfortunately, the only sources we have so far are for Drupal 6 and 7 sites, pulling directly from the database. If you want to use Migrate 8 the way we used Migrate 7, as an easy way to pull in data from arbitrary sources, you&rsquo;ll have to contribute.</p>
-
-<h1>Writing a source plugin in Migrate_plus</h1>
-
-<p>Enter <a href="https://www.drupal.org/sandbox/mikeryan/migrate_plus">Migrate Plus module</a>. This is the place in contrib, where we can fill out all the rest of the behavior we want from Migrate, that&rsquo;s not necessarily a core requirement. This is where we&rsquo;ll be writing our source plugin.</p>
-
-<p>To add a source plugin, just create a .php file in migrate_plus/src/Plugins/migrate/source . Drupal will discover the new plugin automatically the next time you rebuild the cache. The filename has to be the same as the name of the class, so choose carefully! My file is called CSV.php . Here&rsquo;s the top of the file you need for a basic :</p>
-
-<p>```php
-&lt;?php
-/<em>*
- * @file
- * Contains \Drupal\migrate_plus\Plugin\migrate\source\csv.
- </em>/</p>
-
-<p>namespace Drupal\migrate_plus\Plugin\migrate\source;</p>
-
-<p>use Drupal\migrate\Plugin\migrate\source\SourcePluginBase;</p>
-
-<p>/<em>*
- * Source for CSV files.
- *
- * @MigrateSource(
- *   id = &ldquo;csv&rdquo;
- * )
- </em>/
-class CSV extends SourcePluginBase {
-```</p>
-
-<p>I&rsquo;m calling this out separately because for newbies to Drupal 8, this is the hard part. This is all the information that Drupal needs to be able to find your class when it needs it. The @file comment is important. That and the namespace below have to match the actual location of the .php file.</p>
-
-<p>Then you declare any other classes that you need, with their full namespace. To start with all you need is SourcePluginBase.</p>
-
-<p>Finally you have to annotate the class with that @MigrateSource(id=&ldquo;csv&rdquo;). This is how Migrate module knows that this is a MigrateSource, and the name of your Plugin. Don&rsquo;t miss it!</p>
-
-<p>Inside the class, you must have the following methods. I&rsquo;ll explain a bit more about each afterwards.</p>
-
-<ul>
-<li>initializeIterator() : Should return a valid Iterator object.</li>
-<li>getIds() : Should return an array that defines the unique identifiers of your data source.</li>
-<li>__toString() : Should return a simple, string representation of the source.</li>
-<li>fields() : Should return a definitive list of fields in the source.</li>
-<li>__construct() : You don&rsquo;t NEED this method, but you probably will end up using it.</li>
-</ul>
-
-
-<h2>initializeIterator()</h2>
-
-<p>An Iterator is a complicated sounding word for an Object that contains everything you need to read from a data source, and go through it one line at a time. Maybe you&rsquo;re used to fopen(&lsquo;path/to/file&rsquo;, &lsquo;r&rsquo;) to open a file, and then you write code for every possible operation with that file. An iterator takes care of all that for you. In the case of most file-based sources, you can just use the SplFileObject class that comes with PHP.</p>
-
-<p>Any arguments that were passed in the source: section of the YAML file will be available under $this->configuration. So if my YAML looks like this:</p>
-
-<p><code>yaml
-source:
-  plugin: csv
-  path: '/vagrant/import/ACS_13_1YR_B28002_with_ann.csv'
-</code></p>
-
-<p>My initializeIterator( ) method can look like this:</p>
-
-<p>```php</p>
-
-<p>public function initializeIterator() {
-  // File handler using our custom header-rows-respecting extension of SPLFileObject.
-  $file = new SplFileObject($this->configuration[&lsquo;path&rsquo;]);
-  $file->setFlags(SplFileObject::READ_CSV);
-  return $file;
-}
-```</p>
-
-<p>Not too complicated, right? This method is called right at the beginning of the migration, the first time Migrate wants to get any information out of your source. The iterator will be stored in $this->iterator.</p>
-
-<h2>getIds()</h2>
-
-<p>This method should return an array of all the unique keys for your source. A unique key is some value that&rsquo;s unique for that row in the source material. Sometimes there&rsquo;s more than one, which is why this is an array. Each key field name is also an array, with a child &ldquo;type&rdquo; declaration. This is hard to explain in English, but easy to show in code:</p>
-
-<p>```php
-public function getIDs() {
-  $ids = array();
-  foreach ($this->configuration[&lsquo;keys&rsquo;] as $key) {</p>
-
-<pre><code>$ids[$key]['type'] = 'string';
-</code></pre>
-
-<p>  }
-  return $ids;
-}
-```</p>
-
-<p>We rely on the YAML author to tell us the key fields in the CSV, and we just reformat them accordingly. Type can be &lsquo;string&rsquo;, &lsquo;float&rsquo;, &lsquo;integer&rsquo;, whatever makes sense.</p>
-
-<h2>__toString()</h2>
-
-<p>This method has to return a simple string explanation of the source query. In the case of a file-based source, it makes sense to print the path to the file, like this:</p>
-
-<p><code>php
-public function __toString() {
-  return (string) $this-&gt;query;
-}
-</code></p>
-
-<h2>fields()</h2>
-
-<p>This method returns an array of available fields on the source. The keys should be the machine names, the values are descriptive, human-readable names. In the case of the CSV source, we look for headers at the top of the CSV file and build the array that way.</p>
-
-<h2>__construct()</h2>
-
-<p>The constructor method is called whenever a class is instantiated. You don&rsquo;t technically HAVE to have a constructor on your source class, but you&rsquo;ll find it helpful. For the CSV source, I used the constructor to make sure we have all the configuration that we need. Then I try and set sane values for fields, based on any header in the file.</p>
-
-<p>```php
-public function <strong>construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration) {
-  parent::</strong>construct($configuration, $plugin_id, $plugin_definition, $migration);</p>
-
-<p>  // Path is required.
-  if (empty($this->configuration[&lsquo;path&rsquo;])) {</p>
-
-<pre><code>return new MigrateException('You must declare the "path" to the source CSV file in your source settings.');
-</code></pre>
-
-<p>  }</p>
-
-<p>  // Key field(s) are required
-  if (empty($this->configuration[&lsquo;keys&rsquo;])) {</p>
-
-<pre><code>return new MigrateException('You must declare the "keys" the source CSV file in your source settings.');
-</code></pre>
-
-<p>  }</p>
-
-<p>  // Set header rows from the migrate configuration.
-  $this->headerRows = !empty($this->configuration[&lsquo;header_rows&rsquo;]) ? $this->configuration[&lsquo;header_rows&rsquo;] : 0;</p>
-
-<p>  // Figure out what CSV columns we have.
-  // One can either pass in an explicit list of column names to use, or if we have
-  // a header row we can use the names from that
-  if ($this->headerRows &amp;&amp; empty($this->configuration[&lsquo;csvColumns&rsquo;])) {</p>
-
-<pre><code>$this-&gt;csvColumns = array();
-
-// Skip all but the last header
-for ($i = 0; $i &lt; $this-&gt;headerRows - 1; $i++) {
-  $this-&gt;getNextLine();
-}
-
-$row = $this-&gt;getNextLine();
-foreach ($row as $key =&gt; $header) {
-  $header = trim($header);
-  $this-&gt;getIterator()-&gt;csvColumns[] = array($header, $header);
-}
-</code></pre>
-
-<p>  }
-  elseif ($this->configuration[&lsquo;csvColumns&rsquo;]) {</p>
-
-<pre><code>$this-&gt;getIterator()-&gt;csvColumns = $this-&gt;configuration['csvColumns'];
-</code></pre>
-
-<p>  }
-}
-```</p>
-
-<h2>Profit!</h2>
-
-<p>That&rsquo;s it! Four simple methods, and you have a new source type for Drupal 8 Migrate. Of course, you will probably find complications that require a bit more work. For CSV, supporting a header row turned out to be a real pain. Any time Migrate tried to &ldquo;rewind&rdquo; the source back to the first line, it would try and migrate the header row! I ended up extending SplFileObject just to handle this issue.</p>
-
-<p>Here&rsquo;s the YAML file I used to test this, importing a list of states from some US Census data.</p>
-
-<p>```yaml
-id: states
-label: States
-migration_groups:
-  &ndash; US Census</p>
-
-<p>source:
-  plugin: csv
-  path: &lsquo;/vagrant/import/ACS_13_1YR_B28002_with_ann.csv&rsquo;
-  header_rows: 2
-  fields:</p>
-
-<pre><code>- Id2
-- Geography
-</code></pre>
-
-<p>  keys:</p>
-
-<pre><code>- Id2
-</code></pre>
-
-<p>process:
-  name: Geography
-  vid:</p>
-
-<pre><code>-
-  plugin: default_value
-  default_value: state
-</code></pre>
-
-<p>destination:
-  plugin: entity:taxonomy_term
-```</p>
-
-<p>You can see my CSV source and Iterator in the <a href="https://www.drupal.org/node/2458003">issue queue for migrate_plus</a>. Good luck, and happy migrating!</p>
-
-<h2>Thanks</h2>
-
-<p>I learned a lot this week. Big thanks to the <a href="https://www.drupal.org/node/2127611">Migrate Documentation</a>, but especially to <a href="https://www.drupal.org/u/chx">chx</a>, <a href="https://www.drupal.org/u/mikeryan">mikeryan</a>, and the other good folks in #drupal-migrate who helped set me straight.</p>
+<p>To everyone who contributed, but especially the people I&rsquo;ve listed here: You&rsquo;ve made a new generation of Internet innovation possible. Thank you.</p>
 ]]></content>
   </entry>
   

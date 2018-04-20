@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Career | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/career/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Career | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/career/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/"/>
     <updated>2016-07-29T13:14:06+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs</id>
     <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
 
 <p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>

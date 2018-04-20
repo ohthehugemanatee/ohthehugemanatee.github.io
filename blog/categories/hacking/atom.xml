@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Hacking | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/hacking/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Hacking | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/hacking/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[That Time I Resurrected My Linux MacBook Pro]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/"/>
     <updated>2017-06-17T23:06:02+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro</id>
     <content type="html"><![CDATA[<p>In the airport last week, my laptop stopped booting.</p>
 
 <p>I have a 2012 Macbook Pro &ndash; yes, that coveted &ldquo;last good model&rdquo; &ndash; and it runs Ubuntu Linux. It&rsquo;s my roving office as I travel the world to conferences, performances, and job sites. So when I started it up at JFK airport this week and got a gray screen of death, I was a little concerned.</p>
@@ -70,9 +70,9 @@
   
   <entry>
     <title type="html"><![CDATA[How and Why to Update the Modem/baseband Firmware on a Samsung Android Phone]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/"/>
     <updated>2015-04-04T14:09:47+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone</id>
+    <id>http://ohthehugemanatee.github.io/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone</id>
     <content type="html"><![CDATA[<p>If you have a Samsung Android phone, and you use Samsung&rsquo;s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
 
 <p>But for everyone who uses a custom ROM like <a href="http://cyanogenmod.org">Cyanogenmod</a>, <a href="http://www.paranoidandroid.co/">ParanoidAndroid</a>, or <a href="http://www.aokp.co/">AOKP</a>, sit up and pay attention: you&rsquo;re missing some key updates for your phone, and it&rsquo;s probably the reason you have trouble with cellular signal or battery life. I only learned this myself because my beloved Samsung S4 I-9505 has been having a hell of a time keeping signal lately. Over the last 6 months or so, it&rsquo;s picked up a quirk where it randomly drops the signal and starts to overheat in my pocket. Only toggling in and out of airplane mode to restart the connection solves the problem.</p>
@@ -142,9 +142,9 @@ Note the lines that say Samsung in them. Those are the Samsung drivers that are 
   
   <entry>
     <title type="html"><![CDATA[How to Recover Photos and Data From a Keylocked Android Phone]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/"/>
     <updated>2014-05-18T18:55:31+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone</id>
+    <id>http://ohthehugemanatee.github.io/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone</id>
     <content type="html"><![CDATA[<p>Recently a good friend of mine passed away suddenly. Her family asked me to recover her photos and videos from her computer and android phone. The computer was easy enough, but the android phone posed a real problem. It had a keylock enabled, and USB debugging disabled. There was no external SD card to pull out, which meant that all the photos were stored on the internal memory. The phone was a totally stock Samsung Galaxy S3 mini. With a lot of reading, I worked out a way to get a data dump from her phone without having to bypass the keylock.</p>
 
 <h2>1) Get Clockworkmod Recovery</h2>

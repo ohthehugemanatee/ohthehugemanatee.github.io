@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My War on Systemd-resolved - Oh The Huge Manatee</title>
+  <title>My War on Systemd-resolved - Oh, The Huge Manatee</title>
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
@@ -18,10 +18,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved">
+  <link rel="canonical" href="http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="Oh The Huge Manatee" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Oh, The Huge Manatee" type="application/atom+xml">
   <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -41,12 +41,12 @@
 
 <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
-<meta property="og:url" content="https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved" />
+<meta property="og:url" content="http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved" />
 <meta property="og:type" content="article" />
-<meta property="og:title" content="My War on Systemd-resolved - Oh The Huge Manatee" />
+<meta property="og:title" content="My War on Systemd-resolved - Oh, The Huge Manatee" />
 <meta property="og:description" content="A blog about technology, open source, and the web... from someone who works with all three." />
 <!--
-  <meta property="og:image" content="https://ohthehugemanatee.org/images/headshot.jpg" /> -->
+  <meta property="og:image" content="http://ohthehugemanatee.github.io/images/headshot.jpg" /> -->
 
   
   <script type="text/javascript">
@@ -66,7 +66,7 @@
 
 <body   >
   <header role="banner"><hgroup>
-<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh The Huge Manatee</a></h1>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh, The Huge Manatee</a></h1>
   
     <h2>A blog about technology, open source, and the web... from someone who works with all three.</h2>
   
@@ -125,13 +125,28 @@
 
 <div class="entry-content"><p>I run ubuntu as the base for my daily driver machine &ndash; heavily customized though it is &ndash; because Canonical&rsquo;s choices are, by definition, mainstream. That makes them easy to support, easy to understand, and generally easy to work with. So what I&rsquo;m about to describe is exceptional in how frustrating it is for me. Seriously, this one issue keeps is enough to drive me into the arms of another distro.</p>
 
+
+
+
 <p>Ubuntu has a built in DNS cache, which it checks first when trying to resolve anything. This Makes Sense For The User in that DNS queries are resolved faster if they come from local cache. It Makes Sense for the network admin, in that repetitive DNS queries don&rsquo;t take up bandwidth. But it really <strong>doesn&rsquo;t</strong> Make Sense for the web developer.</p>
+
+
+
 
 <p>The local DNS cache takes up port 53, which is a problem if you&rsquo;re trying to run any different kind of DNS service locally. For example, the DNS service that practically any integrated docker-based development environment (<a href="https://docksal.io/">docksal</a>, <a href="https://github.com/drud/ddev#ddev">ddev</a>, <a href="https://docs.amazee.io/local_docker_development/pygmy.html">pygmy</a>, etc etc etc) needs. Even my own haproxy-based setup needs to control DNS. Not to mention, <a href="https://superuser.com/questions/1153203/ubuntu-17-04-systemd-resolved-dns-lookups-randomly-fail">the system randomly fails</a> all on its own! So: in order to do my job, I need to disable the Ubuntu DNS proxy. That&rsquo;s where the trouble begins.</p>
 
+
+
+
 <p>There are a hundred variations on <a href="https://askubuntu.com/questions/898605/how-to-disable-systemd-resolved-and-resolve-dns-with-dnsmasq">how to disable systemd-resolvd</a> on askubuntu and stackoverflow. All of them have different suggestions. Partly this is just the flexibility of *nix systems. But it&rsquo;s largely because in the 5 years since Ubuntu introduced the local DNS cache, it&rsquo;s changed which system it&rsquo;s using (twice), how it starts up, how its config is stored, and the overall startup daemon control process. Every year, there are new tricks to learn for how to disable this totally extraneous system. And every time you update, it is magically re-enabled (or enabled in a new way). This is enough that it&rsquo;s kept me from bothering with dist-upgrades for the last year. So I run the latest kernel version, but an old version of the OS, partly because I really hate fighting this problem.</p>
 
+
+
+
 <p>For my own notes, and hopefully to help some others, here is how I disable the local DNS cache on Ubuntu 17.04.</p>
+
+
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -163,9 +178,15 @@
 </span><span class='line'># pray that it survives a reboot.</span></code></pre></td></tr></table></div></figure>
 
 
+
+
 <p></p>
 
+
+
+
 <p>Note that if you do this, you have to manage your own nameservers in /etc/resolved.conf! In my case networkmanager does it for me, but that won&rsquo;t be true for everyone.</p>
+
 </div>
 
 
@@ -202,7 +223,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/" data-via="campbellvertesi" data-counturl="https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -218,7 +239,7 @@
         <a class="basic-alignment left" href="/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/" title="Previous Post: I'm joining Microsoft, because they're doing Open Source Right">&laquo; I'm joining Microsoft, because they're doing Open Source Right</a>
       
       
-        <a class="basic-alignment right" href="/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/" title="Next Post: The #1 question I get asked working at MS: Why do you run Linux?">The #1 question I get asked working at MS: Why do you run Linux? &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/" title="Next Post: The #1 Question I Get Asked Working at MS: Why Do You Run Linux?">The #1 Question I Get Asked Working at MS: Why Do You Run Linux? &raquo;</a>
       
     </p>
   </footer>
@@ -237,27 +258,24 @@
     <section>
 <img src="/images/headshot.jpg" alt="Campbell Vertesi profile picture" />
 <h1>About</h1>
-<p>My name is <a href="https://campbell.vertesi.com/" title="Campbell Vertesi">Campbell Vertesi</a>. I'm a technical architect with <a href="https://microsoft.com/" title="Microsoft">Microsoft</a>, and an <a href="https://thecastmusic.com/" title="The Cast - the opera band">opera singer</a>.</p>
+<p>My name is <a href="https://campbell.vertesi.com/" title="Campbell Vertesi">Campbell Vertesi</a>. I work  with <a href="https://microsoft.com/" title="Microsoft">Microsoft</a> on cutting-edge Open Source. I'm also an <a href="https://thecastmusic.com/" title="The Cast - the opera band">opera singer</a>.</p>
 
 <p>I've been working with computers for 21 years, with PHP and Drupal for 13 of those. I started with desktop repair, moved into sysadmin work, and eventually discovered web development. Since then I've been in most roles in the web consultant ecosystem: coder, themer, project manager, information architect, technical lead, CEO, and CTO. I've presented at many conferences, including almost 20 Drupalcons. <a href="/about-me.html" title="More about me">More about me</a>.</p>
 
 <p>This is a technical blog that's partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I'm involved in a lot of different fields and specialties, and it's nice to have it all catalogued somewhere. I've written this blog on various platforms under different names, but this is where I'm hoping it will stay for awhile.</p>
 
 <p>I'm not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using the information on this blog. Be smart and be careful.</p>
-</section><section>
-<h1>More from me</h1>
-<p>
-  <ul>
-  <li><a href="https://campbell.vertesi.com/" title="Campbell Vertesi">Who I am and what I do</a></li>
-  <li><a href="https://thecastmusic.com/" title="The Cast - the opera band">The Cast - trust me, you love opera music</a></li>
-  </ul>
-</p>
-</section><section>
+</section>
+<section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
+        <a href="/blog/2018/04/19/face-recognition-on-drupal/">Drupal Does Face Recognition: Introducing Image Auto Tag Module</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
       </li>
     
       <li class="post">
@@ -272,12 +290,38 @@
         <a href="/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/">The 3 Skills You Need to Become a Rock Star Developer</a>
       </li>
     
-      <li class="post">
-        <a href="/blog/2017/07/28/bring-php-to-drupalcon/">Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That</a>
-      </li>
-    
   </ul>
 </section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
 
 
 
@@ -306,8 +350,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/';
-        var disqus_url = 'https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/';
+        var disqus_identifier = 'http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved/';
+        var disqus_url = 'http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved/';
         var disqus_script = 'embed.js';
       
     (function () {

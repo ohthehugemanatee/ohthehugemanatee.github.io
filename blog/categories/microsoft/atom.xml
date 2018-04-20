@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Microsoft | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/microsoft/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Microsoft | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/microsoft/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -14,23 +14,69 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Drupal Does Face Recognition: Introducing Image Auto Tag Module]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal/"/>
+    <updated>2018-04-19T18:06:51+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal</id>
+    <content type="html"><![CDATA[<p>Last week I wrote a Drupal module that uses face recognition to automatically tag images with the people in them. You can find it on <a href="https://github.com/ohthehugemanatee/image_auto_tag">Github</a>, of course. With this module, you can add an image to a node, and automatically populate an entity_reference field with the names of the people in the image. This isn&rsquo;t such a big deal for individual nodes of course; it&rsquo;s really interesting for bulk use cases, like Digital Asset Management systems.</p>
+
+<p><img class="center" src="/images/image-auto-tag.gif" title="Automatic tags, now in a Gif." ></p>
+
+<p>I had a great time at Drupalcon Nashville, reconnecting with friends, mentors, and colleagues as always. But this time I had some fresh perspective. After 3 months working with Microsoft&rsquo;s (badass) CSE unit &ndash; building cutting edge proofs-of-concept for some of their biggest customers &ndash; the contrast was powerful. The Drupal core development team are famously obsessive about code quality and about optimizing the experience for developers and users. The velocity in the platform is truly amazing. But we&rsquo;re missing out on a lot of the recent stuff that large organizations are building in their more custom applications. You may have noticed the same: all the cool kids are posting about Machine Learning, sentiment analysis, and computer vision. We don&rsquo;t see any of that at Drupalcon.</p>
+
+<p>There&rsquo;s no reason to miss out on this stuff, though. Services like Azure are making it extremely easy to do all of these things, layering simple HTTP-based APIs on top of the complexity. As far as I can tell, the biggest obstacle is that there aren&rsquo;t well defined standards for how to interact with these kinds of services, so it&rsquo;s hard to make a generic module for them. This isn&rsquo;t like the Lucene/Solr/ElasticSearch world, where one set of syntax &ndash; indeed, one model of how to think of content and communicate with a search-specialized service &ndash; has come to dominate. Great modules like search_api depend on these conceptual similarities between backends, and they just don&rsquo;t exist yet for cognitive services.</p>
+
+<p>So I set out to try and explore those problems in a Drupal module.</p>
+
+<p><strong>Image Auto Tag</strong> is my first experiment. It works, and I encourage you to play around with it, but please don&rsquo;t even think of using it in production yet. It&rsquo;s a starting point for how we might build an analog to the great <a href="https://drupal.org/project/search_api">search_api</a> framework, for cognitive services rather than search.</p>
+
+<p>I built it on Azure&rsquo;s Cognitive Services Face API to start. Since the service is free for up to 5000 requests per month, this seemed like a place that most Drupalists would feel comfortable playing. Next up I&rsquo;ll abstract the Azure portion of it into a plugin system, and try to define a common interface that makes sense whether it&rsquo;s referring to Azure cognitive services, or a self-hosted, open source system like <a href="https://cmusatyalab.github.io/openface/">OpenFace</a>. That&rsquo;s the actual &ldquo;hard work&rdquo;.</p>
+
+<p>In the meantime, I&rsquo;ll continue to make this more robust with more tests, an easier UI, asynchronous operations, and so on. At a minimum it&rsquo;ll become a solid &ldquo;Azure Face Detection&rdquo; module for Drupal, but I would love to make it more generally useful than that.</p>
+
+<p>Comments, Issues, and helpful PRs are welcome.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[The #1 Question I Get Asked Working at MS: Why Do You Run Linux?]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/"/>
     <updated>2018-02-07T16:42:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve had all of a week working at Microsoft, and so far it&rsquo;s been great. I&rsquo;ve managed to get my Linux daily driver machine working with almost all the MS internal systems (more on that in a separate post), and all the daily use applications have web or Linux versions available. So far, so good!</p>
 
-<p><img class="center" src="/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
+
+
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
+
+
+
 
 <p>But every time I&rsquo;ve asked for support, or visited IT, or encountered something that didn&rsquo;t work perfectly, I hear the same question: &ldquo;Why do you want to run open source software, anyway?&rdquo;  The question isn&rsquo;t asked with malice or condescention. It&rsquo;s asked with genuine curiosity. This is tremendous progress for Microsoft.</p>
 
+
+
+
 <p>It is an important question, though: Why do I run Linux? Especially when it&rsquo;s not explicitly supported, when it entails more work, or more frustration. Why put myself through that?</p>
+
+
+
 
 <p>First of all, it&rsquo;s none of your business what I run. I get all prickly when a service provider tries to get proscriptive about what I should be able to do <em>on my own computer</em>. On geeky principle, I should run the OS and configuration that suits me best. The service provider should implement standards so they don&rsquo;t have to care what I&rsquo;m running. Almost by definition, a service provider that limits what OS you can use, is Doing It Wrong.</p>
 
+
+
+
 <p>Of course that&rsquo;s not the intent here. Take a deep breath, Cam. Microsoft allows you to run anything you like, as long as it&rsquo;s up to date with security patches. Their IT services only <em>support</em> Windows and OSX, but that&rsquo;s not unreasonable. Anyway, the question has come from all sorts of colleagues, not just IT. Deep breaths.</p>
 
+
+
+
 <p>Once I calm my inner Stallman, here are the real reasons:</p>
+
+
+
 
 <ul>
 <li><p>I believe that either I own my devices, or they own me. I prefer that <em>I</em> make the decisions about how my computer should work &ndash; especially given what a large proportion of my life is spent working with this thing!</p></li>
@@ -40,19 +86,30 @@
 </ul>
 
 
+
+
 <p>In general, as more and more of our lives become computer controlled &ndash; today every car, airplane, pacemaker, and TV are computer-controlled &ndash; it becomes increasingly important that software is open. Given the chance, Google hearing aids would inject advertising into your dinner conversation, while Facebook would block sounds from companies that don&rsquo;t pay. Internet providers have recently won the right to tamper with your content, injecting ads, slowing competitors, and prioritizing their own websites. <strong>I believe that the best tools are controlled by their users.</strong> Open source is how we make that happen.</p>
+
+
+
 
 <p>All these points seem pretty abstract, and they are. But they boil down to a very concrete impression for me: I am used to a computing experience where I am in control, and my device is a neutral extension of myself. So when I use a computer with an OS that someone else has dictated, it&rsquo;s very frustrating! I&rsquo;m frustrated by the ads that I can&rsquo;t block, the buttons that seem to be in the wrong place, the capabilities that are disabled because of someone elses priorities. It makes me feel like I&rsquo;m getting screwed. If your computer doesn&rsquo;t let you watch a region-coded DVD (Windows and OSX), you&rsquo;re getting screwed. If your phone doesn&rsquo;t let you block ads (unrooted IOS and Android), you&rsquo;re getting screwed. If your office suite restricts functionality based on what web browser you&rsquo;re using (Google Apps), you&rsquo;re getting screwed. <strong>I don&rsquo;t like to get screwed</strong>.</p>
 
+
+
+
 <p>So, why do I insist on using open source software whenever possible? Because I feel screwed by proprietary consumer software.</p>
+
+
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
     <updated>2018-01-08T20:32:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
     <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
 
 <p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Entity | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/entity/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Entity | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/entity/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[On Drupal Entities, or How Organic Groups and Taxonomy Are the Same Thing]]></title>
-    <link href="https://ohthehugemanatee.org/2012/03/on-drupal-entities-or-how-organic.html"/>
+    <link href="http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic.html"/>
     <updated>2012-03-25T12:58:00+02:00</updated>
-    <id>https://ohthehugemanatee.org/2012/03/on-drupal-entities-or-how-organic</id>
+    <id>http://ohthehugemanatee.github.io/2012/03/on-drupal-entities-or-how-organic</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">

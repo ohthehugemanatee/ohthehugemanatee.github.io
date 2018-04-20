@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Sony | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/sony/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Sony | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/sony/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[What the Sony Hacks Tell Us About Their Sysadmins and Management]]></title>
-    <link href="https://ohthehugemanatee.org/2011/05/what-sony-hacks-tell-us-about-their.html"/>
+    <link href="http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their.html"/>
     <updated>2011-05-21T00:04:00+02:00</updated>
-    <id>https://ohthehugemanatee.org/2011/05/what-sony-hacks-tell-us-about-their</id>
+    <id>http://ohthehugemanatee.github.io/2011/05/what-sony-hacks-tell-us-about-their</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">

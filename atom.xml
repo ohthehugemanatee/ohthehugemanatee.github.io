@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -14,23 +14,69 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Drupal Does Face Recognition: Introducing Image Auto Tag Module]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal/"/>
+    <updated>2018-04-19T18:06:51+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal</id>
+    <content type="html"><![CDATA[<p>Last week I wrote a Drupal module that uses face recognition to automatically tag images with the people in them. You can find it on <a href="https://github.com/ohthehugemanatee/image_auto_tag">Github</a>, of course. With this module, you can add an image to a node, and automatically populate an entity_reference field with the names of the people in the image. This isn&rsquo;t such a big deal for individual nodes of course; it&rsquo;s really interesting for bulk use cases, like Digital Asset Management systems.</p>
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/image-auto-tag.gif" title="Automatic tags, now in a Gif." ></p>
+
+<p>I had a great time at Drupalcon Nashville, reconnecting with friends, mentors, and colleagues as always. But this time I had some fresh perspective. After 3 months working with Microsoft&rsquo;s (badass) CSE unit &ndash; building cutting edge proofs-of-concept for some of their biggest customers &ndash; the contrast was powerful. The Drupal core development team are famously obsessive about code quality and about optimizing the experience for developers and users. The velocity in the platform is truly amazing. But we&rsquo;re missing out on a lot of the recent stuff that large organizations are building in their more custom applications. You may have noticed the same: all the cool kids are posting about Machine Learning, sentiment analysis, and computer vision. We don&rsquo;t see any of that at Drupalcon.</p>
+
+<p>There&rsquo;s no reason to miss out on this stuff, though. Services like Azure are making it extremely easy to do all of these things, layering simple HTTP-based APIs on top of the complexity. As far as I can tell, the biggest obstacle is that there aren&rsquo;t well defined standards for how to interact with these kinds of services, so it&rsquo;s hard to make a generic module for them. This isn&rsquo;t like the Lucene/Solr/ElasticSearch world, where one set of syntax &ndash; indeed, one model of how to think of content and communicate with a search-specialized service &ndash; has come to dominate. Great modules like search_api depend on these conceptual similarities between backends, and they just don&rsquo;t exist yet for cognitive services.</p>
+
+<p>So I set out to try and explore those problems in a Drupal module.</p>
+
+<p><strong>Image Auto Tag</strong> is my first experiment. It works, and I encourage you to play around with it, but please don&rsquo;t even think of using it in production yet. It&rsquo;s a starting point for how we might build an analog to the great <a href="https://drupal.org/project/search_api">search_api</a> framework, for cognitive services rather than search.</p>
+
+<p>I built it on Azure&rsquo;s Cognitive Services Face API to start. Since the service is free for up to 5000 requests per month, this seemed like a place that most Drupalists would feel comfortable playing. Next up I&rsquo;ll abstract the Azure portion of it into a plugin system, and try to define a common interface that makes sense whether it&rsquo;s referring to Azure cognitive services, or a self-hosted, open source system like <a href="https://cmusatyalab.github.io/openface/">OpenFace</a>. That&rsquo;s the actual &ldquo;hard work&rdquo;.</p>
+
+<p>In the meantime, I&rsquo;ll continue to make this more robust with more tests, an easier UI, asynchronous operations, and so on. At a minimum it&rsquo;ll become a solid &ldquo;Azure Face Detection&rdquo; module for Drupal, but I would love to make it more generally useful than that.</p>
+
+<p>Comments, Issues, and helpful PRs are welcome.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[The #1 Question I Get Asked Working at MS: Why Do You Run Linux?]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/"/>
     <updated>2018-02-07T16:42:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2018/02/07/the-1-question-i-get-asked-working-at-ms-why-do-you-run-linux</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve had all of a week working at Microsoft, and so far it&rsquo;s been great. I&rsquo;ve managed to get my Linux daily driver machine working with almost all the MS internal systems (more on that in a separate post), and all the daily use applications have web or Linux versions available. So far, so good!</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
+
+
+
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
+
+
+
 
 <p>But every time I&rsquo;ve asked for support, or visited IT, or encountered something that didn&rsquo;t work perfectly, I hear the same question: &ldquo;Why do you want to run open source software, anyway?&rdquo;  The question isn&rsquo;t asked with malice or condescention. It&rsquo;s asked with genuine curiosity. This is tremendous progress for Microsoft.</p>
 
+
+
+
 <p>It is an important question, though: Why do I run Linux? Especially when it&rsquo;s not explicitly supported, when it entails more work, or more frustration. Why put myself through that?</p>
+
+
+
 
 <p>First of all, it&rsquo;s none of your business what I run. I get all prickly when a service provider tries to get proscriptive about what I should be able to do <em>on my own computer</em>. On geeky principle, I should run the OS and configuration that suits me best. The service provider should implement standards so they don&rsquo;t have to care what I&rsquo;m running. Almost by definition, a service provider that limits what OS you can use, is Doing It Wrong.</p>
 
+
+
+
 <p>Of course that&rsquo;s not the intent here. Take a deep breath, Cam. Microsoft allows you to run anything you like, as long as it&rsquo;s up to date with security patches. Their IT services only <em>support</em> Windows and OSX, but that&rsquo;s not unreasonable. Anyway, the question has come from all sorts of colleagues, not just IT. Deep breaths.</p>
 
+
+
+
 <p>Once I calm my inner Stallman, here are the real reasons:</p>
+
+
+
 
 <ul>
 <li><p>I believe that either I own my devices, or they own me. I prefer that <em>I</em> make the decisions about how my computer should work &ndash; especially given what a large proportion of my life is spent working with this thing!</p></li>
@@ -40,28 +86,54 @@
 </ul>
 
 
+
+
 <p>In general, as more and more of our lives become computer controlled &ndash; today every car, airplane, pacemaker, and TV are computer-controlled &ndash; it becomes increasingly important that software is open. Given the chance, Google hearing aids would inject advertising into your dinner conversation, while Facebook would block sounds from companies that don&rsquo;t pay. Internet providers have recently won the right to tamper with your content, injecting ads, slowing competitors, and prioritizing their own websites. <strong>I believe that the best tools are controlled by their users.</strong> Open source is how we make that happen.</p>
+
+
+
 
 <p>All these points seem pretty abstract, and they are. But they boil down to a very concrete impression for me: I am used to a computing experience where I am in control, and my device is a neutral extension of myself. So when I use a computer with an OS that someone else has dictated, it&rsquo;s very frustrating! I&rsquo;m frustrated by the ads that I can&rsquo;t block, the buttons that seem to be in the wrong place, the capabilities that are disabled because of someone elses priorities. It makes me feel like I&rsquo;m getting screwed. If your computer doesn&rsquo;t let you watch a region-coded DVD (Windows and OSX), you&rsquo;re getting screwed. If your phone doesn&rsquo;t let you block ads (unrooted IOS and Android), you&rsquo;re getting screwed. If your office suite restricts functionality based on what web browser you&rsquo;re using (Google Apps), you&rsquo;re getting screwed. <strong>I don&rsquo;t like to get screwed</strong>.</p>
 
+
+
+
 <p>So, why do I insist on using open source software whenever possible? Because I feel screwed by proprietary consumer software.</p>
+
+
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[My War on Systemd-resolved]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved/"/>
     <updated>2018-01-25T11:05:31+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2018/01/25/my-war-on-systemd-resolved</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/01/25/my-war-on-systemd-resolved</id>
     <content type="html"><![CDATA[<p>I run ubuntu as the base for my daily driver machine &ndash; heavily customized though it is &ndash; because Canonical&rsquo;s choices are, by definition, mainstream. That makes them easy to support, easy to understand, and generally easy to work with. So what I&rsquo;m about to describe is exceptional in how frustrating it is for me. Seriously, this one issue keeps is enough to drive me into the arms of another distro.</p>
+
+
+
 
 <p>Ubuntu has a built in DNS cache, which it checks first when trying to resolve anything. This Makes Sense For The User in that DNS queries are resolved faster if they come from local cache. It Makes Sense for the network admin, in that repetitive DNS queries don&rsquo;t take up bandwidth. But it really <strong>doesn&rsquo;t</strong> Make Sense for the web developer.</p>
 
+
+
+
 <p>The local DNS cache takes up port 53, which is a problem if you&rsquo;re trying to run any different kind of DNS service locally. For example, the DNS service that practically any integrated docker-based development environment (<a href="https://docksal.io/">docksal</a>, <a href="https://github.com/drud/ddev#ddev">ddev</a>, <a href="https://docs.amazee.io/local_docker_development/pygmy.html">pygmy</a>, etc etc etc) needs. Even my own haproxy-based setup needs to control DNS. Not to mention, <a href="https://superuser.com/questions/1153203/ubuntu-17-04-systemd-resolved-dns-lookups-randomly-fail">the system randomly fails</a> all on its own! So: in order to do my job, I need to disable the Ubuntu DNS proxy. That&rsquo;s where the trouble begins.</p>
+
+
+
 
 <p>There are a hundred variations on <a href="https://askubuntu.com/questions/898605/how-to-disable-systemd-resolved-and-resolve-dns-with-dnsmasq">how to disable systemd-resolvd</a> on askubuntu and stackoverflow. All of them have different suggestions. Partly this is just the flexibility of *nix systems. But it&rsquo;s largely because in the 5 years since Ubuntu introduced the local DNS cache, it&rsquo;s changed which system it&rsquo;s using (twice), how it starts up, how its config is stored, and the overall startup daemon control process. Every year, there are new tricks to learn for how to disable this totally extraneous system. And every time you update, it is magically re-enabled (or enabled in a new way). This is enough that it&rsquo;s kept me from bothering with dist-upgrades for the last year. So I run the latest kernel version, but an old version of the OS, partly because I really hate fighting this problem.</p>
 
+
+
+
 <p>For my own notes, and hopefully to help some others, here is how I disable the local DNS cache on Ubuntu 17.04.</p>
+
+
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -93,17 +165,23 @@
 </span><span class='line'># pray that it survives a reboot.</span></code></pre></td></tr></table></div></figure>
 
 
+
+
 <p></p>
 
+
+
+
 <p>Note that if you do this, you have to manage your own nameservers in /etc/resolved.conf! In my case networkmanager does it for me, but that won&rsquo;t be true for everyone.</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
     <updated>2018-01-08T20:32:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
+    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
     <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
 
 <p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>
@@ -138,7 +216,7 @@
 
 <p>This shift is old news for most of the world. As much as the Hacker News crowd still bitches about it as FUD, this strategic direction has been in and out of the financial pages for years now. Microsoft has pivoted to platform services. Look at their profits by product over the last 8 years:</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/microsoft-profits-by-product.png" title="Microsoft profits by product, over year." ></p>
 
 <p>The trend is obvious: <strong>server and platform services are the place to invest</strong>. Office only remains at the top of the heap because it transitioned to SaaS. Even Windows license profits are declining. This means focusing on interoperability. Make sure <em>everything</em> can run on your platform, because anything else is to handicap the source of your biggest short- and medium-term profit. In fact, <strong>remaining adversarial to Open Source would kill the golden goose</strong>. Microsoft <em>has</em> to change its values in order to make this shift.</p>
 
@@ -162,9 +240,9 @@
   
   <entry>
     <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
     <updated>2017-08-04T12:03:27+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
     <content type="html"><![CDATA[<p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
 
 <h2>1) Know how to explore the source</h2>
@@ -230,9 +308,9 @@
   
   <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
     <updated>2017-07-28T17:01:59+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
@@ -248,7 +326,7 @@
 <iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -269,7 +347,7 @@
 <iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='https://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -281,20 +359,20 @@
   
   <entry>
     <title type="html"><![CDATA[That Time I Resurrected My Linux MacBook Pro]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro/"/>
     <updated>2017-06-17T23:06:02+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/17/that-time-i-resurrected-my-linux-macbook-pro</id>
     <content type="html"><![CDATA[<p>In the airport last week, my laptop stopped booting.</p>
 
 <p>I have a 2012 Macbook Pro &ndash; yes, that coveted &ldquo;last good model&rdquo; &ndash; and it runs Ubuntu Linux. It&rsquo;s my roving office as I travel the world to conferences, performances, and job sites. So when I started it up at JFK airport this week and got a gray screen of death, I was a little concerned.</p>
 
 <p>I tried starting into Startup Manager by holding the &ldquo;Option&rdquo; key. No bootable options appeared. Just an unhopeful file folder with a question mark. This was Not A Good Sign.</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/folder-questionmark.jpg" title="When this is all your computer does, it is Not A Good Sign." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/folder-questionmark.jpg" title="When this is all your computer does, it is Not A Good Sign." ></p>
 
 <p>Generally this icon means that EFI couldn&rsquo;t find a valid startup device. This is not the first time I&rsquo;ve seen this &ndash; I&rsquo;ve played with my boot options enough to mess this up for myself a few times! I breathed a heavy sigh and tried starting onto the recovery partition by holding &ldquo;Command+R&rdquo;. I hadn&rsquo;t done anything in particular with Grub recently, but I had done some kernel updates, and you never know&hellip; But the recovery boot just got me a circle with a line through it, the universal &ldquo;no&rdquo; sign. This was an even worse sign.</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/mac-no-sign.png" title="This is an Even Worse Sign." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/mac-no-sign.png" title="This is an Even Worse Sign." ></p>
 
 <p>This immediately threw the issue out of the realm of &ldquo;something I messed up myself&rdquo;, and into the less-entertaining realm of &ldquo;hardware failure.&rdquo;</p>
 
@@ -322,7 +400,7 @@
 
 <p>So my old laptop is back in service, limping along for one last hurrah. The black box on the back looks like some impressive hardware hack, but it&rsquo;s just the old internal drive connected by USB.</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/me-and-my-busted-laptop.jpg" title="It's only a flesh wound!" ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/me-and-my-busted-laptop.jpg" title="It's only a flesh wound!" ></p>
 
 <p>Yes, I had to do the GRUB dance pretty extensively to get it booting. boot-repair is a wonderful tool, but nothing seems to handle elegantly switching between BIOS and EFI boot modes. I ended up having to copy EFI files from my USB stick by hand. As every Linux desktop user ever has said: &ldquo;if it&rsquo;s working I won&rsquo;t ask any questions.&rdquo;</p>
 
@@ -336,9 +414,9 @@
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
     <updated>2017-06-15T17:19:24+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
     <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
 
 <p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
@@ -364,9 +442,9 @@
   
   <entry>
     <title type="html"><![CDATA[Stop Waiting for Feeds Module: How to Import RSS in Drupal 8]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/"/>
     <updated>2017-06-07T06:33:24+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8</id>
     <content type="html"><![CDATA[<p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
@@ -932,18 +1010,18 @@
 
 <p>Okay, now that&rsquo;s really it. Happy feeding!</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/feed-me-seymour.gif" title="&#34;Feed me, Seymour!&#34;" alt="&#34;Feed me, Seymour!&#34;"></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Stay for Community]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community/"/>
     <updated>2017-03-30T12:22:11+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/03/30/stay-for-community</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/03/30/stay-for-community</id>
     <content type="html"><![CDATA[<p>The <a href="https://www.garfieldtech.com/blog/tmi-outing">Crellpocalypse</a> in the Drupal world last week has shaken the entire community. This event and its handling have called our fundamental values and structures into question. We&rsquo;ve had <a href="https://www.reddit.com/r/drupal/comments/60y9mq/larry_garfield_on_harassment_in_the_drupal_project/">fights on social media</a>, calls for <a href="https://mikkel.hoegh.org/2017/03/23/vote-no-confidence-drupal-association-leadership">Dries to step down</a>, and valuable contributors <a href="https://janezurevc.name/time-take-some-time-drupal-community">stepping away from the community</a>. I have friends on every side of the situation, but all I can think is: <strong>This seems like the perfect time for a singing, dancing, spandexed pageant about the Drupal community.</strong></p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/drupalcon-la.jpg" title="Twelve years of code, and singing the Drupalcon song with Dries and Larry is still one of my favorite memories." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/drupalcon-la.jpg" title="Twelve years of code, and singing the Drupalcon song with Dries and Larry is still one of my favorite memories." ></p>
 
 <p><strong>Why?</strong> For those who don&rsquo;t know, I&rsquo;m one of the authors of the <a href="https://www.youtube.com/playlist?list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4">DrupalCon Prenote</a>, the &ldquo;pre-keynote&rdquo; show that kicks off DrupalCon right before Dries&#8217; keynote. The organizer (and my officemate), Jeffrey A. &ldquo;jam&rdquo; McGuire and I have been living our own special version of the crisis (<strong>Read Jam&rsquo;s post about taking sides on this <a href="https://medium.com/@horncologne/drupal-im-taking-sides-f46194122a05">here</a></strong>). Our friend Larry Garfield has been an enthusiastic part of the Prenote ever since his first appearance as &ldquo;Lord Over-Engineering&rdquo; <a href="https://www.youtube.com/watch?v=i5bW41KYUE0&amp;list=PLjVW3kqu-3e_Q41ETbML6RfbRssEdVvC4&amp;index=20">at Drupalcon Austin</a>. Dries has often played a special guest role, too. With Drupalcon Baltimore looming on the horizon, everything seems to be coming together in one awful moment full of painful reminders &ndash; and it&rsquo;s just when we&rsquo;re supposed to be cheering for &ldquo;community.&rdquo; That awful conjunction is what makes this next Prenote in Baltimore more important than ever.</p>
 
@@ -974,15 +1052,15 @@
 
 <p><strong><a href="https://events.drupal.org/baltimore2017/balti-more-prenote-balti-most-fun-drupalcon">I&rsquo;ll see you at the Prenote.</a></strong></p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/DrupalConAsia-2.jpg" title="The Prenote: The most fun you can have at Drupalcon." ></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/DrupalConAsia-2.jpg" title="The Prenote: The most fun you can have at Drupalcon." ></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh/"/>
     <updated>2017-02-21T22:33:08+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/02/21/what-crell-doesnt-want-you-to-know-how-to-automate-letsencrypt-on-platform-dot-sh</id>
     <content type="html"><![CDATA[<p>If you believe the <a href="https://docs.platform.sh/development/going-live.html#prerequisites">docs</a> and the <a href="https://twitter.com/damz/status/672559665377501184">twitters</a>, there is no way to automate <a href="https://letsencrypt.org/">letsencrypt</a> certificates updates on <a href="https://platform.sh/">platform.sh</a>. You have to create the certificates manually, upload them manually, and maintain them manually.</p>
 
 <p>But as readers of this blog know, the docs are only the start of the story. I&rsquo;ve really enjoyed working with platform.sh with one of my private clients, and I couldn&rsquo;t believe that with all the flexibility &ndash; all the POWER &ndash; letsencrypt was really out of reach. I found a few attempts to script it, and one really great <a href="https://gitlab.com/snippets/27467">snippet on gitlab</a>. But no one had ever really synthesized this stuff into an easy howto. So here we go.</p>
@@ -1137,7 +1215,7 @@
 
 <p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
 
-<p><img class="center" src="https://ohthehugemanatee.org/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
+<p><img class="center" src="http://ohthehugemanatee.github.io/images/larry-garfield.jpg" title="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;" alt="&#34;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&#34;"></p>
 
 <p>Good luck!</p>
 
@@ -1147,9 +1225,9 @@
   
   <entry>
     <title type="html"><![CDATA[Between the Cracks of Decoupled (Drupal) Architecture]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal/"/>
     <updated>2017-02-11T11:18:44+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/02/11/a-year-between-the-cracks-of-decoupled-drupal</id>
     <content type="html"><![CDATA[<p>In any decoupled architecture, people tend to focus on the pieces that will fit together. But what nobody ever tells you is: <em>watch out for the cracks!</em></p>
 
 <p>The cracks are the integration points between the different components. It&rsquo;s not GraphQL as a communication layer; it&rsquo;s that no one thinks to log GraphQL inconsistencies when they occur. It&rsquo;s not &ldquo;what&rsquo;s my development environment&rdquo;, it&rsquo;s &ldquo;how do these three development environments work on my localhost at the same time?&rdquo;. It&rsquo;s the thousand little complexities that you don&rsquo;t think about, basically because they aren&rsquo;t directly associated with a noun. We&rsquo;ve discovered &ldquo;crack&rdquo; problems like this in technical architecture and devops, communication, and even project management. They add up to a lot of unplanned time, and they have presented some serious project risks.</p>
@@ -1172,9 +1250,9 @@
   
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
     <updated>2016-11-05T12:05:50+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
 <p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
@@ -1201,9 +1279,9 @@
   
   <entry>
     <title type="html"><![CDATA[Developer Options for Replacing Your Old MacBook Pro]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro/"/>
     <updated>2016-10-31T09:05:07+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/10/31/developer-options-for-replacing-your-old-macbook-pro</id>
     <content type="html"><![CDATA[<p>The developer world is abuzz with criticism of the new Macbook Pro. After 4 years of waiting for an update, what we got has <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">two less ports, slower memory and a worse GPU</a>, is <a href="https://medium.com/charged-tech/apple-just-told-the-world-it-has-no-idea-who-the-mac-is-for-722a2438389b#.3cl5g99bu">a vanity project that the core demographic of Apple’s customers probably won’t even use</a>, in the final balance: <a href="https://petersphilo.org/2016/10/29/open-letter-to-tim-cook/">merely consumer-level</a>. It&rsquo;s slammed as <a href="https://macperformanceguide.com/blog/2016/20161029_1016-Apple2016MacBookPro-compatibility.html">incompatible</a>, <a href="https://twitter.com/lapcatsoftware/status/791760906678067200">absurd</a>, and <a href="http://cdm.link/2016/10/apples-computer-vision-looks-backward-others-look-forward/">for pros&hellip; actually an insult</a>.</p>
 
 <p>If you&rsquo;re a developer in late 2016, and are in the market for a new laptop, there are some great options out there. It&rsquo;s too bad that the latest line of Mac products don&rsquo;t make the cut. I&rsquo;ve been neck deep in this research myself, since it&rsquo;s time to retire my mid-2012 non-retina Macbook Pro anyway. I thought I&rsquo;d share.</p>
@@ -1274,10 +1352,10 @@
   
   <entry>
     <title type="html"><![CDATA[Perfect Linux Mint on My Macbook Pro 9,2]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2/"/>
     <updated>2016-10-15T18:44:40+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
-    <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="https://ohthehugemanatee.org/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
+    <id>http://ohthehugemanatee.github.io/blog/2016/10/15/perfect-linux-mint-macbook-pro-9-2</id>
+    <content type="html"><![CDATA[<p>A few months ago I posted about my <a href="http://ohthehugemanatee.github.io/blog/2015/10/01/how-i-got-el-capitain-working-with-my-developer-tools/">frustrations getting El Capitan working</a> with my relatively simple developer needs. At the time I complained about the direction Apple is going. One of these days, I threatened, I would jump back to Linux as a primary desktop environment.</p>
 
 <p>This week I read about everyone&rsquo;s problems getting OSX Sierra going, and I decided it was time to take the plunge. Apple, I completely understand the direction you are going with your environment. You&rsquo;ve gotta lock down in order to make peoples&#8217; computers reliable, easy to use appliances. But I don&rsquo;t want an appliance, I want a computer. I disagree with some of your choices about the system, what software I should use, where I may install it from, and how I may use it. I&rsquo;m switching to an OS that lets me make those choices.</p>
 
@@ -1368,9 +1446,9 @@
   
   <entry>
     <title type="html"><![CDATA[301 Redirects Are the Herpes of the Internet]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
     <updated>2016-08-15T11:46:10+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
     <content type="html"><![CDATA[<p>My client bought a domain name based on her favorite username when she was young. Like any teenager, she didn&rsquo;t choose the best name. But SpongeBobLover16 (name changed to preserve her anonymity) wanted to exert her online independence. She decided she would give her real name domain to SpongeBobLover16.com in a 301 redirect. Her parents told her she should always use a 302, but she ignored their advice. &ldquo;I remember it felt so good,&rdquo; she says today, &ldquo;but now I have to live with that mistake every day.&rdquo; 5 years later, her real name domain, SusanExample.com, still redirects to that old username on Google. Old friends and family can only see her domain as SpongeBobLover16.com. They say it doesn&rsquo;t bother them, that they love her anyway, but Susan feels marked for life.</p>
 
 <p>Susan&rsquo;s mistake is incredibly common: if you&rsquo;ve been a web developer for very long, chances are you have at least one case of a bad 301 in your history. And yet I still see young developers throwing caution to the wind, failing to protect themselves adequately.</p>
@@ -1389,9 +1467,9 @@
   
   <entry>
     <title type="html"><![CDATA[Getting My Notes Out of Evernote]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
     <updated>2016-08-13T16:44:40+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
     <content type="html"><![CDATA[<h2>The Why</h2>
 
 <p>I&rsquo;m an obsessive note taker. Meetings, ideas, to do lists, grocery lists&hellip; The act of writing really helps me remember, so I&rsquo;ve been writing everything down since I was a teenager.  For years I had a thousand text documents scattered around my computer. In 2008 I discovered that the act of writing isn&rsquo;t nearly as effective as the act of <em>searching</em>, so I resolved to start taking notes in a central, searchable, sync&#8217;ed system. In short, I jumped on the Evernote train.</p>
@@ -1450,9 +1528,9 @@
   
   <entry>
     <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs/"/>
     <updated>2016-07-29T13:14:06+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/07/29/moving-to-amazee-labs</id>
     <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
 
 <p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
@@ -1467,9 +1545,9 @@
   
   <entry>
     <title type="html"><![CDATA[Some Git Log Magic]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic/"/>
     <updated>2016-04-15T13:12:41+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/04/15/some-git-log-magic</id>
     <content type="html"><![CDATA[<p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
 
 <p>There were a few questions I wanted to answer about one particular developer&rsquo;s input. I&rsquo;m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I&rsquo;m trying to break him of the habit. Here are my questions:</p>
@@ -1643,9 +1721,9 @@
   
   <entry>
     <title type="html"><![CDATA[An Open Letter to Wired Magazine]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/02/09/an-open-letter-to-wired-magazine/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine/"/>
     <updated>2016-02-09T14:10:31+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/02/09/an-open-letter-to-wired-magazine</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/02/09/an-open-letter-to-wired-magazine</id>
     <content type="html"><![CDATA[<p>Dear Wired &ndash;
 I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocking/">post about the changes in ad blocker policy</a> on your site. Thanks for writing in such an open and respectful tone; it&rsquo;s clear you care about your readers and want to find a reasonable way forward.</p>
 
@@ -1679,37 +1757,6 @@ I read your <a href="http://www.wired.com/how-wired-is-going-to-handle-ad-blocki
 <p>Thanks</p>
 
 <p>Campbell Vertesi</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How Drupal Should Handle Client-side Framework Obsolescence]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence/"/>
-    <updated>2015-12-08T12:06:02+01:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/12/08/how-drupal-should-handle-client-side-framework-obsolescence</id>
-    <content type="html"><![CDATA[<p>Today I read a great blog post from Dries: <a href="http://buytaert.net/should-we-decouple-drupal-with-a-client-side-framework?utm_content=buffer17eab&amp;utm_medium=social&amp;utm_source=twitter.com&amp;utm_campaign=buffer">Should we decouple Drupal with a client side framework?</a>. As usual, Dries puts a lot of thought into his writing, and braves a shitstorm of responses by laying his thinking bare while he&rsquo;s still mulling it over. I couldn&rsquo;t resist adding to the storm.</p>
-
-<p>I completely agree that Drupal would benefit from figuring out a standardized approach to decoupled front ends. I think Dries is spot-on in supporting a &ldquo;progressive decoupling&rdquo; model as a great best-of-both-worlds response that can happen within 8.x. I would frame the problem a little differently, though.</p>
-
-<p>The thing is, we already HAVE embraced a framework and shipped with it in core: backboneJS. And we&rsquo;re dealing with the development cycle delta already: backbone is now quite outdated; in order to keep up we have to consider ditching it in favor of options like react and angular.  <strong>I don&rsquo;t think this is a &ldquo;how do we architect a new part of Drupal&rdquo; problem, so much as a &ldquo;we already have this issue and we know it will recur&rdquo; problem</strong>. Rather than trying to decide upon a single framework that will remain relevant for the entire lifecycle of Drupal 8, the goal should be to provide a structure that makes it easy to respond once angular/react/whatever are out-of-date, too.</p>
-
-<p>I advocate taking exactly the PHPTemplate route we took in 4.6 (was it? 4.5?): <strong>ship one engine with core, but make it replaceable</strong>. There are a few reasons behind this. First, I think Dries&#8217; rejection of this approach misses some key elements: the landscape of PHP based template engines in 2005 is very different than that of front end frameworks in 2015, and the task of replacing a Drupal 4.6 templating engine is very different from that of replacing a Drupal 8 front end framework. Second, I think we&rsquo;ve stumbled upon a reasonably successful model for adapting to development cycle deltas in how we&rsquo;ve worked with JQuery in Drupal 7. Finally, I believe that making our front end framework replaceable fits with Drupal&rsquo;s overall architectural philosophy, and will help D8 stay relevant for longer.</p>
-
-<p>Dries is right to point out that when we did this with PHPTemplate, effectively nobody took advantage of the ability to replace it. But think back to the development landscape of PHP based templating engines in 2005, and compare it to JS frameworks in 2015: the pace of development was was much slower, every PHP project rolled their own system, libraries to extend capabilities were effectively nonexistent, the total number of developers was lower, and the amount of innovation between alternatives was lower. The arguments that make AngularJS compelling, for example (tens of thousands of developers, hundreds of tutorials, thousands of ngextensions, etc), bear little resemblance to the arguments for &ndash; what even <em>were</em> the alternatives to PHPTemplate in 2005?</p>
-
-<p>Further, the task of replacing PHPTemplate in Drupal 4.6 is not analogous to the task of replacing a JS framework in D8. We only use backbone to handle interactions and &ldquo;big pipe&rdquo; style includes (rather than page rendering out of whole cloth). Dries proposes continuing this approach (and I agree). The task of replacing Backbone with Angular or React would be a big one, but nowhere near as big as building an entire templating engine from scratch for Drupal 4.6. It&rsquo;s still hard work of course, but you&rsquo;re not rebuilding a third of the platform, or architecting your own library with a unique approach.</p>
-
-<p>We made PHPTemplate replaceable as a hedge against Adrian Rossouw getting hit by a bus, and because if Adrian wanted to roll his own engine, surely other developers would, too. It turns out that wasn&rsquo;t necessary; no other templating system gained enough traction to make a dent in the default. That was an effect of the development landscape and the size of the task. This is just not the case with front end frameworks.</p>
-
-<p>In 2005, we were confident that if PHPTemplate was a great choice in 2005, it would probably still be a great choice in 2006, and with care it could remain a reasonable choice for 5 years or more. Replacability was for allowing alternatives. In the case of externally developed front end frameworks in 2015, we can say with certainty that a great choice this year will be an old choice in 2 years, a bad choice in 3, and a liability in 5. That&rsquo;s a different problem space.</p>
-
-<p><strong>I think we have a better analogy with JQuery than with PHPTemplate</strong>. That was also an external library with a development pace delta problem. Within 3 years of including JQuery in Drupal 6 core, the JQuery Update module climbed into the list of most-used modules. For Drupal 7 we architected to make this a little easier, anticipating that it would be necessary. That&rsquo;s worked out well for us. Fortunately there aren&rsquo;t a lot of mutually exclusive alternatives to JQuery, so all we&rsquo;ve needed is updates. Still, I think there are good lessons here for introducing a standard front end framework in Drupal 8: people will need updates faster than core can provide them, and the contrib space is a reasonable place to get them &ndash; even (especially?) when the updates are so common they become de facto parts of core.</p>
-
-<p>Finally, a key philosophy for Drupal 8 is that builders can replace or override entire subsystems. Making the front-end framework similarly replaceable fits right in line with this architecture. If I want to replace Backbone with React, I should be able to do that relatively easily. In a dream world we could abstract out the whole thing, and make core front end framework agnostic. THAT would be a monumental task, indeed!</p>
-
-<p>I advise changing the implementation and documentation of backbone in Drupal 8.x to be (more easily) replaceable or augmentable in contrib. I&rsquo;m convinced that we would see an AngularJS contrib module within a year, and probably a ReactJS one as well. The power law predicts that the community will standardize around one framework at a time, which means that we really only have to be concerned about transition periods. Even then, front end frameworks don&rsquo;t have to be exclusive. Site builders could include the ReactJS library as a dependency of module X, the AngularJS library as a dependency of module Y, and backbone from core. The people developing sites where an extra 36kB (the size of AngularJS 1.4.8) of page size matters are also the ones best positioned to fully replace one library with another.</p>
-
-<p><strong>TL;DR: Contrib is a great place to handle the ever-changing, rapid landscape of front end frameworks. All Drupal core has to do is make it easy.</strong></p>
 ]]></content>
   </entry>
   

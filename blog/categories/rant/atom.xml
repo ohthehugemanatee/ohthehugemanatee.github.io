@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Rant | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/rant/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Rant | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/rant/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[301 Redirects Are the Herpes of the Internet]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet/"/>
     <updated>2016-08-15T11:46:10+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
+    <id>http://ohthehugemanatee.github.io/blog/2016/08/15/301-redirects-are-the-herpes-of-the-internet</id>
     <content type="html"><![CDATA[<p>My client bought a domain name based on her favorite username when she was young. Like any teenager, she didn&rsquo;t choose the best name. But SpongeBobLover16 (name changed to preserve her anonymity) wanted to exert her online independence. She decided she would give her real name domain to SpongeBobLover16.com in a 301 redirect. Her parents told her she should always use a 302, but she ignored their advice. &ldquo;I remember it felt so good,&rdquo; she says today, &ldquo;but now I have to live with that mistake every day.&rdquo; 5 years later, her real name domain, SusanExample.com, still redirects to that old username on Google. Old friends and family can only see her domain as SpongeBobLover16.com. They say it doesn&rsquo;t bother them, that they love her anyway, but Susan feels marked for life.</p>
 
 <p>Susan&rsquo;s mistake is incredibly common: if you&rsquo;ve been a web developer for very long, chances are you have at least one case of a bad 301 in your history. And yet I still see young developers throwing caution to the wind, failing to protect themselves adequately.</p>

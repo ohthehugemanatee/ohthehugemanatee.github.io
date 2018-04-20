@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Development | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/development/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Development | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/development/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
     <updated>2017-08-04T12:03:27+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
+    <id>http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
     <content type="html"><![CDATA[<p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
 
 <h2>1) Know how to explore the source</h2>

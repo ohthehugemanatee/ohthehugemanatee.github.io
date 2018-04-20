@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: PHP | Oh The Huge Manatee]]></title>
-  <link href="https://ohthehugemanatee.org/blog/categories/php/atom.xml" rel="self"/>
-  <link href="https://ohthehugemanatee.org/"/>
-  <updated>2018-02-09T16:36:09+01:00</updated>
-  <id>https://ohthehugemanatee.org/</id>
+  <title><![CDATA[Category: Php | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.github.io/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.github.io/"/>
+  <updated>2018-04-20T09:38:34+02:00</updated>
+  <id>http://ohthehugemanatee.github.io/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -14,21 +14,145 @@
 
   
   <entry>
-    <title type="html"><![CDATA[How the World Sees Drupal - the Dutch PHP Conference 2015]]></title>
-    <link href="https://ohthehugemanatee.org/blog/2015/06/27/dutch-php-conference-2015/"/>
-    <updated>2015-06-27T12:04:52+02:00</updated>
-    <id>https://ohthehugemanatee.org/blog/2015/06/27/dutch-php-conference-2015</id>
-    <content type="html"><![CDATA[<p>One of the most exciting parts about the switch to Drupal 8 is the rapprochement of the Drupal community with the rest of PHP. This weekend I spoke at the Dutch PHP Conference in Amsterdam, where I got to be part of the vanguard of Drupalists reconnecting with the larger PHP world. The experience had a big impact on my perspective of the future of Drupal as a platform and as a community.</p>
+    <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
+    <updated>2017-08-04T12:03:27+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
+    <content type="html"><![CDATA[<p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
 
-<p>For many years Drupal was quite separate from the rest of the PHP universe. I would hear comments like: &ldquo;I don&rsquo;t know PHP. I&rsquo;m a Drupal developer.&rdquo; On the other side, our platform&rsquo;s focus on accessibility for new and learning developers meant that many mainstream PHP coders considered Drupal a repository for poor code. The more Drupal built up its' separate API and library of unique concepts like hooks and theme functions, the further we separated from everyone else in our programming language. This movement wasn&rsquo;t unique to Drupal; as a group PHP developers were building on many, very different frameworks. The PHP World conference was a segregated affair; projects like Zend, PHPBB, and Wordpress kept to themselves.</p>
+<h2>1) Know how to explore the source</h2>
 
-<p>This changed in 2010. Facebook had invested tremendous resources into their own brand of PHP, &ldquo;HipHop&rdquo;, and in many ways sparked a wave of renewed interest in the language. The PHP community spawned the Framework Interoperability Group (FIG), an initiative dedicated to standardized practices in PHP that could bring the various frameworks together. Drupal 8 was designed to align with the FIG goals, using current practices and components like Composer, PSR-4 namespacing, and dependency injection. Large parts of Drupal&rsquo;s core functionality are provided by Symfony components; the system is now a recognizable contemporary PHP project. In the FIG era, PHP developers are rediscovering the enterprise class CMS in their midst.</p>
+<p>For most of us this comes down to knowing how to use your IDE, but other tools are available. It doesn&rsquo;t matter what tool you use, as long as it has these functionalities at a minimum:</p>
 
-<p>I was surprised to learn about Drupal&rsquo;s poor reputation among the more hardcore PHP developers. Many of them had had a bad experience with Drupal 5 or 6, and never looked back. Some had tried Drupal 7, and were bewildered by the slew of Drupal-specific concepts and structures they needed to learn for even the simplest modifications. Many people I spoke with thought of Drupal as a pile of procedural code, packed with confusing work-arounds and anachronisms that made it not worth adopting. Few had heard of Drupal 8&rsquo;s move to contemporary, object-oriented coding practices. Many were dismissive of even the concept of an application framework like ours.</p>
+<ul>
+<li><strong>Something that lets you explore the object graph.</strong> In my IDE, a hotkey takes you directly from any usage of a function, method, or property, to the definition in use. It respects overrides and understands class inheritance. A different hotkey shows me the descendants of a method/property/class; how it&rsquo;s extended and overridden by it&rsquo;s children. You need to be able to poke around the entire application with enough ease that you can notice common design patterns. Class structure is where some of the most important design patterns live, and you want to learn from and match the rest of your application or framework.</li>
+<li><strong>Something that lets you quickly look up documentation.</strong> One of my favorite things about Drupal is that the documentation standard is in the code itself, which makes this one very easy to satisfy. Most good IDEs will integrate with external documentation systems though. Exact types and example usages should be a hotkey away.</li>
+<li><strong>Something that provides hints as you code.</strong> My IDE pays attention to type hints, and suggests available methods and properties as I type. This is more a speed thing than anything else, but it saves me from having to remember every single corner of the API.</li>
+<li><strong>Fast, robust searching.</strong> Very often you know what you want to do, but you don&rsquo;t know quite how to do it. The rest of your framework is your friend: look for other code that does something similar. Think about how you might do this searching a codebase: simple text matching probably won&rsquo;t do &ndash; you need regex matching, at least. Constraint by location, probably constraints by filename, too. The other day I (really) was looking for an example of custom route access callbacks in Drupal &ndash; something that&rsquo;s awkwardly described in the doco, and it turns out, doesn&rsquo;t exactly work as documented anyway. I needed to search files matching <code>*.services.yml</code> for services with a tag value &ldquo;applies_to&rdquo; that starts with an underscore. The robust search capability of my IDE helped me find my example, and all I had to write was a little regex.</li>
+</ul>
 
-<p>At the same time, the developers at this conference were just as fun and happy to help each other as at the best Drupal events. I learned a tremendous amount about working with Drupal&rsquo;s new object-oriented tool kit, and grew a lot as a programmer. Once I explained the differences with Drupal 8, most people were curious to see just how it worked. And just like at my favorite Drupal events, even the most well-known developers were interested to help. I complained about my frustrations with the PHPUnit testing suite, and was introduced to the original author and maintainer. I had a question about the relative performance of PHP 5.6, 7, and HHVM, and got to talk about it with the release manager for the whole PHP project. This kind of openness and interest in collaboration convinced me more than anything else, that Drupal should integrate more with the mainstream PHP.</p>
 
-<p>Drupal 8 RC1 is just around the corner, and Drupal developers all over the world are learning the new programming concepts that have reshaped our product. It is time for us to break out of our insular community, and learn from the rest of the PHP world. They&rsquo;re friendly, they have a lot to teach us &ndash; and they can help take Drupal as a project to the next level.</p>
+<p>These functionalities are standard-issue in any normal IDE. So perhaps we should just reduce this whole point to &ldquo;use an IDE, and learn its hotkeys.&rdquo; This will help you learn by example much faster.</p>
+
+<h2>2) Know how to use your debugger</h2>
+
+<p>There are two kinds of developers in the world: those who use a debugger, and those who piss their time into the wind. Most self-taught developers spend years beating their heads against the wall trying to resolve bugs. It&rsquo;s a major effort to remember everything in state, so they can&rsquo;t write more than 2 lines of code without some visible output to validate what&rsquo;s going on. I understand. I did this too. The PHP debugger (XDebug) seemed complicated to use, and I didn&rsquo;t really understand why it was important. So I avoided it for a long time.</p>
+
+<p><strong>Holy shit, it&rsquo;s important</strong>. A debugger lets you step through your code one line at a time, as it&rsquo;s being executed. You can look at the value of any variable, try out isolated lines of code to see what they return, and modify values as it&rsquo;s running. Honestly half the time, I develop by writing a skeleton of what I want in sloppy, busted code&hellip; then fire up the debugger and do the real writing while I&rsquo;m looking at the actual values involved.</p>
+
+<p>The other really valuable contribution of a debugger to your life, is that you can &ldquo;step into&rdquo; any function or method being called. That means you can jump directly inside the function to see what it does, and inside the functions <em>it</em> uses, and so on and so on. Turns out that it&rsquo;s turtles all the way down: this is the best way to learn really how your framework works. Five and six layers deep you find patterns of abstraction that you simply won&rsquo;t get anywhere else. The kind of understanding you get from walking a complete code path to it&rsquo;s full depth, is impossible to get any other way. It&rsquo;s the kind of understanding that rock stars have.</p>
+
+<p>Debuggers typically offer other useful functionalities, like performance profiling. Those are great when you need them, and I don&rsquo;t want to minimize their importance. Compared to the everyday functionalities though, these are edge cases. You need the basic tool of debugging <em>every time you touch the code.</em> So invest the time to figure out your debugger. It will take you an afternoon to really figure it out on your local environment. Spend that afternoon now. Thank me later.</p>
+
+<h2>3) Know how to write tests</h2>
+
+<p>I&rsquo;ll let you in on a secret: you don&rsquo;t have to be good at writing tests. Being good (generally) means your tests run faster, and cover more edge cases. Those are both Good Things, but the basic value of even amateur, I&rsquo;m-just-figuring-it-out tests is 75% of the point.</p>
+
+<p>The core value of tests is that they run the exact. same. thing. every. damn. time. That&rsquo;s more precise than refreshing your browser, where a hundred factors might come into play before your code fires. Oh, and did I mention that you can trigger your debugger from your tests? Because you can.</p>
+
+<p>A basic test is just firing off one method or function on it&rsquo;s own, with known values as input. You write &ldquo;asserts&rdquo; to check the output. For example:</p>
+
+<p><code>php
+public function testAddition() {
+  $result = \MathClass::add(2, 4);
+  self::assertEquals(6, $result);
+}
+</code></p>
+
+<p>This is not the most complicated concept in the world. But this four lines means I can re-run the <code>addition</code> function a thousand times, stepping through it, with the same values every time. For testing a little additon function, this is certainly not necessary. But for testing submitted values entered on a web form, it saves me a ridiculous amount of time copypasting Lipsum text and fighting with form cache. You can also use this for big, integrated tests that require lots of dependencies. For example, Drupal includes base classes for various levels of bootstrap right up to the whole system. If you&rsquo;re writing a complicated migration, it&rsquo;s not crazy to have a test for it. You can determine the exact start state of the system (effectively a db dump), kick off the exact migration scripts in the right order, and validate the result, all in one command, with no clicking or human inaccuracy.</p>
+
+<p>Tests do more than just save you time in coding. They also save time in maintenance, since you can leave your tests in place and know as soon as there&rsquo;s a regression. They also make refactoring possible. Having complete tests that make sure the whole system <em>works</em> means that I never have to worry if my refactor broke something. I know it didn&rsquo;t, because it passes the same tests.</p>
+
+<p>OK, we all get it: testing saves you time. But the important part of test writing for this article, is how much you learn about your framework as you&rsquo;re doing it. You see, the hard part of writing tests is paring down the system you need for the test, to get rid of external factors. For example, technically I could bootstrap all of Symfony to run that example test above&hellip; but it&rsquo;s much faster if I just instantiate the MathClass class and run the function directly. So in my test, I won&rsquo;t bother starting anything from the system around it.</p>
+
+<p>Most of your tests will be somewhere in between this simple example and a behemoth which needs the full weight of your framework to run. You want to only instantiate the bare minimum. So in Symphony, maybe you bootstrap the service container, but you only load up the services you need for the code you&rsquo;re testing. And of those, probably half of them can be &ldquo;dummies&rdquo; that are just there to give a type signature to a constructor. Good testing frameworks (shout out to PHPUnit!) make this easy.</p>
+
+<p>The process of trying to pare down (or build up) dependencies to the minimum you need, <em>is a fantastic way to learn your framework&rsquo;s internals</em>. What REALLY are the dependencies for this function? What subsystems from my framework does it need to run, and what parts of those subsystems? This is a lot like the understanding you get from stepping through an entire request in the debugger: it&rsquo;s rock-star level understanding.</p>
+
+<p>I&rsquo;m not going to write a detailed howto on testing here. There are a thousand of them all over the internet, and it&rsquo;s pretty specific to your individual language. The point is: write tests. It will take a couple of months to get used to it, but after that you&rsquo;ll find you develop faster, refactor faster, experience fewer bugs and regressions&hellip; and you&rsquo;ll find you understand your framework better than any of your peers.</p>
+
+<h2>Being a rock star developer</h2>
+
+<p>These three tools are the fast track to understanding your framework and language on an extremely deep level. That understanding is the definition of a &ldquo;rock star&rdquo; developer. You will still google for solutions sometimes, but more often you&rsquo;ll look directly at the doco, or for other examples in the code. You&rsquo;ll probably still forget exactly which methods to use for obscure corners of the framework, or what parameters they take, but you&rsquo;ll have the tools to rediscover that information readily at hand. Most importantly, you&rsquo;ll understand how your system <em>thinks</em>, which is what being a rock star is all about.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <updated>2017-07-28T17:01:59+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
+    <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
+
+<p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
+
+<p>You see, <strong>basically every other PHP conference covers their speakers' travel and accommodation costs</strong>. Drupalcon doesn&rsquo;t, and never has. Historically it has to do with Drupalcon&rsquo;s identity as a community conference, rather than a professional one. But it means <strong>the best PHP speakers never get to Drupalcon</strong>.</p>
+
+<p>On one hand that&rsquo;s great for our project: our speakers are all passionate volunteers! They&rsquo;re specialists who care deeply about the project. On the other hand, it contributes to isolated, &ldquo;stay on the island&rdquo; thinking. If the only speakers we hear are Drupalists, where do we get new insights? If the only people at the BoF or code sprint table are Drupalists, how do we leverage the strengths of the broader PHP community? How do we contribute back? <em>How do we grow?</em></p>
+
+<p>Every year, the lack of financial support holds back major PHP contributors from speaking at Drupalcon. The maintainers of Composer, PHPUnit, and Guzzle <em>want</em> to come to Drupalcon, but we don&rsquo;t make it possible. <strong>These people built and maintain the cornerstones of Drupal. Why do we hold them at arm&rsquo;s length?</strong></p>
+
+<p>This year, as Drupalcon PHP Track Chair, I&rsquo;m in a position to make some changes. So I invited two notable PHP speakers to come and join us at the con: <strong>Sebastian Bergmann, author of PHPUnit</strong>, and <strong>Michelle Sanver, president of @phpwomen</strong>. Today I&rsquo;m announcing a very special <a href="https://www.gofundme.com/php-at-drupalcon">GoFundMe campaign</a> to pay the travel and accommodation for these two exceptional contributors.</p>
+
+<iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p>I believe that Drupalists want to get off the island.</p>
+
+<p>I believe in the benefits of closer cooperation with the PHP community.</p>
+
+<p>I believe there&rsquo;s a lot we can learn from these people, and a lot we can teach them too.</p>
+
+<p><strong>And I believe that I&rsquo;m not the only one.</strong></p>
+
+<p>We&rsquo;ve estimated costs conservatively; this is not a lot of money. Anything we collect above and beyond their needs will go to the Drupal Association, but let&rsquo;s be honest with ourselves: this campaign isn&rsquo;t just about bringing Sebastian and Michelle to Drupalcon. <strong>Your donation shows the Drupal Association that you want to welcome contributors from other communities.</strong> You prove to them that their constituents <em>want</em> to bring in this kind of speaker. <strong>When you donate, you stand up for the kind of community you believe in.</strong></p>
+
+<p>Please <a href="https://www.gofundme.com/php-at-drupalcon/donate">donate</a>, share, and tweet the campaign today.</p>
+
+<iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
+
+
+<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+
+
+<br />
+
+
+<p><strong>Because &ldquo;get off the island&rdquo; isn&rsquo;t just about the code. It&rsquo;s about the community.</strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
+    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <updated>2017-06-15T17:19:24+02:00</updated>
+    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
+
+<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
+
+<!-- more -->
+
+
+<p></p>
+
+<p><strong>Do you like PHP 7?</strong> We want to hear about the technicalities of types, throwing all the things, and your favorite operators (mine is null coalesce, but full respect for you spaceship operator fans).</p>
+
+<p><strong>Have you seen the light of functional programming?</strong> Tell us why we should love higher orders with lambda functions and closures. Let&rsquo;s hear the finer points of first class functions.</p>
+
+<p><strong>Do your tests bring all the bugs to the yard?</strong> We want to talk about it. Every method is a promise, and your tests make sure you keep your promises. We want sessions about test driven development in a drupal context, choosing the right test framework and scope, and how your real-world tests are saving you real-world time.</p>
+
+<p><strong>Have you written a composer library wrapper module yet?</strong> Submit a session about how composer is saving you lines of code.</p>
+
+<p><strong>Is your development environment fine-tuned for drupal excellence?</strong> Tell us how, and why.</p>
+
+<p>We have only two weeks left until session submissions close! <a href="https://events.drupal.org/node/add/session?og_group_ref=14447">Get your session in now</a> and help us make Drupal code something to be proud of.</p>
 ]]></content>
   </entry>
   
