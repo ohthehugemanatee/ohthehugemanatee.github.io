@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Performance | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/performance/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/performance/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Authenticated User Caching Concepts in Drupal 7]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
+    <link href="http://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal/"/>
     <updated>2014-06-09T22:21:01+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
+    <id>http://ohthehugemanatee.org/blog/2014/06/09/authenticated-user-caching-in-drupal</id>
     <content type="html"><![CDATA[<p>Drupal has a wide variety of highly effective solutions for caching anonymous user content. The typical setup is APC, Memcached or Redis, and Varnish in front, and this can easily serve thousands of concurrent anonymous users. There is excellent documentation out there discussing this kind of simple caching.</p>
 
 <p>But what about authenticated users? You can cache elements of the page using a method like <a href="https://drupal.org/project/rendercache">Render cache</a>, <a href="https://drupal.org/project/entitycache">Entity Cache</a>, or <a href="https://drupal.org/project/views_content_cache">Views Content Cache</a>. But Drupal still has to assemble each page for your users, a relatively heavy operation! If you want to address hundreds or thousands of authenticated users, you&rsquo;re simply SOL by these traditional approaches.</p>

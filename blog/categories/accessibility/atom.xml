@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Accessibility | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/accessibility/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/accessibility/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Mobile Apps Are a Temporary Phase, All Hail the Accessible Web]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/10/29/mobile-apps-are-a-temporary-phase/"/>
+    <link href="http://ohthehugemanatee.org/blog/2014/10/29/mobile-apps-are-a-temporary-phase/"/>
     <updated>2014-10-29T13:13:04+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/10/29/mobile-apps-are-a-temporary-phase</id>
+    <id>http://ohthehugemanatee.org/blog/2014/10/29/mobile-apps-are-a-temporary-phase</id>
     <content type="html"><![CDATA[<p>Dries made <a href="http://buytaert.net/w3c-declares-html5-standard-final">an interesting post about the new HTML5 standard</a> the other day. OK, the post itself is more of an announcement, but the meat (as far as I&rsquo;m concerned) is near the end, where he says that &ldquo;The trend in development seems to be towards native mobile applications rather than mobile websites.&rdquo; He links to the excellent <a href="http://a16z.com/2014/10/28/mobile-is-eating-the-world/">Mobile is Eating the World</a> presentation by Benedict Evans as evidence.</p>
 
 

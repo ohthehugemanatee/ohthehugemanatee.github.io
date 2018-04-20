@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Drupalgeddon | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/drupalgeddon/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/drupalgeddon/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Drupalgeddon: Best Practices Aren't Good Enough Anymore]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
+    <link href="http://ohthehugemanatee.org/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates/"/>
     <updated>2014-11-03T17:30:32+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
+    <id>http://ohthehugemanatee.org/blog/2014/11/03/drupalgeddon-means-we-cant-trust-humans-with-updates</id>
     <content type="html"><![CDATA[<p>Last week&rsquo;s <a href="https://www.drupal.org/PSA-2014-003">Public Service Announcement</a> from the Drupal security team caused a lot of attention. And rightfully so &ndash; it told us that the vast majority of Drupal 7 sites around the world are considered compromised. A mere 7 hours after critical security patch <a href="https://www.drupal.org/SA-CORE-2014-005">SA-CORE-2014-005</a> was released, robots were spotted in the wild, bulk-hacking Drupal 7 sites with this vulnerability. This is something that&rsquo;s never happened to the Drupal community before, and it is extremely serious. In some way it&rsquo;s our own version of Heartbleed and other highly-publicized critical vulnerabilities in open source software.</p>
 
 

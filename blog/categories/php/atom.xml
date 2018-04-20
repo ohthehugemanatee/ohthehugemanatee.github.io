@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Php | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/php/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[The 3 Skills You Need to Become a Rock Star Developer]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
+    <link href="http://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer/"/>
     <updated>2017-08-04T12:03:27+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
+    <id>http://ohthehugemanatee.org/blog/2017/08/04/the-only-3-tools-you-need-to-become-a-rock-star-developer</id>
     <content type="html"><![CDATA[<p>A lot is made of so-called &ldquo;rockstar developers&rdquo; in any given language or framework. They have a seemingly magical knowledge of the language and API, finding obscure methods and writing best-practice code as if by instinct. I&rsquo;d like to lift the curtain on this: it&rsquo;s not that hard to be this kind of rock star. You can do it, too&hellip; even without a fancy computer science degree. If you know how to code in a given language, you just need 3 skills and some patience. It will take about a year of working this way to get there, but you&rsquo;ll find people throwing around &ldquo;the R word&rdquo; sooner than you think.</p>
 
 <h2>1) Know how to explore the source</h2>
@@ -79,9 +79,9 @@ public function testAddition() {
   
   <entry>
     <title type="html"><![CDATA[Why No Mainstream PHP Speakers Come to Drupalcon - and How We're Changing That]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon/"/>
+    <link href="http://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon/"/>
     <updated>2017-07-28T17:01:59+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/07/28/bring-php-to-drupalcon</id>
+    <id>http://ohthehugemanatee.org/blog/2017/07/28/bring-php-to-drupalcon</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve learned something incredible as the PHP Track Chair for Drupalcon Vienna. <strong>The Drupal Association has no way to invite PHP speakers to Drupalcon</strong>.</p>
 
 <p>This blew me away when I first learned about it. After all the work to bring mainstream PHP to Drupal core, after all the outreach to <a href="https://php-fig.org">PHP-FIG</a>, after all the talks Drupalists have given at major PHP conferences, how is this possible?</p>
@@ -97,7 +97,7 @@ public function testAddition() {
 <iframe class='gfm-media-widget' image='1' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='http://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -118,7 +118,7 @@ public function testAddition() {
 <iframe class='gfm-media-widget' image='0' coinfo='0' width='100%' height='100%' frameborder='0' id='php-at-drupalcon'></iframe>
 
 
-<script src='http://ohthehugemanatee.github.io//funds.gofundme.com/js/5.0/media-widget.js'></script>
+<script src='http://ohthehugemanatee.org//funds.gofundme.com/js/5.0/media-widget.js'></script>
 
 
 <br />
@@ -130,9 +130,9 @@ public function testAddition() {
   
   <entry>
     <title type="html"><![CDATA[Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists/"/>
+    <link href="http://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists/"/>
     <updated>2017-06-15T17:19:24+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2017/06/15/better-php-better-drupalists</id>
+    <id>http://ohthehugemanatee.org/blog/2017/06/15/better-php-better-drupalists</id>
     <content type="html"><![CDATA[<p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
 
 <p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>

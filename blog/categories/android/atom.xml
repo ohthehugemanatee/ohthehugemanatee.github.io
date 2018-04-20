@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Android | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/android/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/android/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Troubleshooting Android Error -505 From Google Play]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/"/>
+    <link href="http://ohthehugemanatee.org/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/"/>
     <updated>2015-05-29T12:20:33+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
+    <id>http://ohthehugemanatee.org/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
     <content type="html"><![CDATA[<p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
 
 <p><img class="center" src="/images/error-505.jpg" title="&ldquo;Error 505&rdquo;" ></p>

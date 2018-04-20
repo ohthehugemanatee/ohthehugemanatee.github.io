@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Drupal 8 | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/drupal-8/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/drupal-8/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Writing Drupal 8 Code for Drupal 7]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
+    <link href="http://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7/"/>
     <updated>2016-11-05T12:05:50+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
+    <id>http://ohthehugemanatee.org/blog/2016/11/05/writing-drupal-8-code-for-drupal-7</id>
     <content type="html"><![CDATA[<p>A year ago I proposed a session for <a href="https://events.drupal.org/asia2016">Drupalcon Mumbai</a> and <a href="https://events.drupal.org/neworleans2016">Drupalcon New Orleans</a>, called <a href="https://events.drupal.org/neworleans2016/sessions/best-both-worlds-writing-drupal-8-code-drupal-7-sites">&ldquo;The best of both worlds&rdquo;</a>. It promised to show attendees how to write Drupal 8 code for Drupal 7 sites. I never ended up giving the session, but this week I got an email asking for more information. So in case it ever comes up again, here&rsquo;s my own collection of resources on the subject.</p>
 
 <p>The big improvement that&rsquo;s hard for D7 developers to get used to is injected services. The <a href="https://www.drupal.org/project/service_container">service container module</a> makes that possible in D7. The brilliant <a href="https://www.drupal.org/u/fabianx">FabianX</a> wrote it to make his life easier in writing <a href="https://www.drupal.org/project/render_cache">render cache</a>, and his is always a good example to follow! This module creates a service container for D7, which you use just like the container in D8. You can write independent, OO code that is unit testable, with service dependencies declared in a YAML file. Note that you will also need the <a href="https://www.drupal.org/project/registry_autoload">registry autoload</a> module to get PS4 namespaced autoloading!</p>
@@ -44,15 +44,15 @@
   
   <entry>
     <title type="html"><![CDATA[Drupal 8 RC 1 Is Out! What Now?]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
+    <link href="http://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now/"/>
     <updated>2015-10-08T11:16:02+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
+    <id>http://ohthehugemanatee.org/blog/2015/10/08/drupal-8-rc-1-is-out-what-now</id>
     <content type="html"><![CDATA[<p>Last night (my time) I got the good news over twitter:</p>
 
 <blockquote class="twitter-tweet" lang="en"><p lang="en" dir="ltr">Blue smoke from the chimney, I repeat blue smoke from the chimney!&#10;&#10;<a href="https://twitter.com/hashtag/Drupal8?src=hash">#Drupal8</a> release candidate 1 has been released! Good day for <a href="https://twitter.com/hashtag/Drupal?src=hash">#Drupal</a>!</p>&mdash; Marc Drummond (@MarcDrummond) <a href="https://twitter.com/MarcDrummond/status/651870155828412416">October 7, 2015</a></blockquote>
 
 
-<script async src="http://ohthehugemanatee.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="http://ohthehugemanatee.org//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 
 <p>That&rsquo;s right, Drupal 8 has it&rsquo;s first release. But what does that mean? Is it done? Can I start using it yet? What kind of changes are coming? Will dawehner get to sleep, at last?</p>

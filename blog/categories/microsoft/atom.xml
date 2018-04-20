@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Microsoft | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/microsoft/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/microsoft/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Drupal Does Face Recognition: Introducing Image Auto Tag Module]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal/"/>
+    <link href="http://ohthehugemanatee.org/blog/2018/04/19/face-recognition-on-drupal/"/>
     <updated>2018-04-19T18:06:51+02:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2018/04/19/face-recognition-on-drupal</id>
+    <id>http://ohthehugemanatee.org/blog/2018/04/19/face-recognition-on-drupal</id>
     <content type="html"><![CDATA[<p>Last week I wrote a Drupal module that uses face recognition to automatically tag images with the people in them. You can find it on <a href="https://github.com/ohthehugemanatee/image_auto_tag">Github</a>, of course. With this module, you can add an image to a node, and automatically populate an entity_reference field with the names of the people in the image. This isn&rsquo;t such a big deal for individual nodes of course; it&rsquo;s really interesting for bulk use cases, like Digital Asset Management systems.</p>
 
 <p><img class="center" src="/images/image-auto-tag.gif" title="Automatic tags, now in a Gif." ></p>
@@ -40,15 +40,15 @@
   
   <entry>
     <title type="html"><![CDATA[The #1 Question I Get Asked Working at MS: Why Do You Run Linux?]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/"/>
+    <link href="http://ohthehugemanatee.org/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/"/>
     <updated>2018-02-07T16:42:50+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux</id>
+    <id>http://ohthehugemanatee.org/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux</id>
     <content type="html"><![CDATA[<p>I&rsquo;ve had all of a week working at Microsoft, and so far it&rsquo;s been great. I&rsquo;ve managed to get my Linux daily driver machine working with almost all the MS internal systems (more on that in a separate post), and all the daily use applications have web or Linux versions available. So far, so good!</p>
 
 
 
 
-<p><img class="center" src="http://ohthehugemanatee.github.io/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
+<p><img class="center" src="http://ohthehugemanatee.org/images/ms-loves-linux.png" title="I see this banner all over the MS Intranet" ></p>
 
 
 
@@ -107,9 +107,9 @@
   
   <entry>
     <title type="html"><![CDATA[I'm Joining Microsoft, Because They're Doing Open Source Right]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
+    <link href="http://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/"/>
     <updated>2018-01-08T20:32:50+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
+    <id>http://ohthehugemanatee.org/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right</id>
     <content type="html"><![CDATA[<p>I&rsquo;m excited to announce that I&rsquo;ve signed with <strong>Microsoft</strong> as a Principal Software Engineering Manager. <strong>I&rsquo;m joining Microsoft because they are doing enterprise Open Source the Right Way, and I want to be a part of it</strong>. This is a sentence that I never believed I would write or say, so I want to explain.</p>
 
 <p>First I have to acknowledge the history. I co-founded my first tech company just as the <a href="https://en.wikipedia.org/wiki/Halloween_documents">Halloween documents</a> were leaked. That&rsquo;s where the world learned that Microsoft considered Open Source (and Linux in particular) a threat, and was intentionally spreading FUD as a strategic counter. It was also the origin of their famous <a href="https://en.wikipedia.org/wiki/Embrace%2C_extend%2C_and_extinguish">Embrace, Extend, and Extinguish</a> strategy. The Microsoft approach to Open Source only got more aggressive from there, funneling money to <a href="https://en.wikipedia.org/wiki/SCO/Linux_controversies">SCO&rsquo;s lawsuits</a> against Linux and its users, calling OSS licensing a &ldquo;cancer&rdquo;, and accusing Linux of violating MS intellectual property.</p>

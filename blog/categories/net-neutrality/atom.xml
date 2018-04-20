@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Net Neutrality | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/net-neutrality/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/net-neutrality/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Net Neutrality and Steve Wozniak]]></title>
-    <link href="http://ohthehugemanatee.github.io/2010/12/net-neutrality-and-steve-wozniak.html"/>
+    <link href="http://ohthehugemanatee.org/2010/12/net-neutrality-and-steve-wozniak.html"/>
     <updated>2010-12-22T00:50:00+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/2010/12/net-neutrality-and-steve-wozniak</id>
+    <id>http://ohthehugemanatee.org/2010/12/net-neutrality-and-steve-wozniak</id>
     <content type="html"><![CDATA[<p></p>
 
 <div class="css-full-post-content js-full-post-content">

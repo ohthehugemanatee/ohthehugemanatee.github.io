@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ruby | Oh, The Huge Manatee]]></title>
-  <link href="http://ohthehugemanatee.github.io/blog/categories/ruby/atom.xml" rel="self"/>
-  <link href="http://ohthehugemanatee.github.io/"/>
-  <updated>2018-04-20T09:38:34+02:00</updated>
-  <id>http://ohthehugemanatee.github.io/</id>
+  <link href="http://ohthehugemanatee.org/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2018-04-20T10:49:33+02:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Another Cryptic Ruby Message]]></title>
-    <link href="http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message/"/>
+    <link href="http://ohthehugemanatee.org/blog/2014/01/10/another-cryptic-ruby-message/"/>
     <updated>2014-01-10T21:20:55+01:00</updated>
-    <id>http://ohthehugemanatee.github.io/blog/2014/01/10/another-cryptic-ruby-message</id>
+    <id>http://ohthehugemanatee.org/blog/2014/01/10/another-cryptic-ruby-message</id>
     <content type="html"><![CDATA[<p>Ruby on Rails drives me nuts, and today I found another example of why: the cryptic error messages. After a server update, my chiliproject/redmine site refused to start. The error message was</p>
 
 <blockquote><p>&ldquo;Object is not missing constant Issue!&rdquo;</p></blockquote>
