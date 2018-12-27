@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Kubernetes Tricks for Stateful Applications - Oh, The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="A couple of weeks ago I got to proctor an Openhack event on modern containerization. It ended up an excuse to dig deep on one of the corner cases &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh, The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+
+
+
+
+
+
+
+<meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+<meta property="og:url" content="http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Kubernetes Tricks for Stateful Applications - Oh, The Huge Manatee" />
+<meta property="og:description" content="A blog about technology, open source, and the web... from someone who works with all three." />
+<!--
+  <meta property="og:image" content="http://ohthehugemanatee.org/images/headshot.jpg" /> -->
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh, The Huge Manatee</a></h1>
+  
+    <h2>A blog about technology, open source, and the web... from someone who works with all three.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Kubernetes Tricks for Stateful Applications</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-17T10:12:21+01:00" pubdate data-updated="true">Dec 17<span>th</span>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>A couple of weeks ago I got to proctor an <a href="https://openhack.microsoft.com/">Openhack</a> event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all encounter, but no one likes to talk about.</p>
+
+<p>Kubernetes is one of the greatest orchstration and scaling tools ever built, designed for modern decoupled, stateless architectures. Kubernetes tutorials abound that show you how to handle these strong use cases. But in the real world, where you don&rsquo;t get to build &ldquo;green field&rdquo; applications every time, there are a lot of applications that don&rsquo;t fit that model. Depending on your frameworks and languages of choice, people are still writing tightly-coupled monoliths. In some use cases, this kind of scalability isn&rsquo;t even useful.</p>
+
+<p>So today I&rsquo;m writing about stateful, non-scalable applications in kubernetes. For example a game server, where you don&rsquo;t want to grow capacity per-game based on load &ndash; you want to add more games (server instances).</p>
+
+<p>There are a few different approaches to coupling appliciation components:</p>
+
+<h2>Multi-container pods</h2>
+
+<p>The simplest approach is just to have more than one component specified in your deployment.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apiVersion: apps/v1
+</span><span class='line'>kind: Deployment
+</span><span class='line'>metadata:
+</span><span class='line'>  name: nginx-deployment
+</span><span class='line'>  labels:
+</span><span class='line'>    app: nginx
+</span><span class='line'>spec:
+</span><span class='line'>  replicas: 3
+</span><span class='line'>  selector:
+</span><span class='line'>    matchLabels:
+</span><span class='line'>      app: nginx
+</span><span class='line'>  template:
+</span><span class='line'>    metadata:
+</span><span class='line'>      labels:
+</span><span class='line'>        app: nginx
+</span><span class='line'>    spec:
+</span><span class='line'>      containers:
+</span><span class='line'>      - name: php
+</span><span class='line'>        image: php:latest
+</span><span class='line'>        ports:
+</span><span class='line'>        - containerPort: 9000
+</span><span class='line'>      - name: nginx
+</span><span class='line'>        image: nginx:latest
+</span><span class='line'>        ports:
+</span><span class='line'>        - containerPort: 80</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This specifies 3 copies of the same application, with the same two containers in each replica. This is a coupled application, but it&rsquo;s still stateless. Let&rsquo;s add a volume &ndash; that&rsquo;s where we get into trouble.</p>
+
+<p>The problem: If you add a Volume the normal way (persistentVolumeClaim), each of your replicas will try and connect to the same volume. It&rsquo;ll act like a network shared drive. Maybe that&rsquo;s OK for your application, but not if it&rsquo;s our super-stateful example! And depending on your volume class, the volume may reject multiple connections like this (Azure Disk does, for example).</p>
+
+<p>So how do we get around this limitation? I want a separate volume for each instance of the application.</p>
+
+<p>Kubernetes supports a different object type for this use case, called a StatefulSet. This is exactly what it sounds like: a set of objects that define a stateful application. It&rsquo;s a template for creating multiple copies of <em>all resources</em> defined therein.</p>
+
+<p>A statefulset will create replicas similar to a deployment, but it will set up separate Volumes and VolumeClaims for each one. The replicas will be identical, except for an index number at the end of the labels. The first one is called <code>nginx-deployment-0</code>, the second: <code>nginx-deployment-1</code>, and so on.  The result is a set of tightly coupled components, which can be individually addressed, and scaled using normal Kubernetes tools.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apiVersion: apps/v1
+</span><span class='line'>kind: StatefulSet
+</span><span class='line'>metadata:
+</span><span class='line'>  name: nginx
+</span><span class='line'>  labels:
+</span><span class='line'>    app: nginx
+</span><span class='line'>spec:
+</span><span class='line'>  replicas: 3
+</span><span class='line'>  selector:
+</span><span class='line'>    matchLabels:
+</span><span class='line'>      app: nginx
+</span><span class='line'>  serviceName: "nginx"
+</span><span class='line'>  template:
+</span><span class='line'>    metadata:
+</span><span class='line'>      labels:
+</span><span class='line'>        app: nginx
+</span><span class='line'>    spec:
+</span><span class='line'>      terminationGracePeriodSeconds: 10
+</span><span class='line'>      containers:
+</span><span class='line'>      - name: php
+</span><span class='line'>        image: php:latest
+</span><span class='line'>        volumeMounts:
+</span><span class='line'>        - mountPath: "/data"
+</span><span class='line'>          name: data
+</span><span class='line'>      - name: nginx
+</span><span class='line'>        image: nginx:latest
+</span><span class='line'>        ports:
+</span><span class='line'>        - containerPort: 80
+</span><span class='line'>          name: http
+</span><span class='line'>        volumeMounts:
+</span><span class='line'>        - mountPath: "/data"
+</span><span class='line'>          name: data
+</span><span class='line'>  volumeClaimTemplates:
+</span><span class='line'>    - metadata:
+</span><span class='line'>        name: data
+</span><span class='line'>      spec:
+</span><span class='line'>        storageClassName: default
+</span><span class='line'>        accessModes:
+</span><span class='line'>          - ReadWriteOnce
+</span><span class='line'>        resources:
+</span><span class='line'>          requests:
+</span><span class='line'>            storage: 5Gi
+</span><span class='line'>---
+</span><span class='line'>apiVersion: v1
+</span><span class='line'>kind: Service
+</span><span class='line'>metadata:
+</span><span class='line'>  name: nginx
+</span><span class='line'>  labels:
+</span><span class='line'>    app: nginx
+</span><span class='line'>spec:
+</span><span class='line'>  ports:
+</span><span class='line'>    - port: 80
+</span><span class='line'>      name: http
+</span><span class='line'>  clusterIP: None
+</span><span class='line'>  selector:
+</span><span class='line'>    app: nginx</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are a few details to notice here.</p>
+
+<p>Yes, we&rsquo;ve replaced <em>Deployment</em> with <em>StatefulSet</em>. Nice shiny gold star if you noticed that one.</p>
+
+<p>The interesting part is the <em>VolumeClaimTemplates</em> section, below the containers definition. This keyword only exists inside a StatefulSet, and it&rsquo;s just what it sounds like: a template for creating Persistent Volume Claims.</p>
+
+<p>If you apply this config, you&rsquo;ll see three PVs created, with three PVCs, attached to three Pods. You can apply HPA rules to scale these up and down just like you would with deployments.</p>
+
+<p>There&rsquo;s also that weird Service at the bottom. A naked service with no clusterIP? What&rsquo;s the point? The point is as a helper for Kubernetes&#8217; internal DNS. All of those nice StatefulSet pods will come under a neat subdomain, eg nginx-0.nginx, nginx-1.nginx, etc. Additionally you can connect to active members of the StatefulSet by using that nginx domain component. A dns lookup on it will show all the IPs of the active members in the CNAME record.</p>
+
+<p>&ldquo;But what about external access?&rdquo; I hear you cry. Yes, we&rsquo;ve built a great stateful application that can scale instances, but it&rsquo;s only internally addressable! Good luck hosting those games&hellip;</p>
+
+<h2>External access and metacontroller</h2>
+
+<p>Normally you would put a LoadBalancer service in front of your application. But a Kubernetes load balancer will grab all of these StatefulSet members &ndash; so you can&rsquo;t address them externally one-by-one. What you <em>really</em> want to do, is create an external IP address (or hostname) for each statefulset member.</p>
+
+<p>One solution is to use a reverse proxy like nginx or HAProxy, configured to differentiate based on hostnames. But this is a blog post about Kubernetes, so we&rsquo;re going to do this the Kubernetes way!</p>
+
+<p>Kubernetes is very extensible. If Pods, Services, etc don&rsquo;t make sense for your application or domain, you can define custom object types and behaviors, through <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resources and controllers</a>. That&rsquo;s pretty edge case, but as we&rsquo;ve seen, some kubernetes edge cases are mainstream cases in the real world.</p>
+
+<p>In our super-stateful application, we don&rsquo;t need a custom resource. But we do want to attach <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-controllers">custom behaviors</a> to our StatefulSet: every time we start up apod we should create a LoadBalancer for it. We should be nice and tear them down when the pods are scaled down, of course.</p>
+
+<p>We&rsquo;ll use the <a href="https://github.com/GoogleCloudPlatform/metacontroller">Metacontroller</a> add-on to make our lives easier. Metacontroller makes it &ldquo;easy&rdquo; to add custom behaviors. Just write a short script, stick it into a ConfigMap or FaaS, and let Metacontroller work its magic!</p>
+
+<p>Metacontroller project comes with several well documented examples, including one that&rsquo;s very close to our requirement: <a href="https://github.com/GoogleCloudPlatform/metacontroller/tree/master/examples/service-per-pod">service-per-pod</a>.<br/>
+Start by adding some new metadata to our StatefulSet:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>apiVersion: apps/v1
+</span><span class='line'>kind: StatefulSet
+</span><span class='line'>metadata:
+</span><span class='line'>  annotations:
+</span><span class='line'>    service-per-pod-label: "pod-name"
+</span><span class='line'>    service-per-pod-ports: "80:80"
+</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
+
+
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-17T10:12:21+01:00" pubdate data-updated="true">Dec 17<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/k8s/'>k8s</a>, <a class='category' href='/blog/categories/sysadmin/'>sysadmin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<img src="/images/headshot.jpg" alt="Campbell Vertesi profile picture" />
+<h1>About</h1>
+<p>My name is <a href="https://campbell.vertesi.com/" title="Campbell Vertesi">Campbell Vertesi</a>. I work  with <a href="https://microsoft.com/" title="Microsoft">Microsoft</a> on cutting-edge Open Source. I'm also an <a href="https://thecastmusic.com/" title="The Cast - the opera band">opera singer</a>.</p>
+
+<p>I've been working with computers for 21 years, with PHP and Drupal for 13 of those. I started with desktop repair, moved into sysadmin work, and eventually discovered web development. Since then I've been in most roles in the web consultant ecosystem: coder, themer, project manager, information architect, technical lead, CEO, and CTO. I've presented at many conferences, including almost 20 Drupalcons. <a href="/about-me.html" title="More about me">More about me</a>.</p>
+
+<p>This is a technical blog that's partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I'm involved in a lot of different fields and specialties, and it's nice to have it all catalogued somewhere. I've written this blog on various platforms under different names, but this is where I'm hoping it will stay for awhile.</p>
+
+<p>I'm not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using the information on this blog. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/12/27/optimizing-data-transfer-speeds/">Optimizing Data Transfer Speeds</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/04/19/face-recognition-on-drupal/">Drupal Does Face Recognition: Introducing Image Auto Tag Module</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/25/my-war-on-systemd-resolved/">My War on Systemd-resolved</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/">I'm Joining Microsoft, Because They're Doing Open Source Right</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html';
+        var disqus_url = 'http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

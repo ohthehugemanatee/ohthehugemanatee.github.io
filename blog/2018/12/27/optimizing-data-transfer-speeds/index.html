@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Optimizing Data Transfer Speeds - Oh, The Huge Manatee</title>
+  <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+  
+  <meta name="description" content="One of my holiday projects was to set up my home &ldquo;data warehouse.&rdquo; Ever since Dropbox killed modern Linux filesystem support I&rsquo;ve &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Oh, The Huge Manatee" type="application/atom+xml">
+  <link href="/stylesheets/table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="https://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/stylesheets/fonts/prstartk/stylesheet.css" type="text/css" charset="utf-8" />
+
+
+
+
+
+
+
+
+<meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
+
+<meta property="og:url" content="http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Optimizing Data Transfer Speeds - Oh, The Huge Manatee" />
+<meta property="og:description" content="A blog about technology, open source, and the web... from someone who works with all three." />
+<!--
+  <meta property="og:image" content="http://ohthehugemanatee.org/images/headshot.jpg" /> -->
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-46172182-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+<a href="/" style="float:right"><img  src="/images/oh_the_huge_manatee.png" /></a><div class="titles"><h1><a href="/">Oh, The Huge Manatee</a></h1>
+  
+    <h2>A blog about technology, open source, and the web... from someone who works with all three.</h2>
+  
+</div>
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="https://www.duckduckgo.com/" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="sites" value="ohthehugemanatee.org" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search&hellip;"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/about-me.html">Me</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Optimizing Data Transfer Speeds</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-27T10:30:23+01:00" pubdate data-updated="true">Dec 27<span>th</span>, 2018</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>One of my holiday projects was to set up my home &ldquo;data warehouse.&rdquo; Ever since <a href="https://www.dropboxforum.com/t5/Syncing-and-uploads/Linux-Dropbox-client-warn-me-that-it-ll-stop-syncing-in-Nov-why/m-p/290065/highlight/true#M42255">Dropbox killed modern Linux filesystem support</a> I&rsquo;ve been using (and loving) <a href="https://nextcloud.com/">Nextcloud</a> from my home. It backs up to an encrypted <a href="https://www.duplicati.com/">Duplicati</a> store on <a href="https://azure.microsoft.com/en-us/services/storage/blobs/">Azure blob store</a>, so that&rsquo;s offsite backups taken care of. But it was time to knit all my various drives together into a single RAID data warehouse. The only problem: how to transfer my 2 terabytes (rounded to make the math in the post easier) of data, without nasty downtime during the holidays?</p>
+
+<p>A local network transfer is the fastest, with the least downtime. I have a switched gigabit network in my house, and all my servers are hard wired. That&rsquo;s about 125 megabytes per second; a theoretical 5 hours to transfer everything. Not bad! Start up an rsync and I&rsquo;m all done! So I kicked it off and went to bed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh nextcloud.vert
+</span><span class='line'><span class="nv">$ </span>rsync -axz /media/usbdrive/ warehouse:/mnt/storage/ --log-file<span class="o">=</span>transfer-to-warehouse.log &amp;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I woke up in the morning with the excitement of a kid on Christmas. Everything should be done, right?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh warehouse df -h |grep md0
+</span><span class='line'>/dev/md0        2.7T  501G  2.1T  20% /mnt/storage
+</span><span class='line'><span class="err">$</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Wait, what? How had it only transferred 500 gigabytes overnight? Including time for <em>Doctor Who</em> and breakfast, that was only 1 Megabit per second! I knew it was time to play everyone&rsquo;s favorite game: <em>&ldquo;where&rsquo;s the bottleneck?</em></p>
+
+<p>I guess it could be rsync scanning all those small files. If that&rsquo;s the case, we&rsquo;ll see high CPU usage, and even higher load numbers (as processes are I/O blocked):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh nextcloud
+</span><span class='line'><span class="nv">$ </span>top
+</span><span class='line'>
+</span><span class='line'>top - 08:22:27 up 10:26,  1 user,  load average: 1.20, 1.34, 1.33
+</span><span class='line'>Tasks: 170 total,   2 running, 106 sleeping,   0 stopped,   0 zombie
+</span><span class='line'>%Cpu<span class="o">(</span>s<span class="o">)</span>: 28.0 us,  2.1 sy,  0.0 ni, 69.5 id,  0.1 wa,  0.0 hi,  0.3 si,  0.0 st
+</span><span class='line'>KiB Mem : 16330372 total,   180568 free,   657104 used, 15492700 buff/cache
+</span><span class='line'>KiB Swap:  4194300 total,  4162556 free,    31744 used. 15300068 avail Mem
+</span><span class='line'>
+</span><span class='line'>  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+</span><span class='line'> 8755 ohthehu+  20   0  130572  58456   2672 R  99.0  0.4 513:14.75 rsync
+</span><span class='line'> 8756 ohthehu+  20   0   49596   6648   5152 S  16.9  0.0  92:12.29 ssh
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OK, let&rsquo;s kill the transfer and start again using a single large, piped tarball. No more small file scans!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh nextcloud
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /media/bigdrive <span class="o">&amp;&amp;</span> tar cf - . | ssh warehouse <span class="s2">&quot;cd /mnt/storage &amp;&amp; tar xpvf -&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That helps, but we&rsquo;re still compressing lots of data unnecessarily (most of my data is already compressed), and encrypting it, too. We can improve it with a lightweight ssh cipher and disabled compression:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh nextcloud
+</span><span class='line'><span class="nv">$ </span><span class="nb">cd</span> /media/bigdrive <span class="o">&amp;&amp;</span> tar cf - . | ssh -o <span class="nv">Compression</span><span class="o">=</span>no -c chacha20-poly1305@openssh.com warehouse <span class="s2">&quot;cd /mnt/storage &amp;&amp; tar xpf -&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That chacha20-poly1305 is a very fast cipher indeed &ndash; faster than the old arcfour cipher we used to use in this case. But SSH still puts extra work on the CPU. So let&rsquo;s remove it completely from the equation and just use netcat.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>ssh nextcloud <span class="nb">cd</span> /media/bigdrive <span class="o">&amp;&amp;</span> tar cf - . | pv | nc -l -q 5 -p 9999
+</span><span class='line'><span class="c"># in a separate terminal</span>
+</span><span class='line'><span class="nv">$ </span>ssh warehouse <span class="nb">cd</span> /mnt/storage <span class="o">&amp;&amp;</span> nc nextcloud 9999 | pv | tar -xf -
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Transfer speeds now average about 61 megabytes per second. That&rsquo;s fast enough to kick in the law of diminishing returns on my optimization effort: this will take about 8 hours to transfer if I keep it running. I had to pause work for an hour; now if I spend another hour on this, it has to shave more than 25% off my transfer time to finish any earlier tonight. I&rsquo;m not confident I can beat those numbers.</p>
+
+<p>Still &ndash; What happened to my 125 theoretical megabytes per second? Here are the culprits I suspect &ndash; and can&rsquo;t really do anything about:</p>
+
+<ul>
+<li><p><strong>Slow disk</strong>: We are writing to a software RAID5 array of old drives. In my head I was using the channel width of SATA-II for my calculations. In reality, and especially on spinning metal, write speeds are much slower. I looked up my component disks on <a href="userbenchmark.com">userbenchmark.com</a>, and the slowest member has an average sustained sequential write speed of 69 MB/s. This is very likely my first bottleneck. At most I can only use half of my available bandwidth.</p></li>
+<li><p><strong>TCP</strong>: After replacing all my drives with SSDs, TCP is the next culprit I would go after. The protocol technically only has about 6% of overhead, but it also dynamically seeks the maximum send rate through <a href="https://en.wikipedia.org/wiki/TCP_congestion_control">TCP Congestion Control</a>. It keeps trying to send &ldquo;just a little faster&rdquo;, until the number of unacknowledged packets exceeds a threshold. Then it backs off to 50%, and goes back to &ldquo;just a little faster&rdquo; mode. This loop means your practical speed with a TCP stream is about 75% of the pipe&rsquo;s theoretical maximum. Think of it like John Cleese offering just one more &ldquo;wafer thin&rdquo; packet. I considered using UDP to avoid this, but I actually <em>want</em> the error-checking in TCP. Probably the best solution is <a href="https://github.com/LabAdvComp/UDR">something esoteric like UDR</a>.</p></li>
+<li><p><strong>Slow CPU</strong>: This is the last bottleneck here. <em>Warehouse</em> is an old Intel Core2 Duo I had lying around the house. Untar and netcat aren&rsquo;t exactly CPU hungry beasts, but at some point there IS a maximum. If you believe the FreeNAS folks, a fileserver needs an i5 and 8 gigs of RAM for basic functionality. I haven&rsquo;t found that to be the case, but then I&rsquo;m not using RAID-Z, either.</p></li>
+</ul>
+
+
+<p>I&rsquo;m happy with the outcome here. I have another drive to copy later, with another terabyte. I&rsquo;m considering removing that slowest drive from my RAID array, since the next-slowest one is almost 50% faster. Then I can copy to the array while it&rsquo;s in degraded mode, and re-add the slowpoke afterwards. We&rsquo;ll see.</p>
+
+<p>Happy holidays!</p>
+
+<h3>Appendix: easy performance testing</h3>
+
+<p>If you&rsquo;re working on a similar problem for yourself, you might find these performance testing commands helpful. The idea is to tease apart each component of the transfer. There are better, more detailed, dedicated tools for each of these, but in a game of &ldquo;find the bottleneck&rdquo; you really only need quick and dirty validation. Fun fact: the command <em>dd</em> is actually short for <strong>D</strong>own and <strong>D</strong>irty. Well it should be, at any rate.</p>
+
+<p><strong>Read speed (on the source</strong> is easy: hand an arbitrary large file to dd, and write down the numbers it gives.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>large-file.tar.bz2 <span class="nv">of</span><span class="o">=</span>/dev/null <span class="nv">bs</span><span class="o">=</span>1M
+</span><span class='line'>1021317200 bytes <span class="o">(</span>1 GB<span class="o">)</span> copied, 3.9888 s, 256 MB/s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Network speed</strong> can be tested by netcatting a gigabyte of zeros from one machine to the other.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># On the receiving machine, open a port to /dev/null</span>
+</span><span class='line'><span class="nv">$ </span>nc -vvlnp 12345 &gt;/dev/null
+</span><span class='line'><span class="c"># On the sending machine, send a gig of zeroes to that port</span>
+</span><span class='line'><span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>1K | nc -vvn 192.168.1.50 12345
+</span><span class='line'>Connection to 192.168.1.50 12345 port <span class="o">[</span>tcp/*<span class="o">]</span> succeeded!
+</span><span class='line'>1024+0 records in
+</span><span class='line'>1024+0 records out
+</span><span class='line'>1073741824 bytes <span class="o">(</span>1.1 GB, 1.0 GiB<span class="o">)</span> copied, 11.7811 s, 91.1 MB/s
+</span><span class='line'><span class="c"># Remember, 8 bits to a byte!</span>
+</span><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s2">&quot;$(bc -l &lt;&lt;&lt; 91*8) Megabits&quot;</span>
+</span><span class='line'>728 Megabits
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>Write speed on the destination</strong> can be tested with dd, too:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">bs</span><span class="o">=</span>1M <span class="nv">count</span><span class="o">=</span>1024 <span class="nv">of</span><span class="o">=</span>/mnt/storage/test.img
+</span><span class='line'>1024+0 records in
+</span><span class='line'>1024+0 records out
+</span><span class='line'>1073741824 bytes <span class="o">(</span>1.1 GB, 1.0 GiB<span class="o">)</span> copied, 55.3836 s, 19.4 MB/s
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(note: these tests were run while the copy was happening on warehouse. Your numbers should be better than this!)</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Campbell Vertesi (ohthehugemanatee)</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2018-12-27T10:30:23+01:00" pubdate data-updated="true">Dec 27<span>th</span>, 2018</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/network/'>network</a>, <a class='category' href='/blog/categories/sysadmin/'>sysadmin</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2018/04/19/face-recognition-on-drupal/" title="Previous Post: Drupal Does Face Recognition: Introducing Image Auto Tag module">&laquo; Drupal Does Face Recognition: Introducing Image Auto Tag module</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+<img src="/images/headshot.jpg" alt="Campbell Vertesi profile picture" />
+<h1>About</h1>
+<p>My name is <a href="https://campbell.vertesi.com/" title="Campbell Vertesi">Campbell Vertesi</a>. I work  with <a href="https://microsoft.com/" title="Microsoft">Microsoft</a> on cutting-edge Open Source. I'm also an <a href="https://thecastmusic.com/" title="The Cast - the opera band">opera singer</a>.</p>
+
+<p>I've been working with computers for 21 years, with PHP and Drupal for 13 of those. I started with desktop repair, moved into sysadmin work, and eventually discovered web development. Since then I've been in most roles in the web consultant ecosystem: coder, themer, project manager, information architect, technical lead, CEO, and CTO. I've presented at many conferences, including almost 20 Drupalcons. <a href="/about-me.html" title="More about me">More about me</a>.</p>
+
+<p>This is a technical blog that's partly a reference for myself, partly a pointer for all the instructions I end up writing for others, and partly a document of my technical history. I'm involved in a lot of different fields and specialties, and it's nice to have it all catalogued somewhere. I've written this blog on various platforms under different names, but this is where I'm hoping it will stay for awhile.</p>
+
+<p>I'm not responsible for any damage caused to yourself, your family, your friends, your pets, or anything else as the result of using the information on this blog. Be smart and be careful.</p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/12/27/optimizing-data-transfer-speeds/">Optimizing Data Transfer Speeds</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/04/19/face-recognition-on-drupal/">Drupal Does Face Recognition: Introducing Image Auto Tag Module</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/25/my-war-on-systemd-resolved/">My War on Systemd-resolved</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/">I'm Joining Microsoft, Because They're Doing Open Source Right</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/ohthehugemanatee">@ohthehugemanatee</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'ohthehugemanatee',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+<section>
+<a class="twitter-timeline"  href="https://twitter.com/campbellvertesi"  data-widget-id="407927984901746688">Tweets by @campbellvertesi</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    </section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2018 - Campbell Vertesi (ohthehugemanatee) -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'ohthehugemanatee';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds/';
+        var disqus_url = 'http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

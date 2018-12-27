@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2018-04-20T10:49:33+02:00</updated>
+  <updated>2018-12-27T17:18:57+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,132 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Optimizing Data Transfer Speeds]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds/"/>
+    <updated>2018-12-27T10:30:23+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds</id>
+    <content type="html"><![CDATA[<p>One of my holiday projects was to set up my home &ldquo;data warehouse.&rdquo; Ever since <a href="https://www.dropboxforum.com/t5/Syncing-and-uploads/Linux-Dropbox-client-warn-me-that-it-ll-stop-syncing-in-Nov-why/m-p/290065/highlight/true#M42255">Dropbox killed modern Linux filesystem support</a> I&rsquo;ve been using (and loving) <a href="https://nextcloud.com/">Nextcloud</a> from my home. It backs up to an encrypted <a href="https://www.duplicati.com/">Duplicati</a> store on <a href="https://azure.microsoft.com/en-us/services/storage/blobs/">Azure blob store</a>, so that&rsquo;s offsite backups taken care of. But it was time to knit all my various drives together into a single RAID data warehouse. The only problem: how to transfer my 2 terabytes (rounded to make the math in the post easier) of data, without nasty downtime during the holidays?</p>
+
+<p>A local network transfer is the fastest, with the least downtime. I have a switched gigabit network in my house, and all my servers are hard wired. That&rsquo;s about 125 megabytes per second; a theoretical 5 hours to transfer everything. Not bad! Start up an rsync and I&rsquo;m all done! So I kicked it off and went to bed:</p>
+
+<p><code>bash
+$ ssh nextcloud.vert
+$ rsync -axz /media/usbdrive/ warehouse:/mnt/storage/ --log-file=transfer-to-warehouse.log &amp;
+</code></p>
+
+<p>I woke up in the morning with the excitement of a kid on Christmas. Everything should be done, right?</p>
+
+<p><code>bash
+$ ssh warehouse df -h |grep md0
+/dev/md0        2.7T  501G  2.1T  20% /mnt/storage
+$
+</code>
+Wait, what? How had it only transferred 500 gigabytes overnight? Including time for <em>Doctor Who</em> and breakfast, that was only 1 Megabit per second! I knew it was time to play everyone&rsquo;s favorite game: <em>&ldquo;where&rsquo;s the bottleneck?</em></p>
+
+<p>I guess it could be rsync scanning all those small files. If that&rsquo;s the case, we&rsquo;ll see high CPU usage, and even higher load numbers (as processes are I/O blocked):</p>
+
+<p>``` bash
+$ ssh nextcloud
+$ top</p>
+
+<p>top &ndash; 08:22:27 up 10:26,  1 user,  load average: 1.20, 1.34, 1.33
+Tasks: 170 total,   2 running, 106 sleeping,   0 stopped,   0 zombie
+%Cpu(s): 28.0 us,  2.1 sy,  0.0 ni, 69.5 id,  0.1 wa,  0.0 hi,  0.3 si,  0.0 st
+KiB Mem : 16330372 total,   180568 free,   657104 used, 15492700 buff/cache
+KiB Swap:  4194300 total,  4162556 free,    31744 used. 15300068 avail Mem</p>
+
+<p>  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                                                                <br/>
+ 8755 ohthehu+  20   0  130572  58456   2672 R  99.0  0.4 513:14.75 rsync                                                                                  <br/>
+ 8756 ohthehu+  20   0   49596   6648   5152 S  16.9  0.0  92:12.29 ssh
+&hellip;
+```</p>
+
+<p>OK, let&rsquo;s kill the transfer and start again using a single large, piped tarball. No more small file scans!</p>
+
+<p><code>bash
+$ ssh nextcloud
+$ cd /media/bigdrive &amp;&amp; tar cf - . | ssh warehouse "cd /mnt/storage &amp;&amp; tar xpvf -"
+</code></p>
+
+<p>That helps, but we&rsquo;re still compressing lots of data unnecessarily (most of my data is already compressed), and encrypting it, too. We can improve it with a lightweight ssh cipher and disabled compression:</p>
+
+<p><code>bash
+$ ssh nextcloud
+$ cd /media/bigdrive &amp;&amp; tar cf - . | ssh -o Compression=no -c chacha20-poly1305@openssh.com warehouse "cd /mnt/storage &amp;&amp; tar xpf -"
+</code></p>
+
+<p>That chacha20-poly1305 is a very fast cipher indeed &ndash; faster than the old arcfour cipher we used to use in this case. But SSH still puts extra work on the CPU. So let&rsquo;s remove it completely from the equation and just use netcat.</p>
+
+<p>``` bash
+$ ssh nextcloud cd /media/bigdrive &amp;&amp; tar cf &ndash; . | pv | nc -l -q 5 -p 9999</p>
+
+<h1>in a separate terminal</h1>
+
+<p>$ ssh warehouse cd /mnt/storage &amp;&amp; nc nextcloud 9999 | pv | tar -xf &ndash;
+```</p>
+
+<p>Transfer speeds now average about 61 megabytes per second. That&rsquo;s fast enough to kick in the law of diminishing returns on my optimization effort: this will take about 8 hours to transfer if I keep it running. I had to pause work for an hour; now if I spend another hour on this, it has to shave more than 25% off my transfer time to finish any earlier tonight. I&rsquo;m not confident I can beat those numbers.</p>
+
+<p>Still &ndash; What happened to my 125 theoretical megabytes per second? Here are the culprits I suspect &ndash; and can&rsquo;t really do anything about:</p>
+
+<ul>
+<li><p><strong>Slow disk</strong>: We are writing to a software RAID5 array of old drives. In my head I was using the channel width of SATA-II for my calculations. In reality, and especially on spinning metal, write speeds are much slower. I looked up my component disks on <a href="userbenchmark.com">userbenchmark.com</a>, and the slowest member has an average sustained sequential write speed of 69 MB/s. This is very likely my first bottleneck. At most I can only use half of my available bandwidth.</p></li>
+<li><p><strong>TCP</strong>: After replacing all my drives with SSDs, TCP is the next culprit I would go after. The protocol technically only has about 6% of overhead, but it also dynamically seeks the maximum send rate through <a href="https://en.wikipedia.org/wiki/TCP_congestion_control">TCP Congestion Control</a>. It keeps trying to send &ldquo;just a little faster&rdquo;, until the number of unacknowledged packets exceeds a threshold. Then it backs off to 50%, and goes back to &ldquo;just a little faster&rdquo; mode. This loop means your practical speed with a TCP stream is about 75% of the pipe&rsquo;s theoretical maximum. Think of it like John Cleese offering just one more &ldquo;wafer thin&rdquo; packet. I considered using UDP to avoid this, but I actually <em>want</em> the error-checking in TCP. Probably the best solution is <a href="https://github.com/LabAdvComp/UDR">something esoteric like UDR</a>.</p></li>
+<li><p><strong>Slow CPU</strong>: This is the last bottleneck here. <em>Warehouse</em> is an old Intel Core2 Duo I had lying around the house. Untar and netcat aren&rsquo;t exactly CPU hungry beasts, but at some point there IS a maximum. If you believe the FreeNAS folks, a fileserver needs an i5 and 8 gigs of RAM for basic functionality. I haven&rsquo;t found that to be the case, but then I&rsquo;m not using RAID-Z, either.</p></li>
+</ul>
+
+
+<p>I&rsquo;m happy with the outcome here. I have another drive to copy later, with another terabyte. I&rsquo;m considering removing that slowest drive from my RAID array, since the next-slowest one is almost 50% faster. Then I can copy to the array while it&rsquo;s in degraded mode, and re-add the slowpoke afterwards. We&rsquo;ll see.</p>
+
+<p>Happy holidays!</p>
+
+<h3>Appendix: easy performance testing</h3>
+
+<p>If you&rsquo;re working on a similar problem for yourself, you might find these performance testing commands helpful. The idea is to tease apart each component of the transfer. There are better, more detailed, dedicated tools for each of these, but in a game of &ldquo;find the bottleneck&rdquo; you really only need quick and dirty validation. Fun fact: the command <em>dd</em> is actually short for <strong>D</strong>own and <strong>D</strong>irty. Well it should be, at any rate.</p>
+
+<p><strong>Read speed (on the source</strong> is easy: hand an arbitrary large file to dd, and write down the numbers it gives.</p>
+
+<p><code>bash
+$ dd if=large-file.tar.bz2 of=/dev/null bs=1M
+1021317200 bytes (1 GB) copied, 3.9888 s, 256 MB/s
+</code></p>
+
+<p><strong>Network speed</strong> can be tested by netcatting a gigabyte of zeros from one machine to the other.</p>
+
+<p>``` bash</p>
+
+<h1>On the receiving machine, open a port to /dev/null</h1>
+
+<p>$ nc -vvlnp 12345 >/dev/null</p>
+
+<h1>On the sending machine, send a gig of zeroes to that port</h1>
+
+<p>$ dd if=/dev/zero bs=1M count=1K | nc -vvn 192.168.1.50 12345
+Connection to 192.168.1.50 12345 port [tcp/*] succeeded!
+1024+0 records in
+1024+0 records out
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 11.7811 s, 91.1 MB/s</p>
+
+<h1>Remember, 8 bits to a byte!</h1>
+
+<p>$ echo &ldquo;$(bc -l &lt;&lt;&lt; 91*8) Megabits&rdquo;
+728 Megabits
+```</p>
+
+<p><strong>Write speed on the destination</strong> can be tested with dd, too:</p>
+
+<p><code>bash
+$ dd if=/dev/zero bs=1M count=1024 of=/mnt/storage/test.img
+1024+0 records in
+1024+0 records out
+1073741824 bytes (1.1 GB, 1.0 GiB) copied, 55.3836 s, 19.4 MB/s
+</code></p>
+
+<p>(note: these tests were run while the copy was happening on warehouse. Your numbers should be better than this!)</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[What Crell Doesn't Want You to Know: How to Automate Letsencrypt on platform.sh]]></title>
@@ -420,131 +546,6 @@ ForwardAgent yes
 
 
 <div>There are also a handful of options that can come in handy in specifying the output, but they really go beyond the scope of this blog post. The resource I always use is the <a href="https://twiki.cern.ch/twiki/bin/view/LinuxSupport/OpenSSLCheatsheet">CERN openSSL conversions cheat sheet</a>.&nbsp;</div>
-
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[How to Set Up Apache Solr Multicore for Drupal]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal/"/>
-    <updated>2013-04-18T00:00:00+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2013/04/18/how-to-set-up-apache-solr-multicore-for-drupal</id>
-    <content type="html"><![CDATA[<p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is the search technology that powers many <a href="http://drupal.org">Drupal</a> sites. It integrates easily with Drupal's <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> contrib module, through the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module. It's easy enough to set up a single site installation of solr on your own, but if you're serious about building Drupal sites with solr you will be building more than one site. Solr includes a "<a href="http://wiki.apache.org/solr/CoreAdmin" target="_blank">multi-core</a>" mode, which lets you serve multiple search cores to separate sites from a single installation. Each core looks, feels, and acts like a totally separate Solr install, so you can develop as many solr sites as you like. Each core has its own configuration, data directory... the works. One core can support extensive custom geo data, and another can be completely location blind. The best part: with Solr multicore, adding a new search core to your existing stack is a trivial 5 minute installation.</p>
-
-
-<p>But getting a working, sane, and easy to manage solr multicore installation is not quite as trivial as a single site. I get asked for instructions on this all the time, so here they are for posterity. These instructions assume you're running on a supported version of <a href="http://www.ubuntu.com/" target="_blank">Ubuntu Linux</a>, but very few steps are distribution-specific. I've noted them inline, so you can work out just what you need to do for your unique environment.</p>
-
-
-<h3>1) Understand what you're doing</h3>
-
-
-<p>I know you aren't going to read this whole post before getting started, so instead step 1 is to understand the beast.</p>
-
-
-<p>Drupal's <a href="http://drupal.org/project/search_api" target="_blank">search_api</a> module allows you to plug in different search engines to act as the back end. We're going to use the <a href="http://drupal.org/project/search_api_solr" target="_blank">search_api_solr</a> module, so that Drupal passes search indexing and queries to Apache Solr for processing. Installing and configuring this on the Drupal side is beyond the scope of this post, but it's not radically different from any other contrib module. The radically different part is in setting up Solr, and making sure it knows how to understand the information coming from Drupal.&nbsp;</p>
-
-
-<p><a href="https://lucene.apache.org/solr/" target="_blank">Apache Solr</a> is a search engine built in Java. Basically you run a java program, feed it a bunch of data, and it stores it in a searchable index. Then you send it search queries, and it gives you a sorted list of results. In order to do this, it needs to understand the structure of the data in the search index, and a handful of similar details. We're lucky in that Drupal's search_api_solr comes with exactly the configuration files we need to make Solr understand the indexing and search request data that comes from Drupal. We'll be able to just copy the configuration files right out of the search_api_solr.</p>
-
-
-<p>In order to run solr in a secure environment, and in order to feed it information that's coming in over HTTP, you need a Java Servlet engine. This is basically a web server that is specifically built to pass requests on to Java applications like Solr. You can think of it as a wrapper for Solr. There are a few competing open source servlet engines, but we're going to use <a href="https://tomcat.apache.org/" target="_blank">Tomcat</a> in this tutorial. Tomcat is popular, powerful, and easy to install on most modern Linux distributions.&nbsp;</p>
-
-
-<h3>2) Install Apache Tomcat</h3>
-
-
-<p>On Ubuntu and Debian systems, this should be as easy as&nbsp;</p>
-
-
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo apt-get install tomcat6 tomcat6-admin tomcat6-common tomcat6-user</pre>
-
-
-<div>Bam, you have tomcat installed, as well as everything you need for tomcat to control access to administrative and user functions. The default location for tomcat6 is <span style="font-family: 'courier new', courier, monospace;">/usr/share/tomcat6</span> , and configuration is stored in <span style="font-family: 'courier new', courier, monospace;">/etc/tomcat6</span> .</div>
-
-
-<p>By default Tomcat's user database is a simple xml file. We're going to edit it so that we have an administrative user that can tweak behaviors from Tomcat's web interface.</p>
-
-
-<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/tomcat6/tomcat-users.xml"><span style="font-family: Arial, Verdana, sans-serif;">&lt;role rolename="admin"/&gt;
-&lt;role rolename="manager"/&gt;
-&lt;user username="tomcat" password="mypasswordhere" roles="admin,manager"/&gt;
-&lt;/tomcat-users&gt;
-</span></pre>
-
-
-<div><span style="background-color: rgb(250, 250, 250); line-height: 18px; white-space: pre;">Make sure that you define both the admin and manager roles as above, and that you have one user that gets both roles. Save the file, and restart the tomcat6 service.</span></div>
-
-
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo service tomcat6 restart</pre>
-
-
-<p><span style="color: rgb(51, 51, 51); font-family: arial, 'lucida grandriale', 'lucida sans unicode', tahoma, sans-serif; line-height: 18px;">Now Tomcat is up and running, and you can administer it. By default the administrative interface runs on port 8080. This is actually quite handy to keep around, so I recommend blocking external access to 8080 at the firewall level, and accessing it locally when you need to make configuration changes or tests. Test it out now at http://localhost:8080/ . By default you should see a page that shows links to the administration sections, and some other generic information about your Tomcat instance.</span></p>
-
-
-<h3>2) Install Apache Solr</h3>
-
-
-<div><em>Note: as of this writing, search_api_solr is not yet compatible with the latest major version of Solr (4.1). You can track progress on this issue at <a href="http://drupal.org/node/1676224" target="_blank">http://drupal.org/node/1676224</a> . In the meantime, we're proceeding with a current version of 3.6. These instructions should work for the latest 3.6.x you can find on the Solr website.</em></div>
-
-
-<div>&nbsp;</div>
-
-
-<div><br>Now we're going to download the Solr Java application, and copy the compiled version of it into tomcat's jailed "webapps" directory, where it's safe to run. We're also going to create a convenience simlink there so we can keep the version information in the filename, and we don't have to update any config files when we want to update Solr versions. Finally, we're going to simlink solr's configuration directory to&nbsp;<span style="font-family: 'courier new', courier, monospace;">/etc/solr</span> , so you don't have to memorize the location.</div>
-
-
-<div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">cd /tmp
-wget http://apache.rediris.es/lucene/solr/3.6.2/apache-solr-1.4.1.zip
-unzip apache-solr-3.6.3.zip</pre>
-</div>
-
-
-<div><div><p>Now we create a directory for Solr to keep its compiled Java applications in, right in tomcat's homedir because that will be easy to find later. We copy the compiled .war file for solr into that new directory, and simlink it to an easier to remember name that we can use in configuration files.</p>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo mkdir /usr/share/tomcat6/webapps
-sudo cp /tmp/apache-solr-3.6.3/dist/apache-solr-3.6.3.war /usr/share/tomcat6/webapps
-sudo ln -s /usr/share/tomcat6/webapps/apache-solr-3.6.3.war /usr/share/tomcat6/webapps/solr.war</pre>
-</div><div>Now technically we have the solr application installed... but Solr needs for its own home directory as well. This is where you will keep solr-specific configuration files, and eventually the files related to your search cores themselves. We'll base our solr directory off of the example multicore setup that is distributed with solr itself. This directory needs to be writable by solr so it can keep search index information in it, so we have to make sure it's owned by tomcat6 (the user who will be running solr). Finally, we'll simlink solr's home directory to /etc/solr&nbsp;so it's more memorable.</div><div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo cp -a /tmp/apache-solr-3.6.3/example/multicore /usr/share/tomcat6/solr
-sudo chown -R tomcat6 /usr/share/tomcat6/solr
-sudo ln -s /usr/share/tomcat6/solr /etc/solr</pre>
-</div><div>Solr is now ready to go. Let's tell tomcat6's servlet container component, Catalina, about solr and what access it needs to run. We describe a new "Context" to Catalina, which is based on the solr.war simlink we just created. We tell it where to find the environment solr.war calls "solr/home", which is the solr homedir we just set up.&nbsp;</div></div>
-
-
-<div><div>
-<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/tomcat6/Catalina/localhost/solr.xml">&lt;Context docBase="/usr/share/tomcat6/webapps/solr.war" debug="0" privileged="true" allowLinking="true" crossContext="true"&gt;
-&nbsp; &lt;Environment name="solr/home" type="java.lang.String" value="/usr/share/tomcat6/solr" override="true" /&gt;
-&lt;/Context&gt;</pre>
-<div>Restart tomcat6 with <span style="font-family: 'courier new', courier, monospace;">sudo service tomcat6 restart</span>, so it reads the new configuration. Now we have a multi-core solr environment set up to run on Tomcat6. Congratulations! The hard part is over. Test to make sure solr is loading properly by visiting your Tomcat admin page at <span style="font-family: 'courier new', courier, monospace;">http://localhost:8080/manager/html</span> . You should see new links there for solr, with two example cores already built in.</div></div><h3>3) Configure Solr Multicore for Convenience</h3><div>Let's have a look at the solr configuration you just created. In your <span style="font-family:courier new,courier,monospace;">/etc/solr</span> directory, you actually only need one file: <span style="font-family:courier new,courier,monospace;">solr.xml</span> . This configuration file tells solr everything it needs to know about how it is set up. In fact, the only part you have to care about is at the end, where it lists <span style="font-family:courier new,courier,monospace;">&lt;core&gt;</span> declarations.&nbsp;</div><div>
-<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="vi /etc/solr/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
-&nbsp; &lt;core name="core0" instanceDir="core0" /&gt;
-&nbsp; &lt;core name="core1" instanceDir="core1" /&gt;
-&lt;/cores&gt;</pre>
-</div><div>Each new core gets a name and a directory path (relative to solr's home,<span style="font-family:courier new,courier,monospace;"> /etc/solr</span>) where it should keep it's configuration and data. By default we have two demonstration cores, called <span style="font-family:courier new,courier,monospace;">core0</span> and <span style="font-family:courier new,courier,monospace;">core1</span>, kept right in Solr's home directory. I find that messy, so we're going to create a new directory called <span style="font-family:courier new,courier,monospace;">cores</span>, and give each core a subdirectory under that. Then we'll update that <span style="font-family:courier new,courier,monospace;">solr.xml</span> file to tell it the new location of <span style="font-family:courier new,courier,monospace;">core0</span> and <span style="font-family:courier new,courier,monospace;">core1</span>. This is purely for convenience and clarity of configuration, but when you have 20 concurrent solr dev sites to manage, you'll thank me.</div><div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo mkdir /etc/solr/cores
-sudo mv /etc/solr/core[0-1] /etc/solr/cores</pre>
-</div><div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/solr/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
-&nbsp; &lt;core name="core0" instanceDir="cores/core0" /&gt;
-&nbsp; &lt;core name="core1" instanceDir="cores/core1" /&gt;
-&lt;/cores&gt;</pre>
-<div>That's it. If all you want is a Solr multicore setup, this is where you get off. From here on in it's Drupal-specific.</div></div><h3>4) Add a new core for a Drupal site</h3><div>Now that everything is nicely organized in <span style="font-family:courier new,courier,monospace;">/etc/solr</span>, let's add a new search core for a Drupal site. We're going to copy one of the example core directories, and then copy in the configuration files that are distributed with Drupal's search_api_solr module. With each new site, I recommend copying in these configuration files from the module rather than trusting what's in an existing core directory, simply because these configurations update with the search_api_solr module itself. You want to make sure that your core is using the configuration that your version of the module expects! <em>These are the steps you will have to take every time you want to add a new core for a Drupal site.</em></div><div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo cp -a /etc/solr/cores/core0 /etc/solr/cores/myfirstcore
-sudo cp /path/to/drupal_site/sites/all/modules/search_api_solr/solr-conf/* /etc/solr/cores/myfirstcore/conf</pre>
-</div><div>
-<pre class="brush: xml; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag" title="sudo vi /etc/solr.xml">&lt;cores adminPath="/admin/cores"&gt;
-&nbsp; &lt;core name="core0" instanceDir="cores/core0" /&gt;
-&nbsp; &lt;core name="core1" instanceDir="cores/core1" /&gt;
-&nbsp; &lt;core name="myfirstcore" instanceDir="cores/myfirstcore" /&gt;
-&lt;/cores&gt;
-</pre>
-</div><div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag">sudo chown -R tomcat6 /etc/solr/
-sudo service tomcat6 restart</pre>
-</div><div>That's it. Copy a directory, add one line to a configuration file, and restart tomcat6, and you have a new solr core to work with.</div><h3>5) Profit</h3><div>Now that your solr core is up and running, you can visit the search_api_solr configuration page and add a new server of type "solr", with the following settings:</div><div>&nbsp;</div><div><strong>Solr Hostname</strong>: localhost</div><div>&nbsp;</div><div><strong>Solr Port</strong>: 8080</div><div>&nbsp;</div><div><strong>Solr Path</strong>: /solr/myfirstcore</div><div>&nbsp;</div><div>Test and enjoy! If you have any trouble with these instructions, or have anything to add... leave us a comment!</div></div>
-
-
-<p>&nbsp;</p>
 
 ]]></content>
   </entry>
