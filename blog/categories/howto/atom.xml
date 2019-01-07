@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Howto | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/howto/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-01-07T12:58:17+01:00</updated>
+  <updated>2019-01-07T13:03:47+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -22,7 +22,10 @@
 
 <p><strong>Feeds module</strong> doesn&rsquo;t have a stable release candidate, and it doesn&rsquo;t look like one is coming any time soon. They&rsquo;re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
 
-<p><blockquote><p>It&rsquo;s not ready yet, but we are brainstorming about what would be the best way forward. Want to help us? Fill in our survey.<br/>If you decide to use it, don&rsquo;t be mad if we break it later.</p></blockquote></p>
+<p>{%blockquote %}
+It&rsquo;s not ready yet, but we are brainstorming about what would be the best way forward. Want to help us? Fill in our survey.
+If you decide to use it, don&rsquo;t be mad if we break it later.
+{% endblockquote %}</p>
 
 <p>This does not inspire confidence.</p>
 
@@ -450,7 +453,7 @@ source: pub_date
 
 <p>Okay, now that&rsquo;s really it. Happy feeding!</p>
 
-<p><img class="center" src="/images/feed-me-seymour.gif" title="&ldquo;Feed me, Seymour!&rdquo;" ></p>
+<p>{% img center /images/feed-me-seymour.gif &ldquo;Feed me, Seymour!&rdquo; %}</p>
 ]]></content>
   </entry>
   

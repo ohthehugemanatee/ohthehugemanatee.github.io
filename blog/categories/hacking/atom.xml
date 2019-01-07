@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Hacking | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/hacking/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-01-07T12:58:17+01:00</updated>
+  <updated>2019-01-07T13:03:47+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -24,11 +24,11 @@
 
 <p>I tried starting into Startup Manager by holding the &ldquo;Option&rdquo; key. No bootable options appeared. Just an unhopeful file folder with a question mark. This was Not A Good Sign.</p>
 
-<p><img class="center" src="/images/folder-questionmark.jpg" title="When this is all your computer does, it is Not A Good Sign." ></p>
+<p>{% img center /images/folder-questionmark.jpg When this is all your computer does, it is Not A Good Sign. %}</p>
 
 <p>Generally this icon means that EFI couldn&rsquo;t find a valid startup device. This is not the first time I&rsquo;ve seen this &ndash; I&rsquo;ve played with my boot options enough to mess this up for myself a few times! I breathed a heavy sigh and tried starting onto the recovery partition by holding &ldquo;Command+R&rdquo;. I hadn&rsquo;t done anything in particular with Grub recently, but I had done some kernel updates, and you never know&hellip; But the recovery boot just got me a circle with a line through it, the universal &ldquo;no&rdquo; sign. This was an even worse sign.</p>
 
-<p><img class="center" src="/images/mac-no-sign.png" title="This is an Even Worse Sign." ></p>
+<p>{% img center /images/mac-no-sign.png This is an Even Worse Sign. %}</p>
 
 <p>This immediately threw the issue out of the realm of &ldquo;something I messed up myself&rdquo;, and into the less-entertaining realm of &ldquo;hardware failure.&rdquo;</p>
 
@@ -56,7 +56,7 @@
 
 <p>So my old laptop is back in service, limping along for one last hurrah. The black box on the back looks like some impressive hardware hack, but it&rsquo;s just the old internal drive connected by USB.</p>
 
-<p><img class="center" src="/images/me-and-my-busted-laptop.jpg" title="It&rsquo;s only a flesh wound!" ></p>
+<p>{% img center /images/me-and-my-busted-laptop.jpg It&rsquo;s only a flesh wound! %}</p>
 
 <p>Yes, I had to do the GRUB dance pretty extensively to get it booting. boot-repair is a wonderful tool, but nothing seems to handle elegantly switching between BIOS and EFI boot modes. I ended up having to copy EFI files from my USB stick by hand. As every Linux desktop user ever has said: &ldquo;if it&rsquo;s working I won&rsquo;t ask any questions.&rdquo;</p>
 
@@ -180,8 +180,9 @@ Note the lines that say Samsung in them. Those are the Samsung drivers that are 
 
 <p>Now plug the device into your computer via USB, and make sure Heimdall can see it by running this on the computer:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo heimdall detect</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+sudo heimdall detect
+{% endcodeblock %%}</p>
 
 <p>(note: I&rsquo;m not sure that you really need sudo for these operations, but might as well)</p>
 
@@ -189,37 +190,27 @@ Note the lines that say Samsung in them. Those are the Samsung drivers that are 
 
 <p>In order to update the data on a partition, Heimdall needs to know how the partitions are laid out on your device. Samsung devices can dump their partition table in a format called PIT. Heimdall can actually handle getting the PIT file automatically, but you still need to have a look to see which partition you want to be working on. So first run</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo heimdall print-pit</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+sudo heimdall print-pit
+{% endcodeblock %}</p>
 
 <p>This will give you a full dump of all the partitions on your device. It&rsquo;s quite readable; look for the partition with the Flash Filename &ldquo;recovery.img&rdquo;. It should look something like this:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&mdash;&ndash; Entry #20 &mdash;&ndash;
-</span><span class='line'>Binary Type: 0 (AP)
-</span><span class='line'>Device Type: 2 (MMC)
-</span><span class='line'>Identifier: 19
-</span><span class='line'>Attributes: 5 (Read/Write)
-</span><span class='line'>Update Attributes: 1 (FOTA)
-</span><span class='line'>Partition Block Size: 491520
-</span><span class='line'>Partition Block Count: 32768
-</span><span class='line'>File Offset (Obsolete): 0
-</span><span class='line'>File Size (Obsolete): 0
-</span><span class='line'>Partition Name: Kernel2
-</span><span class='line'>Flash Filename: recovery.img
-</span><span class='line'>FOTA Filename:</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+&mdash;&ndash; Entry #20 &mdash;&ndash;
+Binary Type: 0 (AP)
+Device Type: 2 (MMC)
+Identifier: 19
+Attributes: 5 (Read/Write)
+Update Attributes: 1 (FOTA)
+Partition Block Size: 491520
+Partition Block Count: 32768
+File Offset (Obsolete): 0
+File Size (Obsolete): 0
+Partition Name: Kernel2
+Flash Filename: recovery.img
+FOTA Filename:
+{% endcodeblock %}</p>
 
 <p><em>DO NOT SKIP THIS STEP</em>. In theory all Samsung Galaxy S3 minis are identical, but if yours is not you could brick your device! It&rsquo;s very easy to do.</p>
 
@@ -229,8 +220,9 @@ Note the lines that say Samsung in them. Those are the Samsung drivers that are 
 
 <p>Now that you know which partition you want to flash, and you have a file to flash it with, you can actually flash it with heimdall. Note that your phone probably restarted after running that PIT command, so you&rsquo;ll have to get back into Download mode again. Then just run:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo heimdall flash &mdash;19 recovery.img</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+sudo heimdall flash &mdash;19 recovery.img
+{% endcodeblock %}</p>
 
 <p>In that command, &ldquo;19&rdquo; is the identifier of the partition I want to flash, and &ldquo;recovery.img&rdquo; is the clockworkmod ROM which I downloaded right at the beginning of the post. It will show you step by step what&rsquo;s going on, and then reboot the phone upon success.</p>
 
@@ -244,15 +236,17 @@ Note the lines that say Samsung in them. Those are the Samsung drivers that are 
 
 <p>When clockworkmod recovery has loaded, test the connection with ADB by running:</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>adb devices</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{%codeblock %}
+adb devices
+{% endcodeblock %}</p>
 
 <p>If you see your device listed, you&rsquo;re in business! You can now pull files from the android device with &ldquo;adb pull [filename] [destination]&rdquo;. Of course, that&rsquo;s assuming you know your way around the android filesystem!</p>
 
 <p>I found the easiest way to get all the data was to use ClockworkMod&rsquo;s built in backup system to make a backup of all data on the phone (this takes a few minutes), then I could pull the backups because I knew which directory they were in. After running the backup, all I had to do was</p>
 
-<p><div class='bogus-wrapper'><notextile><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>adb pull /data/media/clockworkmod/backup ~/Desktop/android-backup</span></code></pre></td></tr></table></div></figure></notextile></div></p>
+<p>{% codeblock %}
+adb pull /data/media/clockworkmod/backup ~/Desktop/android-backup
+{% endcodeblock %}</p>
 
 <p>All of my friend&rsquo;s photos, videos, and contacts were stored in the Data tar archive. I hope this helps someone else out there!</p>
 ]]></content>

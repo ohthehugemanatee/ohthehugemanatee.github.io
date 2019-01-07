@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Android | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/android/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-01-07T12:58:17+01:00</updated>
+  <updated>2019-01-07T13:03:47+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,66 +14,202 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Troubleshooting Android Error -505 From Google Play]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2015/05/29/troubleshooting-android-error-505-from-google-play/"/>
-    <updated>2015-05-29T12:20:33+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2015/05/29/troubleshooting-android-error-505-from-google-play</id>
-    <content type="html"><![CDATA[<p>I recently got a new Android phone, and very quickly had trouble installing some of my favorite apps. Google&rsquo;s Play Store downloads the app successfully, then presents me with &ldquo;Unknown Error -505&rdquo;.</p>
+    <title type="html"><![CDATA[How and Why to Update the Modem/baseband Firmware on a Samsung Android Phone]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone/"/>
+    <updated>2015-04-04T14:09:47+02:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2015/04/04/how-and-why-to-update-the-modem-slash-baseband-firmware-on-a-samsung-phone</id>
+    <content type="html"><![CDATA[<p>If you have a Samsung Android phone, and you use Samsung&rsquo;s own version of Android, this article is not for you. When Samsung sends you updates to Android, they also will include any relevant updates to the modem/baseband firmware. So stop reading and go have a cup of tea or something, your job is done.</p>
 
-<p><img class="center" src="/images/error-505.jpg" title="&ldquo;Error 505&rdquo;" ></p>
+<p>But for everyone who uses a custom ROM like <a href="http://cyanogenmod.org">Cyanogenmod</a>, <a href="http://www.paranoidandroid.co/">ParanoidAndroid</a>, or <a href="http://www.aokp.co/">AOKP</a>, sit up and pay attention: you&rsquo;re missing some key updates for your phone, and it&rsquo;s probably the reason you have trouble with cellular signal or battery life. I only learned this myself because my beloved Samsung S4 I-9505 has been having a hell of a time keeping signal lately. Over the last 6 months or so, it&rsquo;s picked up a quirk where it randomly drops the signal and starts to overheat in my pocket. Only toggling in and out of airplane mode to restart the connection solves the problem.</p>
 
-<p>This error message means precisely nothing. It means &ldquo;something went wrong during installation, and we&rsquo;re not telling you what.&rdquo; This drives me crazy. This blog post is about how to get more information out of that error message, and how to fix the problem.</p>
+<p>Turns out that just as Android gets regular updates, there are updates to the firmware of the cellular modem inside your phone. In any other device, I would expect the firmware to remain extremely stable, and new versions of the OS to include equally stable drivers. In the mobile phone world however, when Google updates Android, manufacturers update their firmware along with it. Mostly these are incremental updates to improve stability or battery life. Over time however, if you&rsquo;re updating your OS but not your firmware, your cellular modem is getting gradually more and more out of sync with what the driver in the OS expects of it.</p>
 
-<p>Your device is not going to give you more information on its own. Instead, you need to install ADB, the &ldquo;Android Debug Bridge&rdquo; which lets you type commands directly to your Android device over a USB connection. It&rsquo;s not hard to install, so <a href="https://duckduckgo.com/?q=how+to+install+adb">go and set that up now</a>.</p>
+<p>In my case, I had a recent build of Cyanogenmod based on Android 4.4.4, last updated in March 2015, and a modem firmware that was based on 4.2.2, last updated in May 2013. So my phone was acting up. Maybe yours is doing the same.</p>
 
-<p>Next, you will have to make sure your Android device permits you to use ADB. On the phone, go to Settings > About Phone, and scroll down to where you see &ldquo;Build Number&rdquo; listed. Tap on &ldquo;Build Number&rdquo; until you see a popup telling you that you are now a &ldquo;developer&rdquo;. Then go back to Settings, and tap on the new &ldquo;Developer Options&rdquo; menu item near the bottom. Enable the &ldquo;USB Debugging&rdquo; option there.</p>
+<p>Updating your modem firmware doesn&rsquo;t touch the rest of the operating system, and it doesn&rsquo;t touch your data. It&rsquo;s always a good idea to take a backup, but this is not a high risk operation for your data. If you&rsquo;re not careful you might make your signal situation even worse, but at least your photos and contacts will be OK!</p>
 
-<p>Now plug your phone into your computer via USB, and open up your Terminal. Windows users, use the Console &ndash; it&rsquo;s the same thing. First, we&rsquo;ll see if our Android device is even visible to ADB.</p>
+<p>Before I go any further, a word about vocabulary: the modem firmware can reasonably be called your &ldquo;baseband&rdquo;, and sometimes people use &ldquo;firmware update&rdquo; to refer to the combined updates to OS <em>and</em> modem firmware that get shipped out by manufacturers. I will only use &ldquo;firmware&rdquo; to describe the part that drives the modem, because that&rsquo;s what we&rsquo;re dealing with in this article. On other blog posts or forum posts people will not be so consistent, so read carefully!</p>
 
-<p><code>bash
-$&gt; adb devices
-</code></p>
+<p>In order to update your modem firmware, The first thing to do is to find out the Android version that you&rsquo;re using on your particular ROM. On most ROMs you can find out under &ldquo;Settings&rdquo;, &ldquo;About this phone&rdquo;. Look for the line that says &ldquo;Android Version&rdquo;.</p>
 
-<p>You should see a list of devices attached, with (probably) only one listing. If not, check to make sure that your phone is really in USB Debugging mode.</p>
+<p>Next, you have to find out the version of the most recent modem firmware release for your device, built for the same version of Android you&rsquo;re running. <a href="http://www.sammobile.com/devices/">SamMobile</a> has a fantastic catalog of devices with specifications and build histories for each one. Note that each carrier handles their own updates, so they package their own modem firmwares with slightly different serial numbers. There shouldn&rsquo;t be any significant difference, but check which one comes from your country and provider just in case, using their <a href="http://www.sammobile.com/firmwares/">Firmware lookup</a>. Note that if you want to download from SamMobile, you have to sign up for their download platform. I didn&rsquo;t &ndash; instead, I hunted for the right download with Google, and eventually found it on the great <a href="http://forum.xda-developers.com">xda developers</a> forum. There are a bunch of posts like <a href="http://forum.xda-developers.com/showpost.php?p=50965837">this one</a> with download links to tons of different firmwares. Make sure you look yours up, first!</p>
 
-<p>Now, we&rsquo;re going to try to install that same troublesome application over ADB. In order to do this, you&rsquo;ll have to download the application&rsquo;s installer (APK) file on your computer. Google makes this hard to do directly, you&rsquo;ll have to use a <a href="http://apps.evozi.com/apk-downloader/">third-party website</a> or a <a href="https://addons.mozilla.org/en-us/firefox/addon/apk-downloader/?src=search">browser extension</a> to find your download link. Download that APK file and save it somewhere safe on your computer. Remember the path to that file! I saved mine in <em>~/Downloads</em>.</p>
+<p>If there isn&rsquo;t a build for exactly the same version of Android that you have, it&rsquo;s OK to use one a little bit behind. <em>Do not</em> take a modem firmware build that&rsquo;s newer than your Android build. That could leave you in a situation like this;</p>
 
-<p>With that APK file in hand, let&rsquo;s try installing your application over ADB. My problematic app was the Deutsche Bahn Navigator app, but obviously you should substitute the filename to your APK here.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/gVx4OOcIRXg" frameborder="0" allowfullscreen></iframe>
 
-<p><code>bash
-$&gt; adb install ~/Downloads/de.hafas.android.db.apk
-5051 KB/s (5991578 bytes in 1.158s)
-  pkg: /data/local/tmp/de.hafas.android.db.apk
-Failure [INSTALL_FAILED_DUPLICATE_PERMISSION perm=de.dbnavigator.permission.list pkg=de.bahn.dbtickets]
-</code></p>
 
-<p>(Full disclosure: that is not the exact permission and package I had, I foolishly closed the terminal window before recording it. But the error and the format are correct, which is what&rsquo;s important here.)</p>
+<p>If your phone is a GT-I9505 from T-Mobile Germany, you can shortcut this process and get the same download I did](<a href="http://forum.xda-developers.com/showthread.php?t=2192025&amp;page=503">http://forum.xda-developers.com/showthread.php?t=2192025&amp;page=503</a>). If you have any other device or are from any other region or phone company, <em>find the right firmware for your own phone</em>. Double check it, you can really mess up your phone if you do this wrong.</p>
 
-<p>NOW we have something to work with! We get an error message, and some information that might explain what&rsquo;s going on. In this case, the installation failed because of a duplicate permission, whatever that means. But it tells me the name of the permission, and &ndash; even better &ndash; the package that controls it. Notice that com.dbtickets is not the application I was trying to install. It&rsquo;s something else, a separate app I had, called &ldquo;DB Tickets&rdquo;. This tells me that if I uninstall that other application, it should solve this problem. You can do that from ADB as well:</p>
+<p>The updated firmware file is a .tar file, which contains two .bin files: modem.bin for the 3g modem in your phone, and NON-HLOS.bin for the LTE modem in your phone. You&rsquo;ll need both. Apparently if you&rsquo;re on Windows you can use <a href="http://www.downloadodin.info/">Odin</a> which will let you send both those .bin files at once by choosing the combined .tar file. I&rsquo;m on a Mac so I don&rsquo;t know about that. I used the excellent, open source, cross-platform tool <a href="http://glassechidna.com.au/heimdall/">Heimdall</a>, which has a great, easy command line interface. Download and install, and unpack that .tar file somewhere convenient.</p>
+
+<p>Then get your phone into &ldquo;Download mode&rdquo;. For the Samsung Galaxy S4, this means:</p>
+
+<p>1) Power off by holding the power button.
+2) Simultaneously hold the home, volume down, and power keys until the phone comes on and asks you if you&rsquo;re SURE you want to go into Download mode. You are sure, so press volume up to continue.
+3) Plug the phone into your computer.</p>
+
+<p>Then in the Terminal, run:</p>
 
 <p>``` bash
-$> adb uninstall de.bahn.dbtickets
-Success</p>
+~$ heimdall detect
+Device detected</p>
 
-<p>```</p>
+<p>~$ heimdall flash &mdash;APNHLOS ~/Downloads/Modem_GNG8_FULL/NON-HLOS.bin &mdash;MDM ~/Downloads/Modem_GNG8_FULL/modem.bin
+```
+(do not include the ~$ in your typing! It&rsquo;s just an indicator to show you what you type, and what comes back from the system)</p>
 
-<p>Now I can try installing the original app again, and it should work. I can do that from the Play Store application, or directly from ADB with the command we tried above. At this point, I&rsquo;m way more likely to try it through ADB just to make sure I get an error message if it breaks!</p>
+<p>&ldquo;heimdall detect&rdquo; tells heimdall to find your phone attached via USB. &ldquo;heimdall flash&rdquo; tells it to blow away the LTE modem firmware you have now with the file NON-HLOS.bin, and the 3G modem firmware you have now with the file modem.bin.</p>
 
-<p>You can follow this process to get further information about any error -505 you may receive. You can do all sorts of things through ADB to resolve this kind of problem. Check the <a href="https://developer.android.com/tools/help/adb.html#commandsummary">complete list of commands</a> for more information.</p>
+<p>If all goes well, the phone will reset itself and boot back up normally. You can check to see that your flash worked by looking for the new serial number in your phone Settings.</p>
 
-<h2>Postlude</h2>
+<p>Or perhaps you&rsquo;ll find the same problem I did: something else on my computer had already &ldquo;claimed&rdquo; this phone, so Heimdall errored out with &ldquo;libusbx: error [darwin_claim_interface] USBInterfaceOpen: another process has device opened for exclusive access. ERROR: Claiming interface failed!&rdquo; If you encounter this problem, you can solve it by manually shutting down that other software:</p>
 
-<p>This experience pointed out two large Ux failures on the part of Google:</p>
+<p><code>bash
+~$ sudo kextstat |grep -v apple
+Index Refs Address            Size       Wired      Name (Version) &lt;Linked Against&gt;
+  134    0 0xffffff7f80eca000 0x4000     0x4000     com.devguru.driver.SamsungComposite (1.4.25) &lt;38 4 3&gt;
+  136    0 0xffffff7f80ec3000 0x3000     0x3000     com.devguru.driver.SamsungACMControl (1.4.25) &lt;38 4 3&gt;
+  138    0 0xffffff7f80ead000 0xc000     0xc000     com.devguru.driver.SamsungACMData (1.4.25) &lt;84 38 5 4 3&gt;
+  141    0 0xffffff7f829fa000 0x6000     0x6000     net.tunnelblick.tun (1.0) &lt;7 5 4 1&gt;
+</code>
+Note the lines that say Samsung in them. Those are the Samsung drivers that are blocking Heimdall. Now I hate Kies even <em>more</em>! We can shut them down one at a time like this:</p>
 
-<p>First, is one of the most frustrating Ux concepts out there, which I call: &ldquo;never present the user with useful information.&rdquo; I understand that 99% of the time, users do not want or need to see technical information about what&rsquo;s going on. Even <em>I</em> want my systems to seem like they &ldquo;just work.&rdquo; But the 1% of the time when we DO want technical information, is in our error messages. The sensible Ux policy to adopt here, is &ldquo;make every error message easy to google for more information&rdquo;.</p>
+<p><code>bash
+~$ sudo kextunload -b com.devguru.driver.SamsungComposite
+~$ sudo kextunload -b com.devguru.driver.SamsungACMControl
+~$ sudo kextunload -b com.devguru.driver.SamsungACMData
+</code></p>
 
-<p>Second, enabling developer mode. Here are the official instructions:</p>
+<p>Then try the heimdall commands again. For my phone, I found greatly improved signal&hellip; and because it wasn&rsquo;t spinning extra cycles without signal, greatly improved battery life, too. So we know: every time you update your ROM, do a modem firmware update, too.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Recover Photos and Data From a Keylocked Android Phone]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone/"/>
+    <updated>2014-05-18T18:55:31+02:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2014/05/18/recovering-photos-and-data-from-a-keylocked-android-phone</id>
+    <content type="html"><![CDATA[<p>Recently a good friend of mine passed away suddenly. Her family asked me to recover her photos and videos from her computer and android phone. The computer was easy enough, but the android phone posed a real problem. It had a keylock enabled, and USB debugging disabled. There was no external SD card to pull out, which meant that all the photos were stored on the internal memory. The phone was a totally stock Samsung Galaxy S3 mini. With a lot of reading, I worked out a way to get a data dump from her phone without having to bypass the keylock.</p>
 
-<blockquote><p>&hellip;go to Settings > About phone and tap Build number seven times. Return to the previous screen to find Developer options at the bottom.</p></blockquote>
+<h2>1) Get Clockworkmod Recovery</h2>
 
-<p>&hellip; what? This is 2015. You don&rsquo;t have to hide your &ldquo;Developer mode&rdquo; behind some obscure Easter Egg behavior. I don&rsquo;t know if it&rsquo;s standard, but on my phone you&rsquo;re asked right at the start what level of settings you want to see: simple or advanced. Adding a third level for &ldquo;developer&rdquo; would make a lot more sense.</p>
+<p><a href="https://www.clockworkmod.com/">Clockworkmod recovery</a> is a familiar tool to anyone who has ever rooted their Android phone or installed a custom ROM. I run my own phone on <a href="http://www.cyanogenmod.org/">Cyanogenmod</a>, so I knew the broad strokes of how to install and use it. If you haven&rsquo;t done this before: your Android device actually has several partitions on it for various kinds of data. Your device actually has several different boot &ldquo;modes&rdquo;, which are activated by various key combinations on startup. One of the boot modes, &ldquo;recovery&rdquo;, is specifically there to allow critical system access and maintenance. This is where Clockworkmod lives.</p>
 
-<p>But hey, at least we can always get what we want from the terminal.</p>
+<p>Download the <a href="https://www.clockworkmod.com/rommanager">Clockworkmod ROM for your device</a>. Use the &ldquo;Touch Recovery&rdquo; version if your touchscreen is working, since it&rsquo;s the easiest to use.</p>
+
+<h2>2) Get a tool to flash your device</h2>
+
+<p>There are many tools out there to help you flash various partitions on your device. Samsung devices are built for a tool called Odin, which was leaked from the company some time ago. Unfortunately Odin is Windows-only and not all that stable&hellip; but there is a great cross-platform, open source alternative called <a href="http://glassechidna.com.au/heimdall/">Heimdall</a>. Get Heimdall, at least, and optionally JOdin3.</p>
+
+<p>Heimdall has an awesome command line interface, and a decent GUI if you&rsquo;re brave and know what you&rsquo;re talking about. I found it much easier to understand by using the Java based (AKA multi-platform) frontend <a href="http://casual-dev.com/2014/01/04/jodin3-web-browser-or-offline-flashing-tool/">JOdin3</a>. Even though in the end I couldn&rsquo;t get JOdin3 to do the job for me, its interface was intuitive enough that I could then understand what was going on from the command line.</p>
+
+<p>So all you REALLY need here, is Heimdall or the equivalent for your device. But a GUI can be nice.</p>
+
+<h2>3) Get Clockworkmod onto your device</h2>
+
+<p><em>NOTE: THE INSTRUCTIONS IN THIS SECTION ONLY APPLY TO SAMSUNG DEVICES. A SIMPLE GOOGLE SEARCH WILL FIND APPROPRIATE INSTRUCTIONS FOR OTHER DEVICES.</em></p>
+
+<h3>Get into Download mode</h3>
+
+<p>In order for Heimdall/JOdin3/Odin/whatever to connect to your device, it has to be in &ldquo;Download&rdquo; mode, sometimes called &ldquo;Odin&rdquo; mode. Google will help you find instructions for your specific device, but for the Samsung Galaxy S3 Mini, I had to do the following:</p>
+
+<ul>
+<li>Power off. You can do this even when the keypad is locked, just by holding down the power button for long enough.</li>
+<li>Press and hold the power, volume down, and home keys simultaneously until the phone starts and a warning screen appears.</li>
+<li>Pay attention to the warning screen, and press volume up when you are ready to continue.</li>
+</ul>
+
+
+<p>A phone in Download mode looks kinda scary. There&rsquo;s not much on the screen, but it does explain quite clearly that it is in Download mode or Odin mode, and that the current firmware is the stock firmware.</p>
+
+<p>Now plug the device into your computer via USB, and make sure Heimdall can see it by running this on the computer:</p>
+
+<p>{% codeblock %}
+sudo heimdall detect
+{% endcodeblock %%}</p>
+
+<p>(note: I&rsquo;m not sure that you really need sudo for these operations, but might as well)</p>
+
+<h3>Figure out which partition you&rsquo;re flashing</h3>
+
+<p>In order to update the data on a partition, Heimdall needs to know how the partitions are laid out on your device. Samsung devices can dump their partition table in a format called PIT. Heimdall can actually handle getting the PIT file automatically, but you still need to have a look to see which partition you want to be working on. So first run</p>
+
+<p>{% codeblock %}
+sudo heimdall print-pit
+{% endcodeblock %}</p>
+
+<p>This will give you a full dump of all the partitions on your device. It&rsquo;s quite readable; look for the partition with the Flash Filename &ldquo;recovery.img&rdquo;. It should look something like this:</p>
+
+<p>{% codeblock %}
+&mdash;&ndash; Entry #20 &mdash;&ndash;
+Binary Type: 0 (AP)
+Device Type: 2 (MMC)
+Identifier: 19
+Attributes: 5 (Read/Write)
+Update Attributes: 1 (FOTA)
+Partition Block Size: 491520
+Partition Block Count: 32768
+File Offset (Obsolete): 0
+File Size (Obsolete): 0
+Partition Name: Kernel2
+Flash Filename: recovery.img
+FOTA Filename:
+{% endcodeblock %}</p>
+
+<p><em>DO NOT SKIP THIS STEP</em>. In theory all Samsung Galaxy S3 minis are identical, but if yours is not you could brick your device! It&rsquo;s very easy to do.</p>
+
+<p>Figure out the Identifier for that partition. In my case it was &ldquo;19&rdquo;.</p>
+
+<h3>Flash your recovery partition</h3>
+
+<p>Now that you know which partition you want to flash, and you have a file to flash it with, you can actually flash it with heimdall. Note that your phone probably restarted after running that PIT command, so you&rsquo;ll have to get back into Download mode again. Then just run:</p>
+
+<p>{% codeblock %}
+sudo heimdall flash &mdash;19 recovery.img
+{% endcodeblock %}</p>
+
+<p>In that command, &ldquo;19&rdquo; is the identifier of the partition I want to flash, and &ldquo;recovery.img&rdquo; is the clockworkmod ROM which I downloaded right at the beginning of the post. It will show you step by step what&rsquo;s going on, and then reboot the phone upon success.</p>
+
+<h2>4) Connect to the phone with ADB</h2>
+
+<p>Android has a wonderful tool in the SDK, intended for debugging problems with android devices. It&rsquo;s called ADB, and it lets you connect to the android device over USB and run a variety of commands. It even lets you get into a shell on the device! If you don&rsquo;t have ADB already, download the <a href="https://developer.android.com/sdk/index.html">Android Developer Tools</a>. If you aren&rsquo;t planning on actually developing and just need ADB (like me), then install from the slightly smaller package on that page, listed under &ldquo;Use an existing IDE&rdquo;.</p>
+
+<p>Once you&rsquo;ve downloaded and installed the developer tools, you can find the ADB command in the platform-tools directory from the download.</p>
+
+<p>ADB cannot communicate with a phone unless &ldquo;enable USB debugging&rdquo; is turned on in the phone&rsquo;s Settings interface&hellip; but when you&rsquo;re locked out that&rsquo;s impossible. Fortunately, if you boot into Clockworkmod Recovery, Debugging is turned on by default. So reboot into Clockworkmod by holding down the power, home, and volume up keys.</p>
+
+<p>When clockworkmod recovery has loaded, test the connection with ADB by running:</p>
+
+<p>{%codeblock %}
+adb devices
+{% endcodeblock %}</p>
+
+<p>If you see your device listed, you&rsquo;re in business! You can now pull files from the android device with &ldquo;adb pull [filename] [destination]&rdquo;. Of course, that&rsquo;s assuming you know your way around the android filesystem!</p>
+
+<p>I found the easiest way to get all the data was to use ClockworkMod&rsquo;s built in backup system to make a backup of all data on the phone (this takes a few minutes), then I could pull the backups because I knew which directory they were in. After running the backup, all I had to do was</p>
+
+<p>{% codeblock %}
+adb pull /data/media/clockworkmod/backup ~/Desktop/android-backup
+{% endcodeblock %}</p>
+
+<p>All of my friend&rsquo;s photos, videos, and contacts were stored in the Data tar archive. I hope this helps someone else out there!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[HTC Inspire, Cyanogenmod 7, and HSUPA]]></title>
+    <link href="http://ohthehugemanatee.org/2011/04/htc-inspire-cyanogenmod-7-and-hsupa.html"/>
+    <updated>2011-04-14T02:21:00+02:00</updated>
+    <id>http://ohthehugemanatee.org/2011/04/htc-inspire-cyanogenmod-7-and-hsupa</id>
+    <content type="html"><![CDATA[<p>{% raw %}</p>
+
+<div class="css-full-post-content js-full-post-content">
+About a month ago, I picked up my first Android phone: the HTC Inspire 4g, from AT&amp;T in the US. &nbsp;I determined to root it, install a custom OS, and laugh at all the poor saps who get bad battery life on HTC Sense.<br /><br />The first challenge is in the name. &nbsp;See, the HTC Inspire 4G is really just a rebranded HTC Desire HD, which is a tweaked HTC Desire, which is another name for the HTC Ace. <br /><br />I eventually got my head on straight, with the help of the good people at the <a href="http://forum.xda-developers.com/forumdisplay.php?f=1018">xda-developers forum</a>, and in particular with the <a href="http://forum.xda-developers.com/showthread.php?t=952352">Ace Hack Kit</a>&nbsp;which is linked there. &nbsp;Windows types might be interested in <a href="http://forum.xda-developers.com/showthread.php?t=961406">Bubby's Simple Root and S-Off</a> kit, which is apparently wonderful and easy to use. &nbsp;I wouldn't know, my PC is all the way on the other side of the room. &nbsp; I did this on my Mac, which is right in front of me.<br /><br />In a nutshell, here's what you do:<br /><br />1) Downgrade the ROM to an older version, from the international Desire HD. &nbsp;The old DHD had a vulnerability in the radio which we'll exploit, but otherwise it's very similar to the stock Inspire ROM.<br /><br />2) Use the vulnerability to get root (don't get excited, the fun stuff is all done by scripts).<br /><br />3) Use root to install the custom bootloader, which we need to make installing new ROMS easy.<br /><br />4) Upgrade the back to the stock Inspire radio firmware.<br /><br />5) Use the new custom bootloader to install the ROM of your choice. &nbsp;My choice was <a href="http://www.cyanogenmod.com/">Cyanogenmod 7</a>.<br /><br />The whole process is described well in the README that came with the Ace Hack Kit, but it's described even BETTER and more generically in the <a href="http://wiki.cyanogenmod.com/index.php?title=HTC_Ace:_Recovery,_Radio_and_CyanogenMod">Cyanogenmod Wiki</a>. &nbsp;What a great resource - it's even got download links for <a href="http://wiki.cyanogenmod.com/index.php?title=Support_Downloads#HTC_Ace">every radio firmware version</a> for each phone!<br /><br />Everything went smoothly... but I did this whole process after I had already left the US. &nbsp; I was actually in one of the countries where I'm on roaming, so I don't use my cellular data... I just came back to my apartment in France, to find that cellular data is stuck on EDGE mode. &nbsp;That gets me about 1/5 of the speed available on the network, and it gets me very frustrated.<br /><br />So I stopped by my mobile provider to see if it was an issue with the plan I'm subscribed to. &nbsp;Apparently not; they were just as puzzled as I. &nbsp;I've pored over Cyanogen's settings, but no luck. &nbsp;So tonight I brought out the big guns.<br /><br />First I backed everything up, like a good little boy. &nbsp;I used Titanium Backup, and boy I hope it works.<br /><br />Then I tried just re-flashing the Cyanogenmod ROM. &nbsp;Actually, I flashed an update from RC7 to the full release, using the ROM Manager program. &nbsp;No improvement.<br /><br />So I downloaded a special script to wipe ALL of the non-user directories, and ran THAT from Recovery, THEN re-installed Cyanogenmod. &nbsp;No improvement.<br /><br />Then I started really hunting around in forums. &nbsp;It seems that <a href="http://forum.xda-developers.com/showpost.php?p=12839710&amp;postcount=2976">some people have trouble</a> getting HSUPA going after this unlock process I described above. &nbsp;They have good network connectivity when they downgrade, but after upgrading back to AT&amp;T stock firmware, they get stuck on EDGE. &nbsp;So the recommended solution is to re-downgrade, then skip the AT&amp;T stock firmware, and re-upgrade to something newer/better.<br /><br />So that's what I tried.<br /><br />Now I'm stuck in a boot loop... and when it DOES boot, I still only get EDGE. &nbsp;I'm starting to worry that the Inspire is limited to picking up US HSPDA+ frequencies, and just doesn't "get" the EU frequencies. &nbsp;In that case, maybe I'll have to try some of the <a href="http://forum.xda-developers.com/showthread.php?t=952582">Desire HD kernels</a> which have been hacked for Inspire hardware...<br /><br />So now I'm left - you guessed it - swearing at yet another computer.
+</div>
+
+
+<p>{% endraw %}</p>
 ]]></content>
   </entry>
   
