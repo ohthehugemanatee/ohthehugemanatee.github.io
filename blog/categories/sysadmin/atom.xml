@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-01-07T13:03:47+01:00</updated>
+  <updated>2019-01-07T13:07:44+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -382,27 +382,6 @@ spec:
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[BTRFS Out of Space Emergency Response]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response/"/>
-    <updated>2019-01-04T13:58:39+01:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response</id>
-    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 4GB of free space to 0 in an instant, causing all sorts of chaos on my system.</p>
-
-<p>This problem happens to lots of people, beause BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
-
-<ul>
-<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
-<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
-<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
-<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
-</ul>
-
-
-<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space! For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[Optimizing Data Transfer Speeds]]></title>
     <link href="http://ohthehugemanatee.org/blog/2018/12/27/optimizing-data-transfer-speeds/"/>
     <updated>2018-12-27T10:30:23+01:00</updated>
@@ -676,7 +655,7 @@ php /app/.global/bin/platform.phar domain:update -p $PLATFORM_PROJECT --no-wait 
 
 <p>Technically this isn&rsquo;t supposed to be possible, but YOU DID IT! Make sure to rub it in.</p>
 
-<p>{% img center /images/larry-garfield.jpg &ldquo;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&rdquo; %}</p>
+<p><img class="center" src="/images/larry-garfield.jpg" title="&ldquo;Larry is waiting to hear from you. (photo credit Jesus Manuel Olivas)&rdquo;" ></p>
 
 <p>Good luck!</p>
 
@@ -746,6 +725,76 @@ $aliases[&lsquo;localdev&rsquo;] = array(
 <p>There&rsquo;s just one, obscure caveat with the latter method: somewhere in the alias merging process, BASH aliases are lost. That means that &lsquo;~&rsquo; stops resolving to your home directory, and you have to write it out (as I did above).</p>
 
 <p>Have fun!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Lifehacks to Make Your SSH Life Easy]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/"/>
+    <updated>2013-12-20T16:29:27+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy</id>
+    <content type="html"><![CDATA[<p>If you use SSH every day, or even every other day, this post is for you. We&rsquo;re going to walk through some of the more convenient options available to you in your global SSH configuration to make your life easier and faster.</p>
+
+<p>First of all, you should know that SSH has a great configuration file, typically located in your home directory at <em>.ssh/config</em>. Everything we&rsquo;re talking about today belongs there. There&rsquo;s tons of stuff you can do with it, and I&rsquo;m only going to scratch the surface.</p>
+
+<h2>Re-Using Existing Connections</h2>
+
+<p>Every time you SSH into a server, it opens a new connection and authenticates all over again, right? That&rsquo;s slow, and it&rsquo;s a PITA if you have to type a password for your private key or just to access the server. You&rsquo;re already connected once, so why not reuse the same connection? Just add these lines to your <em>.ssh/config</em>:</p>
+
+<p>```</p>
+
+<h1>Re-use existing connections instead of opening new ones</h1>
+
+<p>ControlMaster auto
+ControlPath /tmp/ssh_mux<em>%h</em>%p<em>%r</em>%l
+```</p>
+
+<p>This tells SSH to use a socket file for each connection, and to name the file in a way that&rsquo;s unique for each combination of host, port, remote username, and local hostname. That is to say, if you&rsquo;re connecting to the same host/port with the same username and from the same local hostname, it will automatically re-use the existing connection.</p>
+
+<p><strong>Result: Multiple SSH connections are WAY faster.</strong></p>
+
+<h2>Host shortcuts and definitions</h2>
+
+<p>You can easily define commonly used connections with shortcuts. So instead of typing <code>ssh -i ~/.ssh/ohthehugemanatee.pem -P 2222 ohthehugemanatee@live.ohthehugemanatee.org</code>, you can just type <code>ssh live</code>.</p>
+
+<p>``` bash
+Host live
+  Hostname live.ohthehugemanatee.org
+  Port 2222
+  User ohthehugemanatee
+  IdentityFile ~/.ssh/ohthehugemanatee.pem</p>
+
+<p>```</p>
+
+<h2>SSH Agent Forwarding &ndash; One key to rule them all</h2>
+
+<p>Normally when you want to access a resource from multiple machines, you have to generate a public/private keypair on each machine. A great example is a git repo: if I want to access the same git repository on my localhost, the staging server, and the live server, I will have to generate three keypairs and grant access to all three. Talk about a pain in the ass!</p>
+
+<p>Fortunately there&rsquo;s a much easier way to do this, which is available in almost all distributed versions of openssh: SSH agent forwarding. With agent forwarding enabled, your private key from one machine becomes available for each subsequent machine you connect to. In other words, if you have one private key on your localhost, and SSH into another server, your local private key will be available if you want to SSH (or use git) from that server. Automatically. And only while you&rsquo;re connected, so it&rsquo;s safe.</p>
+
+<p><code>
+ForwardAgent yes
+</code></p>
+
+<p>Just drop that in your Host definition (per above), and if the remote host supports it it will work automatically. It is not recommended to set this option globally, because your private key is actually very sensitive stuff, and you don&rsquo;t want to accidentally forward your key to an untrusted server. But feel free to enable it on every host where it&rsquo;s convenient!</p>
+
+<h2>Bonus material</h2>
+
+<p>Technically these items aren&rsquo;t about <em>.ssh/config</em>, but they&rsquo;re still so convenient I had to share them.</p>
+
+<p>Note that the same improvements to your SSH will also apply to your use of SCP and other SSH tools. So that brutally long and painful rsync-over-ssh command that you&rsquo;ve had to type a thousand times, can now just use &ldquo;live&rdquo; as a shortcut. Git, too. It&rsquo;s a great relief to be able to type <code>scp ~/Sites/index.php live:~</code>. It&rsquo;s just so much more readable!</p>
+
+<p>But if you want to get <strong>even lazier</strong>, you&rsquo;re going to love the next tip. Why ssh in at all, when you can just mount the remote directory somewhere convenient on your local system? Let&rsquo;s use that Host alias above, and mount the remote web root (<em>/var/www/html</em>) at <em>~/live-environment</em>. It&rsquo;s much more convenient there, after all.</p>
+
+<p><code>sshfs live:/var/www/html ~/live</code></p>
+
+<p>Note that this no longer works in OSX without installing <a href="http://osxfuse.github.io/">OSX Fuse</a>. Still, the 5 minute download and install process is totally worth it for this easy SSH lifehack.</p>
+
+<p>Or is that not lazy enough for you? &ldquo;Do I really have to mount the whole directory?&rdquo; I hear you cry! &ldquo;I wanna just edit one file&hellip;&rdquo; Well have I got the tip for you! For the ultimately lazy, <a href="http://www.vim.org/">vim</a> supports editing files directly over SSH. Try it out:</p>
+
+<p><code>vim scp://live/var/www/html/index.php</code></p>
+
+<p>Think about it: before you read this post, that would have taken you several long-winded commands to type. Your arthritic fingers can thank me later.</p>
 ]]></content>
   </entry>
   

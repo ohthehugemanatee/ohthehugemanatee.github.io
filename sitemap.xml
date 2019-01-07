@@ -402,12 +402,6 @@
     </url>
     <url>
         <loc>
-            http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response/
-        </loc>
-        <lastmod>2019-01-07T13:03:17+01:00</lastmod>
-    </url>
-    <url>
-        <loc>
             http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/
         </loc>
         <lastmod>2019-01-07T12:37:32+01:00</lastmod>
@@ -418,7 +412,7 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/blog/archives/</loc>
-        <lastmod>2019-01-07T13:03:17+01:00</lastmod>
+        <lastmod>2019-01-07T12:37:32+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/drupalplanet.xml</loc>
@@ -426,7 +420,7 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/</loc>
-        <lastmod>2019-01-07T13:03:17+01:00</lastmod>
+        <lastmod>2019-01-07T12:37:32+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/robots.txt</loc>
