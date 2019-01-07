@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Filesystems | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.org/blog/categories/filesystems/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2019-01-07T12:37:50+01:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[BTRFS Out of Space Emergency Response]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response/"/>
+    <updated>2019-01-04T13:58:39+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response</id>
+    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 4GB of free space to 0 in an instant, causing all sorts of chaos on my system.</p>
+
+<p>This problem happens to lots of people, beause BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
+
+<ul>
+<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+</ul>
+
+
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space! For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.</p>
+]]></content>
+  </entry>
+  
+</feed>

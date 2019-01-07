@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="One of my holiday projects was to set up my home “data warehouse.” Ever since Dropbox killed modern Linux filesystem support I’ve been using (and &hellip;">
+  <meta name="description" content="I recently got to proctor an Openhack event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,96 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/">Kubernetes for Stateful Applications: Scaling Macroservices</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-01-07T11:10:21+01:00" pubdate data-updated="true">Jan 7<span>th</span>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>I recently got to proctor an <a href="https://openhack.microsoft.com/">Openhack</a> event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all encounter, but no one likes to talk about.</p>
+
+<p><a href="https://kubernetes.io/">Kubernetes</a> is one of the greatest <strong>orchestration</strong> and <strong>scaling</strong> tools ever built, designed for modern <strong>decoupled</strong>, <strong>stateless</strong> architectures. Kubernetes tutorials abound to show you these strong use cases. <strong>But in the real world where you don’t get to build “green field” every time, there are a lot of applications that don’t fit that model</strong>.</p>
+
+<p>Lots of people out there are still writing tightly-coupled monoliths, in many cases for good reason. In some use cases microservices style scalability isn’t even useful – you actually <em>prefer</em> stateful applications with tight coupling. For example a game server, where you don’t wa&#8230;</p></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/01/04/btrfs-out-of-space-emergency-response/">BTRFS Out of Space Emergency Response</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-01-04T13:58:39+01:00" pubdate data-updated="true">Jan 4<span>th</span>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 4GB of free space to 0 in an instant, causing all sorts of chaos on my system.</p>
+
+<p>This problem happens to lots of people, beause BTRFS doesn’t have a linear relationship to “free space available”. There are a few concepts that get in the way:</p>
+
+<ul>
+<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. – 50MB of text may take only 5MB “room” on the drive.</li>
+<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy “space”.</li>
+<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there’s extra information to store for e&#8230;</li>
+</ul></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2019/01/04/btrfs-out-of-space-emergency-response/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -461,92 +551,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-06-15T17:19:24+02:00" pubdate data-updated="true">Jun 15<span>th</span>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
-
-<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
-
-</div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2017/06/15/better-php-better-drupalists/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Stop Waiting for Feeds Module: How to Import RSS in Drupal 8</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-06-07T06:33:24+02:00" pubdate data-updated="true">Jun 7<span>th</span>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>How do you import an RSS feed into entities with Drupal 8? In Drupal 6 and 7, you probably used the <a href="https://drupal.org/project/feeds">Feeds</a> module. Feeds 7 made it easy (-ish) to click together a configuration that matches an RSS (or any XML, or CSV, or OPML, etc) source to a Drupal entity type, maps source data into Drupal fields, and runs an import with the site Cron. Where has that functionality gone in D8? I recently had to build a podcast mirror for a client that needed this functionality, and I was surprised at what I found.</p>
-
-<p><strong>Feeds module</strong> doesn’t have a stable release candidate, and it doesn’t look like one is coming any time soon. They’re still surveying people about what feeds module should even DO in D8. As the module page explains:</p>
-
-<blockquote><p>It’s not ready yet, but we are brainstorming&#8230;</p></blockquote></div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2017/06/07/stop-waiting-for-feeds-module-how-to-import-remote-feeds-in-drupal-8/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -573,6 +577,14 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/">Kubernetes for Stateful Applications: Scaling Macroservices</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/01/04/btrfs-out-of-space-emergency-response/">BTRFS Out of Space Emergency Response</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2018/12/27/optimizing-data-transfer-speeds/">Optimizing Data Transfer Speeds</a>
       </li>
     
@@ -582,14 +594,6 @@
     
       <li class="post">
         <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/25/my-war-on-systemd-resolved/">My War on Systemd-resolved</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/08/im-joining-microsoft-because-theyre-doing-open-source-right/">I&#8217;m Joining Microsoft, Because They&#8217;re Doing Open Source Right</a>
       </li>
     
   </ul>
@@ -639,7 +643,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2018 - Campbell Vertesi (ohthehugemanatee) -
+  Copyright &copy; 2019 - Campbell Vertesi (ohthehugemanatee) -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 

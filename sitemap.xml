@@ -401,12 +401,24 @@
         <lastmod>2018-12-27T17:18:48+01:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response/
+        </loc>
+        <lastmod>2019-01-05T00:51:13+01:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/
+        </loc>
+        <lastmod>2019-01-07T12:37:32+01:00</lastmod>
+    </url>
+    <url>
         <loc>http://ohthehugemanatee.org/about-me.html</loc>
         <lastmod>2018-04-19T17:22:40+02:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/blog/archives/</loc>
-        <lastmod>2018-12-27T17:18:48+01:00</lastmod>
+        <lastmod>2019-01-07T12:37:32+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/drupalplanet.xml</loc>
@@ -414,7 +426,7 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/</loc>
-        <lastmod>2018-12-27T17:18:48+01:00</lastmod>
+        <lastmod>2019-01-07T12:37:32+01:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/robots.txt</loc>
@@ -423,11 +435,5 @@
     <url>
         <loc>http://ohthehugemanatee.org/draft/what-is-good-code.html</loc>
         <lastmod>2018-04-19T17:22:40+02:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://ohthehugemanatee.org/draft/2018-12-17-kubernetes-tricks-for-stateful-applications.html
-        </loc>
-        <lastmod>2018-12-27T16:22:22+01:00</lastmod>
     </url>
 </urlset>

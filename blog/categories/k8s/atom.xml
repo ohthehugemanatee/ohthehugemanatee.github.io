@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: K8s | Oh, The Huge Manatee]]></title>
+  <link href="http://ohthehugemanatee.org/blog/categories/k8s/atom.xml" rel="self"/>
+  <link href="http://ohthehugemanatee.org/"/>
+  <updated>2019-01-07T12:37:50+01:00</updated>
+  <id>http://ohthehugemanatee.org/</id>
+  <author>
+    <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Kubernetes for Stateful Applications: Scaling Macroservices]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/"/>
+    <updated>2019-01-07T11:10:21+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications</id>
+    <content type="html"><![CDATA[<p>I recently got to proctor an <a href="https://openhack.microsoft.com/">Openhack</a> event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all encounter, but no one likes to talk about.</p>
+
+<p><a href="https://kubernetes.io/">Kubernetes</a> is one of the greatest <strong>orchestration</strong> and <strong>scaling</strong> tools ever built, designed for modern <strong>decoupled</strong>, <strong>stateless</strong> architectures. Kubernetes tutorials abound to show you these strong use cases. <strong>But in the real world where you don&rsquo;t get to build &ldquo;green field&rdquo; every time, there are a lot of applications that don&rsquo;t fit that model</strong>.</p>
+
+<p>Lots of people out there are still writing tightly-coupled monoliths, in many cases for good reason. In some use cases microservices style scalability isn&rsquo;t even useful &ndash; you actually <em>prefer</em> stateful applications with tight coupling. For example a game server, where you don&rsquo;t want to scale player capacity per-game, you want to add more games (server instances).</p>
+
+<p>So today I&rsquo;m writing about <strong>stateful, non-scalable applications in kubernetes.</strong></p>
+
+<p>There are a few different approaches to coupling appliciation components:</p>
+
+<h2>Multi-container pods</h2>
+
+<p>Level 0 is to simply specify multiple components (containers) in your deployment.</p>
+
+<p>``` yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>spec:
+  replicas: 3
+  selector:</p>
+
+<pre><code>matchLabels:
+  app: nginx
+</code></pre>
+
+<p>  template:</p>
+
+<pre><code>metadata:
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: php
+    image: php:fpm
+    ports:
+    - containerPort: 9000
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+</code></pre>
+
+<p>```
+This specifies 3 copies of the same application, with the same two containers in each replica. This is a coupled application, but it&rsquo;s still stateless. Let&rsquo;s add a volume &ndash; that&rsquo;s where we get into trouble.</p>
+
+<p>The problem: If you add a Volume the normal way (<a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">persistentVolumeClaim</a>), each of your replicas will try and connect to the same volume. It&rsquo;ll act like a network shared drive. Maybe that&rsquo;s OK for your application, but not if it&rsquo;s our super-stateful example! And depending on your volume class, the volume may reject multiple connections like (<a href="https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv">Azure Disk</a> does, for example).</p>
+
+<p>So how do we get around this limitation? I want a separate volume for each instance of the application.</p>
+
+<p>Kubernetes supports a different object type for this use case, called a <a href="https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/">StatefulSet</a>. This is exactly what it sounds like: a set of objects that define a stateful application. It&rsquo;s a template for creating multiple copies of <em>all resources</em> defined therein.</p>
+
+<p>A statefulset will create replicas similar to a deployment, but it will set up separate Volumes and VolumeClaims for each one. The replicas will be identical except for an index number at the end of the labels. The first one might be called <code>nginx-deployment-0</code>, the second: <code>nginx-deployment-1</code>, and so on.  The result is a set of tightly coupled components, which can be individually addressed, and scaled using normal Kubernetes tools.</p>
+
+<p>``` yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+  labels:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>spec:
+  replicas: 3
+  selector:</p>
+
+<pre><code>matchLabels:
+  app: nginx
+</code></pre>
+
+<p>  serviceName: &ldquo;nginx&rdquo;
+  template:</p>
+
+<pre><code>metadata:
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+  - name: php
+    image: php:fpm
+    volumeMounts:
+    - mountPath: "/var/www/html"
+      name: data
+</code></pre>
+
+<p>  volumeClaimTemplates:</p>
+
+<pre><code>- metadata:
+    name: data
+  spec:
+    storageClassName: default
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+</code></pre>
+
+<hr />
+
+<p>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>spec:
+  ports:</p>
+
+<pre><code>- port: 80
+  name: http
+</code></pre>
+
+<p>  clusterIP: None
+  selector:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>```
+There are a few details to notice here.</p>
+
+<p>Yes, we&rsquo;ve replaced <em>Deployment</em> with <em>StatefulSet</em>. You get a shiny gold star if you noticed that one.</p>
+
+<p>The interesting part is the <em>VolumeClaimTemplates</em> section, below the containers definition. This keyword only exists inside a StatefulSet, and it&rsquo;s just what it sounds like: a template for creating Persistent Volume Claims.</p>
+
+<p>If you apply this config, you&rsquo;ll see three PVs created, with three PVCs, attached to three Pods. You can apply HPA rules to scale these up and down just like you would with deployments.</p>
+
+<p>There&rsquo;s also that weird Service at the bottom. A naked service with no clusterIP? What&rsquo;s the point? The point is as a helper for Kubernetes' internal DNS. All of those nice StatefulSet pods will come under a neat subdomain, eg nginx-0.nginx, nginx-1.nginx, etc. Additionally you can connect to active members of the StatefulSet by using that nginx domain component. A dns lookup on it will show all the IPs of the active members in the CNAME record.</p>
+
+<p>&ldquo;But what about external access?&rdquo; I hear you cry. Yes, we&rsquo;ve built a great stateful application that can scale instances, but it&rsquo;s only internally addressable! Good luck hosting those games&hellip;</p>
+
+<h2>External access and metacontroller</h2>
+
+<p>Normally you would put a LoadBalancer service in front of your application. But a Kubernetes load balancer will grab all of these StatefulSet members &ndash; so you can&rsquo;t address them externally one-by-one. What you <em>really</em> want to do, is create an external IP address for each statefulset member.</p>
+
+<p>One solution is to use a reverse proxy like nginx or HAProxy, configured to differentiate based on hostnames. But this is a blog post about Kubernetes, so we&rsquo;re going to do this the Kubernetes way!</p>
+
+<p>Kubernetes is very extensible. If Pods, Services, etc don&rsquo;t make sense for your application or domain, you can define custom object types and behaviors, through <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resources and controllers</a>. That&rsquo;s pretty edge case, but as we&rsquo;ve seen, some kubernetes edge cases are mainstream cases in the real world.</p>
+
+<p>In our super-stateful application, we don&rsquo;t need a custom resource type. But we do want to attach <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-controllers">custom behaviors</a> to our StatefulSet: every time we start up a pod we should create a LoadBalancer for it. We should be nice and tear them down when the pods are scaled down, of course.</p>
+
+<p>We&rsquo;ll use the <a href="https://github.com/GoogleCloudPlatform/metacontroller">Metacontroller</a> add-on to make our lives easier. Metacontroller makes it &ldquo;easy&rdquo; to add custom behaviors. Just write a short script, stick it into a ConfigMap or FaaS, and let Metacontroller work its magic!</p>
+
+<p>Metacontroller project comes with several well documented examples, including one that&rsquo;s very close to our requirement: <a href="https://github.com/GoogleCloudPlatform/metacontroller/tree/master/examples/service-per-pod">service-per-pod</a>.</p>
+
+<p>Step 1 is to install Metacontroller, of course:</p>
+
+<p>``` bash</p>
+
+<h1>Create &lsquo;metacontroller&rsquo; namespace, service account, and role/binding.</h1>
+
+<p>kubectl apply -f <a href="https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller-rbac.yaml">https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller-rbac.yaml</a></p>
+
+<h1>Create CRDs for Metacontroller APIs, and the Metacontroller StatefulSet.</h1>
+
+<p>kubectl apply -f <a href="https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller.yaml">https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller.yaml</a>
+```</p>
+
+<p>Then we&rsquo;ll add some new metadata to our existing StatefulSet. The metacontroller script will use these values to configure the load balancers.</p>
+
+<p>``` yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:</p>
+
+<pre><code>service-per-pod-label: "pod-name"
+service-per-pod-ports: "80:80"
+</code></pre>
+
+<p>&hellip;
+```</p>
+
+<p>We also need to tell Kubernetes to decorate each StatefulSet with a pod-name label. We do this in the StatefulSet&rsquo;s pod template.</p>
+
+<p>``` yaml
+&hellip;
+spec:
+  template:</p>
+
+<pre><code>metadata:
+  annotations:
+    pod-name-label: "pod-name"
+</code></pre>
+
+<p>&hellip;
+```</p>
+
+<p>Note: this only works in k8s 1.9+ &ndash; if you&rsquo;re stuck with a lower version, you can script this action with Metacontroller, too. :).</p>
+
+<p>Now you&rsquo;re going to need two hooks. Put them in a directory together so they&rsquo;re easy to apply at once. These ones are written in jsonnet, but you could write this in whatever language you like.</p>
+
+<p>The first hook actually creates the LoadBalancer for each Pod.</p>
+
+<p>``` c#
+function(request) {
+  local statefulset = request.object,
+  local labelKey = statefulset.metadata.annotations[&ldquo;service-per-pod-label&rdquo;],
+  local ports = statefulset.metadata.annotations[&ldquo;service-per-pod-ports&rdquo;],</p>
+
+<p>  // Create a service for each Pod, with a selector on the given label key.
+  attachments: [</p>
+
+<pre><code>{
+  apiVersion: "v1",
+  kind: "Service",
+  metadata: {
+    name: statefulset.metadata.name + "-" + index,
+    labels: {app: "service-per-pod"}
+  },
+  spec: {
+    type: "LoadBalancer",
+    selector: {
+      [labelKey]: statefulset.metadata.name + "-" + index
+    },
+    ports: [
+      {
+        local parts = std.split(portnums, ":"),
+        port: std.parseInt(parts[0]),
+        targetPort: std.parseInt(parts[1]),
+      }
+      for portnums in std.split(ports, ",")
+    ]
+  }
+}
+for index in std.range(0, statefulset.spec.replicas - 1)
+</code></pre>
+
+<p>  ]
+}
+```
+The other hook is the &ldquo;finalizer&rdquo; &ndash; it responds to changes or deletions in pods by tearing down the corresponding LoadBalancers.</p>
+
+<p><code>c#
+function(request) {
+  // If the StatefulSet is updated to no longer match our decorator selector,
+  // or if the StatefulSet is deleted, clean up any attachments we made.
+  attachments: [],
+  // Mark as finalized once we observe all Services are gone.
+  finalized: std.length(request.attachments['Service.v1']) == 0
+}
+</code></p>
+
+<p>Add those into a subdirectory, and put them into a configmap together. Metacontroller will run them from there.</p>
+
+<p><code>bash
+kubectl create configmap service-per-pod-hooks -n metacontroller --from-file=hooks
+</code></p>
+
+<p>Now apply the actual decorator controller which will run those functions. Note that you have to identify your hook jsonnet files by (file) name! Get the name wrong, and the finalizer will hang forever, <a href="https://github.com/kubernetes/kubernetes/issues/72598">preventing you from deleting your statefulset</a>. In my case, the files were called <code>create-lb-per-pod.jsonnet</code> and <code>finalizer.json</code>.</p>
+
+<p>``` yaml
+apiVersion: metacontroller.k8s.io/v1alpha1
+kind: DecoratorController
+metadata:
+  name: service-per-pod
+spec:
+  resources:
+  &ndash; apiVersion: apps/v1beta1</p>
+
+<pre><code>resource: statefulsets
+annotationSelector:
+  matchExpressions:
+  - {key: service-per-pod-label, operator: Exists}
+  - {key: service-per-pod-ports, operator: Exists}
+</code></pre>
+
+<p>  attachments:
+  &ndash; apiVersion: v1</p>
+
+<pre><code>resource: services
+</code></pre>
+
+<p>  hooks:</p>
+
+<pre><code>sync:
+  webhook:
+    url: http://service-per-pod.metacontroller/create-lb-per-pod
+finalize:
+  webhook:
+    url: http://service-per-pod.metacontroller/finalizer
+</code></pre>
+
+<hr />
+
+<p>apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: service-per-pod
+  namespace: metacontroller
+spec:
+  replicas: 1
+  selector:</p>
+
+<pre><code>matchLabels:
+  app: service-per-pod
+</code></pre>
+
+<p>  template:</p>
+
+<pre><code>metadata:
+  labels:
+    app: service-per-pod
+spec:
+  containers:
+  - name: hooks
+    image: metacontroller/jsonnetd:0.1
+    imagePullPolicy: Always
+    workingDir: /hooks
+    volumeMounts:
+    - name: hooks
+      mountPath: /hooks
+  volumes:
+  - name: hooks
+    configMap:
+      name: service-per-pod-hooks
+</code></pre>
+
+<hr />
+
+<p>apiVersion: v1
+kind: Service
+metadata:
+  name: service-per-pod
+  namespace: metacontroller
+spec:
+  selector:</p>
+
+<pre><code>app: service-per-pod
+</code></pre>
+
+<p>  ports:
+  &ndash; port: 80</p>
+
+<pre><code>targetPort: 8080
+</code></pre>
+
+<p>```</p>
+
+<p>That&rsquo;s it! Now you can scale complete replicas of a very-stateful application with a simple <code>kubectl scale sts nginx --replicas=900</code>.</p>
+
+<p>Enjoy bragging to your friends about your &ldquo;macroservices architecture&rdquo;, pushing the limits of Kubernetes to run and replicate a stateful monolith!</p>
+
+<p><em>Everyone hates writing YAML. Check out the <a href="https://github.com/ohthehugemanatee/kubernetes-stateful-example">sample code for this post on Github</a></em></p>
+]]></content>
+  </entry>
+  
+</feed>

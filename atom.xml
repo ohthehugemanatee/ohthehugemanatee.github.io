@@ -4,7 +4,7 @@
   <title><![CDATA[Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2018-12-27T17:18:57+01:00</updated>
+  <updated>2019-01-07T12:37:50+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,527 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kubernetes for Stateful Applications: Scaling Macroservices]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/"/>
+    <updated>2019-01-07T11:10:21+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications</id>
+    <content type="html"><![CDATA[<p>I recently got to proctor an <a href="https://openhack.microsoft.com/">Openhack</a> event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all encounter, but no one likes to talk about.</p>
+
+<p><a href="https://kubernetes.io/">Kubernetes</a> is one of the greatest <strong>orchestration</strong> and <strong>scaling</strong> tools ever built, designed for modern <strong>decoupled</strong>, <strong>stateless</strong> architectures. Kubernetes tutorials abound to show you these strong use cases. <strong>But in the real world where you don&rsquo;t get to build &ldquo;green field&rdquo; every time, there are a lot of applications that don&rsquo;t fit that model</strong>.</p>
+
+<p>Lots of people out there are still writing tightly-coupled monoliths, in many cases for good reason. In some use cases microservices style scalability isn&rsquo;t even useful &ndash; you actually <em>prefer</em> stateful applications with tight coupling. For example a game server, where you don&rsquo;t want to scale player capacity per-game, you want to add more games (server instances).</p>
+
+<p>So today I&rsquo;m writing about <strong>stateful, non-scalable applications in kubernetes.</strong></p>
+
+<p>There are a few different approaches to coupling appliciation components:</p>
+
+<h2>Multi-container pods</h2>
+
+<p>Level 0 is to simply specify multiple components (containers) in your deployment.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">apps/v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Deployment</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx-deployment</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">labels</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">replicas</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">matchLabels</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">labels</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php:fpm</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">containerPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">9000</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx:latest</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">containerPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This specifies 3 copies of the same application, with the same two containers in each replica. This is a coupled application, but it&rsquo;s still stateless. Let&rsquo;s add a volume &ndash; that&rsquo;s where we get into trouble.</p>
+
+<p>The problem: If you add a Volume the normal way (<a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">persistentVolumeClaim</a>), each of your replicas will try and connect to the same volume. It&rsquo;ll act like a network shared drive. Maybe that&rsquo;s OK for your application, but not if it&rsquo;s our super-stateful example! And depending on your volume class, the volume may reject multiple connections like (<a href="https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv">Azure Disk</a> does, for example).</p>
+
+<p>So how do we get around this limitation? I want a separate volume for each instance of the application.</p>
+
+<p>Kubernetes supports a different object type for this use case, called a <a href="https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/">StatefulSet</a>. This is exactly what it sounds like: a set of objects that define a stateful application. It&rsquo;s a template for creating multiple copies of <em>all resources</em> defined therein.</p>
+
+<p>A statefulset will create replicas similar to a deployment, but it will set up separate Volumes and VolumeClaims for each one. The replicas will be identical except for an index number at the end of the labels. The first one might be called <code>nginx-deployment-0</code>, the second: <code>nginx-deployment-1</code>, and so on.  The result is a set of tightly coupled components, which can be individually addressed, and scaled using normal Kubernetes tools.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">apps/v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">StatefulSet</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">labels</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">replicas</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">matchLabels</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">serviceName</span><span class="p-Indicator">:</span> <span class="s">&quot;nginx&quot;</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">labels</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx:latest</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">containerPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php:fpm</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">volumeMounts</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mountPath</span><span class="p-Indicator">:</span> <span class="s">&quot;/var/www/html&quot;</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">data</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">volumeClaimTemplates</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">data</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">storageClassName</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">accessModes</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">ReadWriteOnce</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">requests</span><span class="p-Indicator">:</span>
+</span><span class='line'>            <span class="l-Scalar-Plain">storage</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5Gi</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Service</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">labels</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">clusterIP</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">None</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">nginx</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There are a few details to notice here.</p>
+
+<p>Yes, we&rsquo;ve replaced <em>Deployment</em> with <em>StatefulSet</em>. You get a shiny gold star if you noticed that one.</p>
+
+<p>The interesting part is the <em>VolumeClaimTemplates</em> section, below the containers definition. This keyword only exists inside a StatefulSet, and it&rsquo;s just what it sounds like: a template for creating Persistent Volume Claims.</p>
+
+<p>If you apply this config, you&rsquo;ll see three PVs created, with three PVCs, attached to three Pods. You can apply HPA rules to scale these up and down just like you would with deployments.</p>
+
+<p>There&rsquo;s also that weird Service at the bottom. A naked service with no clusterIP? What&rsquo;s the point? The point is as a helper for Kubernetes&#8217; internal DNS. All of those nice StatefulSet pods will come under a neat subdomain, eg nginx-0.nginx, nginx-1.nginx, etc. Additionally you can connect to active members of the StatefulSet by using that nginx domain component. A dns lookup on it will show all the IPs of the active members in the CNAME record.</p>
+
+<p>&ldquo;But what about external access?&rdquo; I hear you cry. Yes, we&rsquo;ve built a great stateful application that can scale instances, but it&rsquo;s only internally addressable! Good luck hosting those games&hellip;</p>
+
+<h2>External access and metacontroller</h2>
+
+<p>Normally you would put a LoadBalancer service in front of your application. But a Kubernetes load balancer will grab all of these StatefulSet members &ndash; so you can&rsquo;t address them externally one-by-one. What you <em>really</em> want to do, is create an external IP address for each statefulset member.</p>
+
+<p>One solution is to use a reverse proxy like nginx or HAProxy, configured to differentiate based on hostnames. But this is a blog post about Kubernetes, so we&rsquo;re going to do this the Kubernetes way!</p>
+
+<p>Kubernetes is very extensible. If Pods, Services, etc don&rsquo;t make sense for your application or domain, you can define custom object types and behaviors, through <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resources and controllers</a>. That&rsquo;s pretty edge case, but as we&rsquo;ve seen, some kubernetes edge cases are mainstream cases in the real world.</p>
+
+<p>In our super-stateful application, we don&rsquo;t need a custom resource type. But we do want to attach <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-controllers">custom behaviors</a> to our StatefulSet: every time we start up a pod we should create a LoadBalancer for it. We should be nice and tear them down when the pods are scaled down, of course.</p>
+
+<p>We&rsquo;ll use the <a href="https://github.com/GoogleCloudPlatform/metacontroller">Metacontroller</a> add-on to make our lives easier. Metacontroller makes it &ldquo;easy&rdquo; to add custom behaviors. Just write a short script, stick it into a ConfigMap or FaaS, and let Metacontroller work its magic!</p>
+
+<p>Metacontroller project comes with several well documented examples, including one that&rsquo;s very close to our requirement: <a href="https://github.com/GoogleCloudPlatform/metacontroller/tree/master/examples/service-per-pod">service-per-pod</a>.</p>
+
+<p>Step 1 is to install Metacontroller, of course:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Create &#39;metacontroller&#39; namespace, service account, and role/binding.</span>
+</span><span class='line'>kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller-rbac.yaml
+</span><span class='line'><span class="c"># Create CRDs for Metacontroller APIs, and the Metacontroller StatefulSet.</span>
+</span><span class='line'>kubectl apply -f https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller.yaml
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then we&rsquo;ll add some new metadata to our existing StatefulSet. The metacontroller script will use these values to configure the load balancers.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">apps/v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">StatefulSet</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">annotations</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">service-per-pod-label</span><span class="p-Indicator">:</span> <span class="s">&quot;pod-name&quot;</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">service-per-pod-ports</span><span class="p-Indicator">:</span> <span class="s">&quot;80:80&quot;</span>
+</span><span class='line'><span class="nn">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We also need to tell Kubernetes to decorate each StatefulSet with a pod-name label. We do this in the StatefulSet&rsquo;s pod template.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">...</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">annotations</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">pod-name-label</span><span class="p-Indicator">:</span> <span class="s">&quot;pod-name&quot;</span>
+</span><span class='line'><span class="nn">...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note: this only works in k8s 1.9+ &ndash; if you&rsquo;re stuck with a lower version, you can script this action with Metacontroller, too. :).</p>
+
+<p>Now you&rsquo;re going to need two hooks. Put them in a directory together so they&rsquo;re easy to apply at once. These ones are written in jsonnet, but you could write this in whatever language you like.</p>
+
+<p>The first hook actually creates the LoadBalancer for each Pod.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">function</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">local</span> <span class="n">statefulset</span> <span class="p">=</span> <span class="n">request</span><span class="p">.</span><span class="kt">object</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">local</span> <span class="n">labelKey</span> <span class="p">=</span> <span class="n">statefulset</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">annotations</span><span class="p">[</span><span class="s">&quot;service-per-pod-label&quot;</span><span class="p">],</span>
+</span><span class='line'>  <span class="n">local</span> <span class="n">ports</span> <span class="p">=</span> <span class="n">statefulset</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">annotations</span><span class="p">[</span><span class="s">&quot;service-per-pod-ports&quot;</span><span class="p">],</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// Create a service for each Pod, with a selector on the given label key.</span>
+</span><span class='line'>  <span class="n">attachments</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="n">apiVersion</span><span class="p">:</span> <span class="s">&quot;v1&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">kind</span><span class="p">:</span> <span class="s">&quot;Service&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">metadata</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">name</span><span class="p">:</span> <span class="n">statefulset</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">name</span> <span class="p">+</span> <span class="s">&quot;-&quot;</span> <span class="p">+</span> <span class="n">index</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">labels</span><span class="p">:</span> <span class="p">{</span><span class="n">app</span><span class="p">:</span> <span class="s">&quot;service-per-pod&quot;</span><span class="p">}</span>
+</span><span class='line'>      <span class="p">},</span>
+</span><span class='line'>      <span class="n">spec</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">type</span><span class="p">:</span> <span class="s">&quot;LoadBalancer&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">selector</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'><span class="na">          [labelKey]</span><span class="p">:</span> <span class="n">statefulset</span><span class="p">.</span><span class="n">metadata</span><span class="p">.</span><span class="n">name</span> <span class="p">+</span> <span class="s">&quot;-&quot;</span> <span class="p">+</span> <span class="n">index</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="n">ports</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>          <span class="p">{</span>
+</span><span class='line'>            <span class="n">local</span> <span class="n">parts</span> <span class="p">=</span> <span class="n">std</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">portnums</span><span class="p">,</span> <span class="s">&quot;:&quot;</span><span class="p">),</span>
+</span><span class='line'>            <span class="n">port</span><span class="p">:</span> <span class="n">std</span><span class="p">.</span><span class="n">parseInt</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="m">0</span><span class="p">]),</span>
+</span><span class='line'>            <span class="n">targetPort</span><span class="p">:</span> <span class="n">std</span><span class="p">.</span><span class="n">parseInt</span><span class="p">(</span><span class="n">parts</span><span class="p">[</span><span class="m">1</span><span class="p">]),</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>          <span class="k">for</span> <span class="n">portnums</span> <span class="k">in</span> <span class="n">std</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="n">ports</span><span class="p">,</span> <span class="s">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">]</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">for</span> <span class="n">index</span> <span class="k">in</span> <span class="n">std</span><span class="p">.</span><span class="n">range</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="n">statefulset</span><span class="p">.</span><span class="n">spec</span><span class="p">.</span><span class="n">replicas</span> <span class="p">-</span> <span class="m">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The other hook is the &ldquo;finalizer&rdquo; &ndash; it responds to changes or deletions in pods by tearing down the corresponding LoadBalancers.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='c#'><span class='line'><span class="n">function</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// If the StatefulSet is updated to no longer match our decorator selector,</span>
+</span><span class='line'>  <span class="c1">// or if the StatefulSet is deleted, clean up any attachments we made.</span>
+</span><span class='line'>  <span class="n">attachments</span><span class="p">:</span> <span class="p">[],</span>
+</span><span class='line'>  <span class="c1">// Mark as finalized once we observe all Services are gone.</span>
+</span><span class='line'>  <span class="n">finalized</span><span class="p">:</span> <span class="n">std</span><span class="p">.</span><span class="n">length</span><span class="p">(</span><span class="n">request</span><span class="p">.</span><span class="n">attachments</span><span class="p">[</span><span class="err">&#39;</span><span class="n">Service</span><span class="p">.</span><span class="n">v1</span><span class="err">&#39;</span><span class="p">])</span> <span class="p">==</span> <span class="m">0</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add those into a subdirectory, and put them into a configmap together. Metacontroller will run them from there.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>kubectl create configmap service-per-pod-hooks -n metacontroller --from-file<span class="o">=</span>hooks
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now apply the actual decorator controller which will run those functions. Note that you have to identify your hook jsonnet files by (file) name! Get the name wrong, and the finalizer will hang forever, <a href="https://github.com/kubernetes/kubernetes/issues/72598">preventing you from deleting your statefulset</a>. In my case, the files were called <code>create-lb-per-pod.jsonnet</code> and <code>finalizer.json</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">metacontroller.k8s.io/v1alpha1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">DecoratorController</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">apps/v1beta1</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">resource</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">statefulsets</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">annotationSelector</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">matchExpressions</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="p-Indicator">{</span><span class="nv">key</span><span class="p-Indicator">:</span> <span class="nv">service-per-pod-label</span><span class="p-Indicator">,</span> <span class="nv">operator</span><span class="p-Indicator">:</span> <span class="nv">Exists</span><span class="p-Indicator">}</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="p-Indicator">{</span><span class="nv">key</span><span class="p-Indicator">:</span> <span class="nv">service-per-pod-ports</span><span class="p-Indicator">,</span> <span class="nv">operator</span><span class="p-Indicator">:</span> <span class="nv">Exists</span><span class="p-Indicator">}</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">attachments</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">resource</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">services</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">hooks</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">sync</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">webhook</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://service-per-pod.metacontroller/create-lb-per-pod</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">finalize</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">webhook</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">url</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">http://service-per-pod.metacontroller/finalizer</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">apps/v1beta1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Deployment</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">namespace</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">metacontroller</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">replicas</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">matchLabels</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">template</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">labels</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">containers</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hooks</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">image</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">metacontroller/jsonnetd:0.1</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">imagePullPolicy</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Always</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">workingDir</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/hooks</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">volumeMounts</span><span class="p-Indicator">:</span>
+</span><span class='line'>        <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hooks</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">mountPath</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">/hooks</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">volumes</span><span class="p-Indicator">:</span>
+</span><span class='line'>      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">hooks</span>
+</span><span class='line'>        <span class="l-Scalar-Plain">configMap</span><span class="p-Indicator">:</span>
+</span><span class='line'>          <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod-hooks</span>
+</span><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">apiVersion</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">v1</span>
+</span><span class='line'><span class="l-Scalar-Plain">kind</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Service</span>
+</span><span class='line'><span class="l-Scalar-Plain">metadata</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">namespace</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">metacontroller</span>
+</span><span class='line'><span class="l-Scalar-Plain">spec</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">selector</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">app</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">service-per-pod</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">ports</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">80</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">targetPort</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">8080</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it! Now you can scale complete replicas of a very-stateful application with a simple <code>kubectl scale sts nginx --replicas=900</code>.</p>
+
+<p>Enjoy bragging to your friends about your &ldquo;macroservices architecture&rdquo;, pushing the limits of Kubernetes to run and replicate a stateful monolith!</p>
+
+<p><em>Everyone hates writing YAML. Check out the <a href="https://github.com/ohthehugemanatee/kubernetes-stateful-example">sample code for this post on Github</a></em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[BTRFS Out of Space Emergency Response]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response/"/>
+    <updated>2019-01-04T13:58:39+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response</id>
+    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 4GB of free space to 0 in an instant, causing all sorts of chaos on my system.</p>
+
+<p>This problem happens to lots of people, beause BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
+
+<ul>
+<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+</ul>
+
+
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space! For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Optimizing Data Transfer Speeds]]></title>
@@ -1684,199 +2205,6 @@
 <p>And a couple of minutes later, I had an /output folder full of txt files.</p>
 
 <p>So far I can only recommend this setup. Have fun!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs/"/>
-    <updated>2016-07-29T13:14:06+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs</id>
-    <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
-
-<p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
-
-<p>Drupal is an interesting field in which to work, and there&rsquo;s a lot of momentum for good developers. I chose to work with Amazee Labs because they are some of the best at what we do. I&rsquo;ve always been a fan of their work on a technical level, and now, getting to be a part of the team is very exciting.</p>
-
-<p>My project with Amazee is packed with smart people and exciting technologies. I&rsquo;m working with brilliant Drupalists <a href="https://www.drupal.org/u/fubhy">Sebastian Siemssen</a> and <a href="https://www.drupal.org/u/moshe-weitzman">Moshe Weitzman</a>, which is a thrill on its own. We&rsquo;re mixing Drupal 8 with a custom data storage backend, serving data to a thousand separate <a href="https://facebook.github.io/react/">ReactJS</a> sites via <a href="http://graphql.org/">GraphQL</a>. The whole thing is developed, tested, and run in production on <a href="https://docker.com">Docker</a>. Perhaps the best part is that this team is so dedicated to Doing it Right. I&rsquo;ve worked with plenty of great development shops; none of them do Agile Right; Amazee does. I&rsquo;ve never seen anyone process-obsessed enough to reap the rewards of things like continuous integration or even thorough sprint reviews, but Amazee is managing it. All told, it&rsquo;s very exciting to work with such smart people, in such an effective environment, on such cutting edge technology. I&rsquo;ve gotten to flex muscles I didn&rsquo;t know I had, which is a great feeling. I will definitely be posting more about the technical issues I encounter along the way.</p>
-
-<p>Of course, one of the most appealing parts of this job is the flexibility to continue pursuing my other passion in music. The Cast is getting bigger and bigger, with 30-40 shows this year. I&rsquo;m really working hard to balance these two parts of my life, and the trajectory of The Cast ensures that this balance will be a big focus for me in the next several years. I don&rsquo;t want to leave open source tech entirely; but I may scale back my conference visibility, and focus my contributions more. We&rsquo;ll see what happens. No matter what, I&rsquo;m happy to be working with a fantastic team and supportive company. On to amazeeing things together!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Some Git Log Magic]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic/"/>
-    <updated>2016-04-15T13:12:41+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2016/04/15/some-git-log-magic</id>
-    <content type="html"><![CDATA[<p>Today I got to generate git statistics for my team. It&rsquo;s more fun than it sounds! First of all, it&rsquo;s always entertaining to learn just how flexible git&rsquo;s reporting can get. Secondly, it&rsquo;s a chance to dive back into my old sysadmin tool kit and play with awk, sed, and friends.</p>
-
-<p>There were a few questions I wanted to answer about one particular developer&rsquo;s input. I&rsquo;m concerned that he is working too much after hours. All night crunch sessions are for amateurs, and I&rsquo;m trying to break him of the habit. Here are my questions:</p>
-
-<ul>
-<li>What proportion of his commits were generated after hours?</li>
-<li>Which tickets did he work on after hours?</li>
-<li>Which after hours tickets were the biggest, generating the most commits?</li>
-</ul>
-
-
-<p>First I had to set some standards: &ldquo;after hours&rdquo; is defined as &ldquo;between 7pm and 7am&rdquo;; ticket ID numbers are noted in our commit log with square brackets, ie <code>[#12345]</code>.</p>
-
-<p>We&rsquo;ll start with the total number of commits in this last release period, which we need to figure out the proportion of his commits. This is easy with <code>git shortlog</code>. Git log (and shortlog)&rsquo;s <code>--author</code> argument matches any part of the user&rsquo;s name, so it was easy enough to get Timmy&rsquo;s commits. This is would be the most intuitive git command I know of, except for the mystery <code>-s</code>: a shortlog-only argument that squashes commits down to a count.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git shortlog -s --author=Timmy --after="2016-02-12" --before="2016-04-14"
-</span><span class='line'>   609  Timmy Horton</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(not his real name)</p>
-
-<p>To get the rest of the information we want we have to switch to full git log, and get a custom-formatted one line representation of each commit, with the information that we want. We use <code>--format</code> to speciy our custom format. Here&rsquo;s <a href="https://www.kernel.org/pub/software/scm/git/docs/git-log.html#_pretty_formats">the complete list of format variables</a> &ndash; our use is pretty trivial.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14"
-</span><span class='line'>
-</span><span class='line'>Thu Apr 14 00:34:58 2016 -0400: [#50559] Remove dependency on comm_group_stats.inc from foo_communities.info
-</span><span class='line'>Wed Apr 13 17:13:02 2016 -0400: [#50549] Add proper EFQs to foo_global_render_homepage_block
-</span><span class='line'>Wed Apr 13 17:10:41 2016 -0400: Merge branch 'stable' into 50549-homepage-counts-are-off
-</span><span class='line'>Wed Apr 13 00:13:54 2016 -0400: Merge branch 'stable' into 50485-groups-communities-counts
-</span><span class='line'>Wed Apr 13 00:13:01 2016 -0400: [#50481] Correct counts calculations on Communities and Groups DS field and Mini Panel Panes
-</span><span class='line'>Tue Apr 12 03:59:17 2016 -0400: [#50248] Fix relative url issue on custom DS Author Field
-</span><span class='line'>Tue Apr 12 03:18:49 2016 -0400: [#50248] Remove duplicate title in Pathauto alias for Event
-</span><span class='line'>Tue Apr 12 03:10:53 2016 -0400: [#50248] Change Pathauto alias for Communities
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now we&rsquo;ll filter to just the commits which happened between 7pm and 8am, with grep. You can use <code>egrep</code> to take advantage of &ldquo;extended&rdquo; regular expression matching, so I wrote a little regex that looks for the first component of the time, and checks that the second digit is in the right range.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}'
-</span><span class='line'>
-</span><span class='line'>Thu Apr 14 00:34:58 2016 -0400: [#50559] Remove dependency on comm_group_stats.inc from foo_communities.info
-</span><span class='line'>Wed Apr 13 00:13:01 2016 -0400: [#50481] Correct counts calculations on Communities and Groups DS field and Mini Panel Panes
-</span><span class='line'>Tue Apr 12 03:59:17 2016 -0400: [#50248] Fix relative url issue on custom DS Author Field
-</span><span class='line'>Tue Apr 12 03:18:49 2016 -0400: [#50248] Remove duplicate title in Pathauto alias for Event
-</span><span class='line'>Tue Apr 12 03:10:53 2016 -0400: [#50248] Change Pathauto alias for Communities
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I&rsquo;ll take this regex apart for you. I know I can recognize a time as any colon-separated trio of two digit numbers. <code>\d</code> is a number, <code>{2}</code> is &ldquo;exactly two of the preceding element&rdquo;, so the pattern is <code>\d{2}:\d{2}:\d{2}</code>. We really want just the hours between 00 and 09, and between 19 and 23. Square brackets denote ranges, but regex examines one <em>character</em> at a time. It sees 01 as a zero, then a one. We have to take it apart a little more than this. The first range is <code>0[0-9]</code> &ndash; that one is easy. We separate it from its neighbor with a vertical pipe to make it an OR comparison, and surround each option in that OR in parenthesis to make sure that both digits are considered together. Since we have to think in single digits, the second time range range could be 19, or <code>2[0-3]</code>. Finally, I surround the whole OR set in parentheses because it makes it easier to read.</p>
-
-<p>Getting a count of this list is easy: we just pipe the result to <code>wc -l</code> to get a count of lines.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | wc -l
-</span><span class='line'>
-</span><span class='line'>225</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Wow &ndash; more than a third of his commits happened after hours! That&rsquo;s definitely not good.</p>
-
-<p>Let&rsquo;s find out which tickets he worked on, using our standardized notation for ticket numbers. We can exclude merge commits with git log&rsquo;s <code>--no-merges</code> argument. But what about printing just the ticket numbers? We&rsquo;ll use my favorite multitool: awk!</p>
-
-<p>Awk breaks up input into columns, and has a whole language for doing exotic and fun things with those columns. Who needs excel, anyway? If you want to learn more about awk, check out my <a href="https://ohthehugemanatee.org/2011/04/working-with-bash-awk.html">very old post on the subject</a>. Here we&rsquo;re just going to accept awk&rsquo;s default of space-separated columns, and print off column number 7.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}'
-</span><span class='line'>
-</span><span class='line'>[#50559]
-</span><span class='line'>[#50481]
-</span><span class='line'>[#50248]
-</span><span class='line'>[#50248]
-</span><span class='line'>[#50248]
-</span><span class='line'>[#50248]
-</span><span class='line'>[#50248]
-</span><span class='line'>[#50248]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Great, but there are a lot of duplicates there. I guess 50248 was a big one, for example. So we&rsquo;ll pass it through <code>uniq</code> to limit it to just unique tickets. Uniq removes duplicates, but only duplicates in a row. So most of the time &ndash; including today &ndash; we pair it with <code>sort</code>.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}' | sort | uniq
-</span><span class='line'>
-</span><span class='line'>[#48192]
-</span><span class='line'>[#49324]
-</span><span class='line'>[#49343]
-</span><span class='line'>[#49464]
-</span><span class='line'>[#49473]
-</span><span class='line'>[#49863]
-</span><span class='line'>[#50005]
-</span><span class='line'>[#50033]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Much better! Now, how many commits went into each one of those tickets? This was a new one for me: we&rsquo;ll use uniq&rsquo;s <code>-c</code> flag to tell it to produce counts. And just for readability, we&rsquo;ll sort the resulting list by the count.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$&gt; git log --no-merges --author=Timmy --format="%cd: %s" --after="2016-02-12" --before="2016-04-14" | egrep '((0[0-9])|(19)|(2[0-3])):\d{2}:\d{2}' | awk '{print $7}' | sort | uniq -c | sort
-</span><span class='line'>
-</span><span class='line'>   1 [#50238]
-</span><span class='line'>   1 [#50251]
-</span><span class='line'>   1 [#50252]
-</span><span class='line'>   1 [#50480]
-</span><span class='line'>   1 [#50481]
-</span><span class='line'>   1 [#50559]
-</span><span class='line'>   2 [#50418]
-</span><span class='line'>   2 [50033]
-</span><span class='line'>   3 [#49863]
-</span><span class='line'>   3 [#50319]
-</span><span class='line'>...</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Questions answered! Maybe next I should use gnuplot to plot the number of commits against lateness of the hour&hellip;</p>
 ]]></content>
   </entry>
   

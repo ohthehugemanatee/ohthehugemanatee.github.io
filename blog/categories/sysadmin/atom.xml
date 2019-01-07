@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2018-12-27T17:18:57+01:00</updated>
+  <updated>2019-01-07T12:37:50+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,395 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Kubernetes for Stateful Applications: Scaling Macroservices]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/"/>
+    <updated>2019-01-07T11:10:21+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/01/07/kubernetes-tricks-for-stateful-applications</id>
+    <content type="html"><![CDATA[<p>I recently got to proctor an <a href="https://openhack.microsoft.com/">Openhack</a> event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all encounter, but no one likes to talk about.</p>
+
+<p><a href="https://kubernetes.io/">Kubernetes</a> is one of the greatest <strong>orchestration</strong> and <strong>scaling</strong> tools ever built, designed for modern <strong>decoupled</strong>, <strong>stateless</strong> architectures. Kubernetes tutorials abound to show you these strong use cases. <strong>But in the real world where you don&rsquo;t get to build &ldquo;green field&rdquo; every time, there are a lot of applications that don&rsquo;t fit that model</strong>.</p>
+
+<p>Lots of people out there are still writing tightly-coupled monoliths, in many cases for good reason. In some use cases microservices style scalability isn&rsquo;t even useful &ndash; you actually <em>prefer</em> stateful applications with tight coupling. For example a game server, where you don&rsquo;t want to scale player capacity per-game, you want to add more games (server instances).</p>
+
+<p>So today I&rsquo;m writing about <strong>stateful, non-scalable applications in kubernetes.</strong></p>
+
+<p>There are a few different approaches to coupling appliciation components:</p>
+
+<h2>Multi-container pods</h2>
+
+<p>Level 0 is to simply specify multiple components (containers) in your deployment.</p>
+
+<p>``` yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>spec:
+  replicas: 3
+  selector:</p>
+
+<pre><code>matchLabels:
+  app: nginx
+</code></pre>
+
+<p>  template:</p>
+
+<pre><code>metadata:
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: php
+    image: php:fpm
+    ports:
+    - containerPort: 9000
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+</code></pre>
+
+<p>```
+This specifies 3 copies of the same application, with the same two containers in each replica. This is a coupled application, but it&rsquo;s still stateless. Let&rsquo;s add a volume &ndash; that&rsquo;s where we get into trouble.</p>
+
+<p>The problem: If you add a Volume the normal way (<a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">persistentVolumeClaim</a>), each of your replicas will try and connect to the same volume. It&rsquo;ll act like a network shared drive. Maybe that&rsquo;s OK for your application, but not if it&rsquo;s our super-stateful example! And depending on your volume class, the volume may reject multiple connections like (<a href="https://docs.microsoft.com/en-us/azure/aks/azure-disks-dynamic-pv">Azure Disk</a> does, for example).</p>
+
+<p>So how do we get around this limitation? I want a separate volume for each instance of the application.</p>
+
+<p>Kubernetes supports a different object type for this use case, called a <a href="https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/">StatefulSet</a>. This is exactly what it sounds like: a set of objects that define a stateful application. It&rsquo;s a template for creating multiple copies of <em>all resources</em> defined therein.</p>
+
+<p>A statefulset will create replicas similar to a deployment, but it will set up separate Volumes and VolumeClaims for each one. The replicas will be identical except for an index number at the end of the labels. The first one might be called <code>nginx-deployment-0</code>, the second: <code>nginx-deployment-1</code>, and so on.  The result is a set of tightly coupled components, which can be individually addressed, and scaled using normal Kubernetes tools.</p>
+
+<p>``` yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx
+  labels:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>spec:
+  replicas: 3
+  selector:</p>
+
+<pre><code>matchLabels:
+  app: nginx
+</code></pre>
+
+<p>  serviceName: &ldquo;nginx&rdquo;
+  template:</p>
+
+<pre><code>metadata:
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+  - name: php
+    image: php:fpm
+    volumeMounts:
+    - mountPath: "/var/www/html"
+      name: data
+</code></pre>
+
+<p>  volumeClaimTemplates:</p>
+
+<pre><code>- metadata:
+    name: data
+  spec:
+    storageClassName: default
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 5Gi
+</code></pre>
+
+<hr />
+
+<p>apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>spec:
+  ports:</p>
+
+<pre><code>- port: 80
+  name: http
+</code></pre>
+
+<p>  clusterIP: None
+  selector:</p>
+
+<pre><code>app: nginx
+</code></pre>
+
+<p>```
+There are a few details to notice here.</p>
+
+<p>Yes, we&rsquo;ve replaced <em>Deployment</em> with <em>StatefulSet</em>. You get a shiny gold star if you noticed that one.</p>
+
+<p>The interesting part is the <em>VolumeClaimTemplates</em> section, below the containers definition. This keyword only exists inside a StatefulSet, and it&rsquo;s just what it sounds like: a template for creating Persistent Volume Claims.</p>
+
+<p>If you apply this config, you&rsquo;ll see three PVs created, with three PVCs, attached to three Pods. You can apply HPA rules to scale these up and down just like you would with deployments.</p>
+
+<p>There&rsquo;s also that weird Service at the bottom. A naked service with no clusterIP? What&rsquo;s the point? The point is as a helper for Kubernetes' internal DNS. All of those nice StatefulSet pods will come under a neat subdomain, eg nginx-0.nginx, nginx-1.nginx, etc. Additionally you can connect to active members of the StatefulSet by using that nginx domain component. A dns lookup on it will show all the IPs of the active members in the CNAME record.</p>
+
+<p>&ldquo;But what about external access?&rdquo; I hear you cry. Yes, we&rsquo;ve built a great stateful application that can scale instances, but it&rsquo;s only internally addressable! Good luck hosting those games&hellip;</p>
+
+<h2>External access and metacontroller</h2>
+
+<p>Normally you would put a LoadBalancer service in front of your application. But a Kubernetes load balancer will grab all of these StatefulSet members &ndash; so you can&rsquo;t address them externally one-by-one. What you <em>really</em> want to do, is create an external IP address for each statefulset member.</p>
+
+<p>One solution is to use a reverse proxy like nginx or HAProxy, configured to differentiate based on hostnames. But this is a blog post about Kubernetes, so we&rsquo;re going to do this the Kubernetes way!</p>
+
+<p>Kubernetes is very extensible. If Pods, Services, etc don&rsquo;t make sense for your application or domain, you can define custom object types and behaviors, through <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resources and controllers</a>. That&rsquo;s pretty edge case, but as we&rsquo;ve seen, some kubernetes edge cases are mainstream cases in the real world.</p>
+
+<p>In our super-stateful application, we don&rsquo;t need a custom resource type. But we do want to attach <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#custom-controllers">custom behaviors</a> to our StatefulSet: every time we start up a pod we should create a LoadBalancer for it. We should be nice and tear them down when the pods are scaled down, of course.</p>
+
+<p>We&rsquo;ll use the <a href="https://github.com/GoogleCloudPlatform/metacontroller">Metacontroller</a> add-on to make our lives easier. Metacontroller makes it &ldquo;easy&rdquo; to add custom behaviors. Just write a short script, stick it into a ConfigMap or FaaS, and let Metacontroller work its magic!</p>
+
+<p>Metacontroller project comes with several well documented examples, including one that&rsquo;s very close to our requirement: <a href="https://github.com/GoogleCloudPlatform/metacontroller/tree/master/examples/service-per-pod">service-per-pod</a>.</p>
+
+<p>Step 1 is to install Metacontroller, of course:</p>
+
+<p>``` bash</p>
+
+<h1>Create &lsquo;metacontroller&rsquo; namespace, service account, and role/binding.</h1>
+
+<p>kubectl apply -f <a href="https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller-rbac.yaml">https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller-rbac.yaml</a></p>
+
+<h1>Create CRDs for Metacontroller APIs, and the Metacontroller StatefulSet.</h1>
+
+<p>kubectl apply -f <a href="https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller.yaml">https://raw.githubusercontent.com/GoogleCloudPlatform/metacontroller/master/manifests/metacontroller.yaml</a>
+```</p>
+
+<p>Then we&rsquo;ll add some new metadata to our existing StatefulSet. The metacontroller script will use these values to configure the load balancers.</p>
+
+<p>``` yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  annotations:</p>
+
+<pre><code>service-per-pod-label: "pod-name"
+service-per-pod-ports: "80:80"
+</code></pre>
+
+<p>&hellip;
+```</p>
+
+<p>We also need to tell Kubernetes to decorate each StatefulSet with a pod-name label. We do this in the StatefulSet&rsquo;s pod template.</p>
+
+<p>``` yaml
+&hellip;
+spec:
+  template:</p>
+
+<pre><code>metadata:
+  annotations:
+    pod-name-label: "pod-name"
+</code></pre>
+
+<p>&hellip;
+```</p>
+
+<p>Note: this only works in k8s 1.9+ &ndash; if you&rsquo;re stuck with a lower version, you can script this action with Metacontroller, too. :).</p>
+
+<p>Now you&rsquo;re going to need two hooks. Put them in a directory together so they&rsquo;re easy to apply at once. These ones are written in jsonnet, but you could write this in whatever language you like.</p>
+
+<p>The first hook actually creates the LoadBalancer for each Pod.</p>
+
+<p>``` c#
+function(request) {
+  local statefulset = request.object,
+  local labelKey = statefulset.metadata.annotations[&ldquo;service-per-pod-label&rdquo;],
+  local ports = statefulset.metadata.annotations[&ldquo;service-per-pod-ports&rdquo;],</p>
+
+<p>  // Create a service for each Pod, with a selector on the given label key.
+  attachments: [</p>
+
+<pre><code>{
+  apiVersion: "v1",
+  kind: "Service",
+  metadata: {
+    name: statefulset.metadata.name + "-" + index,
+    labels: {app: "service-per-pod"}
+  },
+  spec: {
+    type: "LoadBalancer",
+    selector: {
+      [labelKey]: statefulset.metadata.name + "-" + index
+    },
+    ports: [
+      {
+        local parts = std.split(portnums, ":"),
+        port: std.parseInt(parts[0]),
+        targetPort: std.parseInt(parts[1]),
+      }
+      for portnums in std.split(ports, ",")
+    ]
+  }
+}
+for index in std.range(0, statefulset.spec.replicas - 1)
+</code></pre>
+
+<p>  ]
+}
+```
+The other hook is the &ldquo;finalizer&rdquo; &ndash; it responds to changes or deletions in pods by tearing down the corresponding LoadBalancers.</p>
+
+<p><code>c#
+function(request) {
+  // If the StatefulSet is updated to no longer match our decorator selector,
+  // or if the StatefulSet is deleted, clean up any attachments we made.
+  attachments: [],
+  // Mark as finalized once we observe all Services are gone.
+  finalized: std.length(request.attachments['Service.v1']) == 0
+}
+</code></p>
+
+<p>Add those into a subdirectory, and put them into a configmap together. Metacontroller will run them from there.</p>
+
+<p><code>bash
+kubectl create configmap service-per-pod-hooks -n metacontroller --from-file=hooks
+</code></p>
+
+<p>Now apply the actual decorator controller which will run those functions. Note that you have to identify your hook jsonnet files by (file) name! Get the name wrong, and the finalizer will hang forever, <a href="https://github.com/kubernetes/kubernetes/issues/72598">preventing you from deleting your statefulset</a>. In my case, the files were called <code>create-lb-per-pod.jsonnet</code> and <code>finalizer.json</code>.</p>
+
+<p>``` yaml
+apiVersion: metacontroller.k8s.io/v1alpha1
+kind: DecoratorController
+metadata:
+  name: service-per-pod
+spec:
+  resources:
+  &ndash; apiVersion: apps/v1beta1</p>
+
+<pre><code>resource: statefulsets
+annotationSelector:
+  matchExpressions:
+  - {key: service-per-pod-label, operator: Exists}
+  - {key: service-per-pod-ports, operator: Exists}
+</code></pre>
+
+<p>  attachments:
+  &ndash; apiVersion: v1</p>
+
+<pre><code>resource: services
+</code></pre>
+
+<p>  hooks:</p>
+
+<pre><code>sync:
+  webhook:
+    url: http://service-per-pod.metacontroller/create-lb-per-pod
+finalize:
+  webhook:
+    url: http://service-per-pod.metacontroller/finalizer
+</code></pre>
+
+<hr />
+
+<p>apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: service-per-pod
+  namespace: metacontroller
+spec:
+  replicas: 1
+  selector:</p>
+
+<pre><code>matchLabels:
+  app: service-per-pod
+</code></pre>
+
+<p>  template:</p>
+
+<pre><code>metadata:
+  labels:
+    app: service-per-pod
+spec:
+  containers:
+  - name: hooks
+    image: metacontroller/jsonnetd:0.1
+    imagePullPolicy: Always
+    workingDir: /hooks
+    volumeMounts:
+    - name: hooks
+      mountPath: /hooks
+  volumes:
+  - name: hooks
+    configMap:
+      name: service-per-pod-hooks
+</code></pre>
+
+<hr />
+
+<p>apiVersion: v1
+kind: Service
+metadata:
+  name: service-per-pod
+  namespace: metacontroller
+spec:
+  selector:</p>
+
+<pre><code>app: service-per-pod
+</code></pre>
+
+<p>  ports:
+  &ndash; port: 80</p>
+
+<pre><code>targetPort: 8080
+</code></pre>
+
+<p>```</p>
+
+<p>That&rsquo;s it! Now you can scale complete replicas of a very-stateful application with a simple <code>kubectl scale sts nginx --replicas=900</code>.</p>
+
+<p>Enjoy bragging to your friends about your &ldquo;macroservices architecture&rdquo;, pushing the limits of Kubernetes to run and replicate a stateful monolith!</p>
+
+<p><em>Everyone hates writing YAML. Check out the <a href="https://github.com/ohthehugemanatee/kubernetes-stateful-example">sample code for this post on Github</a></em></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[BTRFS Out of Space Emergency Response]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response/"/>
+    <updated>2019-01-04T13:58:39+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/01/04/btrfs-out-of-space-emergency-response</id>
+    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 4GB of free space to 0 in an instant, causing all sorts of chaos on my system.</p>
+
+<p>This problem happens to lots of people, beause BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
+
+<ul>
+<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+</ul>
+
+
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space! For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Optimizing Data Transfer Speeds]]></title>
@@ -357,196 +746,6 @@ $aliases[&lsquo;localdev&rsquo;] = array(
 <p>There&rsquo;s just one, obscure caveat with the latter method: somewhere in the alias merging process, BASH aliases are lost. That means that &lsquo;~&rsquo; stops resolving to your home directory, and you have to write it out (as I did above).</p>
 
 <p>Have fun!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SSH Lifehacks to Make Your SSH Life Easy]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy/"/>
-    <updated>2013-12-20T16:29:27+01:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2013/12/20/ssh-lifehacks-to-make-your-ssh-life-easy</id>
-    <content type="html"><![CDATA[<p>If you use SSH every day, or even every other day, this post is for you. We&rsquo;re going to walk through some of the more convenient options available to you in your global SSH configuration to make your life easier and faster.</p>
-
-<p>First of all, you should know that SSH has a great configuration file, typically located in your home directory at <em>.ssh/config</em>. Everything we&rsquo;re talking about today belongs there. There&rsquo;s tons of stuff you can do with it, and I&rsquo;m only going to scratch the surface.</p>
-
-<h2>Re-Using Existing Connections</h2>
-
-<p>Every time you SSH into a server, it opens a new connection and authenticates all over again, right? That&rsquo;s slow, and it&rsquo;s a PITA if you have to type a password for your private key or just to access the server. You&rsquo;re already connected once, so why not reuse the same connection? Just add these lines to your <em>.ssh/config</em>:</p>
-
-<p>```</p>
-
-<h1>Re-use existing connections instead of opening new ones</h1>
-
-<p>ControlMaster auto
-ControlPath /tmp/ssh_mux<em>%h</em>%p<em>%r</em>%l
-```</p>
-
-<p>This tells SSH to use a socket file for each connection, and to name the file in a way that&rsquo;s unique for each combination of host, port, remote username, and local hostname. That is to say, if you&rsquo;re connecting to the same host/port with the same username and from the same local hostname, it will automatically re-use the existing connection.</p>
-
-<p><strong>Result: Multiple SSH connections are WAY faster.</strong></p>
-
-<h2>Host shortcuts and definitions</h2>
-
-<p>You can easily define commonly used connections with shortcuts. So instead of typing <code>ssh -i ~/.ssh/ohthehugemanatee.pem -P 2222 ohthehugemanatee@live.ohthehugemanatee.org</code>, you can just type <code>ssh live</code>.</p>
-
-<p>``` bash
-Host live
-  Hostname live.ohthehugemanatee.org
-  Port 2222
-  User ohthehugemanatee
-  IdentityFile ~/.ssh/ohthehugemanatee.pem</p>
-
-<p>```</p>
-
-<h2>SSH Agent Forwarding &ndash; One key to rule them all</h2>
-
-<p>Normally when you want to access a resource from multiple machines, you have to generate a public/private keypair on each machine. A great example is a git repo: if I want to access the same git repository on my localhost, the staging server, and the live server, I will have to generate three keypairs and grant access to all three. Talk about a pain in the ass!</p>
-
-<p>Fortunately there&rsquo;s a much easier way to do this, which is available in almost all distributed versions of openssh: SSH agent forwarding. With agent forwarding enabled, your private key from one machine becomes available for each subsequent machine you connect to. In other words, if you have one private key on your localhost, and SSH into another server, your local private key will be available if you want to SSH (or use git) from that server. Automatically. And only while you&rsquo;re connected, so it&rsquo;s safe.</p>
-
-<p><code>
-ForwardAgent yes
-</code></p>
-
-<p>Just drop that in your Host definition (per above), and if the remote host supports it it will work automatically. It is not recommended to set this option globally, because your private key is actually very sensitive stuff, and you don&rsquo;t want to accidentally forward your key to an untrusted server. But feel free to enable it on every host where it&rsquo;s convenient!</p>
-
-<h2>Bonus material</h2>
-
-<p>Technically these items aren&rsquo;t about <em>.ssh/config</em>, but they&rsquo;re still so convenient I had to share them.</p>
-
-<p>Note that the same improvements to your SSH will also apply to your use of SCP and other SSH tools. So that brutally long and painful rsync-over-ssh command that you&rsquo;ve had to type a thousand times, can now just use &ldquo;live&rdquo; as a shortcut. Git, too. It&rsquo;s a great relief to be able to type <code>scp ~/Sites/index.php live:~</code>. It&rsquo;s just so much more readable!</p>
-
-<p>But if you want to get <strong>even lazier</strong>, you&rsquo;re going to love the next tip. Why ssh in at all, when you can just mount the remote directory somewhere convenient on your local system? Let&rsquo;s use that Host alias above, and mount the remote web root (<em>/var/www/html</em>) at <em>~/live-environment</em>. It&rsquo;s much more convenient there, after all.</p>
-
-<p><code>sshfs live:/var/www/html ~/live</code></p>
-
-<p>Note that this no longer works in OSX without installing <a href="http://osxfuse.github.io/">OSX Fuse</a>. Still, the 5 minute download and install process is totally worth it for this easy SSH lifehack.</p>
-
-<p>Or is that not lazy enough for you? &ldquo;Do I really have to mount the whole directory?&rdquo; I hear you cry! &ldquo;I wanna just edit one file&hellip;&rdquo; Well have I got the tip for you! For the ultimately lazy, <a href="http://www.vim.org/">vim</a> supports editing files directly over SSH. Try it out:</p>
-
-<p><code>vim scp://live/var/www/html/index.php</code></p>
-
-<p>Think about it: before you read this post, that would have taken you several long-winded commands to type. Your arthritic fingers can thank me later.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[SSL Certificates Demystified]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2013/06/20/ssl-certificates-demystified/"/>
-    <updated>2013-06-20T00:00:00+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2013/06/20/ssl-certificates-demystified</id>
-    <content type="html"><![CDATA[<p>It seems like any time anyone has to configure a server for SSL/TLS, they treat it like some kind of voodoo magic. And I guess it can seem that way: if you get your certificates in the right formats from your certificate authority, you basically just drop them into Apache/NGINX/whatever and let it go.&nbsp;</p>
-
-
-<p>But what happens if those files&nbsp;<strong>aren't</strong> in the right format by default? And what if you actually want to understand what's going on with your server?</p>
-
-
-<p>The truth is, encryption is not terribly difficult to understand. It's a little tricky to explain, and the maths in the nitty gritty of it can get really intense, but a high level understanding is important for anyone who works with SSL.&nbsp;</p>
-
-
-<div>The basis for SSL is <a href="https://en.wikipedia.org/wiki/Public_key_cryptography">public-key</a> (asymmetrical) cryptography. The idea is that you create a pair of files that have matching abilities:</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>*<strong> the "public" file can&nbsp;encrypt&nbsp;content</strong> so that the matching "private" file must be used to decrypt it. It can also <strong>verify the signature</strong> of the "private" file.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>* <strong>the "private" file can&nbsp;decrypt&nbsp;content</strong> that was encrypted by the matching "public" file. It can also <strong>leave a unique digital signature</strong> which can be verified by the matching "public" file.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>If you've ever used the <a href="https://en.wikipedia.org/wiki/Pretty_Good_Privacy">PGP encryption</a> system, that's basically how it works. You publish your public key in a publicly available directory, and keep your private key to yourself. That way, anyone can use your public key to encrypt content for you, and only you can decrypt it.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>In the context of web communications, this model is taken to the next level. We use the encryption aspect of it, but we also use those digital signatures. Here's the process.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>1) You create this "key pair" for yourself, and hide the private key away somewhere. Optionally the private key can be password-protected.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>2) You create a Certificate Request file (.CSR, usually). A Certificate Request is just a copy of your Public Key, with some identifying information about your organization. The most important piece of this information is the domain name this Request is for. You submit your CSR file to a Certificate Authority (abbreviated as "CA) company like <a href="https://www.rapidssl.com/">RapidSSL</a>, or any number of other Certificate Authorities out there.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>3) The CA verifies that you really own the domain name specified in the CSR. How they verify that is up to the CA. Maybe they email the owner of the domain, maybe they ask you to modify a DNS record, maybe they just take you on your word (hopefully not!). Whatever they do, when the CA is satisfied that you really do own that domain name, they send you back your Certificate Request file. This version of the file is signed by the CA's own private key, and that difference makes it the actual "SSL certificate" file. If you've been keeping score at home, the SSL certificate is simply your public key with your organizational information attached, and your CA's signature.&nbsp;</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>Great, now people can send you encrypted messages, right? Well, sorta. How do people know they can trust the CA? Maybe that CA is just some yahoo who lives up the hall, or your great aunt Edna. How can I trust Edna to vouch for you?&nbsp;</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>4) The solution is a "chain of authority" file. This is just your CA's public key (which the browser needs to check that signature on your SSL certificate, remember?). What makes this public key special is that it's ALSO signed by whoever granted your CA permission to be a CA, and by whoever granted THAT person the permission to be a CA, all the way back to one of the "root" certificate authorities, whose public keys are bundled with every browser. (there are about 30 of them). So the chain file from aunt Edna might contain signatures from her daughter Annie, Annie's company AnnieCA, and GeoTrust, who granted AnnieCA the authority to give out certificates. GeoTrust is a root CA, so your browser already knows they're trusted. &nbsp;</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>So when a web browser connects to your server, your server sends out its SSL certificate file (ie the server's public key with Edna's "Seal of Authenticity" on it). The browser can then encrypt communications to send to your server, and your server can decrypt them with its private key. The browser can also check on Edna's Seal of Authenticity, because there's a chain of other CAs who have signed Edna's certificate, right back to one of the CAs that the browser already trusts.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>With a one-way secure channel open, and with confidence that your server really does own that public key, the browser sends its own public key to the server. This is really as far as you need to understand in order to set up your own webserver. Once the server and browser have exchanged public keys, the rest is automatic. For the sake of completion in this blog post, you should know that they don't continue using this asymmetric encryption for long. This secure channel is only used to set up a symmetric encryption method - that is, an encryption method where both sides have identical keys for encryption and decryption. &nbsp;The actual content is sent over this symmetrically encrypted connection, because symmetrical encryption is lighter on the CPU and the data overhead, and is actually harder to break.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>All we sysadmins really care about is the handshake, because that's where all those confusing key files go. So, TL;DR time. Here's what you need:</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>1) Your server's private key file. Note that this can be encrypted with a password, but most web hosts would rather you not. If there's a password, someone has to enter it every time they restart the server!</div>
-
-
-<div>2) The SSL Certificate, signed by your Certificate Authority.</div>
-
-
-<div>3) Your Certificate Authority's chain of intermediate certificates.</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>Most (Drupal-centric) web hosts will want all of these in PEM format. PEM is a text format, which means you can just copy and paste the key around. If your certificates are in another format, it's pretty easy to convert them to PEM with the openssl command, like this:</div>
-
-
-<div>&nbsp;</div>
-
-
-<div>
-<pre class="brush: bash; auto-links: true; collapse: false; first-line: 1; html-script: false; smart-tabs: true; tab-size: 4; toolbar: true; codetag"> openssl &lt;old-cert-format&gt; -in old-cert-file -out new-cert-file.pem </pre>
-</div>
-
-
-<div>There are also a handful of options that can come in handy in specifying the output, but they really go beyond the scope of this blog post. The resource I always use is the <a href="https://twiki.cern.ch/twiki/bin/view/LinuxSupport/OpenSSLCheatsheet">CERN openSSL conversions cheat sheet</a>.&nbsp;</div>
-
 ]]></content>
   </entry>
   
