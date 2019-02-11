@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="I recently got to proctor an Openhack event on modern containerization. It ended up an excuse to dig deep on one of the corner cases that we all &hellip;">
+  <meta name="description" content="I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2019/02/11/btrfs-free-space-emergency-response/">BTRFS and Free Space - Emergency Response</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2019-02-11T13:58:39+01:00" pubdate data-updated="true">Feb 11<span>th</span>, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content"><p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 15GB of free space to BTRFS complaining of a full drive in an instant, causing all sorts of chaos on my system.</p>
+
+<p>This problem happens to lots of people because BTRFS doesn’t have a linear relationship to “free space available”. There are a few concepts that get in the way:</p>
+
+<ul>
+<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. – 50MB of text may take only 5MB “room” on the drive.</li>
+<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy “space”.</li>
+<li>Chunk allocation: BTRFS allocates space for your data in chunks.</li>
+<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there’s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of spac&#8230;</li>
+</ul></div>
+  
+  <footer>
+    <a rel="full-article" href="/blog/2019/02/11/btrfs-free-space-emergency-response/">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -504,49 +552,6 @@
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2017/06/15/better-php-better-drupalists/">Better PHP === Better Drupalists: The PHP Track at Drupalcon Vienna</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2017-06-15T17:19:24+02:00" pubdate data-updated="true">Jun 15<span>th</span>, 2017</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content"><p>One of the best parts of Drupal 8 is our shift to enterprise PHP coding structures. With tools like composer and Symfony&rsquo;s structures like Events and Dependency Injection, Drupalists are learning to be great PHP developers, and vice-versa. Today, the fastest route to becoming a rock star Drupalist is through PHP.</p>
-
-<p>I&rsquo;m one of the PHP track chairs for Drupalcon Vienna, and this year our focus is <em>better PHP === better Drupalists</em>. How can better PHP make your life as a Drupal developer easier?</p>
-
-</div>
-  
-  <footer>
-    <a rel="full-article" href="/blog/2017/06/15/better-php-better-drupalists/">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/2/">&larr; Older</a>
@@ -573,6 +578,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/02/11/btrfs-free-space-emergency-response/">BTRFS and Free Space - Emergency Response</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/">Kubernetes for Stateful Applications: Scaling Macroservices</a>
       </li>
     
@@ -586,10 +595,6 @@
     
       <li class="post">
         <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/01/25/my-war-on-systemd-resolved/">My War on Systemd-resolved</a>
       </li>
     
   </ul>

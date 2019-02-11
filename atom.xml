@@ -4,7 +4,7 @@
   <title><![CDATA[Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-02-11T13:57:22+01:00</updated>
+  <updated>2019-02-11T14:31:05+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -12,6 +12,218 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[BTRFS and Free Space - Emergency Response]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/"/>
+    <updated>2019-02-11T13:58:39+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response</id>
+    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 15GB of free space to BTRFS complaining of a full drive in an instant, causing all sorts of chaos on my system.</p>
+
+<p>This problem happens to lots of people because BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
+
+<ul>
+<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li>Chunk allocation: BTRFS allocates space for your data in chunks.</li>
+<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li>Snapshots: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
+<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+</ul>
+
+
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.
+ Rather than using general tools like <code>df</code>, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
+
+<h2>How much free space do I have?</h2>
+
+<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device with <code>sudo btrfs fi show</code>, like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Label: 'OS'  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
+</span><span class='line'>  Total devices 1 FS bytes used 31.74GiB
+</span><span class='line'>  devid    1 size 48.83GiB used 47.80GiB path /dev/nvme0n1p2</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, I only have one physical device involved. You can see that it gives me a total number of bytes allocated, compared to the total size. In another filesystem this might be the number reported to <code>df</code>. Not so with BTRFS! Let&rsquo;s dig deeper.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ btrfs fi df /
+</span><span class='line'>
+</span><span class='line'>Data, single: total=45.75GiB, used=30.56GiB
+</span><span class='line'>System, single: total=32.00MiB, used=16.00KiB
+</span><span class='line'>Metadata, single: total=2.02GiB, used=1.17GiB
+</span><span class='line'>GlobalReserve, single: total=89.31MiB, used=0.00B</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The &ldquo;total&rdquo; values here are the breakdown of what the first command counts as &ldquo;used&rdquo;. <code>btrfs fi df</code> shows us of the allocated space, how much is actually storing data, and how much is just empty allocation. In this case: on my 48GiB device, 47GiB is allocated. Of the allocation, 31GiB is actually storing data. Side note: if you&rsquo;re in a multi-drive situation this command will take into account RAID metadata.</p>
+
+<p>Here&rsquo;s an easier view:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo btrfs fi usage /
+</span><span class='line'>
+</span><span class='line'>Overall:
+</span><span class='line'>    Device size:      48.83GiB
+</span><span class='line'>    Device allocated:     47.80GiB
+</span><span class='line'>    Device unallocated:      1.03GiB
+</span><span class='line'>    Device missing:        0.00B
+</span><span class='line'>    Used:       31.74GiB
+</span><span class='line'>    Free (estimated):     16.22GiB  (min: 16.22GiB)
+</span><span class='line'>    Data ratio:           1.00
+</span><span class='line'>    Metadata ratio:         1.00
+</span><span class='line'>    Global reserve:     89.31MiB  (used: 0.00B)
+</span><span class='line'>
+</span><span class='line'>Data,single: Size:45.75GiB, Used:30.56GiB
+</span><span class='line'>   /dev/nvme0n1p2   45.75GiB
+</span><span class='line'>
+</span><span class='line'>Metadata,single: Size:2.02GiB, Used:1.18GiB
+</span><span class='line'>   /dev/nvme0n1p2    2.02GiB
+</span><span class='line'>
+</span><span class='line'>System,single: Size:32.00MiB, Used:16.00KiB
+</span><span class='line'>   /dev/nvme0n1p2   32.00MiB
+</span><span class='line'>
+</span><span class='line'>Unallocated:
+</span><span class='line'>   /dev/nvme0n1p2    1.03GiB</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This shows the breakdown of space allocated and used across all the devices in this block device. &ldquo;Overall&rdquo; is for the whole block device, and that &ldquo;Free (estimated)&rdquo; number is what gets reported to <code>df</code>.</p>
+
+<p>This is a problem: <strong>most of my normal tools tell me I have 15GB free space. But if I write 1GiB more data, BTRFS will run out of space anyways.</strong> This issue is a pain in the ass and hard to diagnose. It&rsquo;s even harder to fix, since most of the solutions require having some extra space on the device.</p>
+
+<h2>Converting unused allocation to free space</h2>
+
+<p>So, why does BTRFS allocate so much space to store such a small amount of data? Here I am storing 31GiB of data in 47GiB of allocation, the used/total ratio is 0.66! This is very inefficient. It&rsquo;s an unfortunate consequence of being a copy-on-write filesystem &ndash; BTRFS starts every write in a freshly allocated chunk. But the chunksize is static, and files come in all sizes. So lots of the time, a chunk is incompletely filled. That&rsquo;s the &ldquo;allocated but not used&rdquo; space we&rsquo;re complaining about.</p>
+
+<p>Fortunately there&rsquo;s a way to address this problem: BTRFS has a tool to &ldquo;rebalance&rdquo; your filesystem. It was originally designed for balancing the data stored across multiple drives (hence the name). It is also useful in single drive configurations though, to rebalance how data is stored within the allocation.</p>
+
+<p>By default, <code>balance</code> will rewrite <em>all</em> the data on the disk. This is probably unnecessary. Chunks will be unevenly filled, but we saw above that the average should be about 66% used. So we&rsquo;ll filter based on data (<code>-d</code>) usage, and only rebalance chunks that are less than 66% used. That will leave any partially filled chunks which are more-filled than average.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Run it in the background, cause it takes a long time.
+</span><span class='line'>$ sudo btrfs balance start -dusage=66 / &
+</span><span class='line'># Check status
+</span><span class='line'>$ sudo btrfs balance status -v /       
+</span><span class='line'>Balance on '/' is running
+</span><span class='line'>1 out of about 27 chunks balanced (5 considered),  96% left
+</span><span class='line'>Dumping filters: flags 0x1, state 0x1, 
+</span><span class='line'># Or be lazy, and have bash report status every 60 seconds.
+</span><span class='line'>$ while :; do sudo btrfs balance status -v / ; sleep 60; done
+</span><span class='line'>Balance on '/' is running
+</span><span class='line'>3 out of about 27 chunks balanced (12 considered),  89% left
+</span><span class='line'>Dumping filters: flags 0x1, state 0x1, force is off
+</span><span class='line'>  DATA (flags 0x2): balancing, usage=66
+</span><span class='line'>Balance on '/' is running
+</span><span class='line'>4 out of about 27 chunks balanced (13 considered),  85% left
+</span><span class='line'>Dumping filters: flags 0x1, state 0x1, force is off
+</span><span class='line'>  DATA (flags 0x2): balancing, usage=66
+</span><span class='line'>...
+</span><span class='line'># When the balance operation finishes:
+</span><span class='line'>Done, had to relocate 19 out of 59 chunks</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There&rsquo;s a nice big differnce once it&rsquo;s finished:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ btrfs filesystem df /
+</span><span class='line'>Data, single: total=32.53GiB, used=30.83GiB
+</span><span class='line'>System, single: total=32.00MiB, used=16.00KiB
+</span><span class='line'>Metadata, single: total=2.02GiB, used=1.17GiB
+</span><span class='line'>GlobalReserve, single: total=84.67MiB, used=0.00B</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s 15GiB of space allocated for other use. My usage ratio is now 0.94. Huzzah! In some rare cases you may need to do this on the Metadata allocation (use <code>-musage</code> instead of <code>-dusage</code> above).</p>
+
+<h2>If you&rsquo;ve already run out of space</h2>
+
+<p>If you have already run out of space, you can&rsquo;t run a <code>balance</code>! In that caseyou have to get sneaky. Here are your options:</p>
+
+<h3>1) Free up space</h3>
+
+<p>This is harder than it sounds. If you just delete data, it will probably leave those chunks partially filled and therefore allocated. What you really need is <em>unallocated</em> space. The easiest place to get this is by deleting snapshots. Start from the oldest one, since it will be the biggest.</p>
+
+<p>Once you have a little bit of wiggle room, rebalance a small segment, like Metadata. Then proceed with rebalancing data as described above.</p>
+
+<h3>2) Add some space</h3>
+
+<p>Don&rsquo;t forget, a BTRFS volume can span multiple devices! I had to exercise this option recently. Add a device &ndash; a flash drive will do, but choose the fastest thing you can &ndash; and add it to the BTRFS volume.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Add your extra drive (/dev/sda).
+</span><span class='line'>$ sudo btrfs device add /dev/sda / -f
+</span><span class='line'># Now run the smallest balance operation you can.
+</span><span class='line'>$ sudo btrfs balance start -dusage=1 /
+</span><span class='line'>Done, had to relocate 1 out of 59 chunks
+</span><span class='line'># Remove the device, and run a proper balance.
+</span><span class='line'>$ sudo btrfs device remove /dev/sda /
+</span><span class='line'>$ sudo btrfs balance start -dusage=66 /
+</span><span class='line'>Done, had to relocate 18 out of 59 chunks</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Balance operations usually take a long time &ndash; more than an hour is not unusual. It will take even longer with slow flash media involved. For that reason, I use a very low balance filter (<code>-dusage=</code>) in this example. We only need to free up a teensy bit of space to run balance again without the flash disk in the mix.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Kubernetes for Stateful Applications: Scaling Macroservices]]></title>
@@ -2184,23 +2396,6 @@
 <p>And a couple of minutes later, I had an /output folder full of txt files.</p>
 
 <p>So far I can only recommend this setup. Have fun!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Moving to Amazee Labs]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs/"/>
-    <updated>2016-07-29T13:14:06+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2016/07/29/moving-to-amazee-labs</id>
-    <content type="html"><![CDATA[<p>About a month and a half ago, I left my position at <a href="https://forumone.com">Forum One</a> to start work on a project with <a href="https://amazeelabs.com">Amazee Labs</a>. Yes, a month and a half is an eternity in Internet-Time, but better to blog about it late than not at all!</p>
-
-<p>I loved my position at Forum One. I got to work with worthwhile clients like <a href="www.oxfam.org">Oxfam</a> and <a href="www.unitedway.org">United Way</a>, I got to solve interesting and tricky Drupal problems, and I got to work with some truly brilliant colleagues. I strongly recommend it as a great place to work. But it was always a challenge dealing with my visa situation (contrary to popular belief, I am Canadian &ndash; NOT American!), and despite heroic efforts we just couldn&rsquo;t find a way to make a permanent relationship work.</p>
-
-<p>Drupal is an interesting field in which to work, and there&rsquo;s a lot of momentum for good developers. I chose to work with Amazee Labs because they are some of the best at what we do. I&rsquo;ve always been a fan of their work on a technical level, and now, getting to be a part of the team is very exciting.</p>
-
-<p>My project with Amazee is packed with smart people and exciting technologies. I&rsquo;m working with brilliant Drupalists <a href="https://www.drupal.org/u/fubhy">Sebastian Siemssen</a> and <a href="https://www.drupal.org/u/moshe-weitzman">Moshe Weitzman</a>, which is a thrill on its own. We&rsquo;re mixing Drupal 8 with a custom data storage backend, serving data to a thousand separate <a href="https://facebook.github.io/react/">ReactJS</a> sites via <a href="http://graphql.org/">GraphQL</a>. The whole thing is developed, tested, and run in production on <a href="https://docker.com">Docker</a>. Perhaps the best part is that this team is so dedicated to Doing it Right. I&rsquo;ve worked with plenty of great development shops; none of them do Agile Right; Amazee does. I&rsquo;ve never seen anyone process-obsessed enough to reap the rewards of things like continuous integration or even thorough sprint reviews, but Amazee is managing it. All told, it&rsquo;s very exciting to work with such smart people, in such an effective environment, on such cutting edge technology. I&rsquo;ve gotten to flex muscles I didn&rsquo;t know I had, which is a great feeling. I will definitely be posting more about the technical issues I encounter along the way.</p>
-
-<p>Of course, one of the most appealing parts of this job is the flexibility to continue pursuing my other passion in music. The Cast is getting bigger and bigger, with 30-40 shows this year. I&rsquo;m really working hard to balance these two parts of my life, and the trajectory of The Cast ensures that this balance will be a big focus for me in the next several years. I don&rsquo;t want to leave open source tech entirely; but I may scale back my conference visibility, and focus my contributions more. We&rsquo;ll see what happens. No matter what, I&rsquo;m happy to be working with a fantastic team and supportive company. On to amazeeing things together!</p>
 ]]></content>
   </entry>
   
