@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response">
+  <link rel="canonical" href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="Oh, The Huge Manatee" type="application/atom+xml">
@@ -41,7 +41,7 @@
 
 <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
-<meta property="og:url" content="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response" />
+<meta property="og:url" content="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="BTRFS and Free Space - Emergency Response - Oh, The Huge Manatee" />
 <meta property="og:description" content="A blog about technology, open source, and the web... from someone who works with all three." />
@@ -123,56 +123,63 @@
   </header>
 
 
-<div class="entry-content"><p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 15GB of free space to BTRFS complaining of a full drive in an instant, causing all sorts of chaos on my system.</p>
+<div class="entry-content"><p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: <strong>my drive was suddenly full</strong>. I went from 4GB of free space on my system drive to 0 in an instant, causing all sorts of chaos on my system.</p>
 
 <p>This problem happens to lots of people because BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
 
 <ul>
-<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
-<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
-<li>Chunk allocation: BTRFS allocates space for your data in chunks.</li>
-<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
-<li>Snapshots: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
-<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+<li><strong>Compression</strong>: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li><strong>Metadata</strong>: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li><strong>Chunk allocation</strong>: BTRFS allocates space for your data in chunks.</li>
+<li><strong>Multiple devices</strong>: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li><strong>Snapshots</strong>: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
+<li><strong>Nested volumes</strong>: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
 </ul>
 
 
-<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.
- Rather than using general tools like <code>df</code>, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB. Worse, the free space reported by general tools is misleading. BTRFS can run out of space while <code>df</code> still thinks you have lots available.</p>
+
+<p>Let&rsquo;s walk through how BTRFS stores data, to understand the problem a bit better. Then we can solve it with some of BTRFS&#8217; own tools.</p>
 
 <h2>How much free space do I have?</h2>
 
-<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device with <code>sudo btrfs fi show</code>, like this:</p>
+<p>Rather than using general tools like <code>df</code> to answer this question, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Label: 'OS'  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo btrfs <span class="k">fi </span>show
+</span><span class='line'>Label: <span class="s1">&#39;OS&#39;</span>  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
 </span><span class='line'>  Total devices 1 FS bytes used 31.74GiB
-</span><span class='line'>  devid    1 size 48.83GiB used 47.80GiB path /dev/nvme0n1p2</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  devid    1 size 48.83GiB used 47.80GiB path /dev/nvme0n1p2
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In this case, I only have one physical device involved. You can see that it gives me a total number of bytes allocated, compared to the total size. In another filesystem this might be the number reported to <code>df</code>. Not so with BTRFS! Let&rsquo;s dig deeper.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ btrfs fi df /
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>btrfs <span class="k">fi </span>df /
 </span><span class='line'>
-</span><span class='line'>Data, single: total=45.75GiB, used=30.56GiB
-</span><span class='line'>System, single: total=32.00MiB, used=16.00KiB
-</span><span class='line'>Metadata, single: total=2.02GiB, used=1.17GiB
-</span><span class='line'>GlobalReserve, single: total=89.31MiB, used=0.00B</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>Data, single: <span class="nv">total</span><span class="o">=</span>45.75GiB, <span class="nv">used</span><span class="o">=</span>30.56GiB
+</span><span class='line'>System, single: <span class="nv">total</span><span class="o">=</span>32.00MiB, <span class="nv">used</span><span class="o">=</span>16.00KiB
+</span><span class='line'>Metadata, single: <span class="nv">total</span><span class="o">=</span>2.02GiB, <span class="nv">used</span><span class="o">=</span>1.17GiB
+</span><span class='line'>GlobalReserve, single: <span class="nv">total</span><span class="o">=</span>89.31MiB, <span class="nv">used</span><span class="o">=</span>0.00B
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The &ldquo;total&rdquo; values here are the breakdown of what the first command counts as &ldquo;used&rdquo;. <code>btrfs fi df</code> shows us of the allocated space, how much is actually storing data, and how much is just empty allocation. In this case: on my 48GiB device, 47GiB is allocated. Of the allocation, 31GiB is actually storing data. Side note: if you&rsquo;re in a multi-drive situation this command will take into account RAID metadata.</p>
 
 <p>Here&rsquo;s an easier view:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -196,7 +203,7 @@
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo btrfs fi usage /
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo btrfs <span class="k">fi </span>usage /
 </span><span class='line'>
 </span><span class='line'>Overall:
 </span><span class='line'>    Device size:      48.83GiB
@@ -204,10 +211,10 @@
 </span><span class='line'>    Device unallocated:      1.03GiB
 </span><span class='line'>    Device missing:        0.00B
 </span><span class='line'>    Used:       31.74GiB
-</span><span class='line'>    Free (estimated):     16.22GiB  (min: 16.22GiB)
+</span><span class='line'>    Free <span class="o">(</span>estimated<span class="o">)</span>:     16.22GiB  <span class="o">(</span>min: 16.22GiB<span class="o">)</span>
 </span><span class='line'>    Data ratio:           1.00
 </span><span class='line'>    Metadata ratio:         1.00
-</span><span class='line'>    Global reserve:     89.31MiB  (used: 0.00B)
+</span><span class='line'>    Global reserve:     89.31MiB  <span class="o">(</span>used: 0.00B<span class="o">)</span>
 </span><span class='line'>
 </span><span class='line'>Data,single: Size:45.75GiB, Used:30.56GiB
 </span><span class='line'>   /dev/nvme0n1p2   45.75GiB
@@ -219,7 +226,8 @@
 </span><span class='line'>   /dev/nvme0n1p2   32.00MiB
 </span><span class='line'>
 </span><span class='line'>Unallocated:
-</span><span class='line'>   /dev/nvme0n1p2    1.03GiB</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>   /dev/nvme0n1p2    1.03GiB
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>This shows the breakdown of space allocated and used across all the devices in this block device. &ldquo;Overall&rdquo; is for the whole block device, and that &ldquo;Free (estimated)&rdquo; number is what gets reported to <code>df</code>.</p>
@@ -234,7 +242,7 @@
 
 <p>By default, <code>balance</code> will rewrite <em>all</em> the data on the disk. This is probably unnecessary. Chunks will be unevenly filled, but we saw above that the average should be about 66% used. So we&rsquo;ll filter based on data (<code>-d</code>) usage, and only rebalance chunks that are less than 66% used. That will leave any partially filled chunks which are more-filled than average.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -254,40 +262,42 @@
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Run it in the background, cause it takes a long time.
-</span><span class='line'>$ sudo btrfs balance start -dusage=66 / &
-</span><span class='line'># Check status
-</span><span class='line'>$ sudo btrfs balance status -v /       
-</span><span class='line'>Balance on '/' is running
-</span><span class='line'>1 out of about 27 chunks balanced (5 considered),  96% left
-</span><span class='line'>Dumping filters: flags 0x1, state 0x1, 
-</span><span class='line'># Or be lazy, and have bash report status every 60 seconds.
-</span><span class='line'>$ while :; do sudo btrfs balance status -v / ; sleep 60; done
-</span><span class='line'>Balance on '/' is running
-</span><span class='line'>3 out of about 27 chunks balanced (12 considered),  89% left
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Run it in the background, cause it takes a long time.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>66 / &amp;
+</span><span class='line'><span class="c"># Check status</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance status -v /
+</span><span class='line'>Balance on <span class="s1">&#39;/&#39;</span> is running
+</span><span class='line'>1 out of about 27 chunks balanced <span class="o">(</span>5 considered<span class="o">)</span>,  96% left
+</span><span class='line'>Dumping filters: flags 0x1, state 0x1,
+</span><span class='line'><span class="c"># Or be lazy, and have bash report status every 60 seconds.</span>
+</span><span class='line'><span class="nv">$ </span><span class="k">while</span> :; <span class="k">do </span>sudo btrfs balance status -v / ; sleep 60; <span class="k">done</span>
+</span><span class='line'>Balance on <span class="s1">&#39;/&#39;</span> is running
+</span><span class='line'>3 out of about 27 chunks balanced <span class="o">(</span>12 considered<span class="o">)</span>,  89% left
 </span><span class='line'>Dumping filters: flags 0x1, state 0x1, force is off
-</span><span class='line'>  DATA (flags 0x2): balancing, usage=66
-</span><span class='line'>Balance on '/' is running
-</span><span class='line'>4 out of about 27 chunks balanced (13 considered),  85% left
+</span><span class='line'>  DATA <span class="o">(</span>flags 0x2<span class="o">)</span>: balancing, <span class="nv">usage</span><span class="o">=</span>66
+</span><span class='line'>Balance on <span class="s1">&#39;/&#39;</span> is running
+</span><span class='line'>4 out of about 27 chunks balanced <span class="o">(</span>13 considered<span class="o">)</span>,  85% left
 </span><span class='line'>Dumping filters: flags 0x1, state 0x1, force is off
-</span><span class='line'>  DATA (flags 0x2): balancing, usage=66
+</span><span class='line'>  DATA <span class="o">(</span>flags 0x2<span class="o">)</span>: balancing, <span class="nv">usage</span><span class="o">=</span>66
 </span><span class='line'>...
-</span><span class='line'># When the balance operation finishes:
-</span><span class='line'>Done, had to relocate 19 out of 59 chunks</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c"># When the balance operation finishes:</span>
+</span><span class='line'>Done, had to relocate 19 out of 59 chunks
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>There&rsquo;s a nice big differnce once it&rsquo;s finished:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ btrfs filesystem df /
-</span><span class='line'>Data, single: total=32.53GiB, used=30.83GiB
-</span><span class='line'>System, single: total=32.00MiB, used=16.00KiB
-</span><span class='line'>Metadata, single: total=2.02GiB, used=1.17GiB
-</span><span class='line'>GlobalReserve, single: total=84.67MiB, used=0.00B</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>btrfs filesystem df /
+</span><span class='line'>Data, single: <span class="nv">total</span><span class="o">=</span>32.53GiB, <span class="nv">used</span><span class="o">=</span>30.83GiB
+</span><span class='line'>System, single: <span class="nv">total</span><span class="o">=</span>32.00MiB, <span class="nv">used</span><span class="o">=</span>16.00KiB
+</span><span class='line'>Metadata, single: <span class="nv">total</span><span class="o">=</span>2.02GiB, <span class="nv">used</span><span class="o">=</span>1.17GiB
+</span><span class='line'>GlobalReserve, single: <span class="nv">total</span><span class="o">=</span>84.67MiB, <span class="nv">used</span><span class="o">=</span>0.00B
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>That&rsquo;s 15GiB of space allocated for other use. My usage ratio is now 0.94. Huzzah! In some rare cases you may need to do this on the Metadata allocation (use <code>-musage</code> instead of <code>-dusage</code> above).</p>
@@ -306,7 +316,7 @@
 
 <p>Don&rsquo;t forget, a BTRFS volume can span multiple devices! I had to exercise this option recently. Add a device &ndash; a flash drive will do, but choose the fastest thing you can &ndash; and add it to the BTRFS volume.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -315,18 +325,21 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Add your extra drive (/dev/sda).
-</span><span class='line'>$ sudo btrfs device add /dev/sda / -f
-</span><span class='line'># Now run the smallest balance operation you can.
-</span><span class='line'>$ sudo btrfs balance start -dusage=1 /
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add your extra drive (/dev/sda).</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device add /dev/sda / -f
+</span><span class='line'><span class="c"># Now run the smallest balance operation you can.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>1 /
 </span><span class='line'>Done, had to relocate 1 out of 59 chunks
-</span><span class='line'># Remove the device, and run a proper balance.
-</span><span class='line'>$ sudo btrfs device remove /dev/sda /
-</span><span class='line'>$ sudo btrfs balance start -dusage=66 /
-</span><span class='line'>Done, had to relocate 18 out of 59 chunks</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c"># Remove the device, and run a proper balance.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device remove /dev/sda /
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>66 /
+</span><span class='line'>Done, had to relocate 18 out of 59 chunks
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Balance operations usually take a long time &ndash; more than an hour is not unusual. It will take even longer with slow flash media involved. For that reason, I use a very low balance filter (<code>-dusage=</code>) in this example. We only need to free up a teensy bit of space to run balance again without the flash disk in the mix.</p>
+
+<p>And this last option is how I saved my computer last night. I hope this helps someone out of a similar predicament someday.</p>
 </div>
 
 
@@ -363,7 +376,7 @@
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/" data-via="campbellvertesi" data-counturl="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/" >Tweet</a>
   
   
   <div class="g-plusone" data-size="medium"></div>
@@ -378,6 +391,8 @@
       
         <a class="basic-alignment left" href="/blog/2019/01/07/kubernetes-tricks-for-stateful-applications/" title="Previous Post: Kubernetes for stateful applications: Scaling macroservices">&laquo; Kubernetes for stateful applications: Scaling macroservices</a>
       
+      
+        <a class="basic-alignment right" href="/blog/2019/03/21/an-open-letter-to-my-meps-about-article-17-formerly-article-13/" title="Next Post: An Open Letter to my MEPs about Article 17 (formerly article 13)">An Open Letter to my MEPs about Article 17 (formerly article 13) &raquo;</a>
       
     </p>
   </footer>
@@ -409,7 +424,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2019/02/11/btrfs-free-space-emergency-response/">BTRFS and Free Space - Emergency Response</a>
+        <a href="/blog/2019/03/21/an-open-letter-to-my-meps-about-article-17-formerly-article-13/">An Open Letter to My MEPs About Article 17 (Formerly Article 13)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/02/11/btrfs-out-of-space-emergency-response/">BTRFS and Free Space - Emergency Response</a>
       </li>
     
       <li class="post">
@@ -422,10 +441,6 @@
     
       <li class="post">
         <a href="/blog/2018/04/19/face-recognition-on-drupal/">Drupal Does Face Recognition: Introducing Image Auto Tag Module</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
       </li>
     
   </ul>
@@ -488,8 +503,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/';
-        var disqus_url = 'http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/';
+        var disqus_identifier = 'http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/';
+        var disqus_url = 'http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/';
         var disqus_script = 'embed.js';
       
     (function () {

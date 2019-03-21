@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Sysadmin | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/sysadmin/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-02-11T14:31:05+01:00</updated>
+  <updated>2019-03-21T23:59:51+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -15,31 +15,35 @@
   
   <entry>
     <title type="html"><![CDATA[BTRFS and Free Space - Emergency Response]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/"/>
+    <link href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/"/>
     <updated>2019-02-11T13:58:39+01:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response</id>
-    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 15GB of free space to BTRFS complaining of a full drive in an instant, causing all sorts of chaos on my system.</p>
+    <id>http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response</id>
+    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: <strong>my drive was suddenly full</strong>. I went from 4GB of free space on my system drive to 0 in an instant, causing all sorts of chaos on my system.</p>
 
 <p>This problem happens to lots of people because BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
 
 <ul>
-<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
-<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
-<li>Chunk allocation: BTRFS allocates space for your data in chunks.</li>
-<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
-<li>Snapshots: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
-<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+<li><strong>Compression</strong>: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li><strong>Metadata</strong>: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li><strong>Chunk allocation</strong>: BTRFS allocates space for your data in chunks.</li>
+<li><strong>Multiple devices</strong>: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li><strong>Snapshots</strong>: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
+<li><strong>Nested volumes</strong>: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
 </ul>
 
 
-<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.
- Rather than using general tools like <code>df</code>, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB. Worse, the free space reported by general tools is misleading. BTRFS can run out of space while <code>df</code> still thinks you have lots available.</p>
+
+<p>Let&rsquo;s walk through how BTRFS stores data, to understand the problem a bit better. Then we can solve it with some of BTRFS' own tools.</p>
 
 <h2>How much free space do I have?</h2>
 
-<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device with <code>sudo btrfs fi show</code>, like this:</p>
+<p>Rather than using general tools like <code>df</code> to answer this question, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
 
-<p><code>
+<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device like this:</p>
+
+<p><code>bash
+$ sudo btrfs fi show
 Label: 'OS'  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
   Total devices 1 FS bytes used 31.74GiB
   devid    1 size 48.83GiB used 47.80GiB path /dev/nvme0n1p2
@@ -47,7 +51,7 @@ Label: 'OS'  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
 
 <p>In this case, I only have one physical device involved. You can see that it gives me a total number of bytes allocated, compared to the total size. In another filesystem this might be the number reported to <code>df</code>. Not so with BTRFS! Let&rsquo;s dig deeper.</p>
 
-<p>```
+<p>``` bash
 $ btrfs fi df /</p>
 
 <p>Data, single: total=45.75GiB, used=30.56GiB
@@ -60,7 +64,7 @@ GlobalReserve, single: total=89.31MiB, used=0.00B
 
 <p>Here&rsquo;s an easier view:</p>
 
-<p>```
+<p>``` bash
 $ sudo btrfs fi usage /</p>
 
 <p>Overall:</p>
@@ -101,7 +105,7 @@ Global reserve:     89.31MiB  (used: 0.00B)
 
 <p>By default, <code>balance</code> will rewrite <em>all</em> the data on the disk. This is probably unnecessary. Chunks will be unevenly filled, but we saw above that the average should be about 66% used. So we&rsquo;ll filter based on data (<code>-d</code>) usage, and only rebalance chunks that are less than 66% used. That will leave any partially filled chunks which are more-filled than average.</p>
 
-<p>```</p>
+<p>``` bash</p>
 
 <h1>Run it in the background, cause it takes a long time.</h1>
 
@@ -134,7 +138,7 @@ Dumping filters: flags 0x1, state 0x1, force is off
 
 <p>There&rsquo;s a nice big differnce once it&rsquo;s finished:</p>
 
-<p><code>
+<p><code>bash
 $ btrfs filesystem df /
 Data, single: total=32.53GiB, used=30.83GiB
 System, single: total=32.00MiB, used=16.00KiB
@@ -157,7 +161,7 @@ That&rsquo;s 15GiB of space allocated for other use. My usage ratio is now 0.94.
 
 <p>Don&rsquo;t forget, a BTRFS volume can span multiple devices! I had to exercise this option recently. Add a device &ndash; a flash drive will do, but choose the fastest thing you can &ndash; and add it to the BTRFS volume.</p>
 
-<p>```</p>
+<p>``` bash</p>
 
 <h1>Add your extra drive (/dev/sda).</h1>
 
@@ -176,6 +180,8 @@ Done, had to relocate 18 out of 59 chunks
 ```</p>
 
 <p>Balance operations usually take a long time &ndash; more than an hour is not unusual. It will take even longer with slow flash media involved. For that reason, I use a very low balance filter (<code>-dusage=</code>) in this example. We only need to free up a teensy bit of space to run balance again without the flash disk in the mix.</p>
+
+<p>And this last option is how I saved my computer last night. I hope this helps someone out of a similar predicament someday.</p>
 ]]></content>
   </entry>
   

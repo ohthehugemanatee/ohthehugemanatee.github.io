@@ -4,7 +4,7 @@
   <title><![CDATA[Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-02-11T14:31:05+01:00</updated>
+  <updated>2019-03-21T23:59:51+01:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -14,60 +14,94 @@
 
   
   <entry>
+    <title type="html"><![CDATA[An Open Letter to My MEPs About Article 17 (Formerly Article 13)]]></title>
+    <link href="http://ohthehugemanatee.org/blog/2019/03/21/an-open-letter-to-my-meps-about-article-17-formerly-article-13/"/>
+    <updated>2019-03-21T23:44:43+01:00</updated>
+    <id>http://ohthehugemanatee.org/blog/2019/03/21/an-open-letter-to-my-meps-about-article-17-formerly-article-13</id>
+    <content type="html"><![CDATA[<p>The proposal for a directive on copyright in the digital single market is disastrous for the <strong>EU economy, culture, and democracy in the digital world</strong>. It is particularly bad for my country of Germany, as a leading light in Europe in all three areas. I am writing all of my MEPs listed in support of this impossibly bad proposal.</p>
+
+<p>The German and European economies would be terribly damaged by this article, which <strong>effectively rules out small and medium sized competition in favor of the largest incumbents</strong>. I work for Microsoft on precisely the kind of machine-understanding tasks involved in the copyright filter requirement. I can tell you with authority: <strong>it is an impossible task which only the deepest pockets can approach</strong>. <strong>Article 17 makes Germany and Europe into hostile venues for Internet startups</strong>. The next generation of Youtubes, Soundclouds, and Netflixes are not possible under this Article &ndash; unless of course, it&rsquo;s an existing mega-corporation who decides to start it. <strong>This is a tremendous handicap in the fastest growing sector of the global economy.</strong></p>
+
+<p>The disaster for culture exemplifies the impossibility of such a filter. My &ldquo;side business&rdquo; is an entertainment company, making opera music accessible for tens of thousands of Europeans every year. The entire classical music industry opposes digital filters because we all know the consequence: <strong>a machine or untrained human can&rsquo;t tell the difference between the 300 different versions of Bach&rsquo;s Wohl Temperierte Klavier</strong>. The piece is identified as probably copyrighted because copyrighted versions exist, and taken down as a precaution. <strong>Famously even the European anthem, <em>An die Freude</em>, suffers automated takedowns</strong> because there are copyrighted versions of the piece. <strong>Asking platforms to bulk-police content means that the more influential a piece of music is for our culture &ndash; that is to say, the more versions of it exist &ndash; the more prone it is to spurious blocking on copyright grounds.</strong></p>
+
+<p>As much as the technical infeasibility and halting the spread of the most important pieces of our European culture bother me,<strong> the effect on democracy in the digital age is the worst part of this Article. User-generated content is foundational to online discussion</strong>. It is precisely this content which enriches online debate and engagement, which reaches younger generations and pulls them into a very participatory democratic environment. You&rsquo;ve no doubt heard that <strong>memes are culture</strong>, but <strong>they are also the medium of exchange in the biggest democratic commons humankind has ever created</strong>. Legislation which shuts down this medium of exchange, or which forces the commons into channels controlled by the largest (foreign) economic actors in history, is bad for the EU.</p>
+
+<p><strong>Perhaps the world needs a digital copyright equivalent of Brexit</strong>, to scare everyone else away from the copyright lobby. Perhaps we all need a material example to see just how poorly the copyright lobby&rsquo;s 1960&rsquo;s-era ideology fits the 21st century economy.</p>
+
+<p><strong>But I would prefer it not be my country, my continent that makes an example of itself.</strong></p>
+
+<p>Please heed <a href="https://saveyourinternet.eu/statements/">the warnings from internet experts, the UN Special Rapporteur on Freedom of Expression, NGOs, programmers, and academics</a>. I urge you to reconsider your position on this digital Brexit.</p>
+
+<p>Sincerely,</p>
+
+<p>Campbell Vertesi</p>
+
+<p>Berlin, Germany</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[BTRFS and Free Space - Emergency Response]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response/"/>
+    <link href="http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response/"/>
     <updated>2019-02-11T13:58:39+01:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2019/02/11/btrfs-free-space-emergency-response</id>
-    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: my drive was suddenly full. I went from 15GB of free space to BTRFS complaining of a full drive in an instant, causing all sorts of chaos on my system.</p>
+    <id>http://ohthehugemanatee.org/blog/2019/02/11/btrfs-out-of-space-emergency-response</id>
+    <content type="html"><![CDATA[<p>I run BTRFS on my root filesystem (on Linux), mostly for the quick snapshot and restore functionality. Yesterday I ran into a common problem: <strong>my drive was suddenly full</strong>. I went from 4GB of free space on my system drive to 0 in an instant, causing all sorts of chaos on my system.</p>
 
 <p>This problem happens to lots of people because BTRFS doesn&rsquo;t have a linear relationship to &ldquo;free space available&rdquo;. There are a few concepts that get in the way:</p>
 
 <ul>
-<li>Compression: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
-<li>Metadata: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
-<li>Chunk allocation: BTRFS allocates space for your data in chunks.</li>
-<li>Multiple devices: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
-<li>Snapshots: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
-<li>Nested volumes: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
+<li><strong>Compression</strong>: BTRFS supports compressing data as it writes. This obviously changes the amount of data that can be stored. &ndash; 50MB of text may take only 5MB &ldquo;room&rdquo; on the drive.</li>
+<li><strong>Metadata</strong>: BTRFS stores your data separately from metadata. Both data and metadata occupy &ldquo;space&rdquo;.</li>
+<li><strong>Chunk allocation</strong>: BTRFS allocates space for your data in chunks.</li>
+<li><strong>Multiple devices</strong>: BTRFS supports multiple devices working together, RAID-style. That means there&rsquo;s extra information to store for every file. For example, RAID-1 stores two copies of every file, so a 50MB file takes 100MB of space.</li>
+<li><strong>Snapshots</strong>: BTRFS can store snapshots of your device, which really store more like a diff from the current state. How much data is in the diff depends on your current state&hellip; so the snapshot itself doesn&rsquo;t have a consistent size.</li>
+<li><strong>Nested volumes</strong>: BTRFS lets you divide the filesystem into &ldquo;subvolumes&rdquo; &ndash; each of which can (someday) have its own RAID configuration.</li>
 </ul>
 
 
-<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB.
- Rather than using general tools like <code>df</code>, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
+<p>It&rsquo;s easy to look at the drive and tell how many MiB of space has not been used yet. But it&rsquo;s very hard to accurately say how much of your data you can write in that space. For this reason the amount of &ldquo;free space&rdquo; reported on BRFS volumes by system utilities like <code>df</code> can jump a lot &ndash; like my disappearing 4GiB. Worse, the free space reported by general tools is misleading. BTRFS can run out of space while <code>df</code> still thinks you have lots available.</p>
+
+<p>Let&rsquo;s walk through how BTRFS stores data, to understand the problem a bit better. Then we can solve it with some of BTRFS&#8217; own tools.</p>
 
 <h2>How much free space do I have?</h2>
 
-<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device with <code>sudo btrfs fi show</code>, like this:</p>
+<p>Rather than using general tools like <code>df</code> to answer this question, it&rsquo;s better to get more detail using the <code>btrfs</code> CLI tool.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<p>BTRFS starts out with a big pool of raw storage, and allocates as it goes. You can get a listing of all the devices in a block device like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Label: 'OS'  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo btrfs <span class="k">fi </span>show
+</span><span class='line'>Label: <span class="s1">&#39;OS&#39;</span>  uuid: c0d21ade-5570-41a3-b0cf-a5ce219e7a8e
 </span><span class='line'>  Total devices 1 FS bytes used 31.74GiB
-</span><span class='line'>  devid    1 size 48.83GiB used 47.80GiB path /dev/nvme0n1p2</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>  devid    1 size 48.83GiB used 47.80GiB path /dev/nvme0n1p2
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>In this case, I only have one physical device involved. You can see that it gives me a total number of bytes allocated, compared to the total size. In another filesystem this might be the number reported to <code>df</code>. Not so with BTRFS! Let&rsquo;s dig deeper.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ btrfs fi df /
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>btrfs <span class="k">fi </span>df /
 </span><span class='line'>
-</span><span class='line'>Data, single: total=45.75GiB, used=30.56GiB
-</span><span class='line'>System, single: total=32.00MiB, used=16.00KiB
-</span><span class='line'>Metadata, single: total=2.02GiB, used=1.17GiB
-</span><span class='line'>GlobalReserve, single: total=89.31MiB, used=0.00B</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>Data, single: <span class="nv">total</span><span class="o">=</span>45.75GiB, <span class="nv">used</span><span class="o">=</span>30.56GiB
+</span><span class='line'>System, single: <span class="nv">total</span><span class="o">=</span>32.00MiB, <span class="nv">used</span><span class="o">=</span>16.00KiB
+</span><span class='line'>Metadata, single: <span class="nv">total</span><span class="o">=</span>2.02GiB, <span class="nv">used</span><span class="o">=</span>1.17GiB
+</span><span class='line'>GlobalReserve, single: <span class="nv">total</span><span class="o">=</span>89.31MiB, <span class="nv">used</span><span class="o">=</span>0.00B
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>The &ldquo;total&rdquo; values here are the breakdown of what the first command counts as &ldquo;used&rdquo;. <code>btrfs fi df</code> shows us of the allocated space, how much is actually storing data, and how much is just empty allocation. In this case: on my 48GiB device, 47GiB is allocated. Of the allocation, 31GiB is actually storing data. Side note: if you&rsquo;re in a multi-drive situation this command will take into account RAID metadata.</p>
 
 <p>Here&rsquo;s an easier view:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -91,7 +125,7 @@
 <span class='line-number'>22</span>
 <span class='line-number'>23</span>
 <span class='line-number'>24</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo btrfs fi usage /
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>sudo btrfs <span class="k">fi </span>usage /
 </span><span class='line'>
 </span><span class='line'>Overall:
 </span><span class='line'>    Device size:      48.83GiB
@@ -99,10 +133,10 @@
 </span><span class='line'>    Device unallocated:      1.03GiB
 </span><span class='line'>    Device missing:        0.00B
 </span><span class='line'>    Used:       31.74GiB
-</span><span class='line'>    Free (estimated):     16.22GiB  (min: 16.22GiB)
+</span><span class='line'>    Free <span class="o">(</span>estimated<span class="o">)</span>:     16.22GiB  <span class="o">(</span>min: 16.22GiB<span class="o">)</span>
 </span><span class='line'>    Data ratio:           1.00
 </span><span class='line'>    Metadata ratio:         1.00
-</span><span class='line'>    Global reserve:     89.31MiB  (used: 0.00B)
+</span><span class='line'>    Global reserve:     89.31MiB  <span class="o">(</span>used: 0.00B<span class="o">)</span>
 </span><span class='line'>
 </span><span class='line'>Data,single: Size:45.75GiB, Used:30.56GiB
 </span><span class='line'>   /dev/nvme0n1p2   45.75GiB
@@ -114,7 +148,8 @@
 </span><span class='line'>   /dev/nvme0n1p2   32.00MiB
 </span><span class='line'>
 </span><span class='line'>Unallocated:
-</span><span class='line'>   /dev/nvme0n1p2    1.03GiB</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>   /dev/nvme0n1p2    1.03GiB
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>This shows the breakdown of space allocated and used across all the devices in this block device. &ldquo;Overall&rdquo; is for the whole block device, and that &ldquo;Free (estimated)&rdquo; number is what gets reported to <code>df</code>.</p>
@@ -129,7 +164,7 @@
 
 <p>By default, <code>balance</code> will rewrite <em>all</em> the data on the disk. This is probably unnecessary. Chunks will be unevenly filled, but we saw above that the average should be about 66% used. So we&rsquo;ll filter based on data (<code>-d</code>) usage, and only rebalance chunks that are less than 66% used. That will leave any partially filled chunks which are more-filled than average.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -149,40 +184,42 @@
 <span class='line-number'>18</span>
 <span class='line-number'>19</span>
 <span class='line-number'>20</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Run it in the background, cause it takes a long time.
-</span><span class='line'>$ sudo btrfs balance start -dusage=66 / &
-</span><span class='line'># Check status
-</span><span class='line'>$ sudo btrfs balance status -v /       
-</span><span class='line'>Balance on '/' is running
-</span><span class='line'>1 out of about 27 chunks balanced (5 considered),  96% left
-</span><span class='line'>Dumping filters: flags 0x1, state 0x1, 
-</span><span class='line'># Or be lazy, and have bash report status every 60 seconds.
-</span><span class='line'>$ while :; do sudo btrfs balance status -v / ; sleep 60; done
-</span><span class='line'>Balance on '/' is running
-</span><span class='line'>3 out of about 27 chunks balanced (12 considered),  89% left
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Run it in the background, cause it takes a long time.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>66 / &amp;
+</span><span class='line'><span class="c"># Check status</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance status -v /
+</span><span class='line'>Balance on <span class="s1">&#39;/&#39;</span> is running
+</span><span class='line'>1 out of about 27 chunks balanced <span class="o">(</span>5 considered<span class="o">)</span>,  96% left
+</span><span class='line'>Dumping filters: flags 0x1, state 0x1,
+</span><span class='line'><span class="c"># Or be lazy, and have bash report status every 60 seconds.</span>
+</span><span class='line'><span class="nv">$ </span><span class="k">while</span> :; <span class="k">do </span>sudo btrfs balance status -v / ; sleep 60; <span class="k">done</span>
+</span><span class='line'>Balance on <span class="s1">&#39;/&#39;</span> is running
+</span><span class='line'>3 out of about 27 chunks balanced <span class="o">(</span>12 considered<span class="o">)</span>,  89% left
 </span><span class='line'>Dumping filters: flags 0x1, state 0x1, force is off
-</span><span class='line'>  DATA (flags 0x2): balancing, usage=66
-</span><span class='line'>Balance on '/' is running
-</span><span class='line'>4 out of about 27 chunks balanced (13 considered),  85% left
+</span><span class='line'>  DATA <span class="o">(</span>flags 0x2<span class="o">)</span>: balancing, <span class="nv">usage</span><span class="o">=</span>66
+</span><span class='line'>Balance on <span class="s1">&#39;/&#39;</span> is running
+</span><span class='line'>4 out of about 27 chunks balanced <span class="o">(</span>13 considered<span class="o">)</span>,  85% left
 </span><span class='line'>Dumping filters: flags 0x1, state 0x1, force is off
-</span><span class='line'>  DATA (flags 0x2): balancing, usage=66
+</span><span class='line'>  DATA <span class="o">(</span>flags 0x2<span class="o">)</span>: balancing, <span class="nv">usage</span><span class="o">=</span>66
 </span><span class='line'>...
-</span><span class='line'># When the balance operation finishes:
-</span><span class='line'>Done, had to relocate 19 out of 59 chunks</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c"># When the balance operation finishes:</span>
+</span><span class='line'>Done, had to relocate 19 out of 59 chunks
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>There&rsquo;s a nice big differnce once it&rsquo;s finished:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ btrfs filesystem df /
-</span><span class='line'>Data, single: total=32.53GiB, used=30.83GiB
-</span><span class='line'>System, single: total=32.00MiB, used=16.00KiB
-</span><span class='line'>Metadata, single: total=2.02GiB, used=1.17GiB
-</span><span class='line'>GlobalReserve, single: total=84.67MiB, used=0.00B</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>btrfs filesystem df /
+</span><span class='line'>Data, single: <span class="nv">total</span><span class="o">=</span>32.53GiB, <span class="nv">used</span><span class="o">=</span>30.83GiB
+</span><span class='line'>System, single: <span class="nv">total</span><span class="o">=</span>32.00MiB, <span class="nv">used</span><span class="o">=</span>16.00KiB
+</span><span class='line'>Metadata, single: <span class="nv">total</span><span class="o">=</span>2.02GiB, <span class="nv">used</span><span class="o">=</span>1.17GiB
+</span><span class='line'>GlobalReserve, single: <span class="nv">total</span><span class="o">=</span>84.67MiB, <span class="nv">used</span><span class="o">=</span>0.00B
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>That&rsquo;s 15GiB of space allocated for other use. My usage ratio is now 0.94. Huzzah! In some rare cases you may need to do this on the Metadata allocation (use <code>-musage</code> instead of <code>-dusage</code> above).</p>
@@ -201,7 +238,7 @@
 
 <p>Don&rsquo;t forget, a BTRFS volume can span multiple devices! I had to exercise this option recently. Add a device &ndash; a flash drive will do, but choose the fastest thing you can &ndash; and add it to the BTRFS volume.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -210,18 +247,21 @@
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Add your extra drive (/dev/sda).
-</span><span class='line'>$ sudo btrfs device add /dev/sda / -f
-</span><span class='line'># Now run the smallest balance operation you can.
-</span><span class='line'>$ sudo btrfs balance start -dusage=1 /
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add your extra drive (/dev/sda).</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device add /dev/sda / -f
+</span><span class='line'><span class="c"># Now run the smallest balance operation you can.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>1 /
 </span><span class='line'>Done, had to relocate 1 out of 59 chunks
-</span><span class='line'># Remove the device, and run a proper balance.
-</span><span class='line'>$ sudo btrfs device remove /dev/sda /
-</span><span class='line'>$ sudo btrfs balance start -dusage=66 /
-</span><span class='line'>Done, had to relocate 18 out of 59 chunks</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'><span class="c"># Remove the device, and run a proper balance.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device remove /dev/sda /
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>66 /
+</span><span class='line'>Done, had to relocate 18 out of 59 chunks
+</span></code></pre></td></tr></table></div></figure>
 
 
 <p>Balance operations usually take a long time &ndash; more than an hour is not unusual. It will take even longer with slow flash media involved. For that reason, I use a very low balance filter (<code>-dusage=</code>) in this example. We only need to free up a teensy bit of space to run balance again without the flash disk in the mix.</p>
+
+<p>And this last option is how I saved my computer last night. I hope this helps someone out of a similar predicament someday.</p>
 ]]></content>
   </entry>
   
@@ -2335,67 +2375,6 @@
 <p>I don&rsquo;t think there&rsquo;s anything wrong with the RFC; as a <em>capability</em> the 301 redirect makes perfect sense. But it should be accompanied by dire warnings. I <em>do</em> think it&rsquo;s reckless and irresponsible for search engines to encourage this behavior with <a href="https://moz.com/learn/seo/redirection">documents like this</a>. If you&rsquo;re going to encourage 301s, then encourage them with explicit expiry. And if you suspect for even a moment that you&rsquo;re dealing with a web newbie, don&rsquo;t penalize them for being safe and using a 302 &ldquo;just in case.&rdquo;</p>
 
 <p>Tell your children: always use a 302. Because 301s are forever.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Getting My Notes Out of Evernote]]></title>
-    <link href="http://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote/"/>
-    <updated>2016-08-13T16:44:40+02:00</updated>
-    <id>http://ohthehugemanatee.org/blog/2016/08/13/getting-my-notes-out-of-evernote</id>
-    <content type="html"><![CDATA[<h2>The Why</h2>
-
-<p>I&rsquo;m an obsessive note taker. Meetings, ideas, to do lists, grocery lists&hellip; The act of writing really helps me remember, so I&rsquo;ve been writing everything down since I was a teenager.  For years I had a thousand text documents scattered around my computer. In 2008 I discovered that the act of writing isn&rsquo;t nearly as effective as the act of <em>searching</em>, so I resolved to start taking notes in a central, searchable, sync&#8217;ed system. In short, I jumped on the Evernote train.</p>
-
-<p>Nowadays, it seems like every time I turn around, Evernote has found some more bloat to add. First it was photos and videos, then to do lists and Reminders. Then came poorly-implemented sharing, groups, chat, geo-tagging, google drive integration, and so on. I recently heard that it does Salesforce integration, too. I&rsquo;m sure that somewhere out there, there&rsquo;s a target market that wants all of this shit every time they write a shopping list, but I am not in that market. I just want to write, sync, and search text.</p>
-
-<p>I get to digress a little here, because it&rsquo;s my blog. I like simple, reliable tools that don&rsquo;t try to think for me. I write notes in a mix of 4 languages, so spellcheck is an automatic fail. Autocorrect is even worse. Grammar checkers make it impossible to mix short form and long form notes. I don&rsquo;t even want smart quotes. I&rsquo;m a programmer. When I type something in single quotes, I want it to <em>stay</em> in single quotes. In short, if your feature starts with the word &ldquo;smart&rdquo;, it can fuck off.</p>
-
-<p>In the last several months I&rsquo;ve noticed that I have a thousand text notes on my computer again. It&rsquo;s not hard to see why: Evernote has gotten all &ldquo;smart&rdquo;. OSX&rsquo;s Textedit application can be configured to take the kind of simple notes I like, so that&rsquo;s what I found myself using. So I resolved to find a new note taking system.</p>
-
-<h2>The What</h2>
-
-<p>Here were my criteria:</p>
-
-<ul>
-<li>ONLY text notes. I&rsquo;ve got other ways to handle pictures, drawings, geo-location, and to-do lists. This is just for text.</li>
-<li>The ability to disable everything &ldquo;smart&rdquo; in the text editor. I don&rsquo;t even want smart URLs. Just text.</li>
-<li>Automatically saves and syncs. Of the hundred or so text documents on my Desktop, 99% of them are called &ldquo;Untitled&rdquo;.</li>
-<li>Searchable.</li>
-<li>Accessible from my Phone and all of my computers</li>
-<li>Starting a new note should be as easy as Ctrl+N</li>
-<li>Easy to sync/share with my wife</li>
-<li>Ability to write to a note from the terminal or any other application.</li>
-</ul>
-
-
-<p>I considered just using vim, but my vim environment is way too feature-packed for what I want. I used vim as an IDE for a long time, remember? I have similar issues with Atom and Emacs &ndash; they just do way more than I want them to. Simple, simple, simple!</p>
-
-<p>I chose Simplenote on the recommendation of a few like-minded people, and I love it so far. But of course, there&rsquo;s some migration to take care of!</p>
-
-<h2>The How</h2>
-
-<p>Out of the box, Simplenote is a great note-taking tool for my purposes. I had to disable some of the usual &ldquo;smart&rdquo; features, but it took me less than 30 seconds to find and disable them. No biggie. It was missing two key features, though: the ability to write from the terminal, and my long history of Evernote documents.</p>
-
-<p>The solution to both involves an undocumented feature of Simplenote: Dropbox integration. Send an email to customer support and ask for them to enable it on your account. It&rsquo;s rudimentary, and as their support rep explained to me, &ldquo;this feature isn’t really something we can support, its more of a convenience thing we’ve added for you.&rdquo; I&rsquo;m cool with that.</p>
-
-<p>Just like that, I have a note-taking system that does two-way sync to a folder of .txt files on all my devices. I can create txt files any way I like, of course: pipe data from the terminal, have PHP write debug output, or use a totally different text editor. That&rsquo;s a huge feature add! It also adds some other nice features, like now my wife can share my notes. Oh, and Spotlight will search those notes automatically, too. Sweet.</p>
-
-<p>Importing from Evernote was a bit of a bitch. Evernote lets you export notebooks to HTML, or HTML wrapped in a custom XML format (.enex, because the world needs another file extension). Neither of those are terribly helpful. I tried a couple of options that failed out on my system:</p>
-
-<ul>
-<li><a href="https://github.com/claytron/ever2simple">Ever2simple</a>, which promises to convert .enex into a directory of Markdown text files, wouldn&rsquo;t install because libxml is a tricky beast on OSX. Then it wouldn&rsquo;t run because libxml is a tricky beast on OSX. I gave up.</li>
-<li><a href="http://www.geeknote.me/">Geeknote</a>, the Evernote command line client, which promises to export to txt files. No installation instructions for non-Linux users, requires python-setuptools which is tricky to get on OSX, and wants sudo access for the installer script without explaining why. Nope.</li>
-</ul>
-
-
-<p>I finally stumbled on a little PHP project called <a href="https://github.com/panicsteve/enex-dump">enexdump</a>. One file, no installation, written in my most comfortable language after English. Less than 100 lines of code. Perfect! It worked like a charm.</p>
-
-<p><code>php enex-dump.php ~/Desktop/my-notes.enex</code></p>
-
-<p>And a couple of minutes later, I had an /output folder full of txt files.</p>
-
-<p>So far I can only recommend this setup. Have fun!</p>
 ]]></content>
   </entry>
   

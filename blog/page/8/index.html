@@ -9,7 +9,7 @@
   <meta name="author" content="Campbell Vertesi (ohthehugemanatee)">
 
   
-  <meta name="description" content="LDAP is one of the Elder Gods of the UNIX world.  It had it’s beginnings in DAP, the first Directory Access Protocol, in 1988.  Within a decade DAP &hellip;">
+  <meta name="description" content="Redmine is a fantastic project management tool for technically oriented organizations.  At my job, we use it to manage 30-50 active projects at a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -97,6 +97,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/2011/05/running-redmine-in-subdirectory.html">Running Redmine in a Subdirectory</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+<time datetime="2011-05-16T13:17:00+02:00" pubdate data-updated="true">May 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  
+  
+  <div class="entry-content">
+<div class="css-full-post-content js-full-post-content">
+<a href="http://www.redmine.org/">Redmine</a> is a fantastic project management tool for technically oriented organizations.  At my job, we use it to manage 30-50 active projects at a time, as well as the back history of several hundred projects.  Oddly enough, the <a href="http://www.redmine.org/projects/redmine/wiki/RedmineInstall">normal installation process</a> puts it on port 3000 .  We had some trouble with developers’ ISPs not allowing HTTPS traffic over non-standard ports, so we had to move redmine onto port 443 along with the rest of the SSL traffic.  We use the same hostname for several internal services, and differentiate by subdirectory - so I thought I’d just put redmine into another subdirectory.<br><br>This was more painful than I expected it to be.  According to examples in the Redmine forums and many referring blog posts, you should be able to do this with a simple vhost configuration:<br><blockquote><code>&lt;VirtualHost *:80...</code></blockquote>
+</div></div>
+  
+  <footer>
+    <a rel="full-article" href="/2011/05/running-redmine-in-subdirectory.html">Read on &rarr;</a>
+  </footer>
+
+
+    </article>
   
   
     <article>
@@ -505,49 +549,6 @@ I run an XBMC mediacenter at home, on my old Compaq C765 laptop (the laptop I us
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/2010/12/net-neutrality-and-steve-wozniak.html">Net Neutrality and Steve Wozniak</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-
-  
-<time datetime="2010-12-22T00:50:00+01:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  
-  
-  <div class="entry-content">
-<div class="css-full-post-content js-full-post-content">
-I know no one reads this blog but me, but I may as well put this up here.  Net Neutrality: I’m for it.<br><br>Steve Wozniak has an excellent <a href="http://www.theatlantic.com/technology/archive/2010/12/an-open-letter-to-the-fcc-regarding-net-neutrality/68294/">Open Letter</a> up on the Atlantic about the issue.  He takes the examples of public goods such as roadworks and compares them favorably to privately managed utilities like Cable TV and Internet. <br><br>Personally, I think his letter is a much more effective critique of the FCC than it is a championing of the public works model of construction.  After all, it’s the FCC that regulates the cable and telephone industries so ineffectively.  And the very road system he proclaims as being so effective was a famous example of political favor outweighing practicality when the road system was devised in the 19th Century. <br><br>In this case though, I think we have a free and open marketplace of ideas by explicit design in the Internet.  It is triviall&#8230;</div></div>
-  
-  <footer>
-    <a rel="full-article" href="/2010/12/net-neutrality-and-steve-wozniak.html">Read on &rarr;</a>
-  </footer>
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/9/">&larr; Older</a>
@@ -576,7 +577,11 @@ I know no one reads this blog but me, but I may as well put this up here.  Net 
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2019/02/11/btrfs-free-space-emergency-response/">BTRFS and Free Space - Emergency Response</a>
+        <a href="/blog/2019/03/21/an-open-letter-to-my-meps-about-article-17-formerly-article-13/">An Open Letter to My MEPs About Article 17 (Formerly Article 13)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2019/02/11/btrfs-out-of-space-emergency-response/">BTRFS and Free Space - Emergency Response</a>
       </li>
     
       <li class="post">
@@ -589,10 +594,6 @@ I know no one reads this blog but me, but I may as well put this up here.  Net 
     
       <li class="post">
         <a href="/blog/2018/04/19/face-recognition-on-drupal/">Drupal Does Face Recognition: Introducing Image Auto Tag Module</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2018/02/07/the-number-1-question-i-get-asked-working-at-msy-do-you-run-linux/">The #1 Question I Get Asked Working at MS: Why Do You Run Linux?</a>
       </li>
     
   </ul>
