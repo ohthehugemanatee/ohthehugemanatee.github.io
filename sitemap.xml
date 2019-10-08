@@ -419,12 +419,18 @@
         <lastmod>2019-03-21T23:58:41+01:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://ohthehugemanatee.org/blog/2019/10/08/chinese-censorship-and-free-software/
+        </loc>
+        <lastmod>2019-10-08T20:29:36+02:00</lastmod>
+    </url>
+    <url>
         <loc>http://ohthehugemanatee.org/about-me.html</loc>
         <lastmod>2018-04-19T17:22:40+02:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/blog/archives/</loc>
-        <lastmod>2019-03-21T23:58:41+01:00</lastmod>
+        <lastmod>2019-10-08T20:29:36+02:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/drupalplanet.xml</loc>
@@ -432,14 +438,10 @@
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/</loc>
-        <lastmod>2019-03-21T23:58:41+01:00</lastmod>
+        <lastmod>2019-10-08T20:29:36+02:00</lastmod>
     </url>
     <url>
         <loc>http://ohthehugemanatee.org/robots.txt</loc>
-        <lastmod>2018-04-19T17:22:40+02:00</lastmod>
-    </url>
-    <url>
-        <loc>http://ohthehugemanatee.org/draft/what-is-good-code.html</loc>
         <lastmod>2018-04-19T17:22:40+02:00</lastmod>
     </url>
 </urlset>
