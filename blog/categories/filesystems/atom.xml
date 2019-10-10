@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Filesystems | Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/blog/categories/filesystems/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-10-08T20:29:47+02:00</updated>
+  <updated>2019-10-10T12:07:57+02:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -165,7 +165,7 @@ That&rsquo;s 15GiB of space allocated for other use. My usage ratio is now 0.94.
 
 <h1>Add your extra drive (/dev/sda).</h1>
 
-<p>$ sudo btrfs device add /dev/sda / -f</p>
+<p>$ sudo btrfs device add -f /dev/sda /</p>
 
 <h1>Now run the smallest balance operation you can.</h1>
 
@@ -182,6 +182,62 @@ Done, had to relocate 18 out of 59 chunks
 <p>Balance operations usually take a long time &ndash; more than an hour is not unusual. It will take even longer with slow flash media involved. For that reason, I use a very low balance filter (<code>-dusage=</code>) in this example. We only need to free up a teensy bit of space to run balance again without the flash disk in the mix.</p>
 
 <p>And this last option is how I saved my computer last night. I hope this helps someone out of a similar predicament someday.</p>
+
+<p><strong>UPDATE</strong></p>
+
+<p>Now that I&rsquo;ve had to do this a few times, it&rsquo;s <em>way</em> better to rebalance a full filesystem by adding a ramdisk to it. Not only is it faster than a flash device, it&rsquo;s also more reliable in most cases&hellip; and certainly for my kind of use case (a developer laptop) the important preconditions apply: lots of RAM, reliable power source. Here&rsquo;s the recipe:</p>
+
+<p>``` bash</p>
+
+<h1>Create a ramdisk. Make sure /dev/ram0 isn&rsquo;t in use already before doing this!</h1>
+
+<p>$ sudo mknod -m 660 /dev/ram0 b 1 0
+$ sudo chown root:disk /dev/ram0</p>
+
+<h1>Mount the ramdisk with a concrete size. Otherwise it grows to whatever is needed.</h1>
+
+<p>$ sudo mkdir /mnt/ramdisk
+$ sudo mount -t ramfs -o size=4G,maxsize=4G /dev/ram0 /mnt/ramdisk</p>
+
+<h1>Create a file on the ramdisk to use as a loopback device.</h1>
+
+<p>$ sudo dd if=/dev/zero of /mnt/ramdisk/extend.img bs=4M count=1000
+$ sudo losetup -fP /mnt/ramdisk/extend.img</p>
+
+<h1>figure out which loopback device ID is yours</h1>
+
+<p>$ sudo losetup -a |grep extend.img
+/dev/loop10: [5243078]:8563965 (/mnt/ramdisk/extend.img)</p>
+
+<h1>Add the loopback device to the btrfs filesystem</h1>
+
+<p>$ sudo btrfs device add /dev/loop10 /</p>
+
+<h1>Decide on your balance ratio and balance as usual.</h1>
+
+<p>$ sudo btrfs fi usage / |head -n 6
+Overall:</p>
+
+<pre><code>Device size:         400.91GiB
+Device allocated:        396.36GiB
+Device unallocated:        4.55GiB
+Device missing:          0.00B
+Used:            348.91GiB
+</code></pre>
+
+<p>$ echo &lsquo;scale=2;348/396&rsquo; |bc
+.87</p>
+
+<p>$ sudo btrfs balance start -dusage=87 /
+Done, had to relocate 46 out of 400 chunks</p>
+
+<h1>Remove the device and destroy it.</h1>
+
+<p>$ sudo btrfs device delete /dev/loop0 /
+$ sudo losetup -d /dev/loop10
+$ sudo umount /mnt/ramdisk
+$ sudo rm -rf /dev/ram0
+```</p>
 ]]></content>
   </entry>
   

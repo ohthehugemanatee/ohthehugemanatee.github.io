@@ -4,7 +4,7 @@
   <title><![CDATA[Oh, The Huge Manatee]]></title>
   <link href="http://ohthehugemanatee.org/atom.xml" rel="self"/>
   <link href="http://ohthehugemanatee.org/"/>
-  <updated>2019-10-08T20:29:47+02:00</updated>
+  <updated>2019-10-10T12:07:57+02:00</updated>
   <id>http://ohthehugemanatee.org/</id>
   <author>
     <name><![CDATA[Campbell Vertesi (ohthehugemanatee)]]></name>
@@ -271,7 +271,7 @@
 <span class='line-number'>8</span>
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Add your extra drive (/dev/sda).</span>
-</span><span class='line'><span class="nv">$ </span>sudo btrfs device add /dev/sda / -f
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device add -f /dev/sda /
 </span><span class='line'><span class="c"># Now run the smallest balance operation you can.</span>
 </span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>1 /
 </span><span class='line'>Done, had to relocate 1 out of 59 chunks
@@ -285,6 +285,79 @@
 <p>Balance operations usually take a long time &ndash; more than an hour is not unusual. It will take even longer with slow flash media involved. For that reason, I use a very low balance filter (<code>-dusage=</code>) in this example. We only need to free up a teensy bit of space to run balance again without the flash disk in the mix.</p>
 
 <p>And this last option is how I saved my computer last night. I hope this helps someone out of a similar predicament someday.</p>
+
+<p><strong>UPDATE</strong></p>
+
+<p>Now that I&rsquo;ve had to do this a few times, it&rsquo;s <em>way</em> better to rebalance a full filesystem by adding a ramdisk to it. Not only is it faster than a flash device, it&rsquo;s also more reliable in most cases&hellip; and certainly for my kind of use case (a developer laptop) the important preconditions apply: lots of RAM, reliable power source. Here&rsquo;s the recipe:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c"># Create a ramdisk. Make sure /dev/ram0 isn&#39;t in use already before doing this!</span>
+</span><span class='line'><span class="nv">$ </span>sudo mknod -m 660 /dev/ram0 b 1 0
+</span><span class='line'><span class="nv">$ </span>sudo chown root:disk /dev/ram0
+</span><span class='line'><span class="c"># Mount the ramdisk with a concrete size. Otherwise it grows to whatever is needed.</span>
+</span><span class='line'><span class="nv">$ </span>sudo mkdir /mnt/ramdisk
+</span><span class='line'><span class="nv">$ </span>sudo mount -t ramfs -o <span class="nv">size</span><span class="o">=</span>4G,maxsize<span class="o">=</span>4G /dev/ram0 /mnt/ramdisk
+</span><span class='line'><span class="c"># Create a file on the ramdisk to use as a loopback device.</span>
+</span><span class='line'><span class="nv">$ </span>sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero of /mnt/ramdisk/extend.img <span class="nv">bs</span><span class="o">=</span>4M <span class="nv">count</span><span class="o">=</span>1000
+</span><span class='line'><span class="nv">$ </span>sudo losetup -fP /mnt/ramdisk/extend.img
+</span><span class='line'><span class="c"># figure out which loopback device ID is yours</span>
+</span><span class='line'><span class="nv">$ </span>sudo losetup -a |grep extend.img
+</span><span class='line'>/dev/loop10: <span class="o">[</span>5243078<span class="o">]</span>:8563965 <span class="o">(</span>/mnt/ramdisk/extend.img<span class="o">)</span>
+</span><span class='line'><span class="c"># Add the loopback device to the btrfs filesystem</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device add /dev/loop10 /
+</span><span class='line'><span class="c"># Decide on your balance ratio and balance as usual.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs <span class="k">fi </span>usage / |head -n 6
+</span><span class='line'>Overall:
+</span><span class='line'>    Device size:       400.91GiB
+</span><span class='line'>    Device allocated:      396.36GiB
+</span><span class='line'>    Device unallocated:          4.55GiB
+</span><span class='line'>    Device missing:            0.00B
+</span><span class='line'>    Used:          348.91GiB
+</span><span class='line'><span class="nv">$ </span><span class="nb">echo</span> <span class="s1">&#39;scale=2;348/396&#39;</span> |bc
+</span><span class='line'>.87
+</span><span class='line'>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs balance start -dusage<span class="o">=</span>87 /
+</span><span class='line'>Done, had to relocate 46 out of 400 chunks
+</span><span class='line'><span class="c"># Remove the device and destroy it.</span>
+</span><span class='line'><span class="nv">$ </span>sudo btrfs device delete /dev/loop0 /
+</span><span class='line'><span class="nv">$ </span>sudo losetup -d /dev/loop10
+</span><span class='line'><span class="nv">$ </span>sudo umount /mnt/ramdisk
+</span><span class='line'><span class="nv">$ </span>sudo rm -rf /dev/ram0
+</span></code></pre></td></tr></table></div></figure>
+
+
+
 ]]></content>
   </entry>
   
